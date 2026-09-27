@@ -474,8 +474,8 @@
                     <div id="verdict-rescue-option" class="hidden transition-all">
                     </div>
 
-                    <!-- SET SYNERGY BANNER -->
-                    <div id="set-synergy-banner" class="p-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between text-xs font-bold gap-1.5 transition-all">
+                    <!-- SET SYNERGY BANNER (REVIZUIT: ALINIAT LA STÂNGA, UNUL SUB ALTUL) -->
+                    <div id="set-synergy-banner" class="p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all">
                     </div>
 
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-bold flex items-center gap-2">
@@ -1711,10 +1711,12 @@
 
             const synergy = analyzeSetSynergy(set, currentSlot, mainType, subs);
             const synBanner = document.getElementById('set-synergy-banner');
-            synBanner.className = `p-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between text-xs font-bold gap-1.5 ${synergy.color}`;
+            
+            // Set Synergy Banner: Afișat vertical, unul sub altul, cu tot textul aliniat la stânga
+            synBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${synergy.color}`;
             synBanner.innerHTML = `
-                <span>${synergy.label}</span>
-                <span class="text-[11px] font-normal sm:text-right">${synergy.desc}</span>
+                <div class="text-xs font-black tracking-wide flex items-center gap-1.5">${synergy.label}</div>
+                <div class="text-[11px] font-semibold text-left leading-relaxed">${synergy.desc}</div>
             `;
 
             const verdict = computeVerdict({
