@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ghid practic pentru evaluarea runelor în Summoners War." />
+    <title>Summoners War · Ghid de rune</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#seturi">Sari la seturi</a>
+    <header class="hero" id="sus">
+      <nav class="nav container" aria-label="Navigare principală">
+        <a class="brand" href="#sus"><span>✦</span> SW Rune Guide</a>
+        <div class="nav-links">
+          <a href="#decizie">Decizie rapidă</a>
+          <a href="#sloturi">Sloturi</a>
+          <a href="#seturi">Seturi</a>
+        </div>
+      </nav>
+      <div class="hero-content container">
+        <p class="eyebrow">GHID PRACTIC · SUMMONERS WAR</p>
+        <h1>Păstrezi, verifici sau vinzi?</h1>
+        <p class="lead">Un ghid compact pentru evaluarea runelor: slot, main stat, substat-uri, roll-uri și set. Nu lăsa numele unui set să decidă singur valoarea unei rune.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#decizie">Începe evaluarea</a>
+          <a class="button secondary" href="#seturi">Vezi cele 23 de seturi</a>
+        </div>
+        <p class="rule"><strong>Ordinea recomandată:</strong> slot + main stat → substat-uri → calitatea roll-urilor → set → Ancient/normal → potențial de grind, gem și reapp.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="section container" id="decizie">
+        <div class="section-heading"><p class="eyebrow">TRIAJ RAPID</p><h2>Decide în mai puțin de un minut</h2></div>
+        <div class="decision-grid">
+          <article class="decision sell"><span class="status">Vinde</span><h3>Nu păstra doar pentru set</h3><ul><li>Main stat flat pe sloturile 2, 4 sau 6, în majoritatea cazurilor.</li><li>Rună 5★ mediocră.</li><li>Fără SPD, cu două sau mai multe substat-uri flat.</li><li>O singură statistică utilă ori roll-uri slabe la +6/+9.</li></ul></article>
+          <article class="decision check"><span class="status">Verifică / upgradează</span><h3>Există potențial real</h3><ul><li>6★ Hero sau Legend cu SPD.</li><li>Legend fără SPD, dar cu trei substat-uri excelente.</li><li>Ancient cu main stat corect și substat-uri bune.</li><li>Innate valoros sau set Swift, Violent, Will, Despair cu sinergie.</li></ul></article>
+          <article class="decision keep"><span class="status">Păstrează</span><h3>Merită investiția</h3><ul><li>SPD mare ori quad-roll într-o statistică relevantă.</li><li>Trei sau patru substat-uri excelente și coerente.</li><li>Slot 4 CD/CR ori slot 6 ACC/ATK/HP/DEF cu substat-uri excelente.</li><li>Rună Ancient foarte bună sau Legend cu innate valoros.</li></ul></article>
+        </div>
+      </section>
+
+      <section class="section surface" id="sloturi">
+        <div class="container"><div class="section-heading"><p class="eyebrow">FUNDAȚIA EVALUĂRII</p><h2>Main stats pe sloturi</h2><p>Pe sloturile 1, 3 și 5, main stat-ul este fix. Pe 2, 4 și 6, main stat-ul este primul filtru serios.</p></div>
+          <div class="table-wrap"><table><thead><tr><th>Slot</th><th>Main stat posibil</th><th>Recomandarea practică</th><th>Substat-uri prioritare</th></tr></thead><tbody id="slot-table"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section container" id="prioritati">
+        <div class="two-columns">
+          <div><p class="eyebrow">SUBSTAT-URI</p><h2>Prioritatea depinde de rol</h2><p><strong>Tier general:</strong> SPD, CR, CD, ATK%, HP%, DEF% sunt cele mai valoroase. ACC și RES sunt situaționale, dar pot fi decisive pentru control și suport. Statisticile flat sunt de regulă inferioare.</p><div class="role-list"><div><b>Damage dealer</b><span>ATK%, CR, CD, SPD</span></div><div><b>Bruiser</b><span>SPD, HP%, DEF%, CR/CD</span></div><div><b>Control / debuffer</b><span>SPD, ACC, HP%, DEF%</span></div><div><b>Suport / healer</b><span>SPD, HP%, DEF%, RES/ACC</span></div></div></div>
+          <aside class="callout"><p class="eyebrow">REGULĂ DE AUR</p><h3>SPD este un semnal, nu o garanție.</h3><p>O rună cu SPD merită de obicei verificată. Fără SPD, ea trebuie să fie semnificativ mai bună în celelalte statistici, de exemplu ATK% + CR + CD + HP%.</p><p>Nu evalua „efficiency” orbește: sinergia dintre main stat, substat-uri și rol contează mai mult decât un scor generic.</p></aside>
+        </div>
+      </section>
+
+      <section class="section surface" id="seturi">
+        <div class="container"><div class="section-heading"><p class="eyebrow">TOATE CELE 23 DE SETURI</p><h2>Recomandări pe seturi</h2><p>Filtrează după nume sau după rol. Cardurile rezumă informațiile din cercetare, nu înlocuiesc verificarea sinergiei cu monstrul.</p></div>
+          <div class="filters"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Caută un set, de exemplu Violent" autocomplete="off" /></label><div class="filter-buttons" id="filters" aria-label="Filtru după rol"></div></div>
+          <p class="result-count" id="result-count" aria-live="polite"></p><div class="rune-grid" id="rune-grid"></div>
+        </div>
+      </section>
+
+      <section class="section container" id="calitate">
+        <div class="section-heading"><p class="eyebrow">CALITATE ȘI INVESTIȚIE</p><h2>Raritate, roll-uri, Ancient și innate</h2></div>
+        <div class="info-grid"><article><h3>Hero / Legend</h3><p>Legend 6★: nu vinde imediat dacă main stat-ul este bun și are 3-4 substat-uri utilizabile. Hero 6★: păstrează când are SPD, două substat-uri foarte bune ori o combinație coerentă. La 5★, devino foarte selectiv pe măsură ce contul avansează.</p></article><article><h3>Testează treptat</h3><p>Substat-urile cresc la +3, +6, +9 și +12. La +15 crește main stat-ul. Dacă primele roll-uri merg în statistici bune, continuă; dacă direcția devine slabă la +6/+9, oprește-te.</p></article><article><h3>Quad-roll</h3><p>Patru roll-uri într-o statistică relevantă, mai ales SPD, fac runa foarte valoroasă. Un SPD inițial de 6 care primește patru roll-uri bune poate ajunge la +29 înainte de grind.</p></article><article><h3>Ancient</h3><p>Ancient Runes au valori inițiale de substat mai mari și folosesc Ancient Grindstones/Gems. O Ancient 6★ cu SPD, două substat-uri bune și main stat corect merită mai multă toleranță.</p></article><article><h3>Innate / prefix</h3><p>Innate-ul este practic un al cincilea stat inițial. SPD, CR, CD, ATK%, HP%, DEF%, ACC și RES cresc mult interesul pentru rună. Un innate flat nu înseamnă automat vânzare.</p></article><article><h3>Nu vinde automat flat subs</h3><p>SPD main + ATK flat + HP% + DEF% + RES poate fi utilizabil. În schimb, o combinație de HP flat, ATK flat, DEF flat și RES este aproape întotdeauna slabă.</p></article></div>
+      </section>
+
+      <section class="section surface" id="reguli"><div class="container"><div class="two-columns"><div><p class="eyebrow">PRAGURI PRACTICE</p><h2>O regulă simplă pentru inventar</h2><ul class="checklist"><li>0 SPD + un singur stat bun: vinde.</li><li>0 SPD + două statistici foarte bune: situațional.</li><li>SPD + un stat bun: păstrează sau testează.</li><li>SPD + două sau trei statistici bune: păstrează clar.</li><li>3-4 statistici excelente fără SPD: păstrează.</li><li>Quad-roll relevant: păstrează aproape indiferent de set.</li></ul></div><aside class="callout"><p class="eyebrow">INTANGIBLE</p><h3>Excepția strategică</h3><p>O singură rună Intangible completează automat un set incomplet. Nu o trata ca pe un set obișnuit de două sau patru piese și nu o vinde doar pentru că „nu are set”. Nu poate fi reappraisată și folosește materiale speciale pentru enchant/grind.</p></aside></div></div></section>
+    </main>
+    <footer><div class="container"><span>SW Rune Guide · ghid de decizie personal</span><a href="#sus">Înapoi sus ↑</a></div></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
