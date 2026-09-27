@@ -206,7 +206,7 @@
                     <!-- Star Grade -->
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Steluțe (Grade)</label>
-                        <select id="rune-stars" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold shadow-sm">
+                        <select id="rune-stars" onchange="onStarsChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold shadow-sm">
                             <option value="6-standard" selected>6★ Standard</option>
                             <option value="6-ancient">6★ Ancient (Dim Hole)</option>
                             <option value="5-star">5★ (Early Only)</option>
@@ -227,7 +227,7 @@
                     <!-- Upgrade Level -->
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Nivel Power-Up</label>
-                        <select id="rune-level" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold shadow-sm">
+                        <select id="rune-level" onchange="onLevelChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold shadow-sm">
                             <option value="+0">+0 (Proaspăt picată)</option>
                             <option value="+3">+3 (1 Upgrade)</option>
                             <option value="+6">+6 (2 Upgrade-uri)</option>
@@ -247,9 +247,9 @@
                         </div>
                         <div class="grid grid-cols-7 gap-2">
                             <select id="main-stat-type" onchange="onMainStatTypeChange()" class="col-span-4 bg-white text-xs border border-amber-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-amber-500 shadow-sm">
-                                <!-- Populated dynamically based on slot -->
+                                <!-- Populated dynamically based on slot and power-up level -->
                             </select>
-                            <input type="number" id="main-stat-val" value="160" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-700 font-bold font-mono focus:ring-2 focus:ring-amber-500 shadow-sm">
+                            <input type="number" id="main-stat-val" value="118" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-700 font-bold font-mono focus:ring-2 focus:ring-amber-500 shadow-sm">
                         </div>
                     </div>
 
@@ -397,7 +397,7 @@
                     <!-- Textual Rune Properties Display (Like In-Game Card) -->
                     <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2 font-mono text-xs">
                         <div class="flex justify-between items-baseline border-b border-slate-200 pb-2">
-                            <span id="live-main-title" class="font-bold text-slate-900 text-sm">Attack +160</span>
+                            <span id="live-main-title" class="font-bold text-slate-900 text-sm">Flat ATK +118</span>
                             <span class="text-[10px] text-slate-500 font-sans font-semibold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Main Stat</span>
                         </div>
 
@@ -569,47 +569,105 @@
             'Flat DEF': 24
         };
 
-        // Allowed Main Stats by Slot
-        const slotMainOptions = {
+        // Official SW Main Stat progression values by Star Grade and Level
+        const mainStatTable = {
+            '6-star': {
+                '+0':  { 'SPD': 7,  'HP%': 11, 'ATK%': 11, 'DEF%': 11, 'CR%': 7,  'CD%': 11, 'RES%': 9,  'ACC%': 9,  'Flat HP': 360,  'Flat ATK': 15,  'Flat DEF': 15 },
+                '+3':  { 'SPD': 13, 'HP%': 20, 'ATK%': 20, 'DEF%': 20, 'CR%': 15, 'CD%': 22, 'RES%': 18, 'ACC%': 18, 'Flat HP': 690,  'Flat ATK': 38,  'Flat DEF': 38 },
+                '+6':  { 'SPD': 19, 'HP%': 29, 'ATK%': 29, 'DEF%': 29, 'CR%': 24, 'CD%': 34, 'RES%': 28, 'ACC%': 28, 'Flat HP': 1050, 'Flat ATK': 62,  'Flat DEF': 62 },
+                '+9':  { 'SPD': 25, 'HP%': 38, 'ATK%': 38, 'DEF%': 38, 'CR%': 32, 'CD%': 45, 'RES%': 37, 'ACC%': 37, 'Flat HP': 1440, 'Flat ATK': 88,  'Flat DEF': 88 },
+                '+12': { 'SPD': 32, 'HP%': 47, 'ATK%': 47, 'DEF%': 47, 'CR%': 41, 'CD%': 57, 'RES%': 48, 'ACC%': 48, 'Flat HP': 1800, 'Flat ATK': 118, 'Flat DEF': 118 },
+                '+15': { 'SPD': 42, 'HP%': 63, 'ATK%': 63, 'DEF%': 63, 'CR%': 58, 'CD%': 80, 'RES%': 64, 'ACC%': 64, 'Flat HP': 2448, 'Flat ATK': 160, 'Flat DEF': 160 }
+            },
+            '5-star': {
+                '+0':  { 'SPD': 5,  'HP%': 8,  'ATK%': 8,  'DEF%': 8,  'CR%': 5,  'CD%': 8,  'RES%': 6,  'ACC%': 6,  'Flat HP': 270,  'Flat ATK': 10,  'Flat DEF': 10 },
+                '+3':  { 'SPD': 10, 'HP%': 15, 'ATK%': 15, 'DEF%': 15, 'CR%': 11, 'CD%': 17, 'RES%': 14, 'ACC%': 14, 'Flat HP': 540,  'Flat ATK': 28,  'Flat DEF': 28 },
+                '+6':  { 'SPD': 15, 'HP%': 22, 'ATK%': 22, 'DEF%': 22, 'CR%': 18, 'CD%': 26, 'RES%': 21, 'ACC%': 21, 'Flat HP': 840,  'Flat ATK': 48,  'Flat DEF': 48 },
+                '+9':  { 'SPD': 21, 'HP%': 30, 'ATK%': 30, 'DEF%': 30, 'CR%': 24, 'CD%': 35, 'RES%': 29, 'ACC%': 29, 'Flat HP': 1170, 'Flat ATK': 70,  'Flat DEF': 70 },
+                '+12': { 'SPD': 27, 'HP%': 37, 'ATK%': 37, 'DEF%': 37, 'CR%': 31, 'CD%': 44, 'RES%': 36, 'ACC%': 36, 'Flat HP': 1530, 'Flat ATK': 95,  'Flat DEF': 95 },
+                '+15': { 'SPD': 39, 'HP%': 51, 'ATK%': 51, 'DEF%': 51, 'CR%': 47, 'CD%': 65, 'RES%': 51, 'ACC%': 51, 'Flat HP': 2088, 'Flat ATK': 135, 'Flat DEF': 135 }
+            }
+        };
+
+        // Allowed Main Stat types by Slot
+        const slotMainTypes = {
             1: [
-                { type: "Flat ATK", label: "Flat Attack (+160 la +15)", defaultVal: 160 }
+                { type: "Flat ATK", name: "Flat Attack (ATK)" }
             ],
             2: [
-                { type: "SPD", label: "Attack Speed (SPD: +42)", defaultVal: 42 },
-                { type: "HP%", label: "HP Percentage (+63%)", defaultVal: 63 },
-                { type: "ATK%", label: "Attack Percentage (+63%)", defaultVal: 63 },
-                { type: "DEF%", label: "Defense Percentage (+63%)", defaultVal: 63 },
-                { type: "Flat HP", label: "Flat HP (+2448) [JUNK]", defaultVal: 2448 },
-                { type: "Flat ATK", label: "Flat ATK (+160) [JUNK]", defaultVal: 160 },
-                { type: "Flat DEF", label: "Flat DEF (+160) [JUNK]", defaultVal: 160 }
+                { type: "SPD", name: "Attack Speed (SPD)" },
+                { type: "HP%", name: "HP Percentage (HP%)" },
+                { type: "ATK%", name: "Attack Percentage (ATK%)" },
+                { type: "DEF%", name: "Defense Percentage (DEF%)" },
+                { type: "Flat HP", name: "Flat HP [JUNK]" },
+                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
+                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
             ],
             3: [
-                { type: "Flat DEF", label: "Flat Defense (+160 la +15)", defaultVal: 160 }
+                { type: "Flat DEF", name: "Flat Defense (DEF)" }
             ],
             4: [
-                { type: "CD%", label: "Critical Damage (+80%)", defaultVal: 80 },
-                { type: "CR%", label: "Critical Rate (+58%)", defaultVal: 58 },
-                { type: "HP%", label: "HP Percentage (+63%)", defaultVal: 63 },
-                { type: "DEF%", label: "Defense Percentage (+63%)", defaultVal: 63 },
-                { type: "ATK%", label: "Attack Percentage (+63%)", defaultVal: 63 },
-                { type: "Flat HP", label: "Flat HP (+2448) [JUNK]", defaultVal: 2448 },
-                { type: "Flat ATK", label: "Flat ATK (+160) [JUNK]", defaultVal: 160 },
-                { type: "Flat DEF", label: "Flat DEF (+160) [JUNK]", defaultVal: 160 }
+                { type: "CD%", name: "Critical Damage (CD%)" },
+                { type: "CR%", name: "Critical Rate (CR%)" },
+                { type: "HP%", name: "HP Percentage (HP%)" },
+                { type: "DEF%", name: "Defense Percentage (DEF%)" },
+                { type: "ATK%", name: "Attack Percentage (ATK%)" },
+                { type: "Flat HP", name: "Flat HP [JUNK]" },
+                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
+                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
             ],
             5: [
-                { type: "Flat HP", label: "Flat HP (+2448 la +15)", defaultVal: 2448 }
+                { type: "Flat HP", name: "Flat HP" }
             ],
             6: [
-                { type: "HP%", label: "HP Percentage (+63%)", defaultVal: 63 },
-                { type: "DEF%", label: "Defense Percentage (+63%)", defaultVal: 63 },
-                { type: "ATK%", label: "Attack Percentage (+63%)", defaultVal: 63 },
-                { type: "ACC%", label: "Accuracy (+64%)", defaultVal: 64 },
-                { type: "RES%", label: "Resistance (+64%)", defaultVal: 64 },
-                { type: "Flat HP", label: "Flat HP (+2448) [JUNK]", defaultVal: 2448 },
-                { type: "Flat ATK", label: "Flat ATK (+160) [JUNK]", defaultVal: 160 },
-                { type: "Flat DEF", label: "Flat DEF (+160) [JUNK]", defaultVal: 160 }
+                { type: "HP%", name: "HP Percentage (HP%)" },
+                { type: "DEF%", name: "Defense Percentage (DEF%)" },
+                { type: "ATK%", name: "Attack Percentage (ATK%)" },
+                { type: "ACC%", name: "Accuracy (ACC%)" },
+                { type: "RES%", name: "Resistance (RES%)" },
+                { type: "Flat HP", name: "Flat HP [JUNK]" },
+                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
+                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
             ]
         };
+
+        function getMainStatDefault(type, level, stars) {
+            const starKey = stars === '5-star' ? '5-star' : '6-star';
+            const lvlKey = mainStatTable[starKey][level] ? level : '+12';
+            if (mainStatTable[starKey][lvlKey] && mainStatTable[starKey][lvlKey][type] !== undefined) {
+                return mainStatTable[starKey][lvlKey][type];
+            }
+            return 0;
+        }
+
+        function updateMainStatControls(keepCurrentSelection = true) {
+            const selectEl = document.getElementById('main-stat-type');
+            const prevType = keepCurrentSelection ? selectEl.value : null;
+            const level = document.getElementById('rune-level').value;
+            const stars = document.getElementById('rune-stars').value;
+            
+            selectEl.innerHTML = '';
+            const options = slotMainTypes[currentSlot] || [];
+            
+            options.forEach(opt => {
+                const optEl = document.createElement('option');
+                optEl.value = opt.type;
+                const val = getMainStatDefault(opt.type, level, stars);
+                const unit = opt.type.includes('%') ? '%' : '';
+                optEl.innerText = `${opt.name} (+${val}${unit} la ${level})`;
+                selectEl.appendChild(optEl);
+            });
+
+            if (prevType && options.some(o => o.type === prevType)) {
+                selectEl.value = prevType;
+            } else if (options.length > 0) {
+                selectEl.value = options[0].type;
+            }
+
+            if (selectEl.value) {
+                document.getElementById('main-stat-val').value = getMainStatDefault(selectEl.value, level, stars);
+            }
+        }
 
         function selectSlot(slotNum) {
             currentSlot = slotNum;
@@ -617,21 +675,9 @@
             const activeBtn = document.getElementById(`slot-btn-${slotNum}`);
             if (activeBtn) activeBtn.classList.add('active');
 
-            // Populate main stat dropdown
-            const selectEl = document.getElementById('main-stat-type');
-            selectEl.innerHTML = '';
-
-            const options = slotMainOptions[slotNum];
-            options.forEach(opt => {
-                const optEl = document.createElement('option');
-                optEl.value = opt.type;
-                optEl.innerText = opt.label;
-                selectEl.appendChild(optEl);
-            });
-
             document.getElementById('main-stat-badge').innerText = [1, 3, 5].includes(slotNum) ? `Slot ${slotNum} (Stat Fix)` : `Slot ${slotNum} (Stat Variabil)`;
-            document.getElementById('main-stat-val').value = options[0].defaultVal;
-
+            
+            updateMainStatControls(false);
             onSlotExclusionCheck();
             evaluateRune();
         }
@@ -657,12 +703,21 @@
         }
 
         function onMainStatTypeChange() {
-            const slotOpts = slotMainOptions[currentSlot];
+            const level = document.getElementById('rune-level').value;
+            const stars = document.getElementById('rune-stars').value;
             const currentType = document.getElementById('main-stat-type').value;
-            const match = slotOpts.find(o => o.type === currentType);
-            if(match) {
-                document.getElementById('main-stat-val').value = match.defaultVal;
-            }
+            document.getElementById('main-stat-val').value = getMainStatDefault(currentType, level, stars);
+            evaluateRune();
+        }
+
+        function onLevelChange() {
+            updateMainStatControls(true);
+            evaluateRune();
+        }
+
+        function onStarsChange() {
+            onRarityChange();
+            updateMainStatControls(true);
             evaluateRune();
         }
 
@@ -697,9 +752,12 @@
             document.getElementById('live-rune-level').innerText = level;
 
             // Main Stat display
-            document.getElementById('live-main-title').innerText = `${mainType} +${mainVal}`;
+            const displayTitle = mainType.endsWith('%') 
+                ? `${mainType.replace('%', '')} +${mainVal}%`
+                : `${mainType} +${mainVal}`;
+            document.getElementById('live-main-title').innerText = displayTitle;
 
-            // Innate row
+            // Innate line
             const innateRow = document.getElementById('live-innate-row');
             if (innateType !== 'None' && innateVal > 0) {
                 innateRow.classList.remove('hidden');
@@ -1064,7 +1122,7 @@
                 return;
             }
 
-            // 1. Nu recomanda Gem/Grind dacă runa este de vândut
+            // 1. Nu recomanda Gem/Grind dacă runa este încă neupgradată suficient
             const isKeeper = ['+9', '+12', '+15'].includes(ctx.level);
             if (!isKeeper) {
                 container.innerHTML = `
@@ -1080,7 +1138,7 @@
                 return;
             }
 
-            // 2. Evaluare: Este MUSAI necesară o schimbare prin Gem?
+            // 2. Evaluare: Este necesară o schimbare prin Gem?
             let mustGemSub = null;
             let gemReason = '';
             let desiredGemIn = 'HP%';
@@ -1092,7 +1150,7 @@
             // Căutăm dacă există un stat flat fără rulaje care strică runa
             const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.base <= 375);
             
-            // Căutăm dacă există un stat complet anti-sinergic pentru PvE
+            // Căutăm dacă există un stat anti-sinergic pentru PvE
             const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.base <= 8);
 
             if (unrolledFlat) {
@@ -1143,7 +1201,7 @@
                 `;
             }
 
-            // 3. Randare bloc GRIND (strict utilitar PvE)
+            // 3. Randare bloc GRIND
             const grindableSubs = ctx.subs.filter(s => ['SPD', 'HP%', 'ATK%', 'DEF%'].includes(s.type));
             let grindHtml = '';
 
@@ -1228,7 +1286,7 @@
                 return;
             }
 
-            // Case 3: Innate SPD blocker warning!
+            // Case 3: Innate SPD blocker warning
             if (ctx.innateType === 'SPD') {
                 badge.className = 'text-[11px] bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-md border border-amber-300';
                 badge.innerText = 'Innate SPD Blocker';
@@ -1311,20 +1369,24 @@
         }
 
         function resetBuilder() {
-            selectSlot(1);
             document.getElementById('rune-set').value = 'Violent';
             document.getElementById('rune-stars').value = '6-standard';
             document.getElementById('rune-rarity').value = 'Legend';
             document.getElementById('rune-level').value = '+12';
+            selectSlot(1);
             document.getElementById('innate-type').value = 'None';
             document.getElementById('innate-val').value = 0;
-            document.getElementById('sub-val-1').value = 6;
-            document.getElementById('sub-grind-1').value = 0;
-            document.getElementById('sub-val-2').value = 6;
+            document.getElementById('sub-stat-1').value = 'SPD';
+            document.getElementById('sub-val-1').value = 18;
+            document.getElementById('sub-grind-1').value = 4;
+            document.getElementById('sub-stat-2').value = 'HP%';
+            document.getElementById('sub-val-2').value = 7;
             document.getElementById('sub-grind-2').value = 0;
+            document.getElementById('sub-stat-3').value = 'CR%';
             document.getElementById('sub-val-3').value = 6;
             document.getElementById('sub-grind-3').value = 0;
-            document.getElementById('sub-val-4').value = 6;
+            document.getElementById('sub-stat-4').value = 'ATK%';
+            document.getElementById('sub-val-4').value = 8;
             document.getElementById('sub-grind-4').value = 0;
             onRarityChange();
             evaluateRune();
