@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summoners War - Rune Evaluator & Optimizer (PvE Light Edition)</title>
+    <title>Summoners War - Rune Evaluator & Optimizer (PvE Edition)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tesseract.js OCR CDN pentru scanare automată din imagini -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -34,24 +36,33 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
             color: #0f172a;
+            overflow-x: hidden;
         }
 
         .heading-font {
             font-family: 'Rajdhani', sans-serif;
         }
 
-        /* Rune Gem Hexagon Silhouette for Light Theme */
+        /* Rune Gem Hexagon Silhouette */
         .rune-hex {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 28px;
+            border-radius: 24px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
+        }
+
+        @media (min-width: 640px) {
+            .rune-hex {
+                width: 140px;
+                height: 140px;
+                border-radius: 28px;
+            }
         }
 
         .rune-hex.legend {
@@ -93,6 +104,12 @@
             transform: translateY(-2px);
         }
 
+        /* Drag & Drop Highlight */
+        .dragover {
+            border-color: #d97706 !important;
+            background-color: #fef3c7 !important;
+        }
+
         /* Subtle scrollbars */
         ::-webkit-scrollbar {
             width: 6px;
@@ -109,22 +126,23 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-200 selection:text-amber-900 bg-slate-50 text-slate-800">
 
+    <!-- HEADER RESPONSIVE -->
     <header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-[1600px] mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center space-x-3">
-                <span class="text-3xl p-1 bg-amber-50 rounded-xl border border-amber-200 shadow-sm">🔮</span>
+        <div class="max-w-[1600px] mx-auto px-3 sm:px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+                <span class="text-3xl p-1 bg-amber-50 rounded-xl border border-amber-200 shadow-sm shrink-0">🔮</span>
                 <div>
-                    <h1 class="heading-font text-2xl font-bold tracking-wide text-slate-900 flex items-center gap-2">
-                        SUMMONERS WAR <span class="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-sans font-semibold border border-amber-300">Optimizare PvE • Mod Light</span>
+                    <h1 class="heading-font text-lg sm:text-2xl font-bold tracking-wide text-slate-900 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        SUMMONERS WAR <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-sans font-semibold border border-amber-300">Optimizare PvE • Mod Light</span>
                     </h1>
-                    <p class="text-xs text-slate-500 font-medium">Evaluator de Rune PvE (Abyss Hard, Cairos, Solo R5, ToA & Dimension Hole)</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Evaluator de Rune PvE cu OCR Scanner & Analiză Rulaje Power-Up</p>
                 </div>
             </div>
 
-            <!-- Progression Tier Quick Selector -->
-            <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-                <span class="text-xs text-slate-600 font-bold pl-2">Obiectiv PvE:</span>
-                <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-bold rounded-lg px-3 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30">
+            <!-- Progression Tier Selector -->
+            <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full md:w-auto justify-between md:justify-start">
+                <span class="text-xs text-slate-600 font-bold pl-1 sm:pl-2 shrink-0">Obiectiv PvE:</span>
+                <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-bold rounded-lg px-2 sm:px-3 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 truncate max-w-[260px] sm:max-w-none">
                     <option value="early">Începător PvE (GB10 / GB12 / ToA Normal)</option>
                     <option value="mid" selected>Intermediar PvE (Abyss Normal / Solo R5 / ToA Hard)</option>
                     <option value="late">Avansat PvE (Abyss Hard Speed Teams / Tartarus Hell)</option>
@@ -134,25 +152,69 @@
         </div>
     </header>
 
-    <main class="max-w-[1600px] mx-auto px-4 py-6 flex-grow w-full space-y-6">
+    <main class="max-w-[1600px] mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-grow w-full space-y-5 sm:space-y-6">
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- OCR / AI IMAGE SCANNER SECTION -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2.5">
+                <h2 class="heading-font text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-xl">📷</span> SCANARE AUTOMATĂ RUNĂ DIN IMAGINE (OCR / AI)
+                </h2>
+                <span class="text-[11px] bg-sky-50 text-sky-700 border border-sky-200 px-2.5 py-0.5 rounded-full font-medium">
+                    Suportă Drag & Drop, Fișier sau Paste (Ctrl+V)
+                </span>
+            </div>
+
+            <!-- Upload Area -->
+            <div id="ocr-dropzone" class="border-2 border-dashed border-slate-300 hover:border-amber-500 rounded-xl p-4 sm:p-6 text-center cursor-pointer transition bg-slate-50/70 hover:bg-amber-50/40 relative">
+                <input type="file" id="ocr-file-input" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                
+                <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-2xl shadow-sm">
+                        📸
+                    </div>
+                    <div class="text-xs sm:text-sm font-semibold text-slate-700">
+                        Apasă pentru a alege o poză sau trage imaginea aici
+                    </div>
+                    <p class="text-[11px] text-slate-500">
+                        Poți face și screenshot în joc și apăsa direct <kbd class="px-1.5 py-0.5 bg-white border border-slate-300 rounded font-mono text-slate-700 font-bold">Ctrl + V</kbd>
+                    </p>
+                </div>
+
+                <!-- Live OCR Status overlay -->
+                <div id="ocr-loading" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center p-4 space-y-3 z-10">
+                    <div class="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+                    <div id="ocr-status-text" class="text-xs font-bold text-slate-700">Inițializare motor OCR...</div>
+                    <div class="w-48 bg-slate-200 rounded-full h-2 overflow-hidden">
+                        <div id="ocr-progress-bar" class="bg-amber-500 h-2 w-0 transition-all duration-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OCR feedback log -->
+            <div id="ocr-result-alert" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex justify-between items-center">
+                <span id="ocr-result-msg">Scanare reușită! Informațiile au fost preluate în configurator.</span>
+                <button onclick="document.getElementById('ocr-result-alert').classList.add('hidden')" class="text-emerald-700 hover:text-emerald-900 font-bold px-2">✕</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
 
             <!-- LEFT PANEL: RUNE BUILDER (6 COLS) -->
-            <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+            <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                    <h2 class="heading-font text-xl font-bold text-slate-800 flex items-center gap-2">
-                        <span class="text-amber-500">🛠️</span> CONFIGURATOR RUNĂ (RUNE BUILDER)
+                    <h2 class="heading-font text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="text-amber-500">🛠️</span> CONFIGURATOR RUNĂ
                     </h2>
-                    <button onclick="resetBuilder()" class="text-xs font-semibold text-slate-500 hover:text-rose-600 transition flex items-center gap-1">
+                    <button onclick="resetBuilder()" class="text-xs font-semibold text-slate-500 hover:text-rose-600 transition flex items-center gap-1 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg border border-slate-200">
                         <span>🔄</span> Resetează Tot
                     </button>
                 </div>
 
-                <!-- Slot Selector Buttons -->
+                <!-- Slot Selector Buttons (Responsive: 3 cols on small phones, 6 cols on sm+) -->
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Alege Slotul Runei (1 - 6)</label>
-                    <div class="grid grid-cols-6 gap-2">
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
                         <button onclick="selectSlot(1)" id="slot-btn-1" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-bold transition text-center active">Slot 1<br><span class="text-[10px] text-slate-500 font-normal">Flat ATK</span></button>
                         <button onclick="selectSlot(2)" id="slot-btn-2" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-bold transition text-center">Slot 2<br><span class="text-[10px] text-slate-500 font-normal">SPD / %</span></button>
                         <button onclick="selectSlot(3)" id="slot-btn-3" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-bold transition text-center">Slot 3<br><span class="text-[10px] text-slate-500 font-normal">Flat DEF</span></button>
@@ -162,7 +224,8 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <!-- Rune Base Attributes -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
                     <!-- Set Selection -->
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Set Runic (23 Seturi)</label>
@@ -238,15 +301,16 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Main Stat & Innate Prefix -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <!-- Main Stat Input -->
-                    <div class="bg-amber-50/50 p-3.5 rounded-xl border border-amber-200/80 space-y-2">
+                    <div class="bg-amber-50/50 p-3 sm:p-3.5 rounded-xl border border-amber-200/80 space-y-2">
                         <div class="flex justify-between items-center">
                             <label class="text-xs font-bold text-amber-900 uppercase tracking-wider">Stat Principal (Main Stat)</label>
                             <span id="main-stat-badge" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-mono font-medium border border-amber-300">Slot 1 Fixed</span>
                         </div>
                         <div class="grid grid-cols-7 gap-2">
-                            <select id="main-stat-type" onchange="onMainStatTypeChange()" class="col-span-4 bg-white text-xs border border-amber-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-amber-500 shadow-sm">
+                            <select id="main-stat-type" onchange="onMainStatTypeChange()" class="col-span-4 bg-white text-xs border border-amber-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
                                 <!-- Dinamic -->
                             </select>
                             <input type="number" id="main-stat-val" value="118" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-700 font-bold font-mono focus:ring-2 focus:ring-amber-500 shadow-sm">
@@ -254,13 +318,13 @@
                     </div>
 
                     <!-- Innate Prefix Stat -->
-                    <div class="bg-purple-50/50 p-3.5 rounded-xl border border-purple-200/80 space-y-2">
+                    <div class="bg-purple-50/50 p-3 sm:p-3.5 rounded-xl border border-purple-200/80 space-y-2">
                         <div class="flex justify-between items-center">
                             <label class="text-xs font-bold text-purple-900 uppercase tracking-wider">Prefix Înnăscut (Innate)</label>
                             <span class="text-[10px] text-purple-700 font-medium">Nu se upgradează</span>
                         </div>
                         <div class="grid grid-cols-7 gap-2">
-                            <select id="innate-type" onchange="evaluateRune()" class="col-span-4 bg-white text-xs border border-purple-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-purple-500 shadow-sm">
+                            <select id="innate-type" onchange="evaluateRune()" class="col-span-4 bg-white text-xs border border-purple-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-purple-500 shadow-sm truncate">
                                 <option value="None">Fără Prefix (None)</option>
                                 <option value="SPD">SPD</option>
                                 <option value="HP%">HP%</option>
@@ -279,101 +343,197 @@
                     </div>
                 </div>
 
-                <div class="space-y-2.5">
-                    <div class="flex justify-between items-center">
-                        <label class="text-xs font-bold text-slate-600 uppercase tracking-wider">Substaturi Secundare (1 - 4)</label>
-                        <span class="text-[10px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Valoare Bază + [Grindstone Raid]</span>
+                <!-- SUBSTATURI SECUNDARE CU BUTON RESET & COLOANĂ DE PLUSĂRI (ROLLS) -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">Substaturi Secundare (1 - 4)</label>
+                            <span class="text-[10px] text-slate-500 font-mono hidden sm:inline">[Bază + Plusări + Grind]</span>
+                        </div>
+                        <!-- Butonul dedicat de resetare doar pentru substaturi -->
+                        <button onclick="resetSubstats()" type="button" class="text-xs font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-lg transition flex items-center gap-1 shadow-sm active:scale-95" title="Resetează doar cele 4 substaturi secundare la 0 și --Gol--">
+                            <span>🧹</span> Resetează Substats
+                        </button>
                     </div>
 
-                    <div class="space-y-2" id="substats-container">
+                    <!-- Header Labels for Desktop / Tablet -->
+                    <div class="hidden md:grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-500 uppercase px-2.5">
+                        <span class="col-span-1 text-center">#</span>
+                        <span class="col-span-4">Tip Substat</span>
+                        <span class="col-span-2">Valoare Bază</span>
+                        <span class="col-span-3">Plusări Power-Up</span>
+                        <span class="col-span-2">+Grind Raid</span>
+                    </div>
+
+                    <div class="space-y-2.5" id="substats-container">
                         <!-- Substat 1 -->
-                        <div class="grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm">
-                            <span class="col-span-1 text-xs font-bold text-amber-600 text-center">#1</span>
-                            <select id="sub-stat-1" onchange="evaluateRune()" class="col-span-5 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
-                                <option value="SPD">Attack Speed (SPD)</option>
-                                <option value="HP%">HP%</option>
-                                <option value="ATK%">ATK%</option>
-                                <option value="DEF%">DEF%</option>
-                                <option value="CR%">Critical Rate%</option>
-                                <option value="CD%">Critical Damage%</option>
-                                <option value="RES%">Resistance%</option>
-                                <option value="ACC%">Accuracy%</option>
-                                <option value="Flat HP">Flat HP</option>
-                                <option value="Flat ATK">Flat ATK</option>
-                                <option value="Flat DEF">Flat DEF</option>
-                                <option value="None">-- Gol --</option>
-                            </select>
-                            <input type="number" id="sub-val-1" value="18" placeholder="Bază" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
-                            <input type="number" id="sub-grind-1" value="4" placeholder="+Grind" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:space-y-0 md:grid md:grid-cols-12 md:gap-2 md:items-center">
+                            <div class="flex items-center gap-2 md:contents">
+                                <span class="text-xs font-bold text-amber-600 md:text-center md:col-span-1 shrink-0">#1</span>
+                                <select id="sub-stat-1" onchange="evaluateRune()" class="w-full md:col-span-4 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
+                                    <option value="SPD" selected>Attack Speed (SPD)</option>
+                                    <option value="HP%">HP%</option>
+                                    <option value="ATK%">ATK%</option>
+                                    <option value="DEF%">DEF%</option>
+                                    <option value="CR%">Critical Rate%</option>
+                                    <option value="CD%">Critical Damage%</option>
+                                    <option value="RES%">Resistance%</option>
+                                    <option value="ACC%">Accuracy%</option>
+                                    <option value="Flat HP">Flat HP</option>
+                                    <option value="Flat ATK">Flat ATK</option>
+                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="None">-- Gol --</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 md:contents">
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Bază:</span>
+                                    <input type="number" id="sub-val-1" value="18" placeholder="Bază" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Plusări:</span>
+                                    <select id="sub-rolls-1" onchange="evaluateRune()" class="w-full md:col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 font-semibold focus:ring-2 focus:ring-amber-500" title="Număr de plusări obținute la mărirea nivelului (+3, +6, +9, +12)">
+                                        <option value="0">0 (Bază)</option>
+                                        <option value="1">+1 Plus (Single)</option>
+                                        <option value="2">+2 Plusuri (Double)</option>
+                                        <option value="3" selected>+3 Plusuri (Triple)</option>
+                                        <option value="4">+4 Plusuri (Quad)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">+Grind:</span>
+                                    <input type="number" id="sub-grind-1" value="4" placeholder="+Grind" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Substat 2 -->
-                        <div class="grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm">
-                            <span class="col-span-1 text-xs font-bold text-amber-600 text-center">#2</span>
-                            <select id="sub-stat-2" onchange="evaluateRune()" class="col-span-5 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
-                                <option value="HP%" selected>HP%</option>
-                                <option value="SPD">Attack Speed (SPD)</option>
-                                <option value="ATK%">ATK%</option>
-                                <option value="DEF%">DEF%</option>
-                                <option value="CR%">Critical Rate%</option>
-                                <option value="CD%">Critical Damage%</option>
-                                <option value="RES%">Resistance%</option>
-                                <option value="ACC%">Accuracy%</option>
-                                <option value="Flat HP">Flat HP</option>
-                                <option value="Flat ATK">Flat ATK</option>
-                                <option value="Flat DEF">Flat DEF</option>
-                                <option value="None">-- Gol --</option>
-                            </select>
-                            <input type="number" id="sub-val-2" value="7" placeholder="Bază" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
-                            <input type="number" id="sub-grind-2" value="0" placeholder="+Grind" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:space-y-0 md:grid md:grid-cols-12 md:gap-2 md:items-center">
+                            <div class="flex items-center gap-2 md:contents">
+                                <span class="text-xs font-bold text-amber-600 md:text-center md:col-span-1 shrink-0">#2</span>
+                                <select id="sub-stat-2" onchange="evaluateRune()" class="w-full md:col-span-4 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
+                                    <option value="HP%" selected>HP%</option>
+                                    <option value="SPD">Attack Speed (SPD)</option>
+                                    <option value="ATK%">ATK%</option>
+                                    <option value="DEF%">DEF%</option>
+                                    <option value="CR%">Critical Rate%</option>
+                                    <option value="CD%">Critical Damage%</option>
+                                    <option value="RES%">Resistance%</option>
+                                    <option value="ACC%">Accuracy%</option>
+                                    <option value="Flat HP">Flat HP</option>
+                                    <option value="Flat ATK">Flat ATK</option>
+                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="None">-- Gol --</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 md:contents">
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Bază:</span>
+                                    <input type="number" id="sub-val-2" value="7" placeholder="Bază" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Plusări:</span>
+                                    <select id="sub-rolls-2" onchange="evaluateRune()" class="w-full md:col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 font-semibold focus:ring-2 focus:ring-amber-500" title="Număr de plusări obținute la mărirea nivelului (+3, +6, +9, +12)">
+                                        <option value="0" selected>0 (Bază)</option>
+                                        <option value="1">+1 Plus (Single)</option>
+                                        <option value="2">+2 Plusuri (Double)</option>
+                                        <option value="3">+3 Plusuri (Triple)</option>
+                                        <option value="4">+4 Plusuri (Quad)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">+Grind:</span>
+                                    <input type="number" id="sub-grind-2" value="0" placeholder="+Grind" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Substat 3 -->
-                        <div class="grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm">
-                            <span class="col-span-1 text-xs font-bold text-amber-600 text-center">#3</span>
-                            <select id="sub-stat-3" onchange="evaluateRune()" class="col-span-5 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
-                                <option value="CR%" selected>Critical Rate%</option>
-                                <option value="SPD">Attack Speed (SPD)</option>
-                                <option value="HP%">HP%</option>
-                                <option value="ATK%">ATK%</option>
-                                <option value="DEF%">DEF%</option>
-                                <option value="CD%">Critical Damage%</option>
-                                <option value="RES%">Resistance%</option>
-                                <option value="ACC%">Accuracy%</option>
-                                <option value="Flat HP">Flat HP</option>
-                                <option value="Flat ATK">Flat ATK</option>
-                                <option value="Flat DEF">Flat DEF</option>
-                                <option value="None">-- Gol --</option>
-                            </select>
-                            <input type="number" id="sub-val-3" value="6" placeholder="Bază" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
-                            <input type="number" id="sub-grind-3" value="0" placeholder="+Grind" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-slate-200 rounded-lg p-2 text-slate-400 font-mono font-bold" disabled>
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:space-y-0 md:grid md:grid-cols-12 md:gap-2 md:items-center">
+                            <div class="flex items-center gap-2 md:contents">
+                                <span class="text-xs font-bold text-amber-600 md:text-center md:col-span-1 shrink-0">#3</span>
+                                <select id="sub-stat-3" onchange="evaluateRune()" class="w-full md:col-span-4 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
+                                    <option value="CR%" selected>Critical Rate%</option>
+                                    <option value="SPD">Attack Speed (SPD)</option>
+                                    <option value="HP%">HP%</option>
+                                    <option value="ATK%">ATK%</option>
+                                    <option value="DEF%">DEF%</option>
+                                    <option value="CD%">Critical Damage%</option>
+                                    <option value="RES%">Resistance%</option>
+                                    <option value="ACC%">Accuracy%</option>
+                                    <option value="Flat HP">Flat HP</option>
+                                    <option value="Flat ATK">Flat ATK</option>
+                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="None">-- Gol --</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 md:contents">
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Bază:</span>
+                                    <input type="number" id="sub-val-3" value="6" placeholder="Bază" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Plusări:</span>
+                                    <select id="sub-rolls-3" onchange="evaluateRune()" class="w-full md:col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 font-semibold focus:ring-2 focus:ring-amber-500" title="Număr de plusări obținute la mărirea nivelului (+3, +6, +9, +12)">
+                                        <option value="0" selected>0 (Bază)</option>
+                                        <option value="1">+1 Plus (Single)</option>
+                                        <option value="2">+2 Plusuri (Double)</option>
+                                        <option value="3">+3 Plusuri (Triple)</option>
+                                        <option value="4">+4 Plusuri (Quad)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">+Grind:</span>
+                                    <input type="number" id="sub-grind-3" value="0" placeholder="+Grind" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-slate-200 rounded-lg p-2 text-slate-400 font-mono font-bold" disabled>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Substat 4 -->
-                        <div class="grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm">
-                            <span class="col-span-1 text-xs font-bold text-amber-600 text-center">#4</span>
-                            <select id="sub-stat-4" onchange="evaluateRune()" class="col-span-5 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
-                                <option value="ATK%" selected>ATK%</option>
-                                <option value="SPD">Attack Speed (SPD)</option>
-                                <option value="HP%">HP%</option>
-                                <option value="DEF%">DEF%</option>
-                                <option value="CR%">Critical Rate%</option>
-                                <option value="CD%">Critical Damage%</option>
-                                <option value="RES%">Resistance%</option>
-                                <option value="ACC%">Accuracy%</option>
-                                <option value="Flat HP">Flat HP</option>
-                                <option value="Flat ATK">Flat ATK</option>
-                                <option value="Flat DEF">Flat DEF</option>
-                                <option value="None">-- Gol --</option>
-                            </select>
-                            <input type="number" id="sub-val-4" value="8" placeholder="Bază" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
-                            <input type="number" id="sub-grind-4" value="0" placeholder="+Grind" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 shadow-sm space-y-2 md:space-y-0 md:grid md:grid-cols-12 md:gap-2 md:items-center">
+                            <div class="flex items-center gap-2 md:contents">
+                                <span class="text-xs font-bold text-amber-600 md:text-center md:col-span-1 shrink-0">#4</span>
+                                <select id="sub-stat-4" onchange="evaluateRune()" class="w-full md:col-span-4 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:ring-2 focus:ring-amber-500">
+                                    <option value="ATK%" selected>ATK%</option>
+                                    <option value="SPD">Attack Speed (SPD)</option>
+                                    <option value="HP%">HP%</option>
+                                    <option value="DEF%">DEF%</option>
+                                    <option value="CR%">Critical Rate%</option>
+                                    <option value="CD%">Critical Damage%</option>
+                                    <option value="RES%">Resistance%</option>
+                                    <option value="ACC%">Accuracy%</option>
+                                    <option value="Flat HP">Flat HP</option>
+                                    <option value="Flat ATK">Flat ATK</option>
+                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="None">-- Gol --</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 md:contents">
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Bază:</span>
+                                    <input type="number" id="sub-val-4" value="14" placeholder="Bază" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-mono font-bold focus:ring-2 focus:ring-amber-500">
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">Plusări:</span>
+                                    <select id="sub-rolls-4" onchange="evaluateRune()" class="w-full md:col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 font-semibold focus:ring-2 focus:ring-amber-500" title="Număr de plusări obținute la mărirea nivelului (+3, +6, +9, +12)">
+                                        <option value="0">0 (Bază)</option>
+                                        <option value="1" selected>+1 Plus (Single)</option>
+                                        <option value="2">+2 Plusuri (Double)</option>
+                                        <option value="3">+3 Plusuri (Triple)</option>
+                                        <option value="4">+4 Plusuri (Quad)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-semibold text-slate-400 md:hidden mb-0.5">+Grind:</span>
+                                    <input type="number" id="sub-grind-4" value="0" placeholder="+Grind" oninput="evaluateRune()" class="w-full md:col-span-2 bg-white text-xs border border-cyan-300 rounded-lg p-2 text-cyan-700 font-mono font-bold focus:ring-2 focus:ring-cyan-500">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT PANEL: PREVIEW & INTEGRATED VERDICT OPTIMIZER (6 COLS) -->
+            <!-- RIGHT PANEL: PREVIEW & VERDICT OPTIMIZER (6 COLS) -->
             <div class="lg:col-span-6 space-y-5">
                 
                 <!-- LIVE IN-GAME RUNE VISUAL CARD -->
@@ -414,13 +574,13 @@
                 </div>
 
                 <!-- INTEGRATED VERDICT OPTIMIZATION ENGINE -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4" id="verdict-card-container">
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4" id="verdict-card-container">
                     <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
-                        <span class="heading-font text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="heading-font text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
                             <span>⚖️</span> VERDICT OPTIMIZARE COMPLET
                         </span>
                         <div class="flex items-center gap-1.5">
-                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono font-bold text-xs border border-amber-300">
+                            <span id="combat-eff-badge" class="px-2 sm:px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono font-bold text-xs border border-amber-300">
                                 Eficiență Reală: 0.0%
                             </span>
                             <span id="raw-eff-badge" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 font-mono text-[10px] border border-slate-200" title="Eficiență brută SWOP fără penalizare combat">
@@ -436,7 +596,7 @@
                     </div>
 
                     <!-- Big Decisive Headline Banner -->
-                    <div id="verdict-banner" class="p-3.5 rounded-xl text-center font-extrabold text-base tracking-wide uppercase transition-all shadow-sm border">
+                    <div id="verdict-banner" class="p-3 sm:p-3.5 rounded-xl text-center font-extrabold text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border leading-snug">
                         <!-- e.g. PĂSTREAZĂ (KEEP) / VINDE IMEDIAT (SELL) -->
                     </div>
 
@@ -444,21 +604,21 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-slate-800 font-bold block mb-1 flex items-center gap-1.5">
-                                <span class="text-amber-500">📊</span> Motive & Analiză:
+                                <span class="text-amber-500">📊</span> Analiză & Plusări (Rolls):
                             </strong>
                             <p id="verdict-reasons" class="text-slate-600 leading-relaxed font-medium"></p>
                         </div>
 
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-sky-800 font-bold block mb-1 flex items-center gap-1.5">
-                                <span class="text-sky-500">🎯</span> Sinergie / Monștri:
+                                <span class="text-sky-500">🎯</span> Sinergie / Monștri PvE:
                             </strong>
                             <p id="verdict-archetypes" class="text-slate-600 leading-relaxed font-medium"></p>
                         </div>
                     </div>
 
                     <!-- INTEGRATED SECTION 1: GEM & GRIND ADVISOR -->
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 space-y-2.5">
+                    <div class="border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50/60 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-slate-200 pb-2">
                             <h3 class="font-bold text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-cyan-600">💎</span> RECOMANDĂRI GEM & GRIND (OPTIMIZARE PVE)
@@ -471,7 +631,7 @@
                     </div>
 
                     <!-- INTEGRATED SECTION 2: REAPPRAISAL ADVISOR -->
-                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 space-y-2.5">
+                    <div class="border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50/60 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-slate-200 pb-2">
                             <h3 class="font-bold text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
@@ -489,36 +649,34 @@
         </div>
 
         <!-- COMPREHENSIVE STRATEGY GUIDE CARD -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
-            <h3 class="heading-font text-lg font-bold text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: REGULI DE PĂSTRARE, GEM & REAPPRAISAL
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+            <h3 class="heading-font text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: REGULI DE PĂSTRARE, PLUSĂRI & REAPPRAISAL
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-600">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs text-slate-600">
+                <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-rose-700 font-bold block text-sm flex items-center gap-1.5">
-                        <span>❌</span> Regula "Flat Stat" pe Sloturile 2, 4, 6
+                        <span>❌</span> Regula "Plusări în Flat Stat"
                     </strong>
                     <p class="leading-relaxed">
-                        Dacă o rună are stat principal <strong>Flat HP, Flat ATK sau Flat DEF</strong> pe sloturile pare (2, 4, 6), este <strong>vânzare automată (99.9%)</strong>. 
-                        Nicio piatră de Reappraisal nu poate schimba statul principal, așa că nu irosi resurse pe ele!
+                        Dacă o rună are nivelul crescut (+6, +9, +12) și o plusare a intrat într-un <strong>Flat Stat (HP, ATK, DEF)</strong>, eficiența este compromisă. 
+                        Gem-ul va înlocui doar valoarea finală, pierzând iremediabil roll-urile acumulate. Vânzare recomandată!
                     </p>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-cyan-700 font-bold block text-sm flex items-center gap-1.5">
                         <span>💎</span> Când să folosești Gem și Grind?
                     </strong>
                     <p class="leading-relaxed">
-                        Schimbă (Gem out) <strong>întotdeauna substatul cel mai slab</strong> sau fără rulaje (un flat stat sau rezistență pe un nuker) cu un stat complementar procentual (HP%, DEF%, ATK%) sau SPD. 
-                        Dacă o rună are verdict de vânzare, <strong>nu investi niciun fel de Gem sau Grind</strong>.
+                        Înlocuiește prin Gem <strong>doar un substat fără nicio plusare (0 rolls)</strong>! Dacă schimbi un substat cu 0 rolls, transformi un stat inutil într-un stat optimizat (ex: +11-13% HP/ATK sau +8-10 SPD) la randament maxim.
                     </p>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-purple-700 font-bold block text-sm flex items-center gap-1.5">
                         <span>🎯</span> Regula Must-Keep pentru Reappraisal
                     </strong>
                     <p class="leading-relaxed">
-                        Chiar dacă substaturile sunt proaste și justifică vânzarea, <strong>păstrează runa pentru Reapp dacă este 6★ Legend pe sloturile 2, 4 sau 6</strong> cu stat principal de top (SPD, CD%, HP%, ATK%) din seturi cheie (Violent, Swift, Despair, Will, Rage, Fight, Seal). 
-                        Atenție: <strong>Nu da Reapp dacă are Innate SPD</strong>!
+                        Chiar dacă plusările au fost groaznice, <strong>păstrează runa dacă este 6★ Legend pe sloturile 2, 4 sau 6</strong> cu stat principal bun (SPD, CD%, HP%, ATK%) din seturi de top (Violent, Swift, Despair, Will, Rage). Atenție: <strong>Nu da Reapp dacă are Innate SPD</strong>!
                     </p>
                 </div>
             </div>
@@ -565,9 +723,7 @@
             'Flat DEF': 24
         };
 
-        // Official SW Main Stat progression values by Star Grade and Level (Valori oficiale Summoners War)
-        // În joc, runele de 6★ (inclusiv Ancient) au EXACT aceleași valori pentru statul principal:
-        // CR% începe la 7%, crește cu fix +3% per nivel până la +12 (7 + 12*3 = 43%), iar la +15 atinge 58%.
+        // Official SW Main Stat progression values by Star Grade and Level
         const mainStatTable = {
             '6-star': {
                 '+0':  { 'SPD': 7,  'HP%': 11, 'ATK%': 11, 'DEF%': 11, 'CR%': 7,  'CD%': 11, 'RES%': 12, 'ACC%': 12, 'Flat HP': 360,  'Flat ATK': 22,  'Flat DEF': 22 },
@@ -630,7 +786,6 @@
         };
 
         function getMainStatDefault(type, level, stars) {
-            // Runele 6★ Standard și 6★ Ancient folosesc EXACT același tabel pentru statul principal
             const starKey = stars === '5-star' ? '5-star' : '6-star';
             const lvlKey = (mainStatTable[starKey] && mainStatTable[starKey][level]) ? level : '+12';
             if (mainStatTable[starKey] && mainStatTable[starKey][lvlKey] && mainStatTable[starKey][lvlKey][type] !== undefined) {
@@ -728,6 +883,22 @@
             evaluateRune();
         }
 
+        // FUNCȚIE DEDICATĂ DE RESETARE SUBSTATURI (LA 0 ȘI --GOL--)
+        function resetSubstats() {
+            for (let i = 1; i <= 4; i++) {
+                const subSelect = document.getElementById(`sub-stat-${i}`);
+                const subVal = document.getElementById(`sub-val-${i}`);
+                const subRolls = document.getElementById(`sub-rolls-${i}`);
+                const subGrind = document.getElementById(`sub-grind-${i}`);
+
+                if (subSelect) subSelect.value = 'None';
+                if (subVal) subVal.value = 0;
+                if (subRolls) subRolls.value = 0;
+                if (subGrind) subGrind.value = 0;
+            }
+            evaluateRune();
+        }
+
         function updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs) {
             const starsDisplay = document.getElementById('card-stars-display');
             if (stars === '5-star') {
@@ -768,7 +939,13 @@
                     const row = document.createElement('div');
                     row.className = 'flex justify-between items-center text-xs';
                     const grindText = s.grind > 0 ? `<span class="text-cyan-600 font-bold ml-1">(+${s.grind})</span>` : '';
-                    row.innerHTML = `<span>• ${s.type} +${s.base}${grindText}</span><span class="font-bold text-slate-800 font-mono">+${s.total}</span>`;
+                    let rollTag = '';
+                    if (s.rolls === 1) rollTag = '<span class="text-[10px] text-amber-700 bg-amber-100 px-1 py-0.2 rounded font-sans font-bold ml-1">+1 Roll</span>';
+                    else if (s.rolls === 2) rollTag = '<span class="text-[10px] text-blue-700 bg-blue-100 px-1 py-0.2 rounded font-sans font-bold ml-1">Double +2</span>';
+                    else if (s.rolls === 3) rollTag = '<span class="text-[10px] text-purple-700 bg-purple-100 px-1 py-0.2 rounded font-sans font-bold ml-1">Triple +3</span>';
+                    else if (s.rolls === 4) rollTag = '<span class="text-[10px] text-rose-700 bg-rose-100 px-1 py-0.2 rounded font-sans font-extrabold ml-1">★ QUAD +4</span>';
+
+                    row.innerHTML = `<span>• ${s.type} +${s.base}${grindText} ${rollTag}</span><span class="font-bold text-slate-800 font-mono">+${s.total}</span>`;
                     subList.appendChild(row);
                 });
             }
@@ -819,10 +996,12 @@
             const subs = [];
             let totalSpeed = 0;
             let ungroundSpeed = 0;
+            let speedRolls = 0;
             let hasSpeed = false;
             let flatCount = 0;
             let percentCount = 0;
-            let rolledIntoFlat = false;
+            let flatWithRolls = [];
+            let totalPowerUpRolls = 0;
 
             const isAncient = stars === '6-ancient';
             const flatSingleMax = isAncient 
@@ -832,13 +1011,17 @@
             for(let i=1; i<=4; i++) {
                 const typeEl = document.getElementById(`sub-stat-${i}`);
                 const baseEl = document.getElementById(`sub-val-${i}`);
+                const rollsEl = document.getElementById(`sub-rolls-${i}`);
                 const grindEl = document.getElementById(`sub-grind-${i}`);
 
                 if (!typeEl || !baseEl || !grindEl) continue;
 
                 const type = typeEl.value;
                 const baseVal = parseFloat(baseEl.value) || 0;
+                const rollsVal = parseInt(rollsEl ? rollsEl.value : 0) || 0;
                 const grindVal = parseFloat(grindEl.value) || 0;
+
+                totalPowerUpRolls += rollsVal;
 
                 if(['CR%', 'CD%', 'RES%', 'ACC%', 'None'].includes(type)) {
                     grindEl.value = 0;
@@ -852,16 +1035,18 @@
                 }
 
                 if(type !== 'None' && baseVal > 0) {
-                    subs.push({ slotIdx: i, type, base: baseVal, grind: grindVal, total: baseVal + grindVal });
+                    subs.push({ slotIdx: i, type, base: baseVal, rolls: rollsVal, grind: grindVal, total: baseVal + grindVal });
+                    
                     if(type === 'SPD') {
                         hasSpeed = true;
                         ungroundSpeed += baseVal;
                         totalSpeed += (baseVal + grindVal);
+                        speedRolls = rollsVal;
                     }
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
                         flatCount++;
-                        if(baseVal > flatSingleMax[type]) {
-                            rolledIntoFlat = true;
+                        if(rollsVal > 0 || baseVal > flatSingleMax[type]) {
+                            flatWithRolls.push({ type, rolls: rollsVal, base: baseVal });
                         }
                     }
                     if(['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(type)) percentCount++;
@@ -892,9 +1077,11 @@
                 hasSpeed,
                 ungroundSpeed,
                 totalSpeed,
+                speedRolls,
                 flatCount,
                 percentCount,
-                rolledIntoFlat,
+                flatWithRolls,
+                totalPowerUpRolls,
                 combatEfficiency: effResults.combatEff,
                 rawEfficiency: effResults.rawEff,
                 innateType,
@@ -917,6 +1104,7 @@
                 rarity,
                 stars,
                 flatCount,
+                flatWithRolls,
                 isSellVerdict
             });
 
@@ -971,10 +1159,12 @@
             return { rawEff, combatEff };
         }
 
+        // MOTORUL DE VERDICT: INTEGREAZĂ PRECIZIA PLUSĂRILOR (ROLLS)
         function computeVerdict(ctx) {
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
 
+            // 1. Regula Rune 5★
             if(ctx.stars === '5-star') {
                 if(ctx.userTier === 'early' && ctx.combatEfficiency >= 65) {
                     return {
@@ -994,6 +1184,7 @@
                 };
             }
 
+            // 2. Stat Principal Flat pe Slot Par
             if(isEvenSlot && isFlatMain) {
                 return {
                     status: 'SELL',
@@ -1004,14 +1195,27 @@
                 };
             }
 
+            // 3. Verificare directă pe baza PLUSĂRILOR ÎN FLAT STATS (Fără relativitate!)
+            if(ctx.flatWithRolls.length > 0 && ['+6', '+9', '+12', '+15'].includes(ctx.level)) {
+                const rolledStatsDesc = ctx.flatWithRolls.map(f => `${f.type} (${f.rolls > 0 ? '+' + f.rolls + ' plusări' : 'valoare > bază'})`).join(', ');
+                return {
+                    status: 'SELL',
+                    title: 'VINDE IMEDIAT (PLUSĂRI IROSITE ÎN FLAT STAT)',
+                    color: 'bg-rose-50 text-rose-800 border-rose-300',
+                    reasons: `Runa a absorbit plusări de nivel direct în: <strong>${rolledStatsDesc}</strong>. În Summoners War, un Gem nu poate recupera plusările irosite, ci rescrie doar statul de bază, rezultând o pierdere gravă de eficiență.`,
+                    archetypes: 'Rulaj eșuat la power-up. Vânzare obligatorie pentru mana.'
+                };
+            }
+
+            // 4. Verificare 2+ flat stats
             if(ctx.flatCount >= 2) {
                 if(['+0', '+3'].includes(ctx.level) && ctx.percentCount >= 1 && ctx.rarity === 'Legend') {
                     return {
                         status: 'ROLL',
                         title: 'TESTEAZĂ LA +6 (VERIFICĂ DACĂ EVITĂ FLAT-URILE)',
                         color: 'bg-amber-50 text-amber-900 border-amber-300',
-                        reasons: 'Runa conține 2 substaturi plate periculoase. Ridic-o STRICT la +6; dacă vreun roll atinge un stat flat, vinde-o imediat!',
-                        archetypes: 'Test strict la +6.'
+                        reasons: 'Runa conține 2 substaturi plate periculoase. Ridic-o STRICT la +6; dacă vreo plusare intră într-un flat stat, vinde-o imediat!',
+                        archetypes: 'Test de siguranță la +6.'
                     };
                 }
 
@@ -1020,44 +1224,70 @@
                     title: 'VINDE IMEDIAT (2+ FLAT SUBSTATS - DEAD STAT BLOCAT)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
                     reasons: `Runa conține ${ctx.flatCount} substaturi plate. Deoarece poți înlocui doar 1 singur stat prin Gem, celălalt va rămâne un „dead stat” definitiv.`,
-                    archetypes: 'Vânzare recomandată pentru a nu bloca potențialul echipei.'
-                };
-            }
-
-            if(ctx.flatCount === 1 && ctx.rolledIntoFlat && ['+9', '+12', '+15'].includes(ctx.level)) {
-                return {
-                    status: 'SELL',
-                    title: 'VINDE (RULAJE IROSITE ÎN FLAT STAT)',
-                    color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: 'Unul dintre substaturile plate a absorbit rulaje de upgrade. Gem-ul ar șterge rulajele respective, rezultând o pierdere masivă de eficiență.',
                     archetypes: 'Vânzare recomandată.'
                 };
             }
 
+            // 5. Cazul special: QUAD ROLL SPEED (+4 Plusări)
+            if (ctx.speedRolls === 4 || ctx.ungroundSpeed >= 24) {
+                return {
+                    status: 'KEEP',
+                    title: `PĂSTREAZĂ OBLIGATORIU: ★ QUAD ROLL SPEED (+${ctx.totalSpeed} SPD)!`,
+                    color: 'bg-emerald-50 text-emerald-950 border-emerald-400',
+                    reasons: `Runa a obținut un **Quad Roll extrem de rar în SPD (+4 plusări, +${ctx.ungroundSpeed} bază)**. Această piesă este de o valoare inestimabilă pentru speed-tuning în orice scenariu (Abyss, RTA, Solo R5).`,
+                    archetypes: 'Toți bufferii, cleaverii și starterii PvE/PvP (Galleon, Loren, Spectra, Tiana, Eshir).'
+                };
+            }
+
+            // 6. Cazul special: TRIPLE ROLL SPEED (+3 Plusări)
+            if (ctx.speedRolls === 3 || (ctx.hasSpeed && ctx.ungroundSpeed >= 18)) {
+                return {
+                    status: 'KEEP',
+                    title: `PĂSTREAZĂ (TRIPLE ROLL SPEED: +${ctx.totalSpeed} SPD)`,
+                    color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
+                    reasons: `Runa a concentrat **3 plusări consecutive în SPD (+${ctx.ungroundSpeed} viteză de bază)**. Asigură depășirea oricărui prag critic de viteză în dungeon-urile Abyss Hard.`,
+                    archetypes: 'Def-breakers, Atk Bufferi și boosteri de ATB.'
+                };
+            }
+
+            // 7. Cazul verificării la +0 / +3
             if(['+0', '+3'].includes(ctx.level)) {
                 if(ctx.percentCount >= 2 || (ctx.hasSpeed && ctx.ungroundSpeed >= 5)) {
                     return {
                         status: 'ROLL',
-                        title: 'TESTEAZĂ LA +6 (VERIFICĂ SINERGIA PVE)',
+                        title: 'TESTEAZĂ LA +6 (POTENȚIAL SINERGIC RIDICAT)',
                         color: 'bg-sky-50 text-sky-900 border-sky-300',
-                        reasons: 'Runa are potențial bun de sinergie ofensivă sau defensivă. Ridic-o la +6 pentru a vedea calitatea rolurilor.',
-                        archetypes: 'Potențial Nuker de Abyss sau Suport de Raid.'
+                        reasons: 'Substaturile inițiale au o sinergie bună. Ridic-o la nivelul +6 pentru a vedea unde intră primele 2 plusări.',
+                        archetypes: 'Potențial Nuker de Abyss sau Tanc de Raid.'
                     };
                 }
                 return {
                     status: 'SELL',
                     title: 'VINDE (SUBSTATURI DISPERSATE LA +0)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: 'Substaturile sunt dispersate, conțin flat stats și nu prezintă sinergie clară pentru dungeon.',
+                    reasons: 'Substaturile sunt dispersate, conțin flat stats și nu prezintă sinergie clară pentru PvE.',
                     archetypes: 'Niciunul.'
                 };
             }
 
+            // 8. Criterii de eficiență pe baza tier-ului de progresie PvE
             let effThreshold = 65;
             let spdThreshold = 10;
             if(ctx.userTier === 'mid') { effThreshold = 71; spdThreshold = 12; }
             if(ctx.userTier === 'late') { effThreshold = 77; spdThreshold = 15; }
             if(ctx.userTier === 'end') { effThreshold = 84; spdThreshold = 18; }
+
+            // Evaluare plusări concentrate în Nuker stats (CR, CD, ATK)
+            const crSub = ctx.subs.find(s => s.type === 'CR%');
+            if (crSub && crSub.rolls >= 3) {
+                return {
+                    status: 'KEEP',
+                    title: `PĂSTREAZĂ (TRIPLE/QUAD ROLL CRITICAL RATE: +${crSub.total}%)`,
+                    color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
+                    reasons: `Runa a primit **+${crSub.rolls} plusări în Critical Rate**. Este o piesă vitală pentru a atinge 100% CR pe monștrii cheie de Abyss Hard fără a sacrifica slotul 4.`,
+                    archetypes: 'Abyss Nukers (Teshar, Julie, Liam, Luna, Kro).'
+                };
+            }
 
             if(ctx.combatEfficiency >= effThreshold) {
                 let role = "Tanc / Suport PvE (Abyss / Solo R5 / ToA)";
@@ -1068,8 +1298,8 @@
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (EFICIENȚĂ PVE EXCELENTĂ: ${ctx.combatEfficiency.toFixed(1)}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}% pentru nivelul tău PvE. Oferă statistici consistente necesare pentru rulaje 100% sigure.`,
-                    archetypes: `${role}. Ideală pentru Abyss Hard, Solo R5 sau echipe de ToA.`
+                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}% pentru nivelul tău PvE. Plusările de nivel au intrat în statistici procentuale utile.`,
+                    archetypes: `${role}. Ideală pentru Abyss Hard sau Solo R5.`
                 };
             }
 
@@ -1078,7 +1308,7 @@
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (SPEED-TUNING PVE: +${ctx.totalSpeed} SPD)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Viteza (+${ctx.ungroundSpeed} SPD fără grind) atinge pragul necesar pentru sincronizarea ordinii de atac (turn order).`,
+                    reasons: `Viteza (+${ctx.ungroundSpeed} SPD fără grind) atinge pragul minim necesar pentru sincronizarea ordinii de atac.`,
                     archetypes: 'Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea).'
                 };
             }
@@ -1087,14 +1317,14 @@
                 status: 'SELL',
                 title: 'VINDE (SUB PRAGUL OBIECTIVULUI TĂU PVE)',
                 color: 'bg-rose-50 text-rose-800 border-rose-300',
-                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}% necesar pentru stadiul tău de PvE.`,
+                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}%. Plusările au fost mici sau s-au dispersat ineficient.`,
                 archetypes: 'Vânzare recomandată pentru obținerea de mana.'
             };
         }
 
         function renderVerdict(verdict) {
             const banner = document.getElementById('verdict-banner');
-            banner.className = `p-3.5 rounded-xl text-center font-extrabold text-base tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
+            banner.className = `p-3 sm:p-3.5 rounded-xl text-center font-extrabold text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
             banner.innerHTML = verdict.title;
 
             document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
@@ -1106,7 +1336,6 @@
             const badge = document.getElementById('gem-badge');
             container.innerHTML = '';
 
-            // Dacă verdictul este SELL, Gem & Grind nu se mai recomandă
             if (ctx.isSellVerdict) {
                 badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded border border-rose-200';
                 badge.innerText = 'Inutil (Sell)';
@@ -1144,15 +1373,16 @@
             if (ctx.innateType !== 'None') existingTypes.push(ctx.innateType);
             existingTypes.push(ctx.mainType);
 
-            const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.base <= 375);
-            const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.base <= 8);
+            // Căutare stat flat cu 0 plusări (țintă optimă de Gem)
+            const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.rolls === 0);
+            const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.rolls === 0);
 
             if (unrolledFlat) {
                 mustGemSub = unrolledFlat;
-                gemReason = `Conține statul mort <strong>${unrolledFlat.type}</strong> fără rulaje. Schimbă-l pentru a nu pierde o statistică procentuală cheie.`;
+                gemReason = `Conține statul mort <strong>${unrolledFlat.type}</strong> fără plusări (0 rolls). Înlocuirea lui cu Gem va spori enorm eficiența fără pierdere de rulaje!`;
             } else if (antiSynergyRes) {
                 mustGemSub = antiSynergyRes;
-                gemReason = `Statul <strong>RES%</strong> nu ajută un set de nuker (${ctx.set}).`;
+                gemReason = `Statul <strong>RES%</strong> nu a primit plusări și nu ajută rolul de nuker (${ctx.set}).`;
             }
 
             const pvePriorities = ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%', 'ACC%'];
@@ -1221,7 +1451,6 @@
             const isLegend = ctx.rarity === 'Legend';
             const isSixStar = ctx.stars !== '5-star';
 
-            // SCENARIU 1: Runa a primit verdictul SELL
             if (ctx.isSellVerdict) {
                 if (ctx.isMustKeepForReapp && isLegend && isSixStar) {
                     if (ctx.innateType === 'SPD') {
@@ -1243,7 +1472,7 @@
                                 <span>🎯</span> BAZĂ MUST-KEEP PENTRU REAPPRAISAL!
                             </div>
                             <p>
-                                Deși substaturile actuale justifică vânzarea, <strong>baza de 6★ Legend ${ctx.set} pe Slotul ${ctx.slot} (${ctx.mainType})</strong> este extrem de rară și valoroasă.
+                                Deși plusările actuale au eșuat justificând vânzarea, <strong>baza de 6★ Legend ${ctx.set} pe Slotul ${ctx.slot} (${ctx.mainType})</strong> este extrem de rară și valoroasă.
                             </p>
                             <p class="font-semibold text-purple-800 pt-0.5">
                                 👉 <strong>NU O VINDE!</strong> Blochează runa în depozit și folosește Pietre Reapp până obții roll-uri triple/quad de PvE Nuker sau Tanc.
@@ -1263,7 +1492,6 @@
                 }
             }
 
-            // SCENARIU 2: Runa este păstrată (KEEP / ROLL)
             if (!isLegend || !isSixStar) {
                 badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200';
                 badge.innerText = 'Neeligibil';
@@ -1309,7 +1537,7 @@
 
             container.innerHTML = `
                 <div class="p-2 bg-purple-50 rounded-lg border border-purple-200 text-purple-900 text-[11px] leading-relaxed">
-                    ✨ Baza este <strong>6★ Legend ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>. Dacă eficiența actuală scade la power-up, este o țintă excelentă pentru Reappraisal.
+                    ✨ Baza este <strong>6★ Legend ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>. Dacă eficiența scade la power-up, este o țintă excelentă pentru Reappraisal.
                 </div>
             `;
         }
@@ -1322,18 +1550,257 @@
             selectSlot(1);
             document.getElementById('innate-type').value = 'None';
             document.getElementById('innate-val').value = 0;
+            resetSubstats();
+            
+            // Re-populate default demo stats
             document.getElementById('sub-stat-1').value = 'SPD';
             document.getElementById('sub-val-1').value = 18;
+            document.getElementById('sub-rolls-1').value = 3;
             document.getElementById('sub-grind-1').value = 4;
+            
             document.getElementById('sub-stat-2').value = 'HP%';
             document.getElementById('sub-val-2').value = 7;
+            document.getElementById('sub-rolls-2').value = 0;
             document.getElementById('sub-grind-2').value = 0;
+
             document.getElementById('sub-stat-3').value = 'CR%';
             document.getElementById('sub-val-3').value = 6;
+            document.getElementById('sub-rolls-3').value = 0;
             document.getElementById('sub-grind-3').value = 0;
+
             document.getElementById('sub-stat-4').value = 'ATK%';
-            document.getElementById('sub-val-4').value = 8;
+            document.getElementById('sub-val-4').value = 14;
+            document.getElementById('sub-rolls-4').value = 1;
             document.getElementById('sub-grind-4').value = 0;
+
+            onRarityChange();
+            evaluateRune();
+        }
+
+        // ==========================================
+        // OCR / AI IMAGE RECOGNITION ENGINE
+        // ==========================================
+        const dropzone = document.getElementById('ocr-dropzone');
+        const fileInput = document.getElementById('ocr-file-input');
+
+        if (dropzone) {
+            dropzone.addEventListener('click', () => fileInput.click());
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            });
+            dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    processRuneImage(e.dataTransfer.files[0]);
+                }
+            });
+        }
+
+        // Global Paste Listener (Ctrl+V)
+        window.addEventListener('paste', (e) => {
+            if (e.clipboardData && e.clipboardData.files.length > 0) {
+                const file = e.clipboardData.files[0];
+                if (file.type.startsWith('image/')) {
+                    processRuneImage(file);
+                }
+            }
+        });
+
+        function handleFileSelect(event) {
+            if (event.target.files && event.target.files[0]) {
+                processRuneImage(event.target.files[0]);
+            }
+        }
+
+        async function processRuneImage(imageFile) {
+            const loadingOverlay = document.getElementById('ocr-loading');
+            const statusText = document.getElementById('ocr-status-text');
+            const progressBar = document.getElementById('ocr-progress-bar');
+            const alertBox = document.getElementById('ocr-result-alert');
+            const alertMsg = document.getElementById('ocr-result-msg');
+
+            loadingOverlay.classList.remove('hidden');
+            progressBar.style.width = '10%';
+            statusText.innerText = 'Se încarcă imaginea și motorul OCR...';
+
+            try {
+                if (typeof Tesseract === 'undefined') {
+                    throw new Error('Biblioteca Tesseract.js nu s-a putut încărca.');
+                }
+
+                const worker = await Tesseract.createWorker('eng');
+                
+                progressBar.style.width = '35%';
+                statusText.innerText = 'Recunoaștere caractere în curs...';
+
+                const ret = await worker.recognize(imageFile);
+                progressBar.style.width = '85%';
+                statusText.innerText = 'Analiză statistici Summoners War...';
+
+                await worker.terminate();
+
+                progressBar.style.width = '100%';
+                
+                const recognizedText = ret.data.text;
+                console.log("OCR Extracted Text:\n", recognizedText);
+
+                parseAndApplyRuneOCR(recognizedText);
+
+                loadingOverlay.classList.add('hidden');
+                alertMsg.innerText = 'Scanare finalizată cu succes! Datele au fost aplicate în configurator.';
+                alertBox.classList.remove('hidden');
+
+            } catch (err) {
+                console.error("OCR Error:", err);
+                loadingOverlay.classList.add('hidden');
+                alertMsg.innerText = 'Eroare la procesarea imaginii: ' + err.message;
+                alertBox.className = 'p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs flex justify-between items-center';
+                alertBox.classList.remove('hidden');
+            }
+        }
+
+        function parseAndApplyRuneOCR(text) {
+            // Curățare text și linii
+            const cleanText = text.replace(/,/g, '');
+            const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+            // 1. Detectare Slot (1-6)
+            const slotMatch = cleanText.match(/\((\d)\)|Slot\s*(\d)|Rune\s*\(?(\d)\)?/i);
+            if (slotMatch) {
+                const detectedSlot = parseInt(slotMatch[1] || slotMatch[2] || slotMatch[3]);
+                if (detectedSlot >= 1 && detectedSlot <= 6) {
+                    selectSlot(detectedSlot);
+                }
+            }
+
+            // 2. Detectare Set Runic
+            const runeSets = ['Violent', 'Swift', 'Despair', 'Rage', 'Fatal', 'Blade', 'Energy', 'Guard', 'Focus', 'Endure', 'Will', 'Nemesis', 'Revenge', 'Shield', 'Destroy', 'Vampire', 'Seal', 'Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance', 'Intangible'];
+            for (let s of runeSets) {
+                const regex = new RegExp(`\\b${s}\\b`, 'i');
+                if (regex.test(cleanText)) {
+                    document.getElementById('rune-set').value = s;
+                    break;
+                }
+            }
+
+            // 3. Detectare Nivel Power-Up (+0 la +15)
+            const levelMatch = cleanText.match(/\+(\d{1,2})/);
+            if (levelMatch) {
+                const lvl = parseInt(levelMatch[1]);
+                if (lvl >= 15) document.getElementById('rune-level').value = '+15';
+                else if (lvl >= 12) document.getElementById('rune-level').value = '+12';
+                else if (lvl >= 9) document.getElementById('rune-level').value = '+9';
+                else if (lvl >= 6) document.getElementById('rune-level').value = '+6';
+                else if (lvl >= 3) document.getElementById('rune-level').value = '+3';
+                else document.getElementById('rune-level').value = '+0';
+            }
+
+            // 4. Detectare Raritate
+            if (/Ancient/i.test(cleanText)) {
+                document.getElementById('rune-stars').value = '6-ancient';
+            } else if (/\b5\s*★|\b5\s*Star/i.test(cleanText)) {
+                document.getElementById('rune-stars').value = '5-star';
+            } else {
+                document.getElementById('rune-stars').value = '6-standard';
+            }
+
+            if (/Legend/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Legend';
+            else if (/Hero/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Hero';
+            else if (/Rare/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Rare';
+            else if (/Magic/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Magic';
+
+            // 5. Detectare Statistici (Regex avansat SW)
+            const statRegex = /(SPD|Attack Speed|HP%?|ATK%?|DEF%?|CRI Rate%?|Critical Rate%?|CRIT Rate%?|CRI Dmg%?|Critical Dmg%?|Critical Damage%?|Resistance%?|Accuracy%?)\s*\+?\s*(\d+%?)(?:\s*\(\+(\d+)\))?/gi;
+
+            let extractedStats = [];
+            let match;
+            while ((match = statRegex.exec(cleanText)) !== null) {
+                const rawName = match[1].toUpperCase();
+                const rawVal = match[2];
+                const grind = match[3] ? parseInt(match[3]) : 0;
+
+                let type = 'Flat HP';
+                const hasPercent = rawVal.includes('%');
+                const numVal = parseInt(rawVal.replace('%', ''));
+
+                if (rawName.includes('SPD') || rawName.includes('SPEED')) {
+                    type = 'SPD';
+                } else if (rawName.includes('CRI RATE') || rawName.includes('CRIT RATE')) {
+                    type = 'CR%';
+                } else if (rawName.includes('CRI DMG') || rawName.includes('CRITICAL DMG') || rawName.includes('DAMAGE')) {
+                    type = 'CD%';
+                } else if (rawName.includes('RES')) {
+                    type = 'RES%';
+                } else if (rawName.includes('ACC')) {
+                    type = 'ACC%';
+                } else if (rawName.includes('HP')) {
+                    type = hasPercent || numVal <= 63 ? 'HP%' : 'Flat HP';
+                } else if (rawName.includes('ATK')) {
+                    type = hasPercent || numVal <= 63 ? 'ATK%' : 'Flat ATK';
+                } else if (rawName.includes('DEF')) {
+                    type = hasPercent || numVal <= 63 ? 'DEF%' : 'Flat DEF';
+                }
+
+                extractedStats.push({ type, val: numVal, grind });
+            }
+
+            // Aplicare Main Stat dacă există
+            if (extractedStats.length > 0) {
+                const mainCandidate = extractedStats[0];
+                const mainSelect = document.getElementById('main-stat-type');
+                if (Array.from(mainSelect.options).some(o => o.value === mainCandidate.type)) {
+                    mainSelect.value = mainCandidate.type;
+                    document.getElementById('main-stat-val').value = mainCandidate.val;
+                    extractedStats.shift(); // scoatem main stat
+                }
+            }
+
+            // Resetare substaturi înainte de aplicare
+            resetSubstats();
+
+            // Aplicare Substaturi detectate
+            for (let i = 0; i < Math.min(extractedStats.length, 4); i++) {
+                const s = extractedStats[i];
+                const subSelect = document.getElementById(`sub-stat-${i + 1}`);
+                const subVal = document.getElementById(`sub-val-${i + 1}`);
+                const subRolls = document.getElementById(`sub-rolls-${i + 1}`);
+                const subGrind = document.getElementById(`sub-grind-${i + 1}`);
+
+                if (subSelect && subVal) {
+                    subSelect.value = s.type;
+                    subVal.value = s.val;
+                    if (subGrind) subGrind.value = s.grind;
+
+                    // Estimare număr de plusări pe baza valorii
+                    let estimatedRolls = 0;
+                    if (s.type === 'SPD') {
+                        if (s.val >= 24) estimatedRolls = 4;
+                        else if (s.val >= 17) estimatedRolls = 3;
+                        else if (s.val >= 11) estimatedRolls = 2;
+                        else if (s.val >= 7) estimatedRolls = 1;
+                    } else if (['HP%', 'ATK%', 'DEF%'].includes(s.type)) {
+                        if (s.val >= 32) estimatedRolls = 4;
+                        else if (s.val >= 23) estimatedRolls = 3;
+                        else if (s.val >= 15) estimatedRolls = 2;
+                        else if (s.val >= 9) estimatedRolls = 1;
+                    } else if (s.type === 'CR%') {
+                        if (s.val >= 24) estimatedRolls = 4;
+                        else if (s.val >= 17) estimatedRolls = 3;
+                        else if (s.val >= 11) estimatedRolls = 2;
+                        else if (s.val >= 7) estimatedRolls = 1;
+                    } else if (s.type === 'CD%') {
+                        if (s.val >= 28) estimatedRolls = 4;
+                        else if (s.val >= 20) estimatedRolls = 3;
+                        else if (s.val >= 13) estimatedRolls = 2;
+                        else if (s.val >= 8) estimatedRolls = 1;
+                    }
+                    if (subRolls) subRolls.value = estimatedRolls;
+                }
+            }
+
             onRarityChange();
             evaluateRune();
         }
