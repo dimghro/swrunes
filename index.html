@@ -143,7 +143,7 @@
                     <h1 class="text-lg sm:text-2xl font-black tracking-wide text-slate-900 flex flex-wrap items-center gap-1.5 sm:gap-2">
                         SUMMONERS WAR <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">Optimizare PvE • Mod Light</span>
                     </h1>
-                    <p class="text-xs text-slate-500 font-semibold">Evaluator de Rune PvE cu Scanner OCR & Verificare Valori Oficiale Com2uS</p>
+                    <p class="text-xs text-slate-500 font-semibold">Evaluator de Rune cu Ghid de Sinergie pentru Toate Cele 23 de Seturi & Reguli Oficiale Com2uS</p>
                 </div>
             </div>
 
@@ -226,7 +226,7 @@
                         <button onclick="selectSlot(1)" id="slot-btn-1" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 1<br><span class="text-[10px] text-slate-500 font-normal">Flat ATK</span></button>
                         <button onclick="selectSlot(2)" id="slot-btn-2" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 2<br><span class="text-[10px] text-slate-500 font-normal">SPD / %</span></button>
                         <button onclick="selectSlot(3)" id="slot-btn-3" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center active">Slot 3<br><span class="text-[10px] text-slate-500 font-normal">Flat DEF</span></button>
-                        <button onclick="selectSlot(4)" id="slot-btn-4" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 4<br><span class="text-[10px] text-slate-500 font-normal">CR/CD / %</span></button>
+                        <button onclick="selectSlot(4)" id="slot-btn-4" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 4<br><span class="text-[10px] text-slate-500 font-normal">CRI / %</span></button>
                         <button onclick="selectSlot(5)" id="slot-btn-5" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 5<br><span class="text-[10px] text-slate-500 font-normal">Flat HP</span></button>
                         <button onclick="selectSlot(6)" id="slot-btn-6" class="slot-btn p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-extrabold transition text-center">Slot 6<br><span class="text-[10px] text-slate-500 font-normal">ACC/RES / %</span></button>
                     </div>
@@ -235,72 +235,72 @@
                 <!-- Rune Base Attributes -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set Runic (23 Seturi)</label>
-                        <select id="rune-set" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
-                            <optgroup label="4-Piece Sets">
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set Runic (Toate cele 23)</label>
+                        <select id="rune-set" onchange="onSetChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
+                            <optgroup label="Seturi de 4 Piese">
                                 <option value="Violent">Violent (22% Proc)</option>
                                 <option value="Swift">Swift (+25% SPD)</option>
                                 <option value="Despair">Despair (25% Stun)</option>
-                                <option value="Rage">Rage (+40% CD)</option>
+                                <option value="Rage">Rage (+40% CRI Dmg)</option>
                                 <option value="Fatal">Fatal (+35% ATK)</option>
                                 <option value="Vampire">Vampire (35% Drain)</option>
                             </optgroup>
-                            <optgroup label="2-Piece Tactical Sets">
-                                <option value="Will">Will (1 Turn Imm)</option>
+                            <optgroup label="Seturi Tactice de 2 Piese">
+                                <option value="Will">Will (1 Turn Imunitate)</option>
                                 <option value="Nemesis" selected>Nemesis (+ATK Bar)</option>
-                                <option value="Revenge">Revenge (15% Counter)</option>
-                                <option value="Shield">Shield (15% Team HP)</option>
-                                <option value="Destroy">Destroy (Reduces HP)</option>
+                                <option value="Revenge">Revenge (15% Contraatac)</option>
+                                <option value="Shield">Shield (Scut 15% HP)</option>
+                                <option value="Destroy">Destroy (Distruge HP)</option>
                                 <option value="Seal">Seal (15% Set Lock)</option>
                             </optgroup>
-                            <optgroup label="2-Piece Stat Boosters">
-                                <option value="Blade">Blade (+12% CR)</option>
+                            <optgroup label="Seturi de Bază Stat (2 Piese)">
                                 <option value="Energy">Energy (+15% HP)</option>
                                 <option value="Guard">Guard (+15% DEF)</option>
+                                <option value="Blade">Blade (+12% CRI Rate)</option>
                                 <option value="Focus">Focus (+20% ACC)</option>
                                 <option value="Endure">Endure (+20% RES)</option>
                             </optgroup>
-                            <optgroup label="Team Aura Sets (Rift/Spiritual)">
-                                <option value="Tolerance">Tolerance (+10% RES)</option>
-                                <option value="Fight">Fight (+8% Team ATK)</option>
-                                <option value="Determination">Determination (+8% DEF)</option>
-                                <option value="Enhance">Enhance (+8% HP)</option>
-                                <option value="Accuracy">Accuracy (+10% ACC)</option>
+                            <optgroup label="Seturi Aură de Echipă (2 Piese)">
+                                <option value="Fight">Fight (+8% ATK Aliat)</option>
+                                <option value="Determination">Determination (+8% DEF Aliat)</option>
+                                <option value="Enhance">Enhance (+8% HP Aliat)</option>
+                                <option value="Accuracy">Accuracy (+10% ACC Aliat)</option>
+                                <option value="Tolerance">Tolerance (+10% RES Aliat)</option>
                             </optgroup>
-                            <optgroup label="Special">
-                                <option value="Intangible">Intangible (Wildcard)</option>
+                            <optgroup label="Set Special (1 Piesă)">
+                                <option value="Intangible">Intangible (Wildcard Set)</option>
                             </optgroup>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Steluțe (Grade)</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Grad Runic (★)</label>
                         <select id="rune-stars" onchange="onStarsChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
                             <option value="6-standard">6★ Standard</option>
-                            <option value="6-ancient" selected>6★ Ancient (Dim Hole)</option>
-                            <option value="5-star">5★ (Early Only)</option>
+                            <option value="6-ancient" selected>6★ Antică (Ancient)</option>
+                            <option value="5-star">5★ (Early-Game)</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Raritate Inițială</label>
                         <select id="rune-rarity" onchange="onRarityChange()" class="w-full bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-black shadow-sm">
-                            <option value="Legend" selected>Legend (4 Sub-uri)</option>
-                            <option value="Hero">Hero (3 Sub-uri)</option>
-                            <option value="Rare">Rare (2 Sub-uri)</option>
-                            <option value="Magic">Magic (1 Sub)</option>
-                            <option value="Normal">Normal (0 Sub-uri)</option>
+                            <option value="Legend" selected>Legendară (Legend - 4 Sub-uri)</option>
+                            <option value="Hero">Eroică (Hero - 3 Sub-uri)</option>
+                            <option value="Rare">Rară (Rare - 2 Sub-uri)</option>
+                            <option value="Magic">Magică (Magic - 1 Sub)</option>
+                            <option value="Normal">Comună (Normal - 0 Sub-uri)</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Nivel Power-Up</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Nivel Îmbunătățire</label>
                         <select id="rune-level" onchange="onLevelChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
-                            <option value="+0">+0 (Proaspăt picată)</option>
-                            <option value="+3">+3 (1 Upgrade)</option>
-                            <option value="+6">+6 (2 Upgrade-uri)</option>
-                            <option value="+9">+9 (3 Upgrade-uri)</option>
-                            <option value="+12" selected>+12 (Substaturi Blocate)</option>
+                            <option value="+0">+0 (Nemodificată)</option>
+                            <option value="+3">+3 (1 Îmbunătățire)</option>
+                            <option value="+6">+6 (2 Îmbunătățiri)</option>
+                            <option value="+9">+9 (3 Îmbunătățiri)</option>
+                            <option value="+12" selected>+12 (Substaturi Finale)</option>
                             <option value="+15">+15 (Max Main Stat)</option>
                         </select>
                     </div>
@@ -310,8 +310,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div class="bg-amber-50/50 p-3 sm:p-3.5 rounded-xl border border-amber-200/80 space-y-2">
                         <div class="flex justify-between items-center">
-                            <label class="text-xs font-black text-amber-900 uppercase tracking-wider">Stat Principal (Main Stat)</label>
-                            <span id="main-stat-badge" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-extrabold border border-amber-300">Slot 3 Fixed</span>
+                            <label class="text-xs font-black text-amber-900 uppercase tracking-wider">Atribut Principal (Main Stat)</label>
+                            <span id="main-stat-badge" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-extrabold border border-amber-300">Slot 3 Fix</span>
                         </div>
                         <div class="grid grid-cols-7 gap-2">
                             <select id="main-stat-type" onchange="onMainStatTypeChange()" class="col-span-4 bg-white text-xs border border-amber-300 rounded-lg p-2 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
@@ -322,23 +322,23 @@
 
                     <div class="bg-purple-50/50 p-3 sm:p-3.5 rounded-xl border border-purple-200/80 space-y-2">
                         <div class="flex justify-between items-center">
-                            <label class="text-xs font-black text-purple-900 uppercase tracking-wider">Prefix Înnăscut (Innate)</label>
+                            <label class="text-xs font-black text-purple-900 uppercase tracking-wider">Atribut Înnăscut (Prefix)</label>
                             <span class="text-[10px] text-purple-700 font-bold">Nu se upgradează</span>
                         </div>
                         <div class="grid grid-cols-7 gap-2">
                             <select id="innate-type" onchange="onInnateChange()" class="col-span-4 bg-white text-xs border border-purple-300 rounded-lg p-2 text-slate-800 font-bold focus:ring-2 focus:ring-purple-500 shadow-sm truncate">
                                 <option value="None">Fără Prefix (None)</option>
-                                <option value="SPD">SPD</option>
-                                <option value="HP%">HP%</option>
-                                <option value="ATK%">ATK%</option>
-                                <option value="DEF%">DEF%</option>
-                                <option value="CR%">Critical Rate%</option>
-                                <option value="CD%">Critical Damage%</option>
-                                <option value="RES%">Resistance%</option>
-                                <option value="ACC%">Accuracy%</option>
-                                <option value="Flat HP">Flat HP</option>
-                                <option value="Flat ATK">Flat ATK</option>
-                                <option value="Flat DEF">Flat DEF</option>
+                                <option value="SPD">Viteză (SPD)</option>
+                                <option value="HP%">Viață (HP%)</option>
+                                <option value="ATK%">Atac (ATK%)</option>
+                                <option value="DEF%">Apărare (DEF%)</option>
+                                <option value="CR%">Rată Critică (CRI Rate%)</option>
+                                <option value="CD%">Daune Critice (CRI Dmg%)</option>
+                                <option value="RES%">Rezistență (RES%)</option>
+                                <option value="ACC%">Acuratețe (ACC%)</option>
+                                <option value="Flat HP">Viață Fixă (Flat HP)</option>
+                                <option value="Flat ATK">Atac Fix (Flat ATK)</option>
+                                <option value="Flat DEF">Apărare Fixă (Flat DEF)</option>
                             </select>
                             <input type="number" id="innate-val" value="0" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-purple-300 rounded-lg p-2 text-purple-800 font-black focus:ring-2 focus:ring-purple-500 shadow-sm text-center">
                         </div>
@@ -349,15 +349,15 @@
                 <div class="space-y-3">
                     <div class="flex flex-wrap justify-between items-center gap-2">
                         <div class="flex items-center gap-2">
-                            <label class="text-xs font-black text-slate-700 uppercase tracking-wider">Substaturi Secundare (1 - 4)</label>
+                            <label class="text-xs font-black text-slate-700 uppercase tracking-wider">Atribute Secundare (Substat-uri 1 - 4)</label>
                             <span class="text-[11px] text-slate-500 font-bold hidden sm:inline">[Valoare Totală & Plusare]</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <label class="flex items-center gap-1.5 text-xs font-extrabold text-cyan-800 bg-cyan-50 px-2.5 py-1 rounded-lg border border-cyan-200 cursor-pointer">
                                 <input type="checkbox" id="rune-has-gem" onchange="evaluateRune()" class="rounded text-cyan-600 focus:ring-cyan-500 w-3.5 h-3.5">
-                                <span>Are Gem aplicat?</span>
+                                <span>Are Piatră Gem aplicată?</span>
                             </label>
-                            <button onclick="resetSubstats()" type="button" class="text-xs font-extrabold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1 rounded-lg transition flex items-center gap-1 shadow-sm active:scale-95" title="Resetează doar cele 4 substaturi la 0 și --Gol--">
+                            <button onclick="resetSubstats()" type="button" class="text-xs font-extrabold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1 rounded-lg transition flex items-center gap-1 shadow-sm active:scale-95" title="Resetează cele 4 substaturi">
                                 <span>🧹</span> Resetează
                             </button>
                         </div>
@@ -378,17 +378,17 @@
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#1</span>
                                 <select id="sub-stat-1" onchange="onSubstatChange(1)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
-                                    <option value="SPD">Attack Speed (SPD)</option>
-                                    <option value="HP%">HP%</option>
-                                    <option value="ATK%">ATK%</option>
-                                    <option value="DEF%" selected>DEF%</option>
-                                    <option value="CR%">Critical Rate%</option>
-                                    <option value="CD%">Critical Damage%</option>
-                                    <option value="RES%">Resistance%</option>
-                                    <option value="ACC%">Accuracy%</option>
-                                    <option value="Flat HP">Flat HP</option>
-                                    <option value="Flat ATK">Flat ATK</option>
-                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="SPD">Viteză (SPD)</option>
+                                    <option value="HP%">Viață (HP%)</option>
+                                    <option value="ATK%">Atac (ATK%)</option>
+                                    <option value="DEF%" selected>Apărare (DEF%)</option>
+                                    <option value="CR%">Rată Critică (CRI Rate%)</option>
+                                    <option value="CD%">Daune Critice (CRI Dmg%)</option>
+                                    <option value="RES%">Rezistență (RES%)</option>
+                                    <option value="ACC%">Acuratețe (ACC%)</option>
+                                    <option value="Flat HP">Viață Fixă (Flat HP)</option>
+                                    <option value="Flat ATK">Atac Fix (Flat ATK)</option>
+                                    <option value="Flat DEF">Apărare Fixă (Flat DEF)</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
                                 <span id="sub-lock-1" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
@@ -396,11 +396,11 @@
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Total:</span>
-                                    <input type="number" id="sub-val-1" value="10" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată a substatului">
+                                    <input type="number" id="sub-val-1" value="10" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată">
                                 </div>
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Plusare (▲):</span>
-                                    <input type="number" id="sub-plus-1" value="0" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea obținută din plusare (cea din paranteză)">
+                                    <input type="number" id="sub-plus-1" value="0" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea din paranteză">
                                 </div>
                             </div>
                         </div>
@@ -410,17 +410,17 @@
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#2</span>
                                 <select id="sub-stat-2" onchange="onSubstatChange(2)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
-                                    <option value="SPD" selected>Attack Speed (SPD)</option>
-                                    <option value="HP%">HP%</option>
-                                    <option value="ATK%">ATK%</option>
-                                    <option value="DEF%">DEF%</option>
-                                    <option value="CR%">Critical Rate%</option>
-                                    <option value="CD%">Critical Damage%</option>
-                                    <option value="RES%">Resistance%</option>
-                                    <option value="ACC%">Accuracy%</option>
-                                    <option value="Flat HP">Flat HP</option>
-                                    <option value="Flat ATK">Flat ATK</option>
-                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="SPD" selected>Viteză (SPD)</option>
+                                    <option value="HP%">Viață (HP%)</option>
+                                    <option value="ATK%">Atac (ATK%)</option>
+                                    <option value="DEF%">Apărare (DEF%)</option>
+                                    <option value="CR%">Rată Critică (CRI Rate%)</option>
+                                    <option value="CD%">Daune Critice (CRI Dmg%)</option>
+                                    <option value="RES%">Rezistență (RES%)</option>
+                                    <option value="ACC%">Acuratețe (ACC%)</option>
+                                    <option value="Flat HP">Viață Fixă (Flat HP)</option>
+                                    <option value="Flat ATK">Atac Fix (Flat ATK)</option>
+                                    <option value="Flat DEF">Apărare Fixă (Flat DEF)</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
                                 <span id="sub-lock-2" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
@@ -428,11 +428,11 @@
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Total:</span>
-                                    <input type="number" id="sub-val-2" value="14" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată a substatului">
+                                    <input type="number" id="sub-val-2" value="14" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată">
                                 </div>
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Plusare (▲):</span>
-                                    <input type="number" id="sub-plus-2" value="8" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea obținută din plusare (cea din paranteză)">
+                                    <input type="number" id="sub-plus-2" value="8" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea din paranteză">
                                 </div>
                             </div>
                         </div>
@@ -442,17 +442,17 @@
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#3</span>
                                 <select id="sub-stat-3" onchange="onSubstatChange(3)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
-                                    <option value="CR%" selected>Critical Rate%</option>
-                                    <option value="SPD">Attack Speed (SPD)</option>
-                                    <option value="HP%">HP%</option>
-                                    <option value="ATK%">ATK%</option>
-                                    <option value="DEF%">DEF%</option>
-                                    <option value="CD%">Critical Damage%</option>
-                                    <option value="RES%">Resistance%</option>
-                                    <option value="ACC%">Accuracy%</option>
-                                    <option value="Flat HP">Flat HP</option>
-                                    <option value="Flat ATK">Flat ATK</option>
-                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="CR%" selected>Rată Critică (CRI Rate%)</option>
+                                    <option value="SPD">Viteză (SPD)</option>
+                                    <option value="HP%">Viață (HP%)</option>
+                                    <option value="ATK%">Atac (ATK%)</option>
+                                    <option value="DEF%">Apărare (DEF%)</option>
+                                    <option value="CD%">Daune Critice (CRI Dmg%)</option>
+                                    <option value="RES%">Rezistență (RES%)</option>
+                                    <option value="ACC%">Acuratețe (ACC%)</option>
+                                    <option value="Flat HP">Viață Fixă (Flat HP)</option>
+                                    <option value="Flat ATK">Atac Fix (Flat ATK)</option>
+                                    <option value="Flat DEF">Apărare Fixă (Flat DEF)</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
                                 <span id="sub-lock-3" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
@@ -460,11 +460,11 @@
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Total:</span>
-                                    <input type="number" id="sub-val-3" value="12" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată a substatului">
+                                    <input type="number" id="sub-val-3" value="12" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată">
                                 </div>
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Plusare (▲):</span>
-                                    <input type="number" id="sub-plus-3" value="6" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea obținută din plusare (cea din paranteză)">
+                                    <input type="number" id="sub-plus-3" value="6" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea din paranteză">
                                 </div>
                             </div>
                         </div>
@@ -474,17 +474,17 @@
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#4</span>
                                 <select id="sub-stat-4" onchange="onSubstatChange(4)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
-                                    <option value="HP%" selected>HP%</option>
-                                    <option value="SPD">Attack Speed (SPD)</option>
-                                    <option value="ATK%">ATK%</option>
-                                    <option value="DEF%">DEF%</option>
-                                    <option value="CR%">Critical Rate%</option>
-                                    <option value="CD%">Critical Damage%</option>
-                                    <option value="RES%">Resistance%</option>
-                                    <option value="ACC%">Accuracy%</option>
-                                    <option value="Flat HP">Flat HP</option>
-                                    <option value="Flat ATK">Flat ATK</option>
-                                    <option value="Flat DEF">Flat DEF</option>
+                                    <option value="HP%" selected>Viață (HP%)</option>
+                                    <option value="SPD">Viteză (SPD)</option>
+                                    <option value="ATK%">Atac (ATK%)</option>
+                                    <option value="DEF%">Apărare (DEF%)</option>
+                                    <option value="CR%">Rată Critică (CRI Rate%)</option>
+                                    <option value="CD%">Daune Critice (CRI Dmg%)</option>
+                                    <option value="RES%">Rezistență (RES%)</option>
+                                    <option value="ACC%">Acuratețe (ACC%)</option>
+                                    <option value="Flat HP">Viață Fixă (Flat HP)</option>
+                                    <option value="Flat ATK">Atac Fix (Flat ATK)</option>
+                                    <option value="Flat DEF">Apărare Fixă (Flat DEF)</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
                                 <span id="sub-lock-4" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
@@ -492,11 +492,11 @@
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Total:</span>
-                                    <input type="number" id="sub-val-4" value="17" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată a substatului">
+                                    <input type="number" id="sub-val-4" value="17" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-slate-300 rounded-lg p-2 sm:p-2.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm" title="Valoarea totală afișată">
                                 </div>
                                 <div>
                                     <span class="block text-[10px] font-extrabold text-slate-400 sm:hidden mb-0.5">Plusare (▲):</span>
-                                    <input type="number" id="sub-plus-4" value="7" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea obținută din plusare (cea din paranteză)">
+                                    <input type="number" id="sub-plus-4" value="7" placeholder="Plusat (▲)" oninput="evaluateRune()" class="w-full bg-white text-xs sm:text-sm border border-emerald-300 rounded-lg p-2 sm:p-2.5 text-emerald-700 font-black text-center focus:ring-2 focus:ring-emerald-500 shadow-sm" title="Valoarea din paranteză">
                                 </div>
                             </div>
                         </div>
@@ -511,7 +511,7 @@
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden">
                     <div class="text-xs uppercase tracking-wider font-extrabold text-slate-500 mb-2 flex justify-between items-center">
                         <span>Previzualizare Runică Live</span>
-                        <span id="card-stars-display" class="text-amber-500 font-black text-sm">★★★★★★ (Ancient)</span>
+                        <span id="card-stars-display" class="text-amber-500 font-black text-sm">★★★★★★ (Antică)</span>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -527,8 +527,8 @@
 
                         <div class="w-full bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-1.5 text-xs">
                             <div class="flex justify-between items-baseline border-b border-slate-200 pb-1.5">
-                                <span id="live-main-title" class="font-black text-slate-900 text-sm">Flat DEF +118</span>
-                                <span class="text-[10px] text-slate-500 font-bold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Main Stat</span>
+                                <span id="live-main-title" class="font-black text-slate-900 text-sm">Apărare Fixă +118</span>
+                                <span class="text-[10px] text-slate-500 font-bold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Atribut Principal</span>
                             </div>
 
                             <div id="live-innate-row" class="text-purple-700 py-0.5 hidden border-b border-purple-100 font-extrabold">
@@ -551,15 +551,19 @@
                             <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800 font-black text-xs border border-cyan-300">
                                 Eficiență Reală: 0.0%
                             </span>
-                            <span id="raw-eff-badge" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 font-extrabold text-[10px] border border-slate-200" title="Eficiență brută SWOP">
+                            <span id="raw-eff-badge" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 font-extrabold text-[10px] border border-slate-200" title="Eficiență brută Com2uS">
                                 Brut: 0.0%
                             </span>
                         </div>
                     </div>
 
+                    <!-- NOTĂ SINERGIE SPECIFICĂ SETULUI (NOU ADĂUGAT CONFORM GHIDULUI) -->
+                    <div id="set-synergy-banner" class="p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold transition-all">
+                    </div>
+
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-bold flex items-center gap-2">
                         <span>⚠️</span>
-                        <span>Atenție: Runa conține <strong>2 sau mai multe substaturi plate</strong>! Mecanica jocului permite un singur Gem per rună, deci cel puțin un stat flat rămâne definitiv blocat ca „dead stat”.</span>
+                        <span>Atenție: Runa conține <strong>2 sau mai multe atribute fixe (flat)</strong>! Mecanica jocului permite un singur Gem per rună, deci cel puțin un stat flat rămâne definitiv blocat ca „dead stat”.</span>
                     </div>
 
                     <div id="verdict-banner" class="p-3 sm:p-3.5 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border leading-snug">
@@ -575,13 +579,13 @@
 
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-sky-800 font-black block mb-1 flex items-center gap-1.5">
-                                <span class="text-sky-500">🎯</span> Sinergie / Monștri PvE:
+                                <span class="text-sky-500">🎯</span> Sinergie Set & Monștri PvE:
                             </strong>
                             <p id="verdict-archetypes" class="text-slate-600 leading-relaxed font-bold"></p>
                         </div>
                     </div>
 
-                    <!-- 1. GEM ADVISOR (PRIMUL ÎN ORDINE PENTRU A IDENTIFICA SALVAREA DIN VÂNZARE) -->
+                    <!-- 1. GEM ADVISOR (PRIMUL ÎN ORDINE PENTRU A IDENTIFICA SALVAREA DIN SELL ÎN KEEP) -->
                     <div class="border border-cyan-200 rounded-xl p-3 sm:p-4 bg-cyan-50/40 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-cyan-200 pb-2">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -597,7 +601,7 @@
                     <div class="border border-purple-200 rounded-xl p-3 sm:p-4 bg-purple-50/40 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-purple-200 pb-2">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                                <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
+                                <span class="text-purple-600">🔄</span> CONSILIER REEVALUARE (PIETRE REAPPRAISAL)
                             </h3>
                             <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare</span>
                         </div>
@@ -609,7 +613,7 @@
                     <div class="border border-amber-300 rounded-xl p-3 sm:p-4 bg-amber-50/60 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-amber-200 pb-2">
                             <h3 class="font-black text-xs uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
-                                <span class="text-amber-600">✨</span> CONSILIER RUNE REFINEMENT (REAPLICARE PLUSĂRI)
+                                <span class="text-amber-600">✨</span> CONSILIER RAFINARE RUNE (RUNE REFINEMENT)
                             </h3>
                             <span id="refine-badge" class="text-[10px] bg-amber-200 text-amber-900 font-black px-2 py-0.5 rounded border border-amber-300">Evaluare</span>
                         </div>
@@ -622,10 +626,10 @@
             </div>
         </div>
 
-        <!-- STRATEGY GUIDE CARD WITH OFFICIAL TABLES -->
+        <!-- STRATEGY GUIDE CARD CU REGULI OFICIALE PENTRU CELE 23 DE SETURI -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
             <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: REGULI OFICIALE PVE, CONVERSIE, REAPPRAISAL & REFINEMENT
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: SINERGIE SETURI, CONVERSIE GEM, REEVALUARE & RAFINARE
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-4 text-xs text-slate-600">
@@ -634,7 +638,7 @@
                         <span>❌</span> Slot Par Flat
                     </strong>
                     <p class="leading-relaxed font-semibold">
-                        Dacă o rună are stat principal <strong>Flat HP, ATK sau DEF</strong> pe sloturile 2, 4 sau 6, este vânzare imediată. Procentele sunt obligatorii în PvE.
+                        Dacă o rună are stat principal <strong>Flat HP, ATK sau DEF</strong> pe sloturile 2, 4 sau 6, se vinde imediat. Procentele sunt obligatorii în PvE.
                     </p>
                 </div>
                 <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
@@ -642,20 +646,20 @@
                         <span>💎</span> Salvare prin Gem
                     </strong>
                     <p class="leading-relaxed font-semibold">
-                        Înlocuiește un substat fără plusări sau un flat stat. Dacă o conversie ridică eficiența peste pragul obiectivului, runa este salvată de la vânzare!
+                        Înlocuiește un substat fără plusări (▲0). Dacă o conversie ridică eficiența peste pragul de nivel, runa este salvată de la vânzare (SELL ➔ KEEP)!
                     </p>
                 </div>
                 <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-purple-700 font-black block text-sm flex items-center gap-1.5">
-                        <span>🔄</span> Când dai Reapp?
+                        <span>🔄</span> Reevaluare (Reapp)
                     </strong>
                     <p class="leading-relaxed font-semibold">
-                        Păstrează baze <strong>6★ Legend 2/4/6</strong> din seturi de top cu stat util. Reapp-ul schimbă atât substaturile, cât și plusările.
+                        Păstrează baze <strong>6★ Legendară 2/4/6</strong> din seturi de top (Swift, Violent, Will etc.). Reapp-ul schimbă atât substaturile, cât și plusările.
                     </p>
                 </div>
                 <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-amber-700 font-black block text-sm flex items-center gap-1.5">
-                        <span>✨</span> Rune Refinement
+                        <span>✨</span> Rafinare Rune (Refinement)
                     </strong>
                     <p class="leading-relaxed font-semibold">
                         Păstrează tipurile de substaturi și <strong>recalculează aleatoriu strict plusările</strong> (+12 minim). Incompatibil cu rune Intangible sau rune cu Gem aplicat!
@@ -667,18 +671,18 @@
             <div class="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-4">
                 <div>
                     <h4 class="font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <span>📜</span> Număr Oficial de Power-ups Reaplicate la Reappraisal & Rune Refinement (Com2uS)
+                        <span>📜</span> Număr Oficial de Îmbunătățiri Reaplicate la Reevaluare & Rafinare (Com2uS)
                     </h4>
                     <div class="overflow-x-auto">
                         <table class="w-full text-center border-collapse">
                             <thead>
                                 <tr class="bg-slate-200/80 text-slate-700 font-black">
                                     <th class="p-2 border border-slate-300">Raritate Inițială</th>
-                                    <th class="p-2 border border-slate-300">Normal</th>
-                                    <th class="p-2 border border-slate-300">Magic</th>
-                                    <th class="p-2 border border-slate-300">Rare</th>
-                                    <th class="p-2 border border-slate-300">Hero</th>
-                                    <th class="p-2 border border-slate-300 text-amber-700">Legend</th>
+                                    <th class="p-2 border border-slate-300">Comună (Normal)</th>
+                                    <th class="p-2 border border-slate-300">Magică (Magic)</th>
+                                    <th class="p-2 border border-slate-300">Rară (Rare)</th>
+                                    <th class="p-2 border border-slate-300">Eroică (Hero)</th>
+                                    <th class="p-2 border border-slate-300 text-amber-700">Legendară (Legend)</th>
                                 </tr>
                             </thead>
                             <tbody class="font-bold text-slate-600">
@@ -692,11 +696,11 @@
                                 </tr>
                                 <tr>
                                     <td class="p-2 border border-slate-300 font-black text-left">Îmbunătățiri Reaplicate (Power-ups)</td>
-                                    <td class="p-2 border border-slate-300">0-time</td>
-                                    <td class="p-2 border border-slate-300">1-time</td>
-                                    <td class="p-2 border border-slate-300">2-time</td>
-                                    <td class="p-2 border border-slate-300">3-time</td>
-                                    <td class="p-2 border border-slate-300 text-amber-700 font-black">4-time</td>
+                                    <td class="p-2 border border-slate-300">0 ori</td>
+                                    <td class="p-2 border border-slate-300">1 dată</td>
+                                    <td class="p-2 border border-slate-300">2 ori</td>
+                                    <td class="p-2 border border-slate-300">3 ori</td>
+                                    <td class="p-2 border border-slate-300 text-amber-700 font-black">4 ori</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -706,14 +710,14 @@
                 <!-- Tabel Valori Oficiale per Power-Up (1★ - 6★) conform imaginilor oficiale -->
                 <div>
                     <h4 class="font-black text-slate-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                        <span>📊</span> Valori Oficiale de Bază și Rulaj per Power-up conform Ghidului Oficial Com2uS
+                        <span>📊</span> Valori Oficiale de Bază și Rulaj per Îmbunătățire (Com2uS Official)
                     </h4>
                     <div class="overflow-x-auto">
                         <table class="w-full text-center border-collapse text-[11px]">
                             <thead>
                                 <tr class="bg-amber-100/70 text-amber-950 font-black">
                                     <th class="p-1.5 border border-slate-300">Grad (★)</th>
-                                    <th class="p-1.5 border border-slate-300">SPD</th>
+                                    <th class="p-1.5 border border-slate-300">Viteză (SPD)</th>
                                     <th class="p-1.5 border border-slate-300">HP% / ATK% / DEF%</th>
                                     <th class="p-1.5 border border-slate-300">CRI Rate%</th>
                                     <th class="p-1.5 border border-slate-300">CRI Dmg%</th>
@@ -734,7 +738,7 @@
                                     <td class="p-1.5 border border-slate-300">10 ~ 20</td>
                                 </tr>
                                 <tr class="bg-cyan-50/60">
-                                    <td class="p-1.5 border border-slate-300 font-black text-cyan-800">6★ Ancient</td>
+                                    <td class="p-1.5 border border-slate-300 font-black text-cyan-800">6★ Antică (Ancient)</td>
                                     <td class="p-1.5 border border-slate-300 text-cyan-800 font-extrabold">5 ~ 7</td>
                                     <td class="p-1.5 border border-slate-300">6% ~ 10%</td>
                                     <td class="p-1.5 border border-slate-300">5% ~ 7%</td>
@@ -744,7 +748,7 @@
                                     <td class="p-1.5 border border-slate-300">12 ~ 24</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-1.5 border border-slate-300 font-black bg-slate-100">5★</td>
+                                    <td class="p-1.5 border border-slate-300 font-black bg-slate-100">5★ (Early)</td>
                                     <td class="p-1.5 border border-slate-300">3 ~ 5</td>
                                     <td class="p-1.5 border border-slate-300">4% ~ 7%</td>
                                     <td class="p-1.5 border border-slate-300">3% ~ 5%</td>
@@ -771,46 +775,262 @@
     <script>
         let currentSlot = 3;
 
-        // Intervalele oficiale de rulare per steluță conform capturilor oficiale Com2uS
-        const officialRollRanges = {
-            '6-star': {
-                'SPD': { min: 4, max: 6 },
-                'HP%': { min: 5, max: 8 },
-                'ATK%': { min: 5, max: 8 },
-                'DEF%': { min: 5, max: 8 },
-                'CR%': { min: 4, max: 6 },
-                'CD%': { min: 4, max: 7 },
-                'RES%': { min: 4, max: 8 },
-                'ACC%': { min: 4, max: 8 },
-                'Flat HP': { min: 135, max: 375 },
-                'Flat ATK': { min: 10, max: 20 },
-                'Flat DEF': { min: 10, max: 20 }
+        // ==========================================
+        // GHIDUL OFICIAL PENTRU TOATE CELE 23 DE SETURI
+        // ==========================================
+        const RUNE_SETS_GUIDE = {
+            'Energy': {
+                pieces: 2, bonus: 'Viață (HP) +15%', role: 'Defensiv / Sustain / Tanc',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'ATK%'],
+                    6: ['HP%', 'DEF%', 'ACC%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
+                prioritySub: 'SPD',
+                notes: 'Set defensiv pentru sustain. Păstrează cu SPD și substaturi de supraviețuire. Piesele ofensive sunt utile ca Broken Set.'
             },
-            '5-star': {
-                'SPD': { min: 3, max: 5 },
-                'HP%': { min: 4, max: 7 },
-                'ATK%': { min: 4, max: 7 },
-                'DEF%': { min: 4, max: 7 },
-                'CR%': { min: 3, max: 5 },
-                'CD%': { min: 3, max: 5 },
-                'RES%': { min: 3, max: 7 },
-                'ACC%': { min: 3, max: 7 },
-                'Flat HP': { min: 90, max: 300 },
-                'Flat ATK': { min: 8, max: 15 },
-                'Flat DEF': { min: 8, max: 15 }
+            'Guard': {
+                pieces: 2, bonus: 'Apărare (DEF) +15%', role: 'Defensiv / Bruiser DEF',
+                evenMain: {
+                    2: ['SPD', 'DEF%', 'HP%'],
+                    4: ['DEF%', 'HP%', 'ATK%'],
+                    6: ['DEF%', 'HP%', 'ACC%']
+                },
+                desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'ACC%'],
+                prioritySub: 'DEF%',
+                notes: 'Ideal pentru monștri cu scalare pe DEF și tankuri. Păstrează în special cu SPD și DEF%.'
             },
-            '6-ancient': {
-                'SPD': { min: 5, max: 7 },
-                'HP%': { min: 6, max: 10 },
-                'ATK%': { min: 6, max: 10 },
-                'DEF%': { min: 6, max: 10 },
-                'CR%': { min: 5, max: 7 },
-                'CD%': { min: 5, max: 9 },
-                'RES%': { min: 6, max: 10 },
-                'ACC%': { min: 6, max: 10 },
-                'Flat HP': { min: 165, max: 435 },
-                'Flat ATK': { min: 12, max: 24 },
-                'Flat DEF': { min: 12, max: 24 }
+            'Swift': {
+                pieces: 4, bonus: 'Viteză (SPD) +25%', role: 'Opener / Turn Order / Starter',
+                evenMain: {
+                    2: ['SPD'],
+                    4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'],
+                    6: ['ATK%', 'HP%', 'DEF%', 'ACC%']
+                },
+                desiredSubs: ['SPD', 'ATK%', 'HP%', 'DEF%', 'CR%', 'CD%', 'ACC%'],
+                prioritySub: 'SPD',
+                notes: 'Set esențial de inițiere. Viteza (SPD) este aproape obligatorie pe substaturi.'
+            },
+            'Blade': {
+                pieces: 2, bonus: 'Rată Critică (CRI Rate) +12%', role: 'Ofensiv / Damage Dealer / Nuker',
+                evenMain: {
+                    2: ['SPD', 'ATK%', 'HP%'],
+                    4: ['CD%', 'CR%', 'ATK%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD'],
+                prioritySub: 'CR%',
+                notes: 'Set ofensiv pentru asigurarea pragului de 100% CRI Rate. Caută pachete pure de atac.'
+            },
+            'Rage': {
+                pieces: 4, bonus: 'Daune Critice (CRI Dmg) +40%', role: 'Nuker Extrem / PvE Burst',
+                evenMain: {
+                    2: ['ATK%', 'SPD', 'HP%'],
+                    4: ['CD%', 'CR%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['CD%', 'CR%', 'ATK%', 'SPD'],
+                prioritySub: 'CD%',
+                notes: 'Cea mai puternică opțiune pentru nukeri. Slot 4 CD% este prioritar absolut.'
+            },
+            'Focus': {
+                pieces: 2, bonus: 'Acuratețe (ACC) +20%', role: 'Control / Debuffer / CC',
+                evenMain: {
+                    2: ['SPD', 'ATK%', 'HP%'],
+                    4: ['DEF%', 'HP%', 'ATK%'],
+                    6: ['ACC%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'ATK%'],
+                prioritySub: 'ACC%',
+                notes: 'Util pentru control și aplicarea sigură a debuff-urilor. ACC și SPD sunt esențiale.'
+            },
+            'Endure': {
+                pieces: 2, bonus: 'Rezistență (RES) +20%', role: 'Sustain / Tanc / Suport Rezistent',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'RES%'],
+                    6: ['RES%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
+                prioritySub: 'RES%',
+                notes: 'Asigură rezistență împotriva debuff-urilor. Păstrează cu SPD și pachet defensiv.'
+            },
+            'Fatal': {
+                pieces: 4, bonus: 'Atac (ATK) +35%', role: 'Damage Dealer / Bomber / Cleave',
+                evenMain: {
+                    2: ['ATK%', 'SPD', 'HP%'],
+                    4: ['CD%', 'CR%', 'ATK%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'HP%', 'DEF%'],
+                prioritySub: 'ATK%',
+                notes: 'Ideal pentru nukeri și bomberi (unde ATK% pur și ACC% contează fără CR).'
+            },
+            'Despair': {
+                pieces: 4, bonus: '25% Șansă de Stun', role: 'Control AOE / Stripper / Debuffer',
+                evenMain: {
+                    2: ['SPD', 'ATK%', 'HP%'],
+                    4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'],
+                    6: ['HP%', 'DEF%', 'ACC%']
+                },
+                desiredSubs: ['SPD', 'ACC%', 'HP%', 'DEF%', 'CR%', 'CD%'],
+                prioritySub: 'SPD',
+                notes: 'Excelent pentru control și atacuri pe zonă (AOE). SPD și ACC sunt vitale.'
+            },
+            'Vampire': {
+                pieces: 4, bonus: 'Vindecare 35% din Daune', role: 'Bruiser Sustain / Solo Farmer',
+                evenMain: {
+                    2: ['ATK%', 'SPD', 'HP%'],
+                    4: ['CD%', 'CR%', 'HP%', 'DEF%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'HP%', 'DEF%'],
+                prioritySub: 'CR%',
+                notes: 'Unități care rezistă prin daune repetate (bruiseri). Necesită atât ofensivă, cât și sustain.'
+            },
+            'Violent': {
+                pieces: 4, bonus: '22% Șansă Turn Suplimentar', role: 'Universal Elită / Toate Rolurile',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%', 'ATK%'],
+                    4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'],
+                    6: ['HP%', 'DEF%', 'ATK%', 'ACC%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'],
+                prioritySub: 'SPD',
+                notes: 'Cel mai valoros și versatil set din joc. Păstrează mai tolerant dacă are SPD sau 3+ substaturi coerente.'
+            },
+            'Nemesis': {
+                pieces: 2, bonus: '+4% ATB la 7% HP Pierdut', role: 'Interrupt / Healer / Suport RTA',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'RES%'],
+                    6: ['HP%', 'DEF%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
+                prioritySub: 'SPD',
+                notes: 'Ideal pe vindecători și tancuri pentru a tăia rândul inamicului după ce iau damage.'
+            },
+            'Will': {
+                pieces: 2, bonus: 'Imunitate 1 Turn', role: 'Protecție Tactică / PvP & PvE',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'CR%', 'CD%'],
+                    6: ['HP%', 'DEF%', 'ACC%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%', 'CR%'],
+                prioritySub: 'SPD',
+                notes: 'Set de top. Nu vinde ușor; chiar și fără SPD, dacă are statistici mari, este de păstrat.'
+            },
+            'Shield': {
+                pieces: 2, bonus: 'Scut 15% HP Bază Echipă', role: 'Protecție Echipă / Cleave Safe',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'ACC%'],
+                    6: ['HP%', 'DEF%', 'RES%']
+                },
+                desiredSubs: ['HP%', 'SPD', 'DEF%', 'RES%'],
+                prioritySub: 'HP%',
+                notes: 'Scutul crește direct proporțional cu viața maximă (HP) a monstrului purtător.'
+            },
+            'Revenge': {
+                pieces: 2, bonus: '15% Șansă Contraatac', role: 'Counter / Bruiser / Debuffer pe S1',
+                evenMain: {
+                    2: ['SPD', 'ATK%', 'HP%', 'DEF%'],
+                    4: ['CD%', 'CR%', 'HP%', 'DEF%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%'],
+                prioritySub: 'CR%',
+                notes: 'Valoare maximă pe monștri cu efecte puternice pe skill-ul 1 (stun, def-break, heal block).'
+            },
+            'Destroy': {
+                pieces: 2, bonus: 'Distruge până la 4% Max HP/turn', role: 'Bruiser Anti-Tank / PvP Long Match',
+                evenMain: {
+                    2: ['HP%', 'DEF%', 'SPD', 'ATK%'],
+                    4: ['HP%', 'DEF%', 'CR%', 'CD%'],
+                    6: ['HP%', 'DEF%', 'ATK%']
+                },
+                desiredSubs: ['HP%', 'DEF%', 'SPD', 'ATK%', 'CR%'],
+                prioritySub: 'HP%',
+                notes: 'Esențial pentru a doborî echipe de tancuri/heals în lupte lungi. Foarte bun și ca broken set.'
+            },
+            'Fight': {
+                pieces: 2, bonus: 'Atac (ATK) Aliat +8%', role: 'Team Aura / Speed Teams PvE / Cleave',
+                evenMain: {
+                    2: ['SPD', 'ATK%', 'HP%'],
+                    4: ['ATK%', 'CR%', 'CD%'],
+                    6: ['ATK%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['SPD', 'ATK%', 'CR%', 'CD%', 'HP%'],
+                prioritySub: 'ATK%',
+                notes: 'Set de aură de echipă pentru echipe rapide de Cairos/Rift/PvE. Stivuibil 2+2+2.'
+            },
+            'Determination': {
+                pieces: 2, bonus: 'Apărare (DEF) Aliat +8%', role: 'Team Aura / Solo R5 / Tank Support',
+                evenMain: {
+                    2: ['SPD', 'DEF%', 'HP%'],
+                    4: ['DEF%', 'HP%', 'CR%'],
+                    6: ['DEF%', 'HP%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'CR%'],
+                prioritySub: 'DEF%',
+                notes: 'Sporește rezistența echipei; ideal pentru front-line în Solo R5 și unități cu DEF-scaling.'
+            },
+            'Enhance': {
+                pieces: 2, bonus: 'Viață (HP) Aliat +8%', role: 'Team Aura / Suport & Sustain Echipă',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'ATK%'],
+                    6: ['HP%', 'DEF%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
+                prioritySub: 'HP%',
+                notes: 'Mărește viața întregii echipe. Excelent pentru echipe de Rift Beasts sau suport.'
+            },
+            'Accuracy': {
+                pieces: 2, bonus: 'Acuratețe (ACC) Aliat +10%', role: 'Team Aura / Debuff Consistency',
+                evenMain: {
+                    2: ['SPD', 'ACC%', 'HP%'],
+                    4: ['ACC%', 'HP%', 'DEF%'],
+                    6: ['ACC%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'RES%'],
+                prioritySub: 'ACC%',
+                notes: 'Asigură acuratețea necesară pentru debuff-uri fără a sacrifica rune pe nukeri.'
+            },
+            'Tolerance': {
+                pieces: 2, bonus: 'Rezistență (RES) Aliat +10%', role: 'Team Aura / Raid & PvP Resist',
+                evenMain: {
+                    2: ['SPD', 'RES%', 'HP%'],
+                    4: ['RES%', 'HP%', 'DEF%'],
+                    6: ['RES%', 'HP%', 'DEF%']
+                },
+                desiredSubs: ['RES%', 'SPD', 'HP%', 'DEF%', 'ACC%'],
+                prioritySub: 'RES%',
+                notes: 'Ușurează atingerea pragului de 100% Resistance pe toată echipa de Raid (R5).'
+            },
+            'Seal': {
+                pieces: 2, bonus: '15% Șansă Sigilare (Seal)', role: 'PvP Disruptor / Set Lock',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%', 'ACC%'],
+                    6: ['HP%', 'DEF%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'ACC%', 'RES%'],
+                prioritySub: 'SPD',
+                notes: 'Set tactic de PvP ce blochează efectele runelor adverse (Despair, Vio, Nemesis etc.).'
+            },
+            'Intangible': {
+                pieces: 1, bonus: 'Completează automat un set lipsă', role: 'Wildcard Strategic Suprem',
+                evenMain: {
+                    2: ['SPD', 'HP%', 'DEF%', 'ATK%'],
+                    4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'],
+                    6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%']
+                },
+                desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'],
+                prioritySub: 'SPD',
+                notes: 'Runa wildcard! Nu poate fi reaplicată (Reapp interzis) și nici rafinată (Refinement interzis).'
             }
         };
 
@@ -834,33 +1054,14 @@
             return { 'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20 };
         }
 
-        // Valori maxime obținute prin Gem Legend oficial (Com2uS)
         function getGemMaxVal(type, isAncient) {
             const standard = {
-                'SPD': 10,
-                'HP%': 13,
-                'ATK%': 13,
-                'DEF%': 13,
-                'CR%': 9,
-                'CD%': 10,
-                'RES%': 11,
-                'ACC%': 11,
-                'Flat HP': 580,
-                'Flat ATK': 40,
-                'Flat DEF': 40
+                'SPD': 10, 'HP%': 13, 'ATK%': 13, 'DEF%': 13, 'CR%': 9, 'CD%': 10, 'RES%': 11, 'ACC%': 11,
+                'Flat HP': 580, 'Flat ATK': 40, 'Flat DEF': 40
             };
             const ancient = {
-                'SPD': 12,
-                'HP%': 15,
-                'ATK%': 15,
-                'DEF%': 15,
-                'CR%': 10,
-                'CD%': 12,
-                'RES%': 12,
-                'ACC%': 12,
-                'Flat HP': 660,
-                'Flat ATK': 48,
-                'Flat DEF': 48
+                'SPD': 12, 'HP%': 15, 'ATK%': 15, 'DEF%': 15, 'CR%': 10, 'CD%': 12, 'RES%': 12, 'ACC%': 12,
+                'Flat HP': 660, 'Flat ATK': 48, 'Flat DEF': 48
             };
             return isAncient ? (ancient[type] || 10) : (standard[type] || 8);
         }
@@ -885,37 +1086,37 @@
         };
 
         const slotMainTypes = {
-            1: [{ type: "Flat ATK", name: "Flat Attack (ATK)" }],
+            1: [{ type: "Flat ATK", name: "Atac Fix (Flat ATK)" }],
             2: [
-                { type: "SPD", name: "Attack Speed (SPD)" },
-                { type: "HP%", name: "HP Percentage (HP%)" },
-                { type: "ATK%", name: "Attack Percentage (ATK%)" },
-                { type: "DEF%", name: "Defense Percentage (DEF%)" },
-                { type: "Flat HP", name: "Flat HP [JUNK]" },
-                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
-                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
+                { type: "SPD", name: "Viteză (SPD)" },
+                { type: "HP%", name: "Viață (HP%)" },
+                { type: "ATK%", name: "Atac (ATK%)" },
+                { type: "DEF%", name: "Apărare (DEF%)" },
+                { type: "Flat HP", name: "Viață Fixă (Flat HP) [Junk]" },
+                { type: "Flat ATK", name: "Atac Fix (Flat ATK) [Junk]" },
+                { type: "Flat DEF", name: "Apărare Fixă (Flat DEF) [Junk]" }
             ],
-            3: [{ type: "Flat DEF", name: "Flat Defense (DEF)" }],
+            3: [{ type: "Flat DEF", name: "Apărare Fixă (Flat DEF)" }],
             4: [
-                { type: "CD%", name: "Critical Damage (CD%)" },
-                { type: "CR%", name: "Critical Rate (CR%)" },
-                { type: "HP%", name: "HP Percentage (HP%)" },
-                { type: "DEF%", name: "Defense Percentage (DEF%)" },
-                { type: "ATK%", name: "Attack Percentage (ATK%)" },
-                { type: "Flat HP", name: "Flat HP [JUNK]" },
-                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
-                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
+                { type: "CD%", name: "Daune Critice (CRI Dmg%)" },
+                { type: "CR%", name: "Rată Critică (CRI Rate%)" },
+                { type: "HP%", name: "Viață (HP%)" },
+                { type: "DEF%", name: "Apărare (DEF%)" },
+                { type: "ATK%", name: "Atac (ATK%)" },
+                { type: "Flat HP", name: "Viață Fixă (Flat HP) [Junk]" },
+                { type: "Flat ATK", name: "Atac Fix (Flat ATK) [Junk]" },
+                { type: "Flat DEF", name: "Apărare Fixă (Flat DEF) [Junk]" }
             ],
-            5: [{ type: "Flat HP", name: "Flat HP" }],
+            5: [{ type: "Flat HP", name: "Viață Fixă (Flat HP)" }],
             6: [
-                { type: "HP%", name: "HP Percentage (HP%)" },
-                { type: "DEF%", name: "Defense Percentage (DEF%)" },
-                { type: "ATK%", name: "Attack Percentage (ATK%)" },
-                { type: "ACC%", name: "Accuracy (ACC%)" },
-                { type: "RES%", name: "Resistance (RES%)" },
-                { type: "Flat HP", name: "Flat HP [JUNK]" },
-                { type: "Flat ATK", name: "Flat ATK [JUNK]" },
-                { type: "Flat DEF", name: "Flat DEF [JUNK]" }
+                { type: "HP%", name: "Viață (HP%)" },
+                { type: "DEF%", name: "Apărare (DEF%)" },
+                { type: "ATK%", name: "Atac (ATK%)" },
+                { type: "ACC%", name: "Acuratețe (ACC%)" },
+                { type: "RES%", name: "Rezistență (RES%)" },
+                { type: "Flat HP", name: "Viață Fixă (Flat HP) [Junk]" },
+                { type: "Flat ATK", name: "Atac Fix (Flat ATK) [Junk]" },
+                { type: "Flat DEF", name: "Apărare Fixă (Flat DEF) [Junk]" }
             ]
         };
 
@@ -939,7 +1140,6 @@
             } else if (rarity === 'Hero') {
                 if (lvl >= 12) grants++;
             }
-            
             return Math.min(4, baseSubs + grants);
         }
 
@@ -955,24 +1155,9 @@
         function getSubstatUnlockLevel(rarity, subIndex) {
             if (rarity === 'Legend') return null;
             if (rarity === 'Hero') return subIndex === 4 ? '+12' : null;
-            if (rarity === 'Rare') {
-                if (subIndex === 3) return '+9';
-                if (subIndex === 4) return '+12';
-                return null;
-            }
-            if (rarity === 'Magic') {
-                if (subIndex === 2) return '+6';
-                if (subIndex === 3) return '+9';
-                if (subIndex === 4) return '+12';
-                return null;
-            }
-            if (rarity === 'Normal') {
-                if (subIndex === 1) return '+3';
-                if (subIndex === 2) return '+6';
-                if (subIndex === 3) return '+9';
-                if (subIndex === 4) return '+12';
-                return null;
-            }
+            if (rarity === 'Rare') return subIndex === 3 ? '+9' : (subIndex === 4 ? '+12' : null);
+            if (rarity === 'Magic') return subIndex === 2 ? '+6' : (subIndex === 3 ? '+9' : (subIndex === 4 ? '+12' : null));
+            if (rarity === 'Normal') return subIndex === 1 ? '+3' : (subIndex === 2 ? '+6' : (subIndex === 3 ? '+9' : (subIndex === 4 ? '+12' : null)));
             return null;
         }
 
@@ -1000,7 +1185,7 @@
                             if (!canRoll) {
                                 inputPlus.value = 0;
                                 inputPlus.disabled = true;
-                                inputPlus.title = "Substat acordat (Grant) - nu poate avea plusări";
+                                inputPlus.title = "Substat acordat (Grant) - fără plusări";
                                 inputPlus.classList.add('bg-slate-100', 'text-slate-400');
                             } else {
                                 inputPlus.disabled = false;
@@ -1070,7 +1255,7 @@
             const activeBtn = document.getElementById(`slot-btn-${slotNum}`);
             if (activeBtn) activeBtn.classList.add('active');
 
-            document.getElementById('main-stat-badge').innerText = [1, 3, 5].includes(slotNum) ? `Slot ${slotNum} (Stat Fix)` : `Slot ${slotNum} (Stat Variabil)`;
+            document.getElementById('main-stat-badge').innerText = [1, 3, 5].includes(slotNum) ? `Slot ${slotNum} (Fix)` : `Slot ${slotNum} (Variabil)`;
             
             updateMainStatControls(false);
             onSlotExclusionCheck();
@@ -1121,6 +1306,10 @@
                     subSelect.value = 'None';
                 }
             }
+        }
+
+        function onSetChange() {
+            evaluateRune();
         }
 
         function onMainStatTypeChange() {
@@ -1186,7 +1375,7 @@
             if (stars === '5-star') {
                 starsDisplay.innerText = '★★★★★';
             } else if (stars === '6-ancient') {
-                starsDisplay.innerText = '★★★★★★ (Ancient)';
+                starsDisplay.innerText = '★★★★★★ (Antică)';
             } else {
                 starsDisplay.innerText = '★★★★★★';
             }
@@ -1227,6 +1416,75 @@
             }
         }
 
+        // ==========================================
+        // ANALIZATOR DE SINERGIE SET RUNIC (23 SETURI)
+        // ==========================================
+        function analyzeSetSynergy(set, slot, mainType, subs) {
+            const guide = RUNE_SETS_GUIDE[set];
+            if (!guide) return { level: 'OK', label: 'Set Standard', desc: 'Analiză generală.' };
+
+            const isEven = [2, 4, 6].includes(slot);
+            let mainIsRecommended = true;
+
+            if (isEven && guide.evenMain && guide.evenMain[slot]) {
+                mainIsRecommended = guide.evenMain[slot].includes(mainType);
+            }
+
+            const subTypes = subs.map(s => s.type);
+            let matchingDesired = 0;
+            subTypes.forEach(st => {
+                if (guide.desiredSubs.includes(st)) matchingDesired++;
+            });
+
+            const hasPrioritySub = subTypes.includes(guide.prioritySub);
+            const totalSubs = subs.length || 1;
+            const matchRatio = matchingDesired / totalSubs;
+
+            // Verificare incompatibilitate gravă
+            if (isEven && !mainIsRecommended && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
+                return {
+                    level: 'TRASH',
+                    color: 'bg-rose-100 text-rose-800 border-rose-300',
+                    label: `❌ Stat Principal Inutil pe Slot ${slot}`,
+                    desc: `În conținutul PvE, statul ${mainType} compromite piesa. Setul ${set} are nevoie de procente pe slotul ${slot}.`
+                };
+            }
+
+            if (isEven && !mainIsRecommended) {
+                return {
+                    level: 'OFF_META',
+                    color: 'bg-amber-100 text-amber-900 border-amber-300',
+                    label: `⚠️ Main Stat Neobișnuit pt. ${set}`,
+                    desc: `Ghidul oficial pentru ${set} recomandă pe Slot ${slot}: <strong>${guide.evenMain[slot].join(' / ')}</strong>. Statul actual (${mainType}) este util doar în build-uri specifice sau Broken Set.`
+                };
+            }
+
+            if (matchRatio >= 0.75 || (matchingDesired >= 3 && hasPrioritySub)) {
+                return {
+                    level: 'EXCELLENT',
+                    color: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+                    label: `💎 Sinergie Perfectă cu Setul ${set}`,
+                    desc: `Atributele secundare (${subTypes.join(', ')}) reflectă exact cerințele setului ${set} (${guide.bonus}): <strong>${guide.notes}</strong>`
+                };
+            }
+
+            if (matchRatio >= 0.5) {
+                return {
+                    level: 'GOOD',
+                    color: 'bg-sky-100 text-sky-900 border-sky-300',
+                    label: `✅ Sinergie Bună cu Setul ${set}`,
+                    desc: `Piesa conține atribute căutate (${guide.desiredSubs.slice(0, 3).join(', ')}). Asigură rolul de: ${guide.role}.`
+                };
+            }
+
+            return {
+                level: 'BROKEN',
+                color: 'bg-purple-100 text-purple-900 border-purple-300',
+                label: `🧩 Profil Broken Set pt. ${set}`,
+                desc: `Substaturile nu sunt ideale exclusiv pentru setul ${set}, însă pot fi folosite cu succes ca Broken Set dacă valorile plusărilor sunt mari.`
+            };
+        }
+
         function checkMustKeepMainStat(set, slot, mainType) {
             const isEvenSlot = [2, 4, 6].includes(slot);
             if (!isEvenSlot) return false;
@@ -1235,30 +1493,13 @@
             const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal', 'Nemesis', 'Revenge'];
             if (!primeSets.includes(set)) return false;
 
-            if (slot === 2) {
-                if (['Swift', 'Violent', 'Will', 'Despair'].includes(set) && ['SPD', 'HP%', 'ATK%'].includes(mainType)) return true;
-                if (['Rage', 'Fatal'].includes(set) && ['ATK%', 'SPD'].includes(mainType)) return true;
-                if (['Fight', 'Nemesis', 'Revenge', 'Seal'].includes(set) && ['SPD', 'HP%', 'DEF%', 'ATK%'].includes(mainType)) return true;
+            const guide = RUNE_SETS_GUIDE[set];
+            if (guide && guide.evenMain && guide.evenMain[slot] && guide.evenMain[slot].includes(mainType)) {
+                return true;
             }
-
-            if (slot === 4) {
-                if (['Violent', 'Will', 'Despair', 'Swift'].includes(set) && ['CD%', 'HP%', 'CR%', 'DEF%'].includes(mainType)) return true;
-                if (['Rage', 'Fatal', 'Blade'].includes(set) && ['CD%', 'CR%', 'ATK%'].includes(mainType)) return true;
-                if (['Fight', 'Nemesis', 'Seal'].includes(set) && ['HP%', 'CD%', 'DEF%'].includes(mainType)) return true;
-            }
-
-            if (slot === 6) {
-                if (['Violent', 'Swift', 'Will', 'Despair'].includes(set) && ['HP%', 'ATK%', 'ACC%', 'DEF%'].includes(mainType)) return true;
-                if (['Rage', 'Fatal'].includes(set) && ['ATK%', 'HP%'].includes(mainType)) return true;
-                if (['Fight', 'Nemesis', 'Seal'].includes(set) && ['HP%', 'DEF%', 'ATK%', 'ACC%'].includes(mainType)) return true;
-            }
-
             return false;
         }
 
-        // ==========================================
-        // MOTOR DE CALCUL EFICIENȚĂ & SIMULARE SALVARE
-        // ==========================================
         function calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount) {
             const table = isAncient ? maxAncientRolls : maxStandardRolls;
             let rawPoints = 1.0;
@@ -1275,7 +1516,6 @@
                 if(table[s.type]) {
                     const ratio = s.val / table[s.type];
                     rawPoints += ratio;
-
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) {
                         combatPoints += (ratio * 0.35);
                     } else {
@@ -1298,6 +1538,7 @@
         function computeVerdict(ctx) {
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
+            const guide = RUNE_SETS_GUIDE[ctx.set] || {};
 
             if(ctx.stars === '5-star') {
                 if(ctx.userTier === 'early' && ctx.combatEfficiency >= 65) {
@@ -1321,9 +1562,9 @@
             if(isEvenSlot && isFlatMain) {
                 return {
                     status: 'SELL',
-                    title: 'VINDE IMEDIAT (STAT PRINCIPAL FLAT PE SLOT PAR)',
+                    title: 'VINDE IMEDIAT (ATRIBUT PRINCIPAL FIX PE SLOT PAR)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `În conținutul PvE, statul principal procentual (+63% HP/ATK/DEF, +58% CR%, +80% CD%) este vital. O rună flat pe slotul ${ctx.slot} compromite grav monstrul.`,
+                    reasons: `În conținutul PvE, statul principal procentual (+63% HP/ATK/DEF, +58% CRI Rate%, +80% CRI Dmg%) este vital. O rună cu stat fix pe slotul ${ctx.slot} compromite grav monstrul.`,
                     archetypes: 'Niciun monstru de PvE nu este eficient cu stat principal flat pe slot par.'
                 };
             }
@@ -1332,10 +1573,10 @@
                 const rolledStatsDesc = ctx.flatWithRolls.map(f => `${f.type} (+${f.val}${f.plusVal > 0 ? ', ▲' + f.plusVal : ''})`).join(', ');
                 return {
                     status: 'SELL',
-                    title: 'VINDE IMEDIAT (PLUSĂRI ABSORBITE ÎN FLAT STAT)',
+                    title: 'VINDE IMEDIAT (PLUSĂRI ABSORBITE ÎN STAT FIX)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `Runa are plusări intrate direct în: <strong>${rolledStatsDesc}</strong>. Notă: Dacă substaturile procentuale sunt bune, poți lua în calcul <strong>Rune Refinement</strong> sau o conversie prin <strong>Gem</strong> dacă piesa devine eficientă!`,
-                    archetypes: 'Rulaj eșuat la power-up. Vânzare recomandată dacă nu poate fi salvată.'
+                    reasons: `Runa are plusări intrate direct în atribute fixe: <strong>${rolledStatsDesc}</strong>. Se recomandă vânzarea (sau Rafinare Rune dacă baza este excepțională).`,
+                    archetypes: 'Rulaj eșuat la îmbunătățire.'
                 };
             }
 
@@ -1345,7 +1586,7 @@
                         status: 'ROLL',
                         title: 'TESTEAZĂ LA +6 (VERIFICĂ DACĂ EVITĂ FLAT-URILE)',
                         color: 'bg-amber-50 text-amber-900 border-amber-300',
-                        reasons: 'Runa conține 2 substaturi plate periculoase. Ridic-o STRICT la +6; dacă valorile flat primesc plusări, vinde-o imediat!',
+                        reasons: 'Runa conține 2 substaturi fixe periculoase. Ridic-o STRICT la +6; dacă valorile flat primesc plusări, vinde-o imediat!',
                         archetypes: 'Test de siguranță la +6.'
                     };
                 }
@@ -1354,7 +1595,7 @@
                     status: 'SELL',
                     title: 'VINDE IMEDIAT (2+ FLAT SUBSTATS - DEAD STAT BLOCAT)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `Runa conține ${ctx.flatCount} substaturi plate. Deoarece poți înlocui doar 1 singur stat prin Gem, celălalt va rămâne un „dead stat” definitiv.`,
+                    reasons: `Runa conține ${ctx.flatCount} atribute fixe. Deoarece poți înlocui doar 1 singur stat prin Gem, celălalt va rămâne un stat mort definitiv.`,
                     archetypes: 'Vânzare recomandată.'
                 };
             }
@@ -1362,9 +1603,9 @@
             if (ctx.totalSpeed >= 24) {
                 return {
                     status: 'KEEP',
-                    title: `PĂSTREAZĂ OBLIGATORIU: ★ QUAD ROLL SPEED (+${ctx.totalSpeed} SPD)!`,
+                    title: `PĂSTREAZĂ OBLIGATORIU: ★ QUAD ROLL VITEZĂ (+${ctx.totalSpeed} SPD)!`,
                     color: 'bg-emerald-50 text-emerald-950 border-emerald-400',
-                    reasons: `Runa a atins o viteză excepțională de **+${ctx.totalSpeed} SPD**. Această piesă este de o valoare inestimabilă pentru turn order și speed-tuning.`,
+                    reasons: `Runa a atins o viteză excepțională de **+${ctx.totalSpeed} SPD**. Piesă de elită pentru turn order și speed-tuning.`,
                     archetypes: 'Bufferi, Cleaveri și starteri de viteză (Galleon, Loren, Spectra, Eshir).'
                 };
             }
@@ -1372,9 +1613,9 @@
             if (ctx.totalSpeed >= 17) {
                 return {
                     status: 'KEEP',
-                    title: `PĂSTREAZĂ (TRIPLE ROLL SPEED: +${ctx.totalSpeed} SPD)`,
+                    title: `PĂSTREAZĂ (TRIPLE ROLL VITEZĂ: +${ctx.totalSpeed} SPD)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Runa oferă o viteză excelentă de **+${ctx.totalSpeed} SPD**. Asigură depășirea oricărui prag critic de viteză în dungeon-uri.`,
+                    reasons: `Runa oferă o viteză excelentă de **+${ctx.totalSpeed} SPD**. Asigură depășirea oricărui prag critic de viteză.`,
                     archetypes: 'Def-breakers, Atk Bufferi și boosteri de turn order.'
                 };
             }
@@ -1386,7 +1627,7 @@
                         title: 'TESTEAZĂ LA +6 (POTENȚIAL SINERGIC RIDICAT)',
                         color: 'bg-sky-50 text-sky-900 border-sky-300',
                         reasons: 'Substaturile inițiale au o sinergie bună. Ridic-o la nivelul +6 pentru a vedea calitatea următoarelor plusări.',
-                        archetypes: 'Potențial Nuker de Abyss sau Tanc de Raid.'
+                        archetypes: `${guide.role || 'Potențial Nuker / Tanc'}.`
                     };
                 }
                 return {
@@ -1408,31 +1649,31 @@
             if (crSub && crSub.val >= 18) {
                 return {
                     status: 'KEEP',
-                    title: `PĂSTREAZĂ (VALOARE MARE CRITICAL RATE: +${crSub.val}%)`,
+                    title: `PĂSTREAZĂ (VALOARE MARE CRI RATE: +${crSub.val}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Runa conține **+${crSub.val}% Critical Rate**. Este o piesă vitală pentru a asigura 100% CR pe nukeri fără a sacrifica slotul 4.`,
+                    reasons: `Runa conține **+${crSub.val}% Rată Critică (CRI Rate%)**. Vitală pentru a asigura 100% CR pe nukeri fără a sacrifica slotul 4.`,
                     archetypes: 'Abyss Nukers (Teshar, Julie, Liam, Luna, Kro).'
                 };
             }
 
             if(ctx.combatEfficiency >= effThreshold) {
-                let role = "Tanc / Suport PvE (Abyss / Solo R5 / ToA)";
+                let role = guide.role || "Tanc / Suport PvE";
                 if(ctx.percentCount >= 3 || ['CD%', 'CR%'].includes(ctx.mainType)) {
-                    role = "Nuker PvE (Teshar, Julie, Liam, Kro, Luna)";
+                    role = "Nuker PvE / Damage Dealer";
                 }
                 return {
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (EFICIENȚĂ PVE EXCELENTĂ: ${ctx.combatEfficiency.toFixed(1)}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}% pentru nivelul tău PvE. Valorile și plusările sunt solide.`,
-                    archetypes: `${role}. Ideală pentru Abyss Hard sau Solo R5.`
+                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}%. Valorile și plusările sunt solide.`,
+                    archetypes: `${role}. Ideală pentru ${ctx.set}.`
                 };
             }
 
             if(ctx.totalSpeed >= spdThreshold) {
                 return {
                     status: 'KEEP',
-                    title: `PĂSTREAZĂ (SPEED PVE: +${ctx.totalSpeed} SPD)`,
+                    title: `PĂSTREAZĂ (VITEZĂ PVE: +${ctx.totalSpeed} SPD)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
                     reasons: `Viteza (+${ctx.totalSpeed} SPD) atinge pragul minim necesar pentru sincronizarea ordinii de atac.`,
                     archetypes: 'Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea).'
@@ -1443,16 +1684,15 @@
                 status: 'SELL',
                 title: 'VINDE (SUB PRAGUL OBIECTIVULUI TĂU PVE)',
                 color: 'bg-rose-50 text-rose-800 border-rose-300',
-                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}%. Valorile substaturilor sunt prea mici sau nepotrivite.`,
+                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}%. Valorile substaturilor sunt prea mici sau nearmonizate.`,
                 archetypes: 'Vânzare recomandată pentru obținerea de mana.'
             };
         }
 
         // ==========================================
-        // SIMULATOR SALVARE RUNĂ PRIN GEM (SELL ➔ KEEP)
+        // SIMULATOR SALVARE PRIN GEM (SELL ➔ KEEP)
         // ==========================================
         function findGemRescueOption(ctx) {
-            // Nu se poate aplica dacă are deja Gem, pe slot par flat sau pe rune 5★ de late/end
             if (ctx.hasGem) return null;
             if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
             if (ctx.stars === '5-star' && ctx.userTier !== 'early') return null;
@@ -1460,8 +1700,10 @@
 
             const isAncient = ctx.stars === '6-ancient';
             const flatSingleMax = getFlatSingleMax(ctx.stars);
-            const allPossibleStats = ['SPD', 'CR%', 'CD%', 'HP%', 'ATK%', 'DEF%', 'ACC%', 'RES%'];
+            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%'] };
 
+            // Prioritizăm atributele căutate pentru setul respectiv
+            const allPossibleStats = ['SPD', 'CR%', 'CD%', 'HP%', 'ATK%', 'DEF%', 'ACC%', 'RES%'];
             const validCandidates = allPossibleStats.filter(s => {
                 if (s === ctx.mainType) return false;
                 if (ctx.innateType !== 'None' && s === ctx.innateType) return false;
@@ -1530,8 +1772,8 @@
                         let score = simEff.combatEff;
                         if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(sub.type)) score += 40;
                         if (sub.plusVal === 0) score += 20;
+                        if (guide.desiredSubs.includes(gemType)) score += 30; // bonus sinergie set
                         if (gemType === 'SPD') score += 15;
-                        if (gemType === 'CR%') score += 10;
 
                         if (!bestRescue || score > bestRescue.score) {
                             bestRescue = {
@@ -1547,7 +1789,6 @@
                     }
                 }
             }
-
             return bestRescue;
         }
 
@@ -1586,10 +1827,7 @@
 
                 if(type !== 'None' && val > 0) {
                     subs.push({ slotIdx: i, type, val, plusVal });
-                    
-                    if(type === 'SPD') {
-                        totalSpeed += val;
-                    }
+                    if(type === 'SPD') totalSpeed += val;
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
                         flatCount++;
                         if(plusVal > 0 || (flatSingleMax[type] && val > flatSingleMax[type])) {
@@ -1602,6 +1840,7 @@
 
             updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs);
 
+            // Verificare atenționare dead stats
             const deadStatAlert = document.getElementById('dead-stat-alert');
             if (flatCount >= 2) {
                 deadStatAlert.classList.remove('hidden');
@@ -1612,6 +1851,15 @@
             const effResults = calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount);
             document.getElementById('combat-eff-badge').innerText = `Eficiență Reală: ${effResults.combatEff.toFixed(1)}%`;
             document.getElementById('raw-eff-badge').innerText = `Brut: ${effResults.rawEff.toFixed(1)}%`;
+
+            // Analiză sinergie set runic
+            const synergy = analyzeSetSynergy(set, currentSlot, mainType, subs);
+            const synBanner = document.getElementById('set-synergy-banner');
+            synBanner.className = `p-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between text-xs font-bold gap-1.5 ${synergy.color}`;
+            synBanner.innerHTML = `
+                <span>${synergy.label}</span>
+                <span class="text-[11px] font-normal sm:text-right">${synergy.desc}</span>
+            `;
 
             const verdict = computeVerdict({
                 slot: currentSlot,
@@ -1635,7 +1883,7 @@
             const isSellVerdict = verdict.status === 'SELL';
             const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
 
-            // Verificăm dacă există opțiune de salvare prin Gem
+            // Verificare oportunitate de salvare prin Gem
             const gemRescue = isSellVerdict ? findGemRescueOption({
                 slot: currentSlot,
                 set,
@@ -1655,7 +1903,7 @@
 
             renderVerdict(verdict, gemRescue);
 
-            // 1. Gem Advisor (propune mereu salvarea din Sell în Keep dacă este posibil)
+            // 1. RECOMANDĂRI GEM (CONVERSIE SUBSTAT)
             renderGemAdvisor({
                 slot: currentSlot,
                 set,
@@ -1674,7 +1922,7 @@
                 hasGem
             }, gemRescue);
 
-            // 2. Consilier Reappraisal
+            // 2. CONSILIER REEVALUARE (PIETRE REAPPRAISAL)
             renderReappraisalAdvisor({
                 slot: currentSlot,
                 set,
@@ -1689,7 +1937,7 @@
                 isMustKeepForReapp
             });
 
-            // 3. Consilier Rune Refinement (vine DUPĂ Reappraisal)
+            // 3. CONSILIER RAFINARE RUNE (RUNE REFINEMENT)
             renderRefinementAdvisor({
                 slot: currentSlot,
                 set,
@@ -1717,7 +1965,7 @@
                 reasonsHtml += `
                     <div class="mt-2.5 p-2 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-[11px] font-black flex items-center gap-1.5 shadow-xs">
                         <span>💎</span>
-                        <span><strong>OPORTUNITATE GEM:</strong> Runa poate fi SALVATĂ și transformată în <strong>KEEP</strong> dacă înlocuiești <u>${gemRescue.subToReplace.type}</u> cu un Gem de <u>${gemRescue.gemType}</u> (${gemRescue.simEff.toFixed(1)}% eff)!</span>
+                        <span><strong>OPORTUNITATE GEM:</strong> Runa poate fi SALVATĂ și trecută în <strong>PĂSTREAZĂ (KEEP)</strong> dacă înlocuiești <u>${gemRescue.subToReplace.type}</u> cu un Gem de <u>${gemRescue.gemType}</u> (${gemRescue.simEff.toFixed(1)}% eff)!</span>
                     </div>
                 `;
             }
@@ -1739,13 +1987,12 @@
                 badge.innerText = 'Gem Deja Aplicat';
                 container.innerHTML = `
                     <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
-                        ℹ️ Runa are deja bifa <strong>„Are Gem aplicat”</strong> activată. Conform regulilor jocului, nu se poate aplica mai mult de un Gem pe o rună.
+                        ℹ️ Runa are deja bifa <strong>„Are Piatră Gem aplicată”</strong> activată. Conform regulilor jocului, nu se poate aplica mai mult de un Gem pe o rună.
                     </div>
                 `;
                 return;
             }
 
-            // CAZ CRITIC: Runa are verdict de VÂNZARE -> căutăm conversie salvatoare în KEEP
             if (ctx.isSellVerdict) {
                 const rescue = precomputedRescue || findGemRescueOption(ctx);
 
@@ -1758,17 +2005,17 @@
                                 <span>💡</span> CONVERSIE SALVATOARE DISPONIBILĂ (SELL ➔ KEEP)!
                             </div>
                             <p class="text-slate-700 font-semibold">
-                                Deși runa are în prezent verdict de <strong>VÂNZARE</strong> (${ctx.combatEfficiency.toFixed(1)}% eficiență), ea poate deveni o piesă <strong>EFICIENTĂ DE PĂSTRAT (KEEP)</strong> printr-o singură conversie Gem:
+                                Deși runa are în prezent verdict de <strong>VÂNZARE</strong> (${ctx.combatEfficiency.toFixed(1)}% eficiență), ea poate fi transformată într-o piesă <strong>UTILĂ DE PĂSTRAT</strong> prin aplicarea unei Pietre de Conversie (Gem):
                             </p>
                             <div class="p-2.5 bg-white rounded-lg border border-emerald-300 space-y-1 text-slate-800">
-                                <div>👉 Înlocuiește substatul mort: <strong class="text-rose-600">${rescue.subToReplace.type} (+${rescue.subToReplace.val}${rescue.subToReplace.plusVal > 0 ? ', ▲' + rescue.subToReplace.plusVal : ''})</strong></div>
-                                <div>💎 Aplică Gem Legend: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal}${rescue.gemType.includes('%') ? '%' : ''})</strong></div>
+                                <div>👉 Înlocuiește atributul nedorit: <strong class="text-rose-600">${rescue.subToReplace.type} (+${rescue.subToReplace.val}${rescue.subToReplace.plusVal > 0 ? ', ▲' + rescue.subToReplace.plusVal : ''})</strong></div>
+                                <div>💎 Aplică Piatră Gem Legendară: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal}${rescue.gemType.includes('%') ? '%' : ''})</strong></div>
                             </div>
                             <div class="text-[11px] text-emerald-900 bg-emerald-100/70 p-2 rounded-lg border border-emerald-200 font-extrabold">
                                 📈 <strong>Efectul conversiei:</strong> Eficiența reală crește la <strong>${rescue.simEff.toFixed(1)}%</strong>, depășind pragul obiectivului tău PvE și validând piesa ca <strong>PĂSTREAZĂ</strong> (${rescue.simVerdict.archetypes}).
                             </div>
                             <div class="text-[10px] text-amber-800 font-extrabold border-t border-emerald-200/80 pt-1">
-                                * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rune Refinement pe această piesă.
+                                * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rafinare Rune (Refinement) pe această piesă.
                             </div>
                         </div>
                     `;
@@ -1778,14 +2025,13 @@
                     badge.innerText = 'Fără Salvare (Sell)';
                     container.innerHTML = `
                         <div class="p-2.5 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold leading-relaxed">
-                            🚫 <strong>Nu poate fi salvată prin Gem:</strong> Chiar și prin aplicarea celui mai bun Gem Legend (+${ctx.stars === '6-ancient' ? '15%' : '13%'}), runa nu poate atinge pragul de eficiență cerut pentru obiectivul tău (${[2,4,6].includes(ctx.slot) && ['Flat HP','Flat ATK','Flat DEF'].includes(ctx.mainType) ? 'stat principal flat pe slot par' : 'valori de bază prea mici sau rulaje eșuate'}). Rămâne pentru <strong>VÂNZARE</strong>.
+                            🚫 <strong>Nu poate fi salvată prin Gem:</strong> Chiar și prin aplicarea unei Pietre Gem Legendare (+${ctx.stars === '6-ancient' ? '15%' : '13%'}), runa nu atinge pragul de eficiență cerut. Rămâne pentru <strong>VÂNZARE</strong>.
                         </div>
                     `;
                     return;
                 }
             }
 
-            // CAZ ÎN CARE RUNA ESTE DEJA DE PĂSTRAT (KEEP/ROLL)
             badge.className = 'text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200';
             badge.innerText = 'Activ';
 
@@ -1798,7 +2044,7 @@
             if (!isKeeperLevel) {
                 container.innerHTML = `
                     <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">
-                        ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează power-up-ul înainte de a investi pietre Gem.
+                        ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează îmbunătățirea înainte de a investi pietre Gem.
                     </div>
                 `;
                 return;
@@ -1816,16 +2062,17 @@
             const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.plusVal === 0 && s.val <= (flatSingleMax[s.type] || 375));
             const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.plusVal === 0 && s.val <= 8);
 
+            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'CR%', 'CD%'] };
+
             if (unrolledFlat) {
                 mustGemSub = unrolledFlat;
-                gemReason = `Conține statul mort <strong>${unrolledFlat.type}</strong> fără plusări (▲0). Înlocuirea lui cu Gem va spori considerabil eficiența!`;
+                gemReason = `Conține statul fix <strong>${unrolledFlat.type}</strong> fără plusări (▲0). Înlocuirea lui cu Gem va optimiza substanțial runa!`;
             } else if (antiSynergyRes) {
                 mustGemSub = antiSynergyRes;
                 gemReason = `Statul <strong>RES%</strong> (+${antiSynergyRes.val}%, ▲0) nu ajută rolul ofensiv (${ctx.set}).`;
             }
 
-            const pvePriorities = ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%', 'ACC%'];
-            for (let cand of pvePriorities) {
+            for (let cand of guide.desiredSubs) {
                 if (ctx.slot === 1 && (cand === 'DEF%' || cand === 'Flat DEF')) continue;
                 if (ctx.slot === 3 && (cand === 'ATK%' || cand === 'Flat ATK')) continue;
                 if (!existingTypes.includes(cand)) {
@@ -1839,24 +2086,24 @@
                     <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-300 text-[11px] text-amber-900 font-bold space-y-1">
                         <div><span class="font-black">⚠️ Optimizare Recomandată:</span> ${gemReason}</div>
                         <div class="font-extrabold text-slate-800">
-                            👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.val})</strong> cu un Gem de <strong class="text-emerald-700">${desiredGemIn}</strong>.
+                            👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.val})</strong> cu un Gem de <strong class="text-emerald-700">${desiredGemIn}</strong> conform cerințelor setului <strong>${ctx.set}</strong>.
                         </div>
                         <div class="text-[10px] text-rose-700 font-bold border-t border-amber-200 pt-1">
-                            * Notă oficială: Aplicarea unui Gem va bloca definitiv opțiunea de Rune Refinement pe această piesă.
+                            * Notă: Aplicarea unui Gem va bloca definitiv opțiunea de Rafinare Rune pe această piesă.
                         </div>
                     </div>
                 `;
             } else {
                 container.innerHTML = `
                     <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">
-                        ✅ <strong>Fără Gem obligatoriu:</strong> Toate valorile substaturilor au deja o sinergie bună.
+                        ✅ <strong>Fără Gem obligatoriu:</strong> Toate valorile substaturilor sunt congruente cu profilul setului ${ctx.set}.
                     </div>
                 `;
             }
         }
 
         // ==========================================
-        // 2. CONSILIER REAPPRAISAL (PIETRE REAPP)
+        // 2. CONSILIER REEVALUARE (PIETRE REAPPRAISAL)
         // ==========================================
         function renderReappraisalAdvisor(ctx) {
             const container = document.getElementById('reapp-recommendation-box');
@@ -1875,14 +2122,13 @@
                 badge.innerText = 'Interzis pe Intangible';
                 container.innerHTML = `
                     <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🛑 <strong>Regulă Oficială:</strong> Runele <strong>Intangible nu pot primi Reappraisal</strong>!
+                        🛑 <strong>Regulă Oficială:</strong> Runele <strong>Intangible nu pot primi Reevaluare (Reappraisal)</strong>!
                     </div>
                 `;
                 return;
             }
 
             const allPossibleStats = ['Flat HP', 'HP%', 'Flat ATK', 'ATK%', 'Flat DEF', 'DEF%', 'SPD', 'CR%', 'CD%', 'RES%', 'ACC%'];
-            
             let pool = allPossibleStats.filter(s => {
                 if (s === ctx.mainType) return false;
                 if (ctx.innateType !== 'None' && s === ctx.innateType) return false;
@@ -1895,19 +2141,11 @@
             const spdInPool = pool.includes('SPD');
             const spdChancePercent = spdInPool ? ((4 / poolSize) * 100).toFixed(1) : "0.0";
 
-            const rarityMaxPotential = {
-                'Legend': '100%+',
-                'Hero': '88.9% (pierde 1 roll)',
-                'Rare': '77.7% (pierde 2 roll-uri)',
-                'Magic': '66.6% (pierde 3 roll-uri)',
-                'Normal': '55.5% (fără power-ups)'
-            }[ctx.rarity] || '100%';
-
             let levelWarningHtml = '';
             if (!isAtLeast12) {
                 levelWarningHtml = `
                     <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">
-                        ⚠️ <strong>Nivel insuficient:</strong> Runa este la ${ctx.level}. În joc, pietrele Reappraisal pot fi folosite doar pe rune aduse la <strong>+12 sau +15</strong>.
+                        ⚠️ <strong>Nivel insuficient:</strong> Runa este la ${ctx.level}. În joc, pietrele de Reevaluare pot fi folosite doar pe rune aduse la <strong>+12 sau +15</strong>.
                     </div>
                 `;
             }
@@ -1919,10 +2157,10 @@
                     ${levelWarningHtml}
                     <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-slate-700 text-[11px] font-bold leading-relaxed space-y-1">
                         <p>
-                            ⚠️ <strong>Mecanică Com2uS:</strong> Runa are raritatea de bază <strong>${ctx.rarity}</strong>. La Reappraisal, jocul va reaplica doar <strong>${ctx.rarity === 'Hero' ? '3' : ctx.rarity === 'Rare' ? '2' : ctx.rarity === 'Magic' ? '1' : '0'} Power-ups</strong>.
+                            ⚠️ <strong>Mecanică Com2uS:</strong> Runa are raritatea inițială <strong>${ctx.rarity}</strong>. La Reevaluare, jocul va reaplica doar <strong>${ctx.rarity === 'Hero' ? '3' : ctx.rarity === 'Rare' ? '2' : ctx.rarity === 'Magic' ? '1' : '0'} Îmbunătățiri</strong>.
                         </p>
                         <p class="text-amber-800">
-                            Plafon maxim de eficiență: <strong>${rarityMaxPotential}</strong>. Recomandare: folosește Reappraisal exclusiv pe rune <strong>6★ Legend</strong>.
+                            Recomandare: Folosește pietrele de Reevaluare exclusiv pe rune <strong>6★ Legendare</strong>.
                         </p>
                     </div>
                 `;
@@ -1934,7 +2172,7 @@
                 badge.innerText = 'Neeligibil (5★)';
                 container.innerHTML = `
                     <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">
-                        Reappraisal se folosește exclusiv pe rune de <strong>6 stele</strong>.
+                        Reevaluarea se utilizează exclusiv pe rune de <strong>6 stele</strong>.
                     </div>
                 `;
                 return;
@@ -1946,7 +2184,7 @@
                 container.innerHTML = `
                     ${levelWarningHtml}
                     <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🛑 <strong>Șansă SPD: 0% (Innate SPD):</strong> Prefixul <strong>SPD</strong> este deja acordat, așadar mecanica de joc interzice apariția vitezei în substaturi la Reappraisal. Dacă această piesă nu are deja eficiență mare, este vânzare.
+                        🛑 <strong>Șansă SPD: 0% (Innate SPD):</strong> Prefixul <strong>Viteză (SPD)</strong> este deja ocupat ca atribut înnăscut, așadar viteza nu mai poate apărea niciodată în substaturi la Reevaluare!
                     </div>
                 `;
                 return;
@@ -1954,7 +2192,7 @@
 
             let innateBonusNote = '';
             if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.innateType)) {
-                innateBonusNote = `<span class="text-emerald-700">💎 Prefix Favorabil:</span> Faptul că are <strong>${ctx.innateType}</strong> ca prefix elimină definitiv acest flat stat din bazinul de substaturi la Reapp!`;
+                innateBonusNote = `<span class="text-emerald-700">💎 Prefix Favorabil:</span> Prezența <strong>${ctx.innateType}</strong> ca prefix elimină definitiv acest flat stat din bazinul de substaturi posibile la Reapp!`;
             }
 
             if (ctx.isSellVerdict) {
@@ -1965,17 +2203,17 @@
                         ${levelWarningHtml}
                         <div class="p-3 bg-purple-50 rounded-lg border-2 border-purple-400 text-purple-950 text-[11px] font-bold leading-relaxed space-y-1.5">
                             <div class="font-black text-xs text-purple-900 flex items-center gap-1.5">
-                                <span>🎯</span> BAZĂ DE ELITĂ PENTRU REAPPRAISAL (6★ LEGEND)!
+                                <span>🎯</span> BAZĂ DE ELITĂ PENTRU REEVALUARE (6★ LEGEND)!
                             </div>
                             <p>
-                                Deși rulajele actuale justifică vânzarea, baza de <strong>6★ Legend ${ctx.set} pe Slot ${ctx.slot} (${ctx.mainType})</strong> este extrem de rară și valoroasă.
+                                Deși rulajele actuale justifică vânzarea, baza de <strong>6★ Legendară ${ctx.set} pe Slot ${ctx.slot} (${ctx.mainType})</strong> este extrem de rară și valoroasă.
                             </p>
                             <div class="p-1.5 bg-white/80 rounded border border-purple-200 text-[10px] text-purple-900">
-                                🎲 <strong>Șansă apariție SPD la Reapp:</strong> ${spdChancePercent}% (bazin de ${poolSize} atribute posibile).<br>
+                                🎲 <strong>Șansă apariție Viteză (SPD) la Reapp:</strong> ${spdChancePercent}% (bazin de ${poolSize} atribute posibile).<br>
                                 ${innateBonusNote}
                             </div>
                             <p class="font-black text-purple-800 pt-0.5">
-                                👉 <strong>NU O VINDE!</strong> Păstrează piesa și reevaluează până când cele 4 Power-up-uri intră în SPD sau procente.
+                                👉 <strong>NU O VINDE!</strong> Păstrează piesa și dă-i Reapp până când cele 4 îmbunătățiri intră în SPD sau procente utile.
                             </p>
                         </div>
                     `;
@@ -1985,7 +2223,7 @@
                     badge.innerText = 'Fără Reapp';
                     container.innerHTML = `
                         <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
-                            🗑️ <strong>Vinde fără rețineri:</strong> Piesa nu justifică folosirea pietrelor Reapp (${isFlatMain ? 'stat principal flat pe slot par' : !isEvenSlot ? 'slot impar' : 'setul/statul nu este prioritate de top'}).
+                            🗑️ <strong>Vinde fără rețineri:</strong> Piesa nu justifică folosirea pietrelor de Reevaluare (${isFlatMain ? 'stat principal flat pe slot par' : !isEvenSlot ? 'slot impar' : 'setul/statul nu este prioritate de top'}).
                         </div>
                     `;
                     return;
@@ -1998,27 +2236,20 @@
                 container.innerHTML = `
                     ${levelWarningHtml}
                     <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">
-                        Slot impar (${ctx.slot}): Reappraisal se justifică doar la end-game pe Swift/Violent pentru viteză maximă (Șansă SPD: ${spdChancePercent}%).
+                        Slot impar (${ctx.slot}): Reevaluarea se justifică doar la end-game pe Swift/Violent pentru viteză maximă (Șansă SPD: ${spdChancePercent}%).
                     </div>
                 `;
                 return;
             }
 
-            let scoreTag = 'Prioritate Bună';
-            let badgeStyle = 'bg-purple-100 text-purple-800 border-purple-300';
-            if (ctx.isMustKeepForReapp) {
-                scoreTag = 'CANDIDAT ELITĂ PVE';
-                badgeStyle = 'bg-purple-200 text-purple-900 border-purple-400';
-            }
-
-            badge.className = `text-[10px] ${badgeStyle} font-black px-2 py-0.5 rounded border`;
-            badge.innerText = scoreTag;
+            badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400';
+            badge.innerText = 'Candidat Elită PvE';
 
             container.innerHTML = `
                 ${levelWarningHtml}
                 <div class="p-2.5 bg-purple-50 rounded-lg border border-purple-200 text-purple-900 text-[11px] font-bold leading-relaxed space-y-1">
                     <div>
-                        ✨ Bază <strong>6★ Legend ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>.
+                        ✨ Bază <strong>6★ Legendară ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>.
                     </div>
                     <div class="text-[10px] text-purple-800 bg-white/70 p-1.5 rounded border border-purple-200">
                         🎲 <strong>Șansă SPD la Reapp:</strong> ${spdChancePercent}% (din ${poolSize} atribute posibile).<br>
@@ -2029,7 +2260,7 @@
         }
 
         // ==========================================
-        // 3. CONSILIER RUNE REFINEMENT (DUPĂ REAPP)
+        // 3. CONSILIER RAFINARE RUNE (RUNE REFINEMENT)
         // ==========================================
         function renderRefinementAdvisor(ctx) {
             const container = document.getElementById('refine-recommendation-box');
@@ -2044,7 +2275,7 @@
                 badge.innerText = 'Interzis pe Intangible';
                 container.innerHTML = `
                     <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🚫 <strong>Regulă Oficială:</strong> Rune Refinement <strong>nu poate fi folosit pe rune Intangible</strong>.
+                        🚫 <strong>Regulă Oficială:</strong> Rafinarea Runelor (Rune Refinement) <strong>nu poate fi folosită pe rune Intangible</strong>.
                     </div>
                 `;
                 return;
@@ -2055,7 +2286,7 @@
                 badge.innerText = 'Blocat (Are Gem)';
                 container.innerHTML = `
                     <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🚫 <strong>Restricție Oficială:</strong> Rune Refinement <strong>nu poate fi aplicat</strong> unei rune care are un substat convertit prin Enchanted Gem. Folosește Refinement <em>înainte</em> de a aplica Gem-ul!
+                        🚫 <strong>Restricție Oficială:</strong> Rafinarea Runelor <strong>nu poate fi aplicată</strong> unei rune care are deja un substat convertit prin Piatră Gem! Folosește Rafinarea <em>înainte</em> de Gem.
                     </div>
                 `;
                 return;
@@ -2066,7 +2297,7 @@
                 badge.innerText = 'Necesită +12';
                 container.innerHTML = `
                     <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold leading-relaxed">
-                        ⏳ <strong>Eligibil doar la +12 / +15:</strong> Rune Refinement poate fi activat exclusiv pe rune aduse la cel puțin nivelul +12.
+                        ⏳ <strong>Eligibil doar la +12 / +15:</strong> Rafinarea poate fi activată exclusiv pe rune aduse la cel puțin nivelul +12.
                     </div>
                 `;
                 return;
@@ -2081,16 +2312,17 @@
             }[ctx.rarity] || 0;
 
             const existingTypes = ctx.subs.map(s => s.type);
+            const guide = RUNE_SETS_GUIDE[ctx.set] || {};
             const hasSpd = existingTypes.includes('SPD');
             const hasCrit = existingTypes.includes('CR%') || existingTypes.includes('CD%');
             const isHighSynergyBase = (hasSpd && (hasCrit || ctx.percentCount >= 2)) || ctx.percentCount >= 3;
 
             if (ctx.combatEfficiency >= 82 || ctx.totalSpeed >= 20) {
                 badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
-                badge.innerText = 'Nu atinge (Rulaj Deja Bun)';
+                badge.innerText = 'Rulaje Deja Optime';
                 container.innerHTML = `
                     <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px] font-bold leading-relaxed space-y-1">
-                        ✅ <strong>Rulaje deja optime:</strong> Runa are deja o eficiență mare (${ctx.combatEfficiency.toFixed(1)}% / +${ctx.totalSpeed} SPD). Refinement-ul ar risca să îți strice valorile bune obținute!
+                        ✅ <strong>Nu atinge:</strong> Runa are deja o eficiență mare (${ctx.combatEfficiency.toFixed(1)}% / +${ctx.totalSpeed} SPD). Rafinarea riscă să strice plusările bune obținute!
                     </div>
                 `;
                 return;
@@ -2098,20 +2330,20 @@
 
             if ((ctx.rarity === 'Legend' || ctx.rarity === 'Hero') && isHighSynergyBase) {
                 badge.className = 'text-[10px] bg-amber-200 text-amber-950 font-black px-2 py-0.5 rounded border border-amber-400';
-                badge.innerText = `Candidat Excelent (${powerUpsCount} Power-ups)`;
+                badge.innerText = `Candidat Excelent (${powerUpsCount} Plusări)`;
                 container.innerHTML = `
                     <div class="p-3 bg-amber-50 rounded-lg border-2 border-amber-400 text-amber-950 text-[11px] font-bold leading-relaxed space-y-1.5">
                         <div class="font-black text-xs text-amber-900 flex items-center gap-1.5">
-                            <span>✨</span> OPORTUNITATE IDEALĂ DE REFINEMENT!
+                            <span>✨</span> OPORTUNITATE IDEALĂ DE RAFINARE (REFINEMENT)!
                         </div>
                         <p>
-                            Această rună are un profil perfect de substaturi (<strong>${existingTypes.join(', ')}</strong>), dar valorile plusărilor actuale sunt modeste.
+                            Această rună are un profil excelent de substaturi (<strong>${existingTypes.join(', ')}</strong>), dar plusările au nimerit scăzut sau dispersat.
                         </p>
                         <div class="p-1.5 bg-white/90 rounded border border-amber-200 text-[10px] text-amber-900">
-                            🎲 Refinement-ul va păstra <strong>toate cele 4 tipuri de substaturi</strong> și va reaplica aleatoriu exact <strong>${powerUpsCount} Power-ups</strong> cu șanse egale per atribut și valoare conform rarității de bază (${ctx.rarity}).
+                            🎲 Rafinarea va păstra <strong>toate cele 4 tipuri de atribute</strong> și va reaplica aleatoriu exact <strong>${powerUpsCount} Îmbunătățiri</strong> conform rarității inițiale (${ctx.rarity}).
                         </div>
                         <p class="text-amber-800 font-extrabold pt-0.5">
-                            👉 Recomandare: Folosește Refinement pentru a încerca să concentrezi plusările în SPD sau procente ofensive!
+                            👉 Recomandare: Folosește Rafinarea pentru a redistribui îmbunătățirile în Viteză (SPD) sau procente specifice rolului (${guide.role || 'PvE'})!
                         </p>
                     </div>
                 `;
@@ -2122,7 +2354,7 @@
             badge.innerText = 'Prioritate Scăzută';
             container.innerHTML = `
                 <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
-                    ℹ️ Refinement-ul păstrează substaturile existente. Deoarece această piesă nu are 4 substaturi de elită nativ, investiția în Refinement este considerată risipă de resurse. Folosește mai degrabă Reappraisal sau obține o bază mai curată.
+                    ℹ️ Rafinarea păstrează substaturile existente. Deoarece piesa nu are nativ 4 substaturi de elită, investiția în Rafinare este contraindicată. Folosește mai degrabă Reevaluarea (Reapp).
                 </div>
             `;
         }
@@ -2214,7 +2446,6 @@
                     for (let i = 0; i < d.length; i += 4) {
                         const r = d[i], g = d[i+1], b = d[i+2];
                         let brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-                        
                         let inv = 255 - brightness;
                         inv = (inv - 90) * 1.6;
                         inv = Math.max(0, Math.min(255, inv));
@@ -2237,7 +2468,7 @@
 
             loadingOverlay.classList.remove('hidden');
             progressBar.style.width = '10%';
-            statusText.innerText = 'Optimizare imagine și scalare...';
+            statusText.innerText = 'Optimizare imagine și contrast...';
 
             try {
                 if (typeof Tesseract === 'undefined') {
@@ -2245,18 +2476,16 @@
                 }
 
                 const processedDataUrl = await preprocessImage(imageFile);
-
                 progressBar.style.width = '35%';
                 statusText.innerText = 'Inițializare rețea neuronală OCR...';
 
                 const worker = await Tesseract.createWorker('eng');
-                
                 progressBar.style.width = '60%';
-                statusText.innerText = 'Extragere text și paranteze de plusare...';
+                statusText.innerText = 'Extragere atribute și valori...';
 
                 const ret = await worker.recognize(processedDataUrl);
                 progressBar.style.width = '85%';
-                statusText.innerText = 'Aplicare statistici și plusări...';
+                statusText.innerText = 'Mapare pe cele 23 de seturi...';
 
                 await worker.terminate();
 
@@ -2264,7 +2493,7 @@
                 parseAndApplyRuneOCR(ret.data.text);
 
                 loadingOverlay.classList.add('hidden');
-                alertMsg.innerText = 'Scanare completă! Datele și plusările au fost preluate cu succes.';
+                alertMsg.innerText = 'Scanare completă! Atributele și plusările au fost preluate cu succes.';
                 alertBox.className = 'p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold flex justify-between items-center';
                 alertBox.classList.remove('hidden');
 
@@ -2300,7 +2529,7 @@
                 else document.getElementById('rune-level').value = '+0';
             }
 
-            const runeSets = ['Violent', 'Swift', 'Despair', 'Rage', 'Fatal', 'Blade', 'Energy', 'Guard', 'Focus', 'Endure', 'Will', 'Nemesis', 'Revenge', 'Shield', 'Destroy', 'Vampire', 'Seal', 'Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance', 'Intangible'];
+            const runeSets = Object.keys(RUNE_SETS_GUIDE);
             for (let s of runeSets) {
                 const regex = new RegExp(`\\b${s}\\b`, 'i');
                 if (regex.test(cleanText)) {
