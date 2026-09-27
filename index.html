@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tesseract.js OCR CDN pentru scanare automată din imagini -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <!-- Google Fonts: Exclusiv Familia Nunito -->
+    <!-- Google Fonts: Familia Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300..1000;1,300..1000&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
                         swHero: '#9333ea',
                         swRare: '#2563eb',
                         swMagic: '#059669',
+                        swNormal: '#64748b',
                         swAncient: '#0891b2',
                     }
                 }
@@ -37,7 +38,6 @@
         }
     </script>
     <style>
-        /* Aplicare forțată a familiei de fonturi Nunito în întreaga aplicație */
         *, html, body, button, input, select, textarea, span, p, h1, h2, h3, h4, h5, h6 {
             font-family: 'Nunito', sans-serif !important;
         }
@@ -91,7 +91,13 @@
         .rune-hex.magic {
             border: 3px solid #10b981;
             background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.25);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25);
+        }
+
+        .rune-hex.normal {
+            border: 3px solid #94a3b8;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.25);
         }
 
         .rune-hex.ancient {
@@ -114,7 +120,6 @@
             background-color: #fef3c7 !important;
         }
 
-        /* Scrollbars */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -285,6 +290,7 @@
                             <option value="Hero">Hero (3 Sub-uri)</option>
                             <option value="Rare">Rare (2 Sub-uri)</option>
                             <option value="Magic">Magic (1 Sub)</option>
+                            <option value="Normal">Normal (0 Sub-uri)</option>
                         </select>
                     </div>
 
@@ -321,7 +327,7 @@
                             <span class="text-[10px] text-purple-700 font-bold">Nu se upgradează</span>
                         </div>
                         <div class="grid grid-cols-7 gap-2">
-                            <select id="innate-type" onchange="evaluateRune()" class="col-span-4 bg-white text-xs border border-purple-300 rounded-lg p-2 text-slate-800 font-bold focus:ring-2 focus:ring-purple-500 shadow-sm truncate">
+                            <select id="innate-type" onchange="onInnateChange()" class="col-span-4 bg-white text-xs border border-purple-300 rounded-lg p-2 text-slate-800 font-bold focus:ring-2 focus:ring-purple-500 shadow-sm truncate">
                                 <option value="None">Fără Prefix (None)</option>
                                 <option value="SPD">SPD</option>
                                 <option value="HP%">HP%</option>
@@ -363,10 +369,10 @@
                     <!-- Rândurile de Substats -->
                     <div class="space-y-2.5" id="substats-container">
                         <!-- Substat 1 -->
-                        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center">
+                        <div id="sub-row-1" class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center relative transition-all">
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#1</span>
-                                <select id="sub-stat-1" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
+                                <select id="sub-stat-1" onchange="onSubstatChange(1)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
                                     <option value="SPD">Attack Speed (SPD)</option>
                                     <option value="HP%">HP%</option>
                                     <option value="ATK%">ATK%</option>
@@ -380,6 +386,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-1" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
@@ -394,10 +401,10 @@
                         </div>
 
                         <!-- Substat 2 -->
-                        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center">
+                        <div id="sub-row-2" class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center relative transition-all">
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#2</span>
-                                <select id="sub-stat-2" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
+                                <select id="sub-stat-2" onchange="onSubstatChange(2)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
                                     <option value="SPD" selected>Attack Speed (SPD)</option>
                                     <option value="HP%">HP%</option>
                                     <option value="ATK%">ATK%</option>
@@ -411,6 +418,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-2" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
@@ -425,10 +433,10 @@
                         </div>
 
                         <!-- Substat 3 -->
-                        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center">
+                        <div id="sub-row-3" class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center relative transition-all">
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#3</span>
-                                <select id="sub-stat-3" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
+                                <select id="sub-stat-3" onchange="onSubstatChange(3)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
                                     <option value="CR%" selected>Critical Rate%</option>
                                     <option value="SPD">Attack Speed (SPD)</option>
                                     <option value="HP%">HP%</option>
@@ -442,6 +450,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-3" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
@@ -456,10 +465,10 @@
                         </div>
 
                         <!-- Substat 4 -->
-                        <div class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center">
+                        <div id="sub-row-4" class="bg-slate-50 p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-sm space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-3 sm:items-center relative transition-all">
                             <div class="flex items-center gap-2 sm:col-span-6">
                                 <span class="text-xs font-black text-amber-600 w-6 text-center shrink-0">#4</span>
-                                <select id="sub-stat-4" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
+                                <select id="sub-stat-4" onchange="onSubstatChange(4)" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2.5 text-slate-800 font-bold focus:ring-2 focus:ring-amber-500 shadow-sm truncate">
                                     <option value="HP%" selected>HP%</option>
                                     <option value="SPD">Attack Speed (SPD)</option>
                                     <option value="ATK%">ATK%</option>
@@ -473,6 +482,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-4" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 sm:col-span-6">
                                 <div>
@@ -639,6 +649,49 @@
     <script>
         let currentSlot = 3;
 
+        // Intervalele oficiale de rulare per steluță conform datelor Com2uS
+        const officialRollRanges = {
+            '6-star': {
+                'SPD': { min: 4, max: 6 },
+                'HP%': { min: 5, max: 8 },
+                'ATK%': { min: 5, max: 8 },
+                'DEF%': { min: 5, max: 8 },
+                'CR%': { min: 4, max: 6 },
+                'CD%': { min: 4, max: 7 },
+                'RES%': { min: 4, max: 8 },
+                'ACC%': { min: 4, max: 8 },
+                'Flat HP': { min: 135, max: 375 },
+                'Flat ATK': { min: 10, max: 20 },
+                'Flat DEF': { min: 10, max: 20 }
+            },
+            '5-star': {
+                'SPD': { min: 3, max: 5 },
+                'HP%': { min: 4, max: 7 },
+                'ATK%': { min: 4, max: 7 },
+                'DEF%': { min: 4, max: 7 },
+                'CR%': { min: 3, max: 5 },
+                'CD%': { min: 3, max: 5 },
+                'RES%': { min: 3, max: 7 },
+                'ACC%': { min: 3, max: 7 },
+                'Flat HP': { min: 90, max: 300 },
+                'Flat ATK': { min: 8, max: 15 },
+                'Flat DEF': { min: 8, max: 15 }
+            },
+            '6-ancient': {
+                'SPD': { min: 4, max: 7 },
+                'HP%': { min: 6, max: 10 },
+                'ATK%': { min: 6, max: 10 },
+                'DEF%': { min: 6, max: 10 },
+                'CR%': { min: 4, max: 7 },
+                'CD%': { min: 5, max: 8 },
+                'RES%': { min: 5, max: 9 },
+                'ACC%': { min: 5, max: 9 },
+                'Flat HP': { min: 145, max: 450 },
+                'Flat ATK': { min: 11, max: 24 },
+                'Flat DEF': { min: 11, max: 24 }
+            }
+        };
+
         const maxStandardRolls = {
             'SPD': 6, 'HP%': 8, 'ATK%': 8, 'DEF%': 8, 'CR%': 6, 'CD%': 7, 'RES%': 8, 'ACC%': 8,
             'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20
@@ -648,6 +701,16 @@
             'SPD': 7, 'HP%': 10, 'ATK%': 10, 'DEF%': 10, 'CR%': 7, 'CD%': 8, 'RES%': 9, 'ACC%': 9,
             'Flat HP': 450, 'Flat ATK': 24, 'Flat DEF': 24
         };
+
+        function getFlatSingleMax(stars) {
+            if (stars === '6-ancient') {
+                return { 'Flat HP': 450, 'Flat ATK': 24, 'Flat DEF': 24 };
+            }
+            if (stars === '5-star') {
+                return { 'Flat HP': 300, 'Flat ATK': 15, 'Flat DEF': 15 };
+            }
+            return { 'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20 };
+        }
 
         const mainStatTable = {
             '6-star': {
@@ -703,6 +766,96 @@
             ]
         };
 
+        // Calculează numărul oficial de substaturi vizibile conform rarității și nivelului
+        function getVisibleSubstatsCount(rarity, levelStr) {
+            const lvl = parseInt(levelStr.replace('+', '')) || 0;
+            const baseSubs = { 'Normal': 0, 'Magic': 1, 'Rare': 2, 'Hero': 3, 'Legend': 4 }[rarity] ?? 4;
+            
+            let grants = 0;
+            if (rarity === 'Normal') {
+                if (lvl >= 3) grants++;
+                if (lvl >= 6) grants++;
+                if (lvl >= 9) grants++;
+                if (lvl >= 12) grants++;
+            } else if (rarity === 'Magic') {
+                if (lvl >= 6) grants++;
+                if (lvl >= 9) grants++;
+                if (lvl >= 12) grants++;
+            } else if (rarity === 'Rare') {
+                if (lvl >= 9) grants++;
+                if (lvl >= 12) grants++;
+            } else if (rarity === 'Hero') {
+                if (lvl >= 12) grants++;
+            }
+            
+            return Math.min(4, baseSubs + grants);
+        }
+
+        function getSubstatUnlockLevel(rarity, subIndex) {
+            if (rarity === 'Legend') return null;
+            if (rarity === 'Hero') {
+                if (subIndex === 4) return '+12';
+                return null;
+            }
+            if (rarity === 'Rare') {
+                if (subIndex === 3) return '+9';
+                if (subIndex === 4) return '+12';
+                return null;
+            }
+            if (rarity === 'Magic') {
+                if (subIndex === 2) return '+6';
+                if (subIndex === 3) return '+9';
+                if (subIndex === 4) return '+12';
+                return null;
+            }
+            if (rarity === 'Normal') {
+                if (subIndex === 1) return '+3';
+                if (subIndex === 2) return '+6';
+                if (subIndex === 3) return '+9';
+                if (subIndex === 4) return '+12';
+                return null;
+            }
+            return null;
+        }
+
+        // Activează/Dezactivează vizual câmpurile conform numărului de substaturi deblocate
+        function syncSubstatInputsVisibility() {
+            const rarity = document.getElementById('rune-rarity').value;
+            const level = document.getElementById('rune-level').value;
+            const allowedCount = getVisibleSubstatsCount(rarity, level);
+
+            for (let i = 1; i <= 4; i++) {
+                const row = document.getElementById(`sub-row-${i}`);
+                const selectType = document.getElementById(`sub-stat-${i}`);
+                const inputVal = document.getElementById(`sub-val-${i}`);
+                const inputPlus = document.getElementById(`sub-plus-${i}`);
+                const lockBadge = document.getElementById(`sub-lock-${i}`);
+
+                if (row && selectType && inputVal) {
+                    if (i <= allowedCount) {
+                        row.classList.remove('opacity-40', 'bg-slate-100/70', 'pointer-events-none');
+                        selectType.disabled = false;
+                        inputVal.disabled = false;
+                        if (inputPlus) inputPlus.disabled = false;
+                        if (lockBadge) lockBadge.classList.add('hidden');
+                    } else {
+                        row.classList.add('opacity-40', 'bg-slate-100/70', 'pointer-events-none');
+                        selectType.value = 'None';
+                        inputVal.value = 0;
+                        if (inputPlus) inputPlus.value = 0;
+                        selectType.disabled = true;
+                        inputVal.disabled = true;
+                        if (inputPlus) inputPlus.disabled = true;
+                        if (lockBadge) {
+                            lockBadge.classList.remove('hidden');
+                            const unlockLevel = getSubstatUnlockLevel(rarity, i);
+                            lockBadge.innerText = unlockLevel ? `Deblocat la ${unlockLevel}` : 'Blocat';
+                        }
+                    }
+                }
+            }
+        }
+
         function getMainStatDefault(type, level, stars) {
             const starKey = stars === '5-star' ? '5-star' : '6-star';
             const lvlKey = (mainStatTable[starKey] && mainStatTable[starKey][level]) ? level : '+12';
@@ -754,21 +907,56 @@
             evaluateRune();
         }
 
+        // Restricții oficiale pe Slot 1 & 3 și reguli stricte de unicitate (Main + Innate + Subs)
         function onSlotExclusionCheck() {
-            for(let i=1; i<=4; i++) {
+            const mainType = document.getElementById('main-stat-type')?.value || '';
+            const innateSelect = document.getElementById('innate-type');
+            const selectedInnate = innateSelect ? innateSelect.value : 'None';
+
+            // 1. Filtrare opțiuni Prefix Înnăscut (Innate)
+            if (innateSelect) {
+                Array.from(innateSelect.options).forEach(opt => {
+                    opt.disabled = false;
+                    if (currentSlot === 1 && (opt.value === 'DEF%' || opt.value === 'Flat DEF')) opt.disabled = true;
+                    if (currentSlot === 3 && (opt.value === 'ATK%' || opt.value === 'Flat ATK')) opt.disabled = true;
+                    if (opt.value !== 'None' && opt.value === mainType) opt.disabled = true;
+                });
+                if (innateSelect.selectedOptions[0]?.disabled) {
+                    innateSelect.value = 'None';
+                }
+            }
+
+            // 2. Colectare substaturi selectate
+            const currentSubs = [];
+            for (let i = 1; i <= 4; i++) {
+                const sub = document.getElementById(`sub-stat-${i}`);
+                if (sub && sub.value !== 'None') currentSubs.push({ idx: i, val: sub.value });
+            }
+
+            // 3. Filtrare opțiuni Substaturi Secundare
+            for (let i = 1; i <= 4; i++) {
                 const subSelect = document.getElementById(`sub-stat-${i}`);
                 if (!subSelect) continue;
+
                 Array.from(subSelect.options).forEach(opt => {
                     opt.disabled = false;
-                    if(currentSlot === 1 && (opt.value === 'DEF%' || opt.value === 'Flat DEF')) {
+                    // Restricții oficiale pe slot
+                    if (currentSlot === 1 && (opt.value === 'DEF%' || opt.value === 'Flat DEF')) opt.disabled = true;
+                    if (currentSlot === 3 && (opt.value === 'ATK%' || opt.value === 'Flat ATK')) opt.disabled = true;
+                    
+                    // Unicitate cu Statul Principal și Prefixul Innate
+                    if (opt.value !== 'None' && (opt.value === mainType || opt.value === selectedInnate)) {
                         opt.disabled = true;
-                        if(subSelect.value === opt.value) subSelect.value = 'HP%';
                     }
-                    if(currentSlot === 3 && (opt.value === 'ATK%' || opt.value === 'Flat ATK')) {
-                        opt.disabled = true;
-                        if(subSelect.value === opt.value) subSelect.value = 'DEF%';
-                    }
+                    
+                    // Unicitate cu celelalte sloturi de substaturi
+                    const isDuplicate = currentSubs.some(s => s.idx !== i && s.val === opt.value && opt.value !== 'None');
+                    if (isDuplicate) opt.disabled = true;
                 });
+
+                if (subSelect.selectedOptions[0]?.disabled) {
+                    subSelect.value = 'None';
+                }
             }
         }
 
@@ -777,11 +965,24 @@
             const stars = document.getElementById('rune-stars').value;
             const currentType = document.getElementById('main-stat-type').value;
             document.getElementById('main-stat-val').value = getMainStatDefault(currentType, level, stars);
+            onSlotExclusionCheck();
+            evaluateRune();
+        }
+
+        function onInnateChange() {
+            onSlotExclusionCheck();
+            evaluateRune();
+        }
+
+        function onSubstatChange(index) {
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
         function onLevelChange() {
+            syncSubstatInputsVisibility();
             updateMainStatControls(true);
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
@@ -798,6 +999,8 @@
             if (gem) {
                 gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
             }
+            syncSubstatInputsVisibility();
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
@@ -811,6 +1014,7 @@
                 if (subVal) subVal.value = 0;
                 if (subPlus) subPlus.value = 0;
             }
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
@@ -908,9 +1112,7 @@
             let flatWithRolls = [];
 
             const isAncient = stars === '6-ancient';
-            const flatSingleMax = isAncient 
-                ? { 'Flat HP': 450, 'Flat ATK': 24, 'Flat DEF': 24 }
-                : { 'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20 };
+            const flatSingleMax = getFlatSingleMax(stars);
 
             for(let i=1; i<=4; i++) {
                 const typeEl = document.getElementById(`sub-stat-${i}`);
@@ -931,7 +1133,7 @@
                     }
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
                         flatCount++;
-                        if(plusVal > 0 || val > flatSingleMax[type]) {
+                        if(plusVal > 0 || (flatSingleMax[type] && val > flatSingleMax[type])) {
                             flatWithRolls.push({ type, val, plusVal });
                         }
                     }
@@ -1244,8 +1446,9 @@
             if (ctx.innateType !== 'None') existingTypes.push(ctx.innateType);
             existingTypes.push(ctx.mainType);
 
-            // Substat flat cu plusare 0 (țintă optimă)
-            const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.plusVal === 0 && s.val <= 375);
+            const flatSingleMax = getFlatSingleMax(ctx.stars);
+            // Substat flat fără plusări și fără valoare de bază depășită
+            const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.plusVal === 0 && s.val <= (flatSingleMax[s.type] || 375));
             const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.plusVal === 0 && s.val <= 8);
 
             if (unrolledFlat) {
@@ -1395,7 +1598,6 @@
             document.getElementById('innate-val').value = 0;
             resetSubstats();
             
-            // Populează valorile din captura ta de referință
             document.getElementById('sub-stat-1').value = 'DEF%';
             document.getElementById('sub-val-1').value = 10;
             document.getElementById('sub-plus-1').value = 0;
@@ -1413,6 +1615,7 @@
             document.getElementById('sub-plus-4').value = 7;
 
             onRarityChange();
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
@@ -1453,7 +1656,6 @@
             }
         }
 
-        // Upscaling 2x & Inversare pentru acuratețe maximă Tesseract
         function preprocessImage(imageFile) {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -1535,7 +1737,6 @@
             }
         }
 
-        // PARSER REZISTENT LA ERORI OCR PENTRU UI SUMMONERS WAR
         function parseAndApplyRuneOCR(rawText) {
             let cleanText = rawText.replace(/,/g, '').replace(/[\r\t]/g, ' ');
             const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
@@ -1585,12 +1786,16 @@
             else if (/Hero/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Hero';
             else if (/Rare/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Rare';
             else if (/Magic/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Magic';
+            else if (/Normal/i.test(cleanText)) document.getElementById('rune-rarity').value = 'Normal';
+
+            syncSubstatInputsVisibility();
+            updateMainStatControls(true);
 
             // 5. Extragere Universală Main Stat & Substat-uri cu Valori Total + Plusare
             const validLines = lines.filter(line => {
                 if (/^\+?\d+\s*Set/i.test(line)) return false;
                 if (/Gauge/i.test(line) || /every.*lost/i.test(line)) return false;
-                if (/^\d{2,4}$/.test(line)) return false; // ignoră scorul izolat (ex: 154)
+                if (/^\d{2,4}$/.test(line)) return false;
                 if (/Rune\s*\(\d\)/i.test(line)) return false;
                 return true;
             });
@@ -1621,7 +1826,6 @@
 
                 const mainValObj = numbers[0];
                 const numVal = mainValObj.val;
-                // Dacă există un al doilea număr pe rând (din paranteză), reprezintă plusarea
                 const rollInc = numbers.length > 1 ? numbers[1].val : 0;
 
                 let type = 'DEF%';
@@ -1660,12 +1864,24 @@
 
             resetSubstats();
 
-            // Aplicare directă în cele 4 substaturi: Valoare Totală și Valoare Plusare
-            for (let i = 0; i < Math.min(extractedStats.length, 4); i++) {
-                const s = extractedStats[i];
-                const subSelect = document.getElementById(`sub-stat-${i + 1}`);
-                const subVal = document.getElementById(`sub-val-${i + 1}`);
-                const subPlus = document.getElementById(`sub-plus-${i + 1}`);
+            const rarity = document.getElementById('rune-rarity').value;
+            const level = document.getElementById('rune-level').value;
+            const allowedCount = getVisibleSubstatsCount(rarity, level);
+
+            let assignedCount = 0;
+            const currentMain = document.getElementById('main-stat-type').value;
+
+            for (let s of extractedStats) {
+                if (assignedCount >= allowedCount || assignedCount >= 4) break;
+                // Excluderi oficiale
+                if (currentSlot === 1 && (s.type === 'DEF%' || s.type === 'Flat DEF')) continue;
+                if (currentSlot === 3 && (s.type === 'ATK%' || s.type === 'Flat ATK')) continue;
+                if (s.type === currentMain) continue;
+
+                assignedCount++;
+                const subSelect = document.getElementById(`sub-stat-${assignedCount}`);
+                const subVal = document.getElementById(`sub-val-${assignedCount}`);
+                const subPlus = document.getElementById(`sub-plus-${assignedCount}`);
 
                 if (subSelect && subVal) {
                     subSelect.value = s.type;
@@ -1675,6 +1891,7 @@
             }
 
             onRarityChange();
+            onSlotExclusionCheck();
             evaluateRune();
         }
 
