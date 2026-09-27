@@ -17,6 +17,7 @@
         <a class="brand" href="#sus"><span>✦</span> SW Rune Guide</a>
         <div class="nav-links">
           <a href="#decizie">Decizie rapidă</a>
+          <a href="#evaluator">Evaluator</a>
           <a href="#sloturi">Sloturi</a>
           <a href="#seturi">Seturi</a>
         </div>
@@ -46,6 +47,37 @@
           <article class="decision sell"><span class="status">Vinde</span><h3>Nu păstra doar pentru set</h3><ul><li>Main stat flat pe sloturile 2, 4 sau 6, în majoritatea cazurilor.</li><li>Rună 5★ mediocră.</li><li>Fără SPD, cu două sau mai multe substat-uri flat.</li><li>O singură statistică utilă ori roll-uri slabe la +6/+9.</li></ul></article>
           <article class="decision check"><span class="status">Verifică / upgradează</span><h3>Există potențial real</h3><ul><li>6★ Hero sau Legend cu SPD.</li><li>Legend fără SPD, dar cu trei substat-uri excelente.</li><li>Ancient cu main stat corect și substat-uri bune.</li><li>Innate valoros sau set Swift, Violent, Will, Despair cu sinergie.</li></ul></article>
           <article class="decision keep"><span class="status">Păstrează</span><h3>Merită investiția</h3><ul><li>SPD mare ori quad-roll într-o statistică relevantă.</li><li>Trei sau patru substat-uri excelente și coerente.</li><li>Slot 4 CD/CR ori slot 6 ACC/ATK/HP/DEF cu substat-uri excelente.</li><li>Rună Ancient foarte bună sau Legend cu innate valoros.</li></ul></article>
+        </div>
+      </section>
+
+      <section class="section evaluator-section" id="evaluator">
+        <div class="container evaluator-layout">
+          <div class="section-heading">
+            <p class="eyebrow">EVALUATOR DE RUNĂ</p>
+            <h2>Construiește runa și primește un verdict</h2>
+            <p>Evaluatorul aplică regulile din acest ghid: main stat, sinergia cu setul, calitatea substat-urilor, raritatea, Ancient și starea de upgrade. Este un filtru practic, nu un înlocuitor pentru nevoile reale ale monștrilor tăi.</p>
+          </div>
+          <div class="evaluator-grid">
+            <form class="rune-builder" id="rune-builder">
+              <div class="form-grid">
+                <label>Set<select id="eval-set" name="set"></select></label>
+                <label>Slot<select id="eval-slot" name="slot"><option value="1">Slot 1</option><option value="2" selected>Slot 2</option><option value="3">Slot 3</option><option value="4">Slot 4</option><option value="5">Slot 5</option><option value="6">Slot 6</option></select></label>
+                <label>Main stat<select id="eval-main" name="main"></select></label>
+                <label>Stele<select id="eval-stars" name="stars"><option value="6" selected>6★</option><option value="5">5★</option></select></label>
+                <label>Raritate<select id="eval-rarity" name="rarity"><option value="rare">Rare</option><option value="hero" selected>Hero</option><option value="legend">Legend</option></select></label>
+                <label>Upgrade curent<select id="eval-upgrade" name="upgrade"><option value="0" selected>+0</option><option value="3">+3</option><option value="6">+6</option><option value="9">+9</option><option value="12">+12</option><option value="15">+15</option></select></label>
+              </div>
+              <label class="checkbox"><input type="checkbox" id="eval-ancient" /> <span>Este Ancient</span></label>
+              <fieldset><legend>Substat-uri</legend><p class="form-help">Alege până la patru. Valorile sunt comparate cu maximele inițiale doar când runa este la +0.</p><div id="substat-fields" class="substat-fields"></div></fieldset>
+              <button class="button primary" type="submit">Evaluează runa</button>
+            </form>
+            <aside class="evaluation-result" id="evaluation-result" aria-live="polite">
+              <div class="result-rune" aria-hidden="true">✦</div>
+              <p class="eyebrow">VERDICT</p>
+              <h3>Completează runa</h3>
+              <p>Apoi apasă „Evaluează runa”. Vei primi un verdict și motivele care l-au generat.</p>
+            </aside>
+          </div>
         </div>
       </section>
 
