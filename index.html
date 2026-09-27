@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summoners War - Rune Evaluator & Optimizer (Light Mode)</title>
+    <title>Summoners War - Rune Evaluator & Optimizer (PvE Light Edition)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -50,7 +50,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 28px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
         }
 
@@ -136,7 +136,6 @@
 
     <main class="max-w-[1600px] mx-auto px-4 py-6 flex-grow w-full space-y-6">
 
-        <!-- MAIN LAYOUT: BUILDER & RESULTS -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             <!-- LEFT PANEL: RUNE BUILDER (7 COLS) -->
@@ -612,15 +611,11 @@
             ]
         };
 
-        document.addEventListener("DOMContentLoaded", () => {
-            selectSlot(1);
-            evaluateRune();
-        });
-
         function selectSlot(slotNum) {
             currentSlot = slotNum;
             document.querySelectorAll('.slot-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`slot-btn-${slotNum}`).classList.add('active');
+            const activeBtn = document.getElementById(`slot-btn-${slotNum}`);
+            if (activeBtn) activeBtn.classList.add('active');
 
             // Populate main stat dropdown
             const selectEl = document.getElementById('main-stat-type');
@@ -646,6 +641,7 @@
             // Slot 3: ATK & ATK% cannot drop as substats
             for(let i=1; i<=4; i++) {
                 const subSelect = document.getElementById(`sub-stat-${i}`);
+                if (!subSelect) continue;
                 Array.from(subSelect.options).forEach(opt => {
                     opt.disabled = false;
                     if(currentSlot === 1 && (opt.value === 'DEF%' || opt.value === 'Flat DEF')) {
@@ -674,7 +670,9 @@
             const rarity = document.getElementById('rune-rarity').value;
             const stars = document.getElementById('rune-stars').value;
             const gem = document.getElementById('live-rune-gem');
-            gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
+            if (gem) {
+                gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
+            }
             evaluateRune();
         }
 
@@ -691,7 +689,9 @@
 
             // Update Rune Hex Visual Gem
             const gem = document.getElementById('live-rune-gem');
-            gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
+            if (gem) {
+                gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
+            }
             document.getElementById('live-slot-num').innerText = currentSlot;
             document.getElementById('live-set-name').innerText = set;
             document.getElementById('live-rune-level').innerText = level;
@@ -751,21 +751,26 @@
                 : { 'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20 };
 
             for(let i=1; i<=4; i++) {
-                const type = document.getElementById(`sub-stat-${i}`).value;
-                const baseVal = parseFloat(document.getElementById(`sub-val-${i}`).value) || 0;
-                const grindVal = parseFloat(document.getElementById(`sub-grind-${i}`).value) || 0;
+                const typeEl = document.getElementById(`sub-stat-${i}`);
+                const baseEl = document.getElementById(`sub-val-${i}`);
+                const grindEl = document.getElementById(`sub-grind-${i}`);
+
+                if (!typeEl || !baseEl || !grindEl) continue;
+
+                const type = typeEl.value;
+                const baseVal = parseFloat(baseEl.value) || 0;
+                const grindVal = parseFloat(grindEl.value) || 0;
 
                 // Disable grind input for non-grindable stats
-                const grindInput = document.getElementById(`sub-grind-${i}`);
                 if(['CR%', 'CD%', 'RES%', 'ACC%', 'None'].includes(type)) {
-                    grindInput.value = 0;
-                    grindInput.disabled = true;
-                    grindInput.classList.add('bg-slate-100', 'text-slate-400');
-                    grindInput.classList.remove('bg-white', 'text-cyan-700');
+                    grindEl.value = 0;
+                    grindEl.disabled = true;
+                    grindEl.classList.add('bg-slate-100', 'text-slate-400');
+                    grindEl.classList.remove('bg-white', 'text-cyan-700');
                 } else {
-                    grindInput.disabled = false;
-                    grindInput.classList.remove('bg-slate-100', 'text-slate-400');
-                    grindInput.classList.add('bg-white', 'text-cyan-700');
+                    grindEl.disabled = false;
+                    grindEl.classList.remove('bg-slate-100', 'text-slate-400');
+                    grindEl.classList.add('bg-white', 'text-cyan-700');
                 }
 
                 if(type !== 'None' && baseVal > 0) {
@@ -777,7 +782,6 @@
                     }
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
                         flatCount++;
-                        // If base value exceeds standard single roll maximum, upgrades landed in this flat stat
                         if(baseVal > flatSingleMax[type]) {
                             rolledIntoFlat = true;
                         }
@@ -855,14 +859,13 @@
 
         function calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount) {
             const table = isAncient ? maxAncientRolls : maxStandardRolls;
-            let rawPoints = 1.0;     // Base points for main stat
+            let rawPoints = 1.0;
             let combatPoints = 1.0;
 
             // Innate points
             if(innateType !== 'None' && innateVal > 0 && table[innateType]) {
                 const innRatio = innateVal / table[innateType];
                 rawPoints += innRatio;
-                // Flat stats in innate give only ~35% real value
                 const isFlat = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(innateType);
                 combatPoints += isFlat ? (innRatio * 0.35) : innRatio;
             }
@@ -874,7 +877,6 @@
                     rawPoints += ratio;
 
                     if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) {
-                        // Flat stats in SW provide only ~35% of a % stat value in practical combat
                         combatPoints += (ratio * 0.35);
                     } else {
                         combatPoints += ratio;
@@ -882,8 +884,6 @@
                 }
             });
 
-            // If 2 or more flat substats are present, apply harsh dead-stat penalty to combat efficiency
-            // because you can only gem out 1 flat stat. The other flat stat is permanently dead.
             if(flatCount >= 2) {
                 combatPoints *= 0.82; // 18% direct penalty to usable combat power
             }
@@ -953,7 +953,6 @@
 
             // Rule 4: The 2+ Flat Substats Filter (Crucial for PvE stability)
             if(ctx.flatCount >= 2) {
-                // In PvE, 2 flat substats cripple a monster's required stat benchmarks
                 if(['+0', '+3'].includes(ctx.level) && ctx.percentCount >= 1 && ctx.rarity === 'Legend') {
                     return {
                         status: 'ROLL',
@@ -1012,7 +1011,7 @@
             if(ctx.userTier === 'late') { effThreshold = 77; spdThreshold = 15; }
             if(ctx.userTier === 'end') { effThreshold = 84; spdThreshold = 18; }
 
-            // High PvE Synergy Check (CR/CD/ATK nukers or HP/DEF/SPD/ACC tanks)
+            // High PvE Synergy Check
             if(ctx.combatEfficiency >= effThreshold) {
                 let role = "Tanc / Suport PvE (Abyss / Solo R5 / ToA)";
                 if(ctx.percentCount >= 3 || ['CD%', 'CR%'].includes(ctx.mainType)) {
@@ -1093,7 +1092,7 @@
             // Căutăm dacă există un stat flat fără rulaje care strică runa
             const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.base <= 375);
             
-            // Căutăm dacă există un stat complet anti-sinergic pentru PvE (ex: RES% pe un set de Nuker Fatal/Rage/Blade)
+            // Căutăm dacă există un stat complet anti-sinergic pentru PvE
             const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.base <= 8);
 
             if (unrolledFlat) {
@@ -1330,6 +1329,12 @@
             onRarityChange();
             evaluateRune();
         }
+
+        // Initialize on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            selectSlot(1);
+            evaluateRune();
+        });
     </script>
 </body>
 </html>
