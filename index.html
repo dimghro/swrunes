@@ -121,7 +121,7 @@
                 </div>
             </div>
 
-            <!-- Progression Tier Quick Selector (Orientat PvE) -->
+            <!-- Progression Tier Quick Selector -->
             <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
                 <span class="text-xs text-slate-600 font-bold pl-2">Obiectiv PvE:</span>
                 <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-bold rounded-lg px-3 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30">
@@ -138,8 +138,8 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- LEFT PANEL: RUNE BUILDER (7 COLS) -->
-            <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+            <!-- LEFT PANEL: RUNE BUILDER (6 COLS) -->
+            <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                     <h2 class="heading-font text-xl font-bold text-slate-800 flex items-center gap-2">
                         <span class="text-amber-500">🛠️</span> CONFIGURATOR RUNĂ (RUNE BUILDER)
@@ -163,9 +163,9 @@
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                    <!-- Set Selection (All 23 SW sets) -->
+                    <!-- Set Selection -->
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Set Runic (Toate 23)</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Set Runic (23 Seturi)</label>
                         <select id="rune-set" onchange="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold shadow-sm">
                             <optgroup label="4-Piece Sets">
                                 <option value="Violent" selected>Violent (22% Proc)</option>
@@ -247,13 +247,13 @@
                         </div>
                         <div class="grid grid-cols-7 gap-2">
                             <select id="main-stat-type" onchange="onMainStatTypeChange()" class="col-span-4 bg-white text-xs border border-amber-300 rounded-lg p-2 text-slate-800 font-semibold focus:ring-2 focus:ring-amber-500 shadow-sm">
-                                <!-- Populated dynamically based on slot and power-up level -->
+                                <!-- Dinamic -->
                             </select>
                             <input type="number" id="main-stat-val" value="118" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-700 font-bold font-mono focus:ring-2 focus:ring-amber-500 shadow-sm">
                         </div>
                     </div>
 
-                    <!-- Innate Prefix Stat (Optional) -->
+                    <!-- Innate Prefix Stat -->
                     <div class="bg-purple-50/50 p-3.5 rounded-xl border border-purple-200/80 space-y-2">
                         <div class="flex justify-between items-center">
                             <label class="text-xs font-bold text-purple-900 uppercase tracking-wider">Prefix Înnăscut (Innate)</label>
@@ -373,50 +373,52 @@
                 </div>
             </div>
 
-            <!-- RIGHT PANEL: PREVIEW, VERDICT & OPTIMIZER (5 COLS) -->
-            <div class="lg:col-span-5 space-y-5">
+            <!-- RIGHT PANEL: PREVIEW & INTEGRATED VERDICT OPTIMIZER (6 COLS) -->
+            <div class="lg:col-span-6 space-y-5">
                 
                 <!-- LIVE IN-GAME RUNE VISUAL CARD -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
-                    <div class="text-xs uppercase tracking-wider font-bold text-slate-500 mb-3 flex justify-between items-center">
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                    <div class="text-xs uppercase tracking-wider font-bold text-slate-500 mb-2 flex justify-between items-center">
                         <span>Previzualizare Runică Live</span>
                         <span id="card-stars-display" class="text-amber-500 font-mono text-sm">★★★★★★</span>
                     </div>
 
-                    <!-- Rune Gem Display in Light Mode -->
-                    <div class="my-4 text-center">
-                        <div id="live-rune-gem" class="rune-hex legend">
-                            <div class="text-center">
-                                <div id="live-slot-num" class="heading-font text-3xl font-extrabold text-amber-700 drop-shadow-sm">1</div>
-                                <div id="live-set-name" class="text-xs font-bold uppercase tracking-wider text-slate-700">Violent</div>
-                                <div id="live-rune-level" class="text-[11px] font-mono text-amber-600 font-bold">+12</div>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <!-- Rune Gem Display -->
+                        <div class="shrink-0 text-center">
+                            <div id="live-rune-gem" class="rune-hex legend">
+                                <div class="text-center">
+                                    <div id="live-slot-num" class="heading-font text-3xl font-extrabold text-amber-700 drop-shadow-sm">1</div>
+                                    <div id="live-set-name" class="text-xs font-bold uppercase tracking-wider text-slate-700">Violent</div>
+                                    <div id="live-rune-level" class="text-[11px] font-mono text-amber-600 font-bold">+12</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Textual Rune Properties Display (Like In-Game Card) -->
-                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2 font-mono text-xs">
-                        <div class="flex justify-between items-baseline border-b border-slate-200 pb-2">
-                            <span id="live-main-title" class="font-bold text-slate-900 text-sm">Flat ATK +118</span>
-                            <span class="text-[10px] text-slate-500 font-sans font-semibold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Main Stat</span>
-                        </div>
+                        <!-- Textual Rune Properties -->
+                        <div class="w-full bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-1.5 font-mono text-xs">
+                            <div class="flex justify-between items-baseline border-b border-slate-200 pb-1.5">
+                                <span id="live-main-title" class="font-bold text-slate-900 text-sm">Flat ATK +118</span>
+                                <span class="text-[10px] text-slate-500 font-sans font-semibold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Main Stat</span>
+                            </div>
 
-                        <!-- Innate line -->
-                        <div id="live-innate-row" class="text-purple-700 py-1 hidden border-b border-purple-100 font-semibold">
-                            Prefix: <span id="live-innate-text">+0</span>
-                        </div>
+                            <div id="live-innate-row" class="text-purple-700 py-0.5 hidden border-b border-purple-100 font-semibold">
+                                Prefix: <span id="live-innate-text">+0</span>
+                            </div>
 
-                        <!-- Substats list -->
-                        <div class="space-y-1 text-slate-700 pt-1" id="live-substats-list">
-                            <!-- Populated dynamically -->
+                            <div class="space-y-1 text-slate-700 pt-0.5" id="live-substats-list">
+                                <!-- Dinamic -->
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ACTION VERDICT ENGINE (KEEP VS SELL) -->
+                <!-- INTEGRATED VERDICT OPTIMIZATION ENGINE -->
                 <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4" id="verdict-card-container">
-                    <div class="flex flex-wrap justify-between items-center gap-2">
-                        <span class="text-xs uppercase tracking-widest font-bold text-slate-500">Verdict Optimizare</span>
+                    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+                        <span class="heading-font text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span>⚖️</span> VERDICT OPTIMIZARE COMPLET
+                        </span>
                         <div class="flex items-center gap-1.5">
                             <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono font-bold text-xs border border-amber-300">
                                 Eficiență Reală: 0.0%
@@ -427,69 +429,63 @@
                         </div>
                     </div>
 
-                    <!-- Dead Stat Alert Banner (Shows when 2+ flat substats detected) -->
+                    <!-- Dead Stat Alert Banner -->
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-semibold flex items-center gap-2">
                         <span>⚠️</span>
                         <span>Atenție: Runa conține <strong>2 sau mai multe substaturi plate</strong>! Mecanica jocului permite un singur Gem per rună, deci cel puțin un stat flat rămâne definitiv blocat ca „dead stat”.</span>
                     </div>
 
                     <!-- Big Decisive Headline Banner -->
-                    <div id="verdict-banner" class="p-4 rounded-xl text-center font-extrabold text-base sm:text-lg tracking-wide uppercase transition-all shadow-sm border">
+                    <div id="verdict-banner" class="p-3.5 rounded-xl text-center font-extrabold text-base tracking-wide uppercase transition-all shadow-sm border">
                         <!-- e.g. PĂSTREAZĂ (KEEP) / VINDE IMEDIAT (SELL) -->
                     </div>
 
                     <!-- Detailed Explanation & Reasoning -->
-                    <div class="space-y-2 text-xs">
-                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-slate-800 font-bold block mb-1 flex items-center gap-1.5">
-                                <span class="text-amber-500">📊</span> Motive & Analiză Matematică:
+                                <span class="text-amber-500">📊</span> Motive & Analiză:
                             </strong>
                             <p id="verdict-reasons" class="text-slate-600 leading-relaxed font-medium"></p>
                         </div>
 
-                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-sky-800 font-bold block mb-1 flex items-center gap-1.5">
-                                <span class="text-sky-500">🎯</span> Compatibilitate Arhetip / Monștri:
+                                <span class="text-sky-500">🎯</span> Sinergie / Monștri:
                             </strong>
                             <p id="verdict-archetypes" class="text-slate-600 leading-relaxed font-medium"></p>
                         </div>
                     </div>
+
+                    <!-- INTEGRATED SECTION 1: GEM & GRIND ADVISOR -->
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="font-bold text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <span class="text-cyan-600">💎</span> RECOMANDĂRI GEM & GRIND (OPTIMIZARE PVE)
+                            </h3>
+                            <span id="gem-badge" class="text-[10px] bg-cyan-100 text-cyan-800 font-bold px-2 py-0.5 rounded border border-cyan-200">Necesar</span>
+                        </div>
+                        <div id="gem-recommendation-box" class="space-y-2 text-xs">
+                            <!-- Populat dinamic -->
+                        </div>
+                    </div>
+
+                    <!-- INTEGRATED SECTION 2: REAPPRAISAL ADVISOR -->
+                    <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/60 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <h3 class="font-bold text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
+                            </h3>
+                            <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded border border-purple-200">Evaluare</span>
+                        </div>
+                        <div id="reapp-recommendation-box" class="space-y-2 text-xs">
+                            <!-- Populat dinamic -->
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
-        </div>
-
-        <!-- ADVANCED OPTIMIZATION PANELS: GEM / GRIND & REAPPRAISAL ENGINES -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <!-- GEM & GRIND ADVISOR PANEL -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="heading-font text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <span class="text-cyan-600">💎</span> RECOMANDĂRI GEM & GRIND (OPTIMIZARE PVE)
-                    </h3>
-                    <span class="text-[11px] bg-cyan-50 text-cyan-700 font-semibold px-2 py-0.5 rounded-md border border-cyan-200">Necesar Strict</span>
-                </div>
-
-                <div id="gem-recommendation-box" class="space-y-3 text-xs">
-                    <!-- Populated dynamically by evaluateRune() -->
-                </div>
-            </div>
-
-            <!-- REAPPRAISAL ADVISOR PANEL -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="heading-font text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
-                    </h3>
-                    <span id="reapp-badge" class="text-[11px] bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-md border border-purple-200">Evaluare Reapp</span>
-                </div>
-
-                <div id="reapp-recommendation-box" class="space-y-3 text-xs">
-                    <!-- Populated dynamically by evaluateRune() -->
-                </div>
-            </div>
-
         </div>
 
         <!-- COMPREHENSIVE STRATEGY GUIDE CARD -->
@@ -504,7 +500,7 @@
                     </strong>
                     <p class="leading-relaxed">
                         Dacă o rună are stat principal <strong>Flat HP, Flat ATK sau Flat DEF</strong> pe sloturile pare (2, 4, 6), este <strong>vânzare automată (99.9%)</strong>. 
-                        Singura excepție admisă este pe setul <strong>Swift cu 18–24+ SPD</strong> pentru monștrii Turn-1 cleave (Kabilla, Triton, Eshir).
+                        Nicio piatră de Reappraisal nu poate schimba statul principal, așa că nu irosi resurse pe ele!
                     </p>
                 </div>
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
@@ -512,17 +508,17 @@
                         <span>💎</span> Când să folosești Gem și Grind?
                     </strong>
                     <p class="leading-relaxed">
-                        Schimbă (Gem out) <strong>întotdeauna substatul cel mai slab</strong> sau fără rulaje (de regulă un flat stat sau rezistență pe un nuker) cu un stat complementar procentual (HP%, DEF%, ATK%) sau SPD. 
-                        <em>Nu folosi Gem pe un stat care a primit 2 sau mai multe rulaje</em>, deoarece vei pierde eficiență masivă.
+                        Schimbă (Gem out) <strong>întotdeauna substatul cel mai slab</strong> sau fără rulaje (un flat stat sau rezistență pe un nuker) cu un stat complementar procentual (HP%, DEF%, ATK%) sau SPD. 
+                        Dacă o rună are verdict de vânzare, <strong>nu investi niciun fel de Gem sau Grind</strong>.
                     </p>
                 </div>
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                     <strong class="text-purple-700 font-bold block text-sm flex items-center gap-1.5">
-                        <span>🎯</span> Când merită folosit Reappraisal?
+                        <span>🎯</span> Regula Must-Keep pentru Reappraisal
                     </strong>
                     <p class="leading-relaxed">
-                        Folosește Reappraisal <strong>DOAR pe rune 6★ Legend</strong> pe sloturile <strong>2, 4 sau 6</strong> din seturi prioritare (Violent, Will, Swift, Despair, Seal). 
-                        Ideal este să aibă un <strong>prefix înnăscut (Innate)</strong> care elimină un flat stat, dar <strong>NICIODATĂ Innate SPD</strong>, altfel SPD nu va mai putea cădea ca substat!
+                        Chiar dacă substaturile sunt proaste și justifică vânzarea, <strong>păstrează runa pentru Reapp dacă este 6★ Legend pe sloturile 2, 4 sau 6</strong> cu stat principal de top (SPD, CD%, HP%, ATK%) din seturi cheie (Violent, Swift, Despair, Will, Rage, Fight, Seal). 
+                        Atenție: <strong>Nu da Reapp dacă are Innate SPD</strong>!
                     </p>
                 </div>
             </div>
@@ -540,7 +536,7 @@
         // State variables
         let currentSlot = 1;
 
-        // Max single baseline rolls for 6-star standard runes (used for SWOP efficiency calculation)
+        // Max single baseline rolls for SWOP efficiency calculation
         const maxStandardRolls = {
             'SPD': 6,
             'HP%': 8,
@@ -569,22 +565,24 @@
             'Flat DEF': 24
         };
 
-        // Official SW Main Stat progression values by Star Grade and Level
+        // Official SW Main Stat progression values by Star Grade and Level (Valori oficiale Summoners War)
+        // În joc, runele de 6★ (inclusiv Ancient) au EXACT aceleași valori pentru statul principal:
+        // CR% începe la 7%, crește cu fix +3% per nivel până la +12 (7 + 12*3 = 43%), iar la +15 atinge 58%.
         const mainStatTable = {
             '6-star': {
-                '+0':  { 'SPD': 7,  'HP%': 11, 'ATK%': 11, 'DEF%': 11, 'CR%': 7,  'CD%': 11, 'RES%': 9,  'ACC%': 9,  'Flat HP': 360,  'Flat ATK': 15,  'Flat DEF': 15 },
-                '+3':  { 'SPD': 13, 'HP%': 20, 'ATK%': 20, 'DEF%': 20, 'CR%': 15, 'CD%': 22, 'RES%': 18, 'ACC%': 18, 'Flat HP': 690,  'Flat ATK': 38,  'Flat DEF': 38 },
-                '+6':  { 'SPD': 19, 'HP%': 29, 'ATK%': 29, 'DEF%': 29, 'CR%': 24, 'CD%': 34, 'RES%': 28, 'ACC%': 28, 'Flat HP': 1050, 'Flat ATK': 62,  'Flat DEF': 62 },
-                '+9':  { 'SPD': 25, 'HP%': 38, 'ATK%': 38, 'DEF%': 38, 'CR%': 32, 'CD%': 45, 'RES%': 37, 'ACC%': 37, 'Flat HP': 1440, 'Flat ATK': 88,  'Flat DEF': 88 },
-                '+12': { 'SPD': 32, 'HP%': 47, 'ATK%': 47, 'DEF%': 47, 'CR%': 41, 'CD%': 57, 'RES%': 48, 'ACC%': 48, 'Flat HP': 1800, 'Flat ATK': 118, 'Flat DEF': 118 },
+                '+0':  { 'SPD': 7,  'HP%': 11, 'ATK%': 11, 'DEF%': 11, 'CR%': 7,  'CD%': 11, 'RES%': 12, 'ACC%': 12, 'Flat HP': 360,  'Flat ATK': 22,  'Flat DEF': 22 },
+                '+3':  { 'SPD': 13, 'HP%': 20, 'ATK%': 20, 'DEF%': 20, 'CR%': 16, 'CD%': 23, 'RES%': 21, 'ACC%': 21, 'Flat HP': 720,  'Flat ATK': 46,  'Flat DEF': 46 },
+                '+6':  { 'SPD': 19, 'HP%': 29, 'ATK%': 29, 'DEF%': 29, 'CR%': 25, 'CD%': 35, 'RES%': 30, 'ACC%': 30, 'Flat HP': 1080, 'Flat ATK': 70,  'Flat DEF': 70 },
+                '+9':  { 'SPD': 25, 'HP%': 38, 'ATK%': 38, 'DEF%': 38, 'CR%': 34, 'CD%': 47, 'RES%': 39, 'ACC%': 39, 'Flat HP': 1440, 'Flat ATK': 94,  'Flat DEF': 94 },
+                '+12': { 'SPD': 32, 'HP%': 47, 'ATK%': 47, 'DEF%': 47, 'CR%': 43, 'CD%': 59, 'RES%': 48, 'ACC%': 48, 'Flat HP': 1800, 'Flat ATK': 118, 'Flat DEF': 118 },
                 '+15': { 'SPD': 42, 'HP%': 63, 'ATK%': 63, 'DEF%': 63, 'CR%': 58, 'CD%': 80, 'RES%': 64, 'ACC%': 64, 'Flat HP': 2448, 'Flat ATK': 160, 'Flat DEF': 160 }
             },
             '5-star': {
-                '+0':  { 'SPD': 5,  'HP%': 8,  'ATK%': 8,  'DEF%': 8,  'CR%': 5,  'CD%': 8,  'RES%': 6,  'ACC%': 6,  'Flat HP': 270,  'Flat ATK': 10,  'Flat DEF': 10 },
-                '+3':  { 'SPD': 10, 'HP%': 15, 'ATK%': 15, 'DEF%': 15, 'CR%': 11, 'CD%': 17, 'RES%': 14, 'ACC%': 14, 'Flat HP': 540,  'Flat ATK': 28,  'Flat DEF': 28 },
-                '+6':  { 'SPD': 15, 'HP%': 22, 'ATK%': 22, 'DEF%': 22, 'CR%': 18, 'CD%': 26, 'RES%': 21, 'ACC%': 21, 'Flat HP': 840,  'Flat ATK': 48,  'Flat DEF': 48 },
-                '+9':  { 'SPD': 21, 'HP%': 30, 'ATK%': 30, 'DEF%': 30, 'CR%': 24, 'CD%': 35, 'RES%': 29, 'ACC%': 29, 'Flat HP': 1170, 'Flat ATK': 70,  'Flat DEF': 70 },
-                '+12': { 'SPD': 27, 'HP%': 37, 'ATK%': 37, 'DEF%': 37, 'CR%': 31, 'CD%': 44, 'RES%': 36, 'ACC%': 36, 'Flat HP': 1530, 'Flat ATK': 95,  'Flat DEF': 95 },
+                '+0':  { 'SPD': 5,  'HP%': 8,  'ATK%': 8,  'DEF%': 8,  'CR%': 5,  'CD%': 8,  'RES%': 9,  'ACC%': 9,  'Flat HP': 270,  'Flat ATK': 15,  'Flat DEF': 15 },
+                '+3':  { 'SPD': 10, 'HP%': 15, 'ATK%': 15, 'DEF%': 15, 'CR%': 11, 'CD%': 17, 'RES%': 16, 'ACC%': 16, 'Flat HP': 540,  'Flat ATK': 35,  'Flat DEF': 35 },
+                '+6':  { 'SPD': 15, 'HP%': 22, 'ATK%': 22, 'DEF%': 22, 'CR%': 18, 'CD%': 26, 'RES%': 23, 'ACC%': 23, 'Flat HP': 840,  'Flat ATK': 55,  'Flat DEF': 55 },
+                '+9':  { 'SPD': 21, 'HP%': 30, 'ATK%': 30, 'DEF%': 30, 'CR%': 24, 'CD%': 35, 'RES%': 30, 'ACC%': 30, 'Flat HP': 1170, 'Flat ATK': 75,  'Flat DEF': 75 },
+                '+12': { 'SPD': 27, 'HP%': 37, 'ATK%': 37, 'DEF%': 37, 'CR%': 31, 'CD%': 44, 'RES%': 37, 'ACC%': 37, 'Flat HP': 1530, 'Flat ATK': 95,  'Flat DEF': 95 },
                 '+15': { 'SPD': 39, 'HP%': 51, 'ATK%': 51, 'DEF%': 51, 'CR%': 47, 'CD%': 65, 'RES%': 51, 'ACC%': 51, 'Flat HP': 2088, 'Flat ATK': 135, 'Flat DEF': 135 }
             }
         };
@@ -632,9 +630,10 @@
         };
 
         function getMainStatDefault(type, level, stars) {
+            // Runele 6★ Standard și 6★ Ancient folosesc EXACT același tabel pentru statul principal
             const starKey = stars === '5-star' ? '5-star' : '6-star';
-            const lvlKey = mainStatTable[starKey][level] ? level : '+12';
-            if (mainStatTable[starKey][lvlKey] && mainStatTable[starKey][lvlKey][type] !== undefined) {
+            const lvlKey = (mainStatTable[starKey] && mainStatTable[starKey][level]) ? level : '+12';
+            if (mainStatTable[starKey] && mainStatTable[starKey][lvlKey] && mainStatTable[starKey][lvlKey][type] !== undefined) {
                 return mainStatTable[starKey][lvlKey][type];
             }
             return 0;
@@ -683,8 +682,6 @@
         }
 
         function onSlotExclusionCheck() {
-            // Slot 1: DEF & DEF% cannot drop as substats
-            // Slot 3: ATK & ATK% cannot drop as substats
             for(let i=1; i<=4; i++) {
                 const subSelect = document.getElementById(`sub-stat-${i}`);
                 if (!subSelect) continue;
@@ -732,7 +729,6 @@
         }
 
         function updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs) {
-            // Update stars indicator
             const starsDisplay = document.getElementById('card-stars-display');
             if (stars === '5-star') {
                 starsDisplay.innerText = '★★★★★';
@@ -742,7 +738,6 @@
                 starsDisplay.innerText = '★★★★★★';
             }
 
-            // Update Rune Hex Visual Gem
             const gem = document.getElementById('live-rune-gem');
             if (gem) {
                 gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
@@ -751,13 +746,11 @@
             document.getElementById('live-set-name').innerText = set;
             document.getElementById('live-rune-level').innerText = level;
 
-            // Main Stat display
             const displayTitle = mainType.endsWith('%') 
                 ? `${mainType.replace('%', '')} +${mainVal}%`
                 : `${mainType} +${mainVal}`;
             document.getElementById('live-main-title').innerText = displayTitle;
 
-            // Innate line
             const innateRow = document.getElementById('live-innate-row');
             if (innateType !== 'None' && innateVal > 0) {
                 innateRow.classList.remove('hidden');
@@ -766,7 +759,6 @@
                 innateRow.classList.add('hidden');
             }
 
-            // Substats list
             const subList = document.getElementById('live-substats-list');
             subList.innerHTML = '';
             if (subs.length === 0) {
@@ -782,6 +774,36 @@
             }
         }
 
+        // Logică verificării dacă un Main Stat este MUST-KEEP pe familia respectivă de rune
+        function checkMustKeepMainStat(set, slot, mainType) {
+            const isEvenSlot = [2, 4, 6].includes(slot);
+            if (!isEvenSlot) return false;
+            if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) return false;
+
+            const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal', 'Nemesis', 'Revenge'];
+            if (!primeSets.includes(set)) return false;
+
+            if (slot === 2) {
+                if (['Swift', 'Violent', 'Will', 'Despair'].includes(set) && ['SPD', 'HP%', 'ATK%'].includes(mainType)) return true;
+                if (['Rage', 'Fatal'].includes(set) && ['ATK%', 'SPD'].includes(mainType)) return true;
+                if (['Fight', 'Nemesis', 'Revenge', 'Seal'].includes(set) && ['SPD', 'HP%', 'DEF%', 'ATK%'].includes(mainType)) return true;
+            }
+
+            if (slot === 4) {
+                if (['Violent', 'Will', 'Despair', 'Swift'].includes(set) && ['CD%', 'HP%', 'CR%', 'DEF%'].includes(mainType)) return true;
+                if (['Rage', 'Fatal', 'Blade'].includes(set) && ['CD%', 'CR%', 'ATK%'].includes(mainType)) return true;
+                if (['Fight', 'Nemesis', 'Seal'].includes(set) && ['HP%', 'CD%', 'DEF%'].includes(mainType)) return true;
+            }
+
+            if (slot === 6) {
+                if (['Violent', 'Swift', 'Will', 'Despair'].includes(set) && ['HP%', 'ATK%', 'ACC%', 'DEF%'].includes(mainType)) return true;
+                if (['Rage', 'Fatal'].includes(set) && ['ATK%', 'HP%'].includes(mainType)) return true;
+                if (['Fight', 'Nemesis', 'Seal'].includes(set) && ['HP%', 'DEF%', 'ATK%', 'ACC%'].includes(mainType)) return true;
+            }
+
+            return false;
+        }
+
         function evaluateRune() {
             const set = document.getElementById('rune-set').value;
             const stars = document.getElementById('rune-stars').value;
@@ -794,7 +816,6 @@
             const innateType = document.getElementById('innate-type').value;
             const innateVal = parseFloat(document.getElementById('innate-val').value) || 0;
 
-            // Collect substats
             const subs = [];
             let totalSpeed = 0;
             let ungroundSpeed = 0;
@@ -819,7 +840,6 @@
                 const baseVal = parseFloat(baseEl.value) || 0;
                 const grindVal = parseFloat(grindEl.value) || 0;
 
-                // Disable grind input for non-grindable stats
                 if(['CR%', 'CD%', 'RES%', 'ACC%', 'None'].includes(type)) {
                     grindEl.value = 0;
                     grindEl.disabled = true;
@@ -848,10 +868,8 @@
                 }
             }
 
-            // Update Live Card
             updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs);
 
-            // Toggle Dead Stat Alert
             const deadStatAlert = document.getElementById('dead-stat-alert');
             if (flatCount >= 2) {
                 deadStatAlert.classList.remove('hidden');
@@ -859,12 +877,10 @@
                 deadStatAlert.classList.add('hidden');
             }
 
-            // Compute Both Raw and Combat Real Efficiency Scores
             const effResults = calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount);
             document.getElementById('combat-eff-badge').innerText = `Eficiență Reală: ${effResults.combatEff.toFixed(1)}%`;
             document.getElementById('raw-eff-badge').innerText = `Brut: ${effResults.rawEff.toFixed(1)}%`;
 
-            // DECISION ENGINE
             const verdict = computeVerdict({
                 slot: currentSlot,
                 set,
@@ -885,10 +901,12 @@
                 subs
             });
 
-            // Display Verdict
             renderVerdict(verdict);
 
-            // RUN GEM & GRIND ADVISOR
+            const isSellVerdict = verdict.status === 'SELL';
+            const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
+
+            // Recomandări Gem & Grind
             renderGemAndGrindAdvisor({
                 slot: currentSlot,
                 set,
@@ -898,10 +916,11 @@
                 level,
                 rarity,
                 stars,
-                flatCount
+                flatCount,
+                isSellVerdict
             });
 
-            // RUN REAPPRAISAL ADVISOR
+            // Recomandări Reappraisal
             renderReappraisalAdvisor({
                 slot: currentSlot,
                 set,
@@ -911,7 +930,9 @@
                 innateType,
                 subs,
                 efficiency: effResults.combatEff,
-                level
+                level,
+                isSellVerdict,
+                isMustKeepForReapp
             });
         }
 
@@ -920,7 +941,6 @@
             let rawPoints = 1.0;
             let combatPoints = 1.0;
 
-            // Innate points
             if(innateType !== 'None' && innateVal > 0 && table[innateType]) {
                 const innRatio = innateVal / table[innateType];
                 rawPoints += innRatio;
@@ -928,7 +948,6 @@
                 combatPoints += isFlat ? (innRatio * 0.35) : innRatio;
             }
 
-            // Substats points
             subs.forEach(s => {
                 if(table[s.type]) {
                     const ratio = s.total / table[s.type];
@@ -943,7 +962,7 @@
             });
 
             if(flatCount >= 2) {
-                combatPoints *= 0.82; // 18% direct penalty to usable combat power
+                combatPoints *= 0.82;
             }
 
             const rawEff = Math.min(130, Math.max(20, (rawPoints / 2.8) * 100));
@@ -956,7 +975,6 @@
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
 
-            // Rule 1: 5-Star runes in PvE
             if(ctx.stars === '5-star') {
                 if(ctx.userTier === 'early' && ctx.combatEfficiency >= 65) {
                     return {
@@ -976,40 +994,16 @@
                 };
             }
 
-            // Rule 2: Flat Main Stat on Even Slots (2, 4, 6) in PvE
             if(isEvenSlot && isFlatMain) {
                 return {
                     status: 'SELL',
                     title: 'VINDE IMEDIAT (STAT PRINCIPAL FLAT PE SLOT PAR)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `În conținutul PvE, statul principal procentual (+63% HP/ATK/DEF) este vital. O rună flat pe slotul ${ctx.slot} reduce drastic șansele echipei de a supraviețui sau de a elimina valurile de monștri.`,
-                    archetypes: 'Niciun monstru de PvE nu este eficient cu stat principal flat.'
+                    reasons: `În conținutul PvE, statul principal procentual (+63% HP/ATK/DEF, +58% CR%, +80% CD%) este vital. O rună flat pe slotul ${ctx.slot} compromite grav monstrul.`,
+                    archetypes: 'Niciun monstru de PvE nu este eficient cu stat principal flat pe slot par.'
                 };
             }
 
-            // Rule 3: Reappraisal Candidate Check (6★ Legend Even Slot on Prime Sets)
-            if(ctx.rarity === 'Legend' && ctx.stars !== '5-star' && isEvenSlot && !isFlatMain && ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight'].includes(ctx.set)) {
-                if(ctx.innateType === 'SPD') {
-                    return {
-                        status: 'WARN',
-                        title: 'ATENȚIE: NU DA REAPP (INNATE SPD BLOCAT)!',
-                        color: 'bg-amber-50 text-amber-900 border-amber-300',
-                        reasons: 'Runa are SPD ca prefix înnăscut! Acest lucru blochează permanent apariția vitezei în substaturi la Reappraisal.',
-                        archetypes: 'Păstrează doar dacă substaturile actuale sunt deja funcționale în PvE.'
-                    };
-                }
-                if(ctx.combatEfficiency < 74 && (ctx.innateType !== 'None' || ['CD%', 'HP%', 'SPD', 'ATK%'].includes(ctx.mainType))) {
-                    return {
-                        status: 'REAPP',
-                        title: 'PĂSTREAZĂ CA ȚINTĂ DE REAPPRAISAL PVE',
-                        color: 'bg-purple-50 text-purple-900 border-purple-300',
-                        reasons: `Runa este 6★ Legend ${ctx.set} pe slotul par ${ctx.slot} (${ctx.mainType}). Baza este ideală pentru pietre Reapp pentru a obține un roll perfect de PvE Nuker sau Tanc.`,
-                        archetypes: 'Păstrează blocată în inventar pentru evenimentele de Reapp.'
-                    };
-                }
-            }
-
-            // Rule 4: The 2+ Flat Substats Filter (Crucial for PvE stability)
             if(ctx.flatCount >= 2) {
                 if(['+0', '+3'].includes(ctx.level) && ctx.percentCount >= 1 && ctx.rarity === 'Legend') {
                     return {
@@ -1025,30 +1019,28 @@
                     status: 'SELL',
                     title: 'VINDE IMEDIAT (2+ FLAT SUBSTATS - DEAD STAT BLOCAT)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `Runa conține ${ctx.flatCount} substaturi plate (Flat HP/ATK/DEF). Deoarece poți înlocui doar 1 singur stat prin Gem, celălalt va rămâne un „dead stat” definitiv, împiedicând monștrii să atingă cerințele de statistici din Abyss Hard.`,
-                    archetypes: 'Vânzare recomandată. În PvE fiecare substat trebuie să aducă valoare.'
+                    reasons: `Runa conține ${ctx.flatCount} substaturi plate. Deoarece poți înlocui doar 1 singur stat prin Gem, celălalt va rămâne un „dead stat” definitiv.`,
+                    archetypes: 'Vânzare recomandată pentru a nu bloca potențialul echipei.'
                 };
             }
 
-            // Rule 5: Single flat stat with absorbed rolls
             if(ctx.flatCount === 1 && ctx.rolledIntoFlat && ['+9', '+12', '+15'].includes(ctx.level)) {
                 return {
                     status: 'SELL',
                     title: 'VINDE (RULAJE IROSITE ÎN FLAT STAT)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: 'Unul dintre substaturile plate a absorbit upgrade-uri. Dacă aplici Gem pierzi rulajele, iar dacă nu aplici Gem rămâi cu o valoare infimă pentru PvE.',
+                    reasons: 'Unul dintre substaturile plate a absorbit rulaje de upgrade. Gem-ul ar șterge rulajele respective, rezultând o pierdere masivă de eficiență.',
                     archetypes: 'Vânzare recomandată.'
                 };
             }
 
-            // Rule 6: Testing at +0 or +3
             if(['+0', '+3'].includes(ctx.level)) {
                 if(ctx.percentCount >= 2 || (ctx.hasSpeed && ctx.ungroundSpeed >= 5)) {
                     return {
                         status: 'ROLL',
                         title: 'TESTEAZĂ LA +6 (VERIFICĂ SINERGIA PVE)',
                         color: 'bg-sky-50 text-sky-900 border-sky-300',
-                        reasons: 'Runa are potențial bun de sinergie ofensivă (ATK%/CR%/CD%) sau defensivă (HP%/DEF%/SPD). Ridic-o la +6 pentru a vedea densitatea rolurilor.',
+                        reasons: 'Runa are potențial bun de sinergie ofensivă sau defensivă. Ridic-o la +6 pentru a vedea calitatea rolurilor.',
                         archetypes: 'Potențial Nuker de Abyss sau Suport de Raid.'
                     };
                 }
@@ -1056,20 +1048,17 @@
                     status: 'SELL',
                     title: 'VINDE (SUBSTATURI DISPERSATE LA +0)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: 'Substaturile sunt dispersate, conțin flat stats și nu prezintă sinergie clară pentru nicio echipă de dungeon.',
+                    reasons: 'Substaturile sunt dispersate, conțin flat stats și nu prezintă sinergie clară pentru dungeon.',
                     archetypes: 'Niciunul.'
                 };
             }
 
-            // Rule 7: PvE Keep Thresholds based on selected PvE Account Goal
             let effThreshold = 65;
             let spdThreshold = 10;
-
             if(ctx.userTier === 'mid') { effThreshold = 71; spdThreshold = 12; }
             if(ctx.userTier === 'late') { effThreshold = 77; spdThreshold = 15; }
             if(ctx.userTier === 'end') { effThreshold = 84; spdThreshold = 18; }
 
-            // High PvE Synergy Check
             if(ctx.combatEfficiency >= effThreshold) {
                 let role = "Tanc / Suport PvE (Abyss / Solo R5 / ToA)";
                 if(ctx.percentCount >= 3 || ['CD%', 'CR%'].includes(ctx.mainType)) {
@@ -1079,19 +1068,18 @@
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (EFICIENȚĂ PVE EXCELENTĂ: ${ctx.combatEfficiency.toFixed(1)}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}% pentru nivelul tău PvE. Runa oferă statistici consistente necesare pentru rulaje 100% sigure în Dungeons.`,
+                    reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul de ${effThreshold}% pentru nivelul tău PvE. Oferă statistici consistente necesare pentru rulaje 100% sigure.`,
                     archetypes: `${role}. Ideală pentru Abyss Hard, Solo R5 sau echipe de ToA.`
                 };
             }
 
-            // Speed tuning hit for PvE Turn Order
             if(ctx.ungroundSpeed >= spdThreshold) {
                 return {
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (SPEED-TUNING PVE: +${ctx.totalSpeed} SPD)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
-                    reasons: `Viteza (+${ctx.ungroundSpeed} SPD fără grind) atinge pragul necesar pentru sincronizarea ordinii de atac (turn order) în echipele de Abyss Dungeons și Solo R5.`,
-                    archetypes: 'Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea, Sabrina/Talia).'
+                    reasons: `Viteza (+${ctx.ungroundSpeed} SPD fără grind) atinge pragul necesar pentru sincronizarea ordinii de atac (turn order).`,
+                    archetypes: 'Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea).'
                 };
             }
 
@@ -1099,14 +1087,14 @@
                 status: 'SELL',
                 title: 'VINDE (SUB PRAGUL OBIECTIVULUI TĂU PVE)',
                 color: 'bg-rose-50 text-rose-800 border-rose-300',
-                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}% necesar pentru stadiul tău de PvE, iar viteza nu oferă un bonus compensatoriu.`,
+                reasons: `Eficiența reală de ${ctx.combatEfficiency.toFixed(1)}% este sub pragul de ${effThreshold}% necesar pentru stadiul tău de PvE.`,
                 archetypes: 'Vânzare recomandată pentru obținerea de mana.'
             };
         }
 
         function renderVerdict(verdict) {
             const banner = document.getElementById('verdict-banner');
-            banner.className = `p-4 rounded-xl text-center font-extrabold text-base sm:text-lg tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
+            banner.className = `p-3.5 rounded-xl text-center font-extrabold text-base tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
             banner.innerHTML = verdict.title;
 
             document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
@@ -1115,30 +1103,39 @@
 
         function renderGemAndGrindAdvisor(ctx) {
             const container = document.getElementById('gem-recommendation-box');
+            const badge = document.getElementById('gem-badge');
             container.innerHTML = '';
 
-            if (ctx.subs.length === 0) {
-                container.innerHTML = '<p class="text-slate-400 italic">Configurează cel puțin un substat pentru a analiza necesitatea de Gem & Grind.</p>';
-                return;
-            }
-
-            // 1. Nu recomanda Gem/Grind dacă runa este încă neupgradată suficient
-            const isKeeper = ['+9', '+12', '+15'].includes(ctx.level);
-            if (!isKeeper) {
+            // Dacă verdictul este SELL, Gem & Grind nu se mai recomandă
+            if (ctx.isSellVerdict) {
+                badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded border border-rose-200';
+                badge.innerText = 'Inutil (Sell)';
                 container.innerHTML = `
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 space-y-1">
-                        <strong class="flex items-center gap-1.5 font-bold">
-                            <span>⏳</span> Așteaptă power-up la +9 / +12!
-                        </strong>
-                        <p class="text-slate-700 leading-relaxed text-[11px]">
-                            Nu este recomandat să folosești pietre Gem sau Grind înainte de a vedea unde cad toate upgrade-urile. Fă întâi power-up pentru a stabili dacă runa merită păstrată.
-                        </p>
+                    <div class="p-2.5 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] leading-relaxed">
+                        🚫 <strong>Nu irosi materiale:</strong> Runa are verdict de vânzare. Este strict contraindicat să folosești pietre Gem sau Grindstone pe această piesă.
                     </div>
                 `;
                 return;
             }
 
-            // 2. Evaluare: Este necesară o schimbare prin Gem?
+            badge.className = 'text-[10px] bg-cyan-100 text-cyan-800 font-bold px-2 py-0.5 rounded border border-cyan-200';
+            badge.innerText = 'Activ';
+
+            if (ctx.subs.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 italic">Configurează cel puțin un substat.</p>';
+                return;
+            }
+
+            const isKeeperLevel = ['+9', '+12', '+15'].includes(ctx.level);
+            if (!isKeeperLevel) {
+                container.innerHTML = `
+                    <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px]">
+                        ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează power-up-ul înainte de a investi Gem sau Grind.
+                    </div>
+                `;
+                return;
+            }
+
             let mustGemSub = null;
             let gemReason = '';
             let desiredGemIn = 'HP%';
@@ -1147,21 +1144,17 @@
             if (ctx.innateType !== 'None') existingTypes.push(ctx.innateType);
             existingTypes.push(ctx.mainType);
 
-            // Căutăm dacă există un stat flat fără rulaje care strică runa
             const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.base <= 375);
-            
-            // Căutăm dacă există un stat anti-sinergic pentru PvE
             const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.base <= 8);
 
             if (unrolledFlat) {
                 mustGemSub = unrolledFlat;
-                gemReason = `Conține statul mort <strong>${unrolledFlat.type}</strong>. Deoarece runa este păstrată, este <strong>musai necesar</strong> să îl înlocuiești pentru a nu pierde o statistică procentuală esențială în PvE.`;
+                gemReason = `Conține statul mort <strong>${unrolledFlat.type}</strong> fără rulaje. Schimbă-l pentru a nu pierde o statistică procentuală cheie.`;
             } else if (antiSynergyRes) {
                 mustGemSub = antiSynergyRes;
-                gemReason = `Statul <strong>RES%</strong> nu oferă valoare pe un set de nuker (${ctx.set}). Este recomandat să îl schimbi pentru a atinge pragurile ofensive de dungeon.`;
+                gemReason = `Statul <strong>RES%</strong> nu ajută un set de nuker (${ctx.set}).`;
             }
 
-            // Determinare stat de introdus util pentru PvE
             const pvePriorities = ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%', 'ACC%'];
             for (let cand of pvePriorities) {
                 if (ctx.slot === 1 && (cand === 'DEF%' || cand === 'Flat DEF')) continue;
@@ -1172,75 +1165,45 @@
                 }
             }
 
-            // Randare bloc GEM
             let gemHtml = '';
             if (mustGemSub) {
                 gemHtml = `
-                    <div class="bg-amber-50/80 p-3 rounded-xl border border-amber-300">
-                        <div class="flex items-center gap-1.5 font-bold text-amber-900 mb-1">
-                            <span class="text-sm">⚠️</span> Gem STRICT NECESAR:
-                        </div>
-                        <p class="text-slate-700 leading-relaxed text-[11px]">
-                            ${gemReason}
-                        </p>
-                        <div class="mt-2 p-2 bg-white rounded-lg border border-amber-200 text-[11px] text-slate-800">
-                            👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.base})</strong> cu un Gem de <strong class="text-emerald-700 font-bold">${desiredGemIn}</strong>.
+                    <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-300 text-[11px] text-amber-900">
+                        <span class="font-bold">⚠️ Recomandare Gem:</span> ${gemReason}
+                        <div class="mt-1 font-semibold text-slate-800">
+                            👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.base})</strong> cu Gem de <strong class="text-emerald-700">${desiredGemIn}</strong>.
                         </div>
                     </div>
                 `;
             } else {
                 gemHtml = `
-                    <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-300">
-                        <div class="flex items-center gap-1.5 font-bold text-emerald-900 mb-1">
-                            <span class="text-sm">✅</span> NICIUN GEM NECESAR:
-                        </div>
-                        <p class="text-slate-700 leading-relaxed text-[11px]">
-                            Toate substaturile acestei rune au o <strong>sinergie excelentă pentru PvE</strong> și nu conțin staturi moarte. <strong>Nu irosi pietre prețioase de conversie</strong> pe această rună; păstrează-le pentru piese care au flat stats nedorite.
-                        </p>
+                    <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900">
+                        ✅ <strong>Fără Gem necesar:</strong> Toate substaturile au o sinergie bună.
                     </div>
                 `;
             }
 
-            // 3. Randare bloc GRIND
             const grindableSubs = ctx.subs.filter(s => ['SPD', 'HP%', 'ATK%', 'DEF%'].includes(s.type));
             let grindHtml = '';
 
             if (grindableSubs.length > 0) {
                 const grindItems = grindableSubs.map(s => {
-                    let pveUsageNote = '';
-                    if (s.type === 'ATK%') pveUsageNote = 'One-shot valuri de monștri în Abyss Hard (Liam, Teshar, Julie)';
-                    else if (s.type === 'HP%' || s.type === 'DEF%') pveUsageNote = 'Stabilitate & supraviețuire (Solo R5, Riley, Veromos)';
-                    else if (s.type === 'SPD') pveUsageNote = 'Speed-tuning (asigură ordinea corectă a turelor înainte de Boss)';
-
                     const currentStatus = s.grind > 0 
                         ? `<span class="text-cyan-700 font-bold font-mono">(Are deja +${s.grind})</span>` 
                         : '<span class="text-amber-700 font-semibold">(Merită grinduit)</span>';
 
                     return `
-                        <li class="py-1.5 border-b border-slate-100 last:border-0">
-                            <div class="flex justify-between items-center text-[11px]">
-                                <span class="font-bold text-slate-800">• ${s.type} ${currentStatus}</span>
-                                <span class="text-[10px] text-cyan-800 bg-cyan-100 px-2 py-0.5 rounded font-medium">Prioritate PvE</span>
-                            </div>
-                            <p class="text-[10px] text-slate-500 mt-0.5">${pveUsageNote}</p>
-                        </li>
+                        <div class="flex justify-between items-center text-[11px] py-0.5">
+                            <span>• <strong>${s.type}</strong> ${currentStatus}</span>
+                            <span class="text-[10px] text-cyan-800 bg-cyan-100 px-1.5 py-0.2 rounded font-medium">Grindstone</span>
+                        </div>
                     `;
                 }).join('');
 
                 grindHtml = `
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                        <div class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5">
-                            <span class="text-sm">🛡️</span> Îmbunătățiri Grindstone Recomandate (PvE):
-                        </div>
-                        <ul class="space-y-1">
-                            ${grindItems}
-                        </ul>
-                    </div>
-                `;
-            } else {
-                grindHtml = `
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-slate-500 text-[11px]">
-                        Runa nu conține substaturi grindabile procentuale (CR, CD, RES, ACC nu pot primi grind).
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+                        <div class="font-bold text-slate-800 mb-1 text-[11px]">🛡️ Îmbunătățiri Grindstone (PvE):</div>
+                        <div class="space-y-0.5">${grindItems}</div>
                     </div>
                 `;
             }
@@ -1257,113 +1220,96 @@
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
             const isLegend = ctx.rarity === 'Legend';
             const isSixStar = ctx.stars !== '5-star';
-            const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal'];
-            const isPrimeSet = primeSets.includes(ctx.set);
 
-            // Case 1: Not 6-star Legend
+            // SCENARIU 1: Runa a primit verdictul SELL
+            if (ctx.isSellVerdict) {
+                if (ctx.isMustKeepForReapp && isLegend && isSixStar) {
+                    if (ctx.innateType === 'SPD') {
+                        badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded border border-rose-300';
+                        badge.innerText = 'Vinde (Innate SPD)';
+                        container.innerHTML = `
+                            <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] leading-relaxed">
+                                🛑 <strong>Nu da Reapp (Innate SPD):</strong> Deși baza ${ctx.set} pe Slot ${ctx.slot} (${ctx.mainType}) ar fi fost excelentă, prefixul înnăscut <strong>SPD</strong> blochează definitiv viteza din substaturi. Vinde piesa.
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-bold px-2 py-0.5 rounded border border-purple-400';
+                    badge.innerText = '💎 SALVEAZĂ PT. REAPP!';
+                    container.innerHTML = `
+                        <div class="p-3 bg-purple-50 rounded-lg border-2 border-purple-400 text-purple-950 text-[11px] leading-relaxed space-y-1">
+                            <div class="font-bold text-xs text-purple-900 flex items-center gap-1.5">
+                                <span>🎯</span> BAZĂ MUST-KEEP PENTRU REAPPRAISAL!
+                            </div>
+                            <p>
+                                Deși substaturile actuale justifică vânzarea, <strong>baza de 6★ Legend ${ctx.set} pe Slotul ${ctx.slot} (${ctx.mainType})</strong> este extrem de rară și valoroasă.
+                            </p>
+                            <p class="font-semibold text-purple-800 pt-0.5">
+                                👉 <strong>NU O VINDE!</strong> Blochează runa în depozit și folosește Pietre Reapp până obții roll-uri triple/quad de PvE Nuker sau Tanc.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                } else {
+                    badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200';
+                    badge.innerText = 'Fără Reapp';
+                    container.innerHTML = `
+                        <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] leading-relaxed">
+                            🗑️ <strong>Vinde fără rețineri:</strong> Runa nu reprezintă o bază „Must-Keep” pentru Reappraisal (${!isLegend ? 'nu este Legend' : isFlatMain ? 'stat principal flat pe slot par' : !isEvenSlot ? 'slot impar' : 'setul/statul nu justifică consumul de pietre Reapp'}).
+                        </div>
+                    `;
+                    return;
+                }
+            }
+
+            // SCENARIU 2: Runa este păstrată (KEEP / ROLL)
             if (!isLegend || !isSixStar) {
-                badge.className = 'text-[11px] bg-slate-100 text-slate-500 font-semibold px-2 py-0.5 rounded-md border border-slate-200';
-                badge.innerText = 'Neeligibil Reapp';
+                badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded border border-slate-200';
+                badge.innerText = 'Neeligibil';
                 container.innerHTML = `
-                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-slate-600 text-[11px] leading-relaxed">
-                        <strong class="text-slate-800 block mb-1">❌ Nu folosi pietre de Reappraisal:</strong>
-                        Pietrele Reapp sunt cea mai rară resursă din joc. Se folosesc <strong>exclusiv pe rune 6★ Legend</strong>. Runele Hero sau 5★ primesc mai puține rulaje și au potențial maxim redus cu 25–40%.
+                    <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px]">
+                        Reappraisal se folosește exclusiv pe rune <strong>6★ Legend</strong>.
                     </div>
                 `;
                 return;
             }
 
-            // Case 2: Flat main stat on even slot
-            if (isEvenSlot && isFlatMain) {
-                badge.className = 'text-[11px] bg-rose-100 text-rose-700 font-semibold px-2 py-0.5 rounded-md border border-rose-300';
-                badge.innerText = 'Interzis Reapp';
-                container.innerHTML = `
-                    <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 text-rose-800 text-[11px] leading-relaxed">
-                        <strong class="text-rose-900 block mb-1">🛑 Stat Principal Flat (${ctx.mainType}):</strong>
-                        Reappraisal modifică <strong>doar substaturile</strong>, lăsând statul principal neschimbat. O rună cu stat principal flat pe sloturile 2, 4 sau 6 rămâne inutilă în PvE indiferent de substaturi. Vinde runa!
-                    </div>
-                `;
-                return;
-            }
-
-            // Case 3: Innate SPD blocker warning
             if (ctx.innateType === 'SPD') {
-                badge.className = 'text-[11px] bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-md border border-amber-300';
-                badge.innerText = 'Innate SPD Blocker';
+                badge.className = 'text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-300';
+                badge.innerText = 'Blocat Innate SPD';
                 container.innerHTML = `
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-300 text-amber-900 text-[11px] leading-relaxed">
-                        <strong class="text-amber-900 block mb-1 flex items-center gap-1.5">
-                            <span>⚠️</span> ATENȚIE CRITICĂ: Prefix Innate SPD!
-                        </strong>
-                        Runa are <strong>SPD ca prefix înnăscut</strong>. Mecanica Summoners War interzice ca un substat să coincidă cu prefixul înnăscut. Dacă dai Reapp pe această rună, <strong>SPD NU va putea cădea niciodată în substaturi</strong>! Păstrează pietrele Reapp pentru o altă piesă.
+                    <div class="p-2 bg-amber-50 rounded-lg border border-amber-300 text-amber-900 text-[11px]">
+                        ⚠️ <strong>Prefix Innate SPD:</strong> Blochează apariția vitezei la Reapp. Păstrează doar dacă substaturile actuale sunt deja bune.
                     </div>
                 `;
                 return;
             }
 
-            // Case 4: Odd slot (1, 3, 5)
             if (!isEvenSlot) {
-                badge.className = 'text-[11px] bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-md border border-slate-300';
+                badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded border border-slate-200';
                 badge.innerText = 'Prioritate Scăzută';
                 container.innerHTML = `
-                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-slate-600 text-[11px] leading-relaxed">
-                        <strong class="text-slate-800 block mb-1">ℹ️ Slot Impar (${ctx.slot}):</strong>
-                        Sloturile impare au staturi principale fixe (Flat ATK, DEF, HP) și sunt mult mai ușor de obținut din Cairos Dungeons. Reapp-ul pe slot 1/3/5 se justifică doar la nivel avansat/end-game pe seturi <strong>Swift sau Violent</strong> pentru vânătoarea de Quad Roll SPD.
+                    <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px]">
+                        Slot impar (${ctx.slot}): Reapp-ul se justifică doar la end-game pe Swift/Violent pentru vânătoare de Quad Roll SPD.
                     </div>
                 `;
                 return;
             }
 
-            // Case 5: Prime 6-star Legend on Even Slot (2, 4, 6)
-            let scoreTag = 'Prioritate Medie';
+            let scoreTag = 'Prioritate Bună';
             let badgeStyle = 'bg-purple-100 text-purple-800 border-purple-300';
-            if (isPrimeSet && ['CD%', 'HP%', 'SPD', 'ATK%'].includes(ctx.mainType)) {
-                scoreTag = 'CANDIDAT IDEAL PVE (Prioritate Maximă)';
-                badgeStyle = 'bg-purple-200 text-purple-900 border-purple-400 font-bold';
+            if (ctx.isMustKeepForReapp) {
+                scoreTag = 'CANDIDAT ELITĂ PVE';
+                badgeStyle = 'bg-purple-200 text-purple-900 border-purple-400';
             }
 
-            badge.className = `text-[11px] ${badgeStyle} px-2 py-0.5 rounded-md border`;
+            badge.className = `text-[10px] ${badgeStyle} font-bold px-2 py-0.5 rounded border`;
             badge.innerText = scoreTag;
 
-            // Innate analysis
-            let innateNote = '';
-            if (['Flat HP', 'Flat ATK', 'Flat DEF', 'RES%'].includes(ctx.innateType)) {
-                innateNote = `
-                    <div class="mt-2 p-2 bg-emerald-50 rounded-lg border border-emerald-300 text-emerald-900 text-[11px]">
-                        🎯 <strong>Avantaj Strategic:</strong> Prefixul <em>${ctx.innateType}</em> blochează un stat slab din fondul de rulaje. La Reapp, șansele de a obține combinații pure de <strong>SPD + HP% + ATK% + CR%</strong> sunt considerabil mai mari!
-                    </div>
-                `;
-            } else if (ctx.innateType === 'None') {
-                innateNote = `
-                    <div class="mt-2 p-2 bg-slate-100 rounded-lg border border-slate-200 text-slate-600 text-[11px]">
-                        💡 <em>Runa nu are prefix înnăscut.</em> Rulajele pot nimeri oricare dintre cele 11 substaturi posibile, dar rămâne o bază 6★ Legend valoroasă datorită slotului ${ctx.slot} (${ctx.mainType}).
-                    </div>
-                `;
-            }
-
-            // Efficiency status
-            let effNote = '';
-            if (ctx.efficiency >= 78) {
-                effNote = `
-                    <div class="mt-2 p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-800 text-[11px]">
-                        ✋ <strong>Runa este deja bună!</strong> Eficiența actuală (${ctx.efficiency.toFixed(1)}%) este ridicată. Folosește runa așa cum este în echipele tale PvE și păstrează Reapp-urile pentru rune 6★ Legend cu substaturi complet distruse sau rulaje minime.
-                    </div>
-                `;
-            } else {
-                effNote = `
-                    <div class="mt-2 p-2 bg-purple-50 rounded-lg border border-purple-200 text-purple-800 text-[11px]">
-                        ✨ <strong>Țintă Reapp Recomandată:</strong> Eficiența actuală (${ctx.efficiency.toFixed(1)}%) este modestă, dar baza de 6★ Legend ${ctx.set} pe Slot ${ctx.slot} (${ctx.mainType}) este rară și ideală pentru rulare cu pietre Reapp.
-                    </div>
-                `;
-            }
-
             container.innerHTML = `
-                <div class="space-y-1">
-                    <p class="text-[11px] text-slate-700 leading-relaxed">
-                        Bază: <strong>6★ Legend ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>.
-                    </p>
-                    ${innateNote}
-                    ${effNote}
+                <div class="p-2 bg-purple-50 rounded-lg border border-purple-200 text-purple-900 text-[11px] leading-relaxed">
+                    ✨ Baza este <strong>6★ Legend ${ctx.set}</strong> pe <strong>Slot ${ctx.slot} (${ctx.mainType})</strong>. Dacă eficiența actuală scade la power-up, este o țintă excelentă pentru Reappraisal.
                 </div>
             `;
         }
