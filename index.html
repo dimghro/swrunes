@@ -48,63 +48,6 @@
             overflow-x: hidden;
         }
 
-        .rune-hex {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 640px) {
-            .rune-hex {
-                width: 140px;
-                height: 140px;
-                border-radius: 28px;
-            }
-        }
-
-        .rune-hex.legend {
-            border: 3px solid #f97316;
-            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-            box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.25);
-        }
-
-        .rune-hex.hero {
-            border: 3px solid #a855f7;
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.25);
-        }
-
-        .rune-hex.rare {
-            border: 3px solid #3b82f6;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.25);
-        }
-
-        .rune-hex.magic {
-            border: 3px solid #10b981;
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25);
-        }
-
-        .rune-hex.normal {
-            border: 3px solid #94a3b8;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.25);
-        }
-
-        .rune-hex.ancient {
-            border: 3px solid #06b6d4;
-            background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
-            box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.3);
-        }
-
         .slot-btn.active {
             border-color: #d97706;
             background-color: #fef3c7;
@@ -504,43 +447,9 @@
                 </div>
             </div>
 
-            <!-- RIGHT PANEL: PREVIEW & VERDICT OPTIMIZER (6 COLS) -->
+            <!-- RIGHT PANEL: VERDICT OPTIMIZER (6 COLS) -->
             <div class="lg:col-span-6 space-y-5">
                 
-                <!-- LIVE IN-GAME RUNE VISUAL CARD -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm relative overflow-hidden">
-                    <div class="text-xs uppercase tracking-wider font-extrabold text-slate-500 mb-2 flex justify-between items-center">
-                        <span>Previzualizare Runică Live</span>
-                        <span id="card-stars-display" class="text-amber-500 font-black text-sm">★★★★★★ (Ancient)</span>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-center gap-4">
-                        <div class="shrink-0 text-center">
-                            <div id="live-rune-gem" class="rune-hex ancient">
-                                <div class="text-center">
-                                    <div id="live-slot-num" class="text-3xl font-black text-cyan-700 drop-shadow-sm">3</div>
-                                    <div id="live-set-name" class="text-xs font-black uppercase tracking-wider text-slate-700">Nemesis</div>
-                                    <div id="live-rune-level" class="text-xs font-black text-cyan-600">+12</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-1.5 text-xs">
-                            <div class="flex justify-between items-baseline border-b border-slate-200 pb-1.5">
-                                <span id="live-main-title" class="font-black text-slate-900 text-sm">Flat DEF +118</span>
-                                <span class="text-[10px] text-slate-500 font-bold uppercase bg-slate-200/70 px-2 py-0.5 rounded">Main Stat</span>
-                            </div>
-
-                            <div id="live-innate-row" class="text-purple-700 py-0.5 hidden border-b border-purple-100 font-extrabold">
-                                Innate: <span id="live-innate-text">+0</span>
-                            </div>
-
-                            <div class="space-y-1 text-slate-700 pt-0.5" id="live-substats-list">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- INTEGRATED VERDICT OPTIMIZATION ENGINE -->
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4" id="verdict-card-container">
                     <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
@@ -557,8 +466,16 @@
                         </div>
                     </div>
 
+                    <!-- 1. VERDICTUL FINAL -->
+                    <div id="verdict-banner" class="p-3 sm:p-3.5 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border leading-snug">
+                    </div>
+
+                    <!-- 2. POSIBILITĂȚI DE SALVARE (ENCHANTED GEM) -->
+                    <div id="verdict-rescue-option" class="hidden transition-all">
+                    </div>
+
                     <!-- SET SYNERGY BANNER -->
-                    <div id="set-synergy-banner" class="p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold transition-all">
+                    <div id="set-synergy-banner" class="p-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between text-xs font-bold gap-1.5 transition-all">
                     </div>
 
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-bold flex items-center gap-2">
@@ -566,10 +483,7 @@
                         <span>Atenție: Runa conține <strong>2 sau mai multe Flat Substats</strong>! Jocul permite un singur Enchanted Gem per rună, deci cel puțin un stat flat rămâne definitiv ca dead stat.</span>
                     </div>
 
-                    <div id="verdict-banner" class="p-3 sm:p-3.5 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border leading-snug">
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="space-y-3 text-xs">
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-slate-800 font-black block mb-1 flex items-center gap-1.5">
                                 <span class="text-amber-500">📊</span> Analiză Valori & Rolls:
@@ -1345,12 +1259,6 @@
         }
 
         function onRarityChange() {
-            const rarity = document.getElementById('rune-rarity').value;
-            const stars = document.getElementById('rune-stars').value;
-            const gem = document.getElementById('live-rune-gem');
-            if (gem) {
-                gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
-            }
             syncSubstatInputsVisibility();
             onSlotExclusionCheck();
             evaluateRune();
@@ -1368,52 +1276,6 @@
             }
             onSlotExclusionCheck();
             evaluateRune();
-        }
-
-        function updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs) {
-            const starsDisplay = document.getElementById('card-stars-display');
-            if (stars === '5-star') {
-                starsDisplay.innerText = '★★★★★';
-            } else if (stars === '6-ancient') {
-                starsDisplay.innerText = '★★★★★★ (Ancient)';
-            } else {
-                starsDisplay.innerText = '★★★★★★';
-            }
-
-            const gem = document.getElementById('live-rune-gem');
-            if (gem) {
-                gem.className = 'rune-hex ' + (stars === '6-ancient' ? 'ancient' : rarity.toLowerCase());
-            }
-            document.getElementById('live-slot-num').innerText = currentSlot;
-            document.getElementById('live-set-name').innerText = set;
-            document.getElementById('live-rune-level').innerText = level;
-
-            const displayTitle = mainType.endsWith('%') 
-                ? `${mainType.replace('%', '')} +${mainVal}%`
-                : `${mainType} +${mainVal}`;
-            document.getElementById('live-main-title').innerText = displayTitle;
-
-            const innateRow = document.getElementById('live-innate-row');
-            if (innateType !== 'None' && innateVal > 0) {
-                innateRow.classList.remove('hidden');
-                document.getElementById('live-innate-text').innerText = `${innateType} +${innateVal}`;
-            } else {
-                innateRow.classList.add('hidden');
-            }
-
-            const subList = document.getElementById('live-substats-list');
-            subList.innerHTML = '';
-            if (subs.length === 0) {
-                subList.innerHTML = '<span class="text-slate-400 italic">Fără substats configurate</span>';
-            } else {
-                subs.forEach(s => {
-                    const row = document.createElement('div');
-                    row.className = 'flex justify-between items-center text-xs py-0.5';
-                    const plusTag = s.plusVal > 0 ? `<span class="text-emerald-600 font-extrabold ml-1">(▲${s.plusVal})</span>` : '';
-                    row.innerHTML = `<span>• ${s.type} ${plusTag}</span><span class="font-black text-slate-800">+${s.val}</span>`;
-                    subList.appendChild(row);
-                });
-            }
         }
 
         // ==========================================
@@ -1836,8 +1698,6 @@
                 }
             }
 
-            updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs);
-
             const deadStatAlert = document.getElementById('dead-stat-alert');
             if (flatCount >= 2) {
                 deadStatAlert.classList.remove('hidden');
@@ -1952,17 +1812,21 @@
             banner.className = `p-3 sm:p-3.5 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
             banner.innerHTML = verdict.title;
 
-            let reasonsHtml = verdict.reasons;
+            const rescueDiv = document.getElementById('verdict-rescue-option');
             if (gemRescue) {
-                reasonsHtml += `
-                    <div class="mt-2.5 p-2 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-[11px] font-black flex items-center gap-1.5 shadow-xs">
-                        <span>💎</span>
-                        <span><strong>OPORTUNITATE ENCHANTED GEM:</strong> Runa devine <strong>KEEP</strong> dacă înlocuiești <u>${gemRescue.subToReplace.type}</u> cu un Enchanted Gem de <u>${gemRescue.gemType}</u> (${gemRescue.simEff.toFixed(1)}% eficiență)!</span>
+                rescueDiv.innerHTML = `
+                    <div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm">
+                        <span class="text-lg">💎</span>
+                        <span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE (KEEP):</strong> Runa poate fi salvată dacă înlocuiești <u>${gemRescue.subToReplace.type}</u> cu un Enchanted Gem de <u>${gemRescue.gemType}</u> (Eficiență: ${gemRescue.simEff.toFixed(1)}%)!</span>
                     </div>
                 `;
+                rescueDiv.classList.remove('hidden');
+            } else {
+                rescueDiv.innerHTML = '';
+                rescueDiv.classList.add('hidden');
             }
 
-            document.getElementById('verdict-reasons').innerHTML = reasonsHtml;
+            document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
             document.getElementById('verdict-archetypes').innerHTML = verdict.archetypes;
         }
 
