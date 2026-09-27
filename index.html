@@ -2498,10 +2498,11 @@
             }
         }
 
-        function parseAndApplyRuneOCR(rawText) {
+       function parseAndApplyRuneOCR(rawText) {
             let cleanText = rawText.replace(/,/g, '').replace(/[\r\t]/g, ' ');
             const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
+            // 1. Deteție Slot
             const slotMatch = cleanText.match(/(?:Rune|\bSlot|\b)\s*\((\d)\)|Slot\s*(\d)|Rune\s*\(?(\d)\)?/i);
             if (slotMatch) {
                 const detectedSlot = parseInt(slotMatch[1] || slotMatch[2] || slotMatch[3]);
@@ -2510,6 +2511,7 @@
                 }
             }
 
+            // 2. Deteție Nivel
             const levelMatch = cleanText.match(/\+(\d{1,2})/);
             if (levelMatch) {
                 const lvl = parseInt(levelMatch[1]);
@@ -2521,6 +2523,7 @@
                 else document.getElementById('rune-level').value = '+0';
             }
 
+            // 3. Deteție Set
             const runeSets = Object.keys(RUNE_SETS_GUIDE);
             for (let s of runeSets) {
                 const regex = new RegExp(`\\b${s}\\b`, 'i');
@@ -2530,6 +2533,7 @@
                 }
             }
 
+            // 4. Deteție Stele și Raritate
             const isAncient = /(?:^|\s|\b)[A▲\^4\<\>]\s*Legend/i.test(cleanText) || /\bAncient\b/i.test(cleanText);
             if (isAncient) {
                 document.getElementById('rune-stars').value = '6-ancient';
@@ -2548,6 +2552,7 @@
             syncSubstatInputsVisibility();
             updateMainStatControls(true);
 
+            // 5. Filtrare Linii cu Atribute
             const validLines = lines.filter(line => {
                 if (/^\+?\d+\s*Set/i.test(line)) return false;
                 if (/Gauge/i.test(line) || /every.*lost/i.test(line)) return false;
@@ -2584,6 +2589,7 @@
                 const numVal = mainValObj.val;
                 const rollInc = numbers.length > 1 ? numbers[1].val : 0;
 
+                // REVIZUIT: Detectarea precisă a tipului de stat (Flat vs %)
                 let type = 'DEF%';
                 if (rawName.includes('SPD') || rawName.includes('SPEED')) {
                     type = 'SPD';
@@ -2596,16 +2602,19 @@
                 } else if (rawName.includes('ACC')) {
                     type = 'ACC%';
                 } else if (rawName.includes('HP')) {
-                    type = mainValObj.hasPercent || numVal <= 63 ? 'HP%' : 'Flat HP';
+                    // Valorile Flat HP sunt mari (bază de sute/mii). Dacă numărul este mic, este procent.
+                    type = mainValObj.hasPercent || numVal <= 100 ? 'HP%' : 'Flat HP';
                 } else if (rawName.includes('ATK')) {
-                    type = mainValObj.hasPercent || numVal <= 63 ? 'ATK%' : 'Flat ATK';
+                    // Ne bazăm strict pe prezența simbolului % pentru ATK și DEF
+                    type = mainValObj.hasPercent ? 'ATK%' : 'Flat ATK';
                 } else if (rawName.includes('DEF')) {
-                    type = mainValObj.hasPercent || numVal <= 63 ? 'DEF%' : 'Flat DEF';
+                    type = mainValObj.hasPercent ? 'DEF%' : 'Flat DEF';
                 }
 
                 extractedStats.push({ type, val: numVal, plusVal: rollInc });
             }
 
+            // 6. Aplicare Main Stat
             if (extractedStats.length > 0) {
                 const mainCandidate = extractedStats[0];
                 const mainSelect = document.getElementById('main-stat-type');
@@ -2613,7 +2622,7 @@
                 if (Array.from(mainSelect.options).some(o => o.value === mainCandidate.type)) {
                     mainSelect.value = mainCandidate.type;
                     document.getElementById('main-stat-val').value = mainCandidate.val;
-                    extractedStats.shift();
+                    extractedStats.shift(); // Elimină Main Stat din lista de procesare
                 }
             }
 
@@ -2623,14 +2632,35 @@
             const level = document.getElementById('rune-level').value;
             const allowedCount = getVisibleSubstatsCount(rarity, level);
 
+            // 7. Aplicare Innate Stat (NOU)
+            // Dacă au rămas mai multe atribute decât numărul de substaturi permise de raritate/nivel,
+            // atunci primul element din listă aparține de Innate Stat (Prefix).
+            if (extractedStats.length > allowedCount) {
+                const innateCandidate = extractedStats.shift();
+                const innateSelect = document.getElementById('innate-type');
+                const innateValInput = document.getElementById('innate-val');
+
+                if (Array.from(innateSelect.options).some(o => o.value === innateCandidate.type)) {
+                    innateSelect.value = innateCandidate.type;
+                    innateValInput.value = innateCandidate.val;
+                }
+            } else {
+                document.getElementById('innate-type').value = 'None';
+                document.getElementById('innate-val').value = 0;
+            }
+
+            // 8. Aplicare Substats
             let assignedCount = 0;
             const currentMain = document.getElementById('main-stat-type').value;
             const currentInnate = document.getElementById('innate-type').value;
 
             for (let s of extractedStats) {
                 if (assignedCount >= allowedCount || assignedCount >= 4) break;
+                
                 if (currentSlot === 1 && (s.type === 'DEF%' || s.type === 'Flat DEF')) continue;
                 if (currentSlot === 3 && (s.type === 'ATK%' || s.type === 'Flat ATK')) continue;
+                
+                // Evită dublurile care ar declanșa anularea din onSlotExclusionCheck
                 if (s.type === currentMain) continue;
                 if (currentInnate !== 'None' && s.type === currentInnate) continue;
 
