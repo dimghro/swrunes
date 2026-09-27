@@ -48,11 +48,12 @@ const maximeInitiale6 = { "ATK%":8, "HP%":8, "DEF%":8, ACC:8, RES:8, SPD:6, "CR%
 
 const labels = { toate:"Toate", viteză:"Viteză", damage:"Damage", control:"Control", suport:"Suport", bruiser:"Bruiser", echipă:"Echipă", pvp:"PvP", special:"Special" };
 let filtru = "toate";
-const esc = (text) => text.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+const esc = (text) => String(text ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 
 function afiseazaSeturi() {
   const cautare = document.querySelector("#search").value.trim().toLowerCase();
-  const rezultate = seturi.filter(([nume,,,,,rol]) => (filtru === "toate" || rol === filtru) && nume.toLowerCase().includes(cautare));
+  // Rolul este poziția 5 în fiecare set de date; folosim indexare explicită pentru a evita eliminările greșite la destructurare.
+  const rezultate = seturi.filter(set => (filtru === "toate" || set[5] === filtru) && set[0].toLowerCase().includes(cautare));
   document.querySelector("#result-count").textContent = `${rezultate.length} din ${seturi.length} seturi afișate`;
   document.querySelector("#rune-grid").innerHTML = rezultate.map(([nume,piese,bonus,subs,sloturi,rol,nota]) => {
     // Desparte recomandarea pentru sloturile 2, 4 și 6 în trei casete ușor de comparat.
@@ -84,8 +85,9 @@ function optiuni(items, gol) {
 
 function actualizeazaMainStats() {
   const valoareAnterioara = mainEvaluator.value;
-  mainEvaluator.innerHTML = optiuni(mainStatsPeSlot[slotEvaluator.value], "Alege main stat-ul");
-  if (mainStatsPeSlot[slotEvaluator.value].includes(valoareAnterioara)) mainEvaluator.value = valoareAnterioara;
+  const slotCurent = slotEvaluator.value || "2";
+  mainEvaluator.innerHTML = optiuni(mainStatsPeSlot[slotCurent], "Alege main stat-ul");
+  if (mainStatsPeSlot[slotCurent].includes(valoareAnterioara)) mainEvaluator.value = valoareAnterioara;
 }
 
 function construiesteEvaluator() {
