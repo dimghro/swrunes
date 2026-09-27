@@ -581,7 +581,31 @@
                         </div>
                     </div>
 
-                    <!-- REFINED SECTION: RUNE REFINEMENT ADVISOR (NOU) -->
+                    <!-- 1. GEM ADVISOR (PRIMUL ÎN ORDINE PENTRU A IDENTIFICA SALVAREA DIN VÂNZARE) -->
+                    <div class="border border-cyan-200 rounded-xl p-3 sm:p-4 bg-cyan-50/40 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-cyan-200 pb-2">
+                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <span class="text-cyan-600">💎</span> RECOMANDĂRI GEM (CONVERSIE SUBSTAT)
+                            </h3>
+                            <span id="gem-badge" class="text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200">Evaluare</span>
+                        </div>
+                        <div id="gem-recommendation-box" class="space-y-2 text-xs">
+                        </div>
+                    </div>
+
+                    <!-- 2. REAPPRAISAL ADVISOR -->
+                    <div class="border border-purple-200 rounded-xl p-3 sm:p-4 bg-purple-50/40 space-y-2.5">
+                        <div class="flex items-center justify-between border-b border-purple-200 pb-2">
+                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
+                            </h3>
+                            <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare</span>
+                        </div>
+                        <div id="reapp-recommendation-box" class="space-y-2 text-xs">
+                        </div>
+                    </div>
+
+                    <!-- 3. RUNE REFINEMENT ADVISOR (POZIȚIONAT DIRECT DUPĂ CONSILIER REAPPRAISAL) -->
                     <div class="border border-amber-300 rounded-xl p-3 sm:p-4 bg-amber-50/60 space-y-2.5">
                         <div class="flex items-center justify-between border-b border-amber-200 pb-2">
                             <h3 class="font-black text-xs uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
@@ -593,30 +617,6 @@
                         </div>
                     </div>
 
-                    <!-- GEM ADVISOR -->
-                    <div class="border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50/60 space-y-2.5">
-                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                                <span class="text-cyan-600">💎</span> RECOMANDĂRI GEM (CONVERSIE SUBSTAT)
-                            </h3>
-                            <span id="gem-badge" class="text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200">Necesar</span>
-                        </div>
-                        <div id="gem-recommendation-box" class="space-y-2 text-xs">
-                        </div>
-                    </div>
-
-                    <!-- REAPPRAISAL ADVISOR -->
-                    <div class="border border-slate-200 rounded-xl p-3 sm:p-4 bg-slate-50/60 space-y-2.5">
-                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                                <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL (PIETRE REAPP)
-                            </h3>
-                            <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare</span>
-                        </div>
-                        <div id="reapp-recommendation-box" class="space-y-2 text-xs">
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
@@ -625,7 +625,7 @@
         <!-- STRATEGY GUIDE CARD WITH OFFICIAL TABLES -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
             <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: REGULI OFICIALE PVE, REFINEMENT, REAPPRAISAL & CONVERSIE
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: REGULI OFICIALE PVE, CONVERSIE, REAPPRAISAL & REFINEMENT
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-4 text-xs text-slate-600">
@@ -638,19 +638,11 @@
                     </p>
                 </div>
                 <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
-                    <strong class="text-amber-700 font-black block text-sm flex items-center gap-1.5">
-                        <span>✨</span> Rune Refinement
-                    </strong>
-                    <p class="leading-relaxed font-semibold">
-                        Păstrează tipurile de substaturi și <strong>recalculează aleatoriu strict plusările</strong> (+12 minim). Incompatibil cu rune Intangible sau cele cu Gem aplicat!
-                    </p>
-                </div>
-                <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
                     <strong class="text-cyan-700 font-black block text-sm flex items-center gap-1.5">
-                        <span>💎</span> Când aplici Gem?
+                        <span>💎</span> Salvare prin Gem
                     </strong>
                     <p class="leading-relaxed font-semibold">
-                        Înlocuiește prin Gem <strong>doar un substat fără plusări (▲0)</strong>. Atenție: aplicarea unui Gem blochează definitiv posibilitatea de Refinement!
+                        Înlocuiește un substat fără plusări sau un flat stat. Dacă o conversie ridică eficiența peste pragul obiectivului, runa este salvată de la vânzare!
                     </p>
                 </div>
                 <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
@@ -658,7 +650,15 @@
                         <span>🔄</span> Când dai Reapp?
                     </strong>
                     <p class="leading-relaxed font-semibold">
-                        Păstrează baze <strong>6★ Legend 2/4/6</strong> din seturi de top cu stat util. Reapp-ul schimbă atât substaturile, cât și plusările (spre deosebire de Refine).
+                        Păstrează baze <strong>6★ Legend 2/4/6</strong> din seturi de top cu stat util. Reapp-ul schimbă atât substaturile, cât și plusările.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-1.5">
+                    <strong class="text-amber-700 font-black block text-sm flex items-center gap-1.5">
+                        <span>✨</span> Rune Refinement
+                    </strong>
+                    <p class="leading-relaxed font-semibold">
+                        Păstrează tipurile de substaturi și <strong>recalculează aleatoriu strict plusările</strong> (+12 minim). Incompatibil cu rune Intangible sau rune cu Gem aplicat!
                     </p>
                 </div>
             </div>
@@ -832,6 +832,37 @@
                 return { 'Flat HP': 300, 'Flat ATK': 15, 'Flat DEF': 15 };
             }
             return { 'Flat HP': 375, 'Flat ATK': 20, 'Flat DEF': 20 };
+        }
+
+        // Valori maxime obținute prin Gem Legend oficial (Com2uS)
+        function getGemMaxVal(type, isAncient) {
+            const standard = {
+                'SPD': 10,
+                'HP%': 13,
+                'ATK%': 13,
+                'DEF%': 13,
+                'CR%': 9,
+                'CD%': 10,
+                'RES%': 11,
+                'ACC%': 11,
+                'Flat HP': 580,
+                'Flat ATK': 40,
+                'Flat DEF': 40
+            };
+            const ancient = {
+                'SPD': 12,
+                'HP%': 15,
+                'ATK%': 15,
+                'DEF%': 15,
+                'CR%': 10,
+                'CD%': 12,
+                'RES%': 12,
+                'ACC%': 12,
+                'Flat HP': 660,
+                'Flat ATK': 48,
+                'Flat DEF': 48
+            };
+            return isAncient ? (ancient[type] || 10) : (standard[type] || 8);
         }
 
         const mainStatTable = {
@@ -1225,139 +1256,9 @@
             return false;
         }
 
-        function evaluateRune() {
-            const set = document.getElementById('rune-set').value;
-            const stars = document.getElementById('rune-stars').value;
-            const rarity = document.getElementById('rune-rarity').value;
-            const level = document.getElementById('rune-level').value;
-            const userTier = document.getElementById('user-tier').value;
-            const mainType = document.getElementById('main-stat-type').value;
-            const mainVal = parseFloat(document.getElementById('main-stat-val').value) || 0;
-            const hasGem = document.getElementById('rune-has-gem')?.checked || false;
-
-            const innateType = document.getElementById('innate-type').value;
-            const innateVal = parseFloat(document.getElementById('innate-val').value) || 0;
-
-            const subs = [];
-            let totalSpeed = 0;
-            let flatCount = 0;
-            let percentCount = 0;
-            let flatWithRolls = [];
-
-            const isAncient = stars === '6-ancient';
-            const flatSingleMax = getFlatSingleMax(stars);
-
-            for(let i=1; i<=4; i++) {
-                const typeEl = document.getElementById(`sub-stat-${i}`);
-                const valEl = document.getElementById(`sub-val-${i}`);
-                const plusEl = document.getElementById(`sub-plus-${i}`);
-
-                if (!typeEl || !valEl) continue;
-
-                const type = typeEl.value;
-                const val = parseFloat(valEl.value) || 0;
-                const plusVal = parseFloat(plusEl ? plusEl.value : 0) || 0;
-
-                if(type !== 'None' && val > 0) {
-                    subs.push({ slotIdx: i, type, val, plusVal });
-                    
-                    if(type === 'SPD') {
-                        totalSpeed += val;
-                    }
-                    if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
-                        flatCount++;
-                        if(plusVal > 0 || (flatSingleMax[type] && val > flatSingleMax[type])) {
-                            flatWithRolls.push({ type, val, plusVal });
-                        }
-                    }
-                    if(['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(type)) percentCount++;
-                }
-            }
-
-            updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs);
-
-            const deadStatAlert = document.getElementById('dead-stat-alert');
-            if (flatCount >= 2) {
-                deadStatAlert.classList.remove('hidden');
-            } else {
-                deadStatAlert.classList.add('hidden');
-            }
-
-            const effResults = calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount);
-            document.getElementById('combat-eff-badge').innerText = `Eficiență Reală: ${effResults.combatEff.toFixed(1)}%`;
-            document.getElementById('raw-eff-badge').innerText = `Brut: ${effResults.rawEff.toFixed(1)}%`;
-
-            const verdict = computeVerdict({
-                slot: currentSlot,
-                set,
-                stars,
-                rarity,
-                level,
-                userTier,
-                mainType,
-                totalSpeed,
-                flatCount,
-                percentCount,
-                flatWithRolls,
-                combatEfficiency: effResults.combatEff,
-                rawEfficiency: effResults.rawEff,
-                innateType,
-                subs,
-                hasGem
-            });
-
-            renderVerdict(verdict);
-
-            const isSellVerdict = verdict.status === 'SELL';
-            const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
-
-            // NOU: Consilier Rune Refinement
-            renderRefinementAdvisor({
-                slot: currentSlot,
-                set,
-                stars,
-                rarity,
-                level,
-                mainType,
-                innateType,
-                subs,
-                combatEfficiency: effResults.combatEff,
-                hasGem,
-                isSellVerdict,
-                percentCount,
-                totalSpeed
-            });
-
-            renderGemAdvisor({
-                slot: currentSlot,
-                set,
-                mainType,
-                innateType,
-                subs,
-                level,
-                rarity,
-                stars,
-                flatCount,
-                flatWithRolls,
-                isSellVerdict,
-                hasGem
-            });
-
-            renderReappraisalAdvisor({
-                slot: currentSlot,
-                set,
-                stars,
-                rarity,
-                mainType,
-                innateType,
-                subs,
-                efficiency: effResults.combatEff,
-                level,
-                isSellVerdict,
-                isMustKeepForReapp
-            });
-        }
-
+        // ==========================================
+        // MOTOR DE CALCUL EFICIENȚĂ & SIMULARE SALVARE
+        // ==========================================
         function calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount) {
             const table = isAncient ? maxAncientRolls : maxStandardRolls;
             let rawPoints = 1.0;
@@ -1433,8 +1334,8 @@
                     status: 'SELL',
                     title: 'VINDE IMEDIAT (PLUSĂRI ABSORBITE ÎN FLAT STAT)',
                     color: 'bg-rose-50 text-rose-800 border-rose-300',
-                    reasons: `Runa are plusări intrate direct în: <strong>${rolledStatsDesc}</strong>. Notă: Dacă substaturile procentuale sunt excelente, poți lua în calcul <strong>Rune Refinement</strong> pentru a re-rula plusările!`,
-                    archetypes: 'Rulaj eșuat la power-up. Vânzare recomandată (sau Refinement dacă baza de substaturi e perfectă).'
+                    reasons: `Runa are plusări intrate direct în: <strong>${rolledStatsDesc}</strong>. Notă: Dacă substaturile procentuale sunt bune, poți lua în calcul <strong>Rune Refinement</strong> sau o conversie prin <strong>Gem</strong> dacă piesa devine eficientă!`,
+                    archetypes: 'Rulaj eșuat la power-up. Vânzare recomandată dacă nu poate fi salvată.'
                 };
             }
 
@@ -1547,137 +1448,344 @@
             };
         }
 
-        function renderVerdict(verdict) {
+        // ==========================================
+        // SIMULATOR SALVARE RUNĂ PRIN GEM (SELL ➔ KEEP)
+        // ==========================================
+        function findGemRescueOption(ctx) {
+            // Nu se poate aplica dacă are deja Gem, pe slot par flat sau pe rune 5★ de late/end
+            if (ctx.hasGem) return null;
+            if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
+            if (ctx.stars === '5-star' && ctx.userTier !== 'early') return null;
+            if (!ctx.subs || ctx.subs.length === 0) return null;
+
+            const isAncient = ctx.stars === '6-ancient';
+            const flatSingleMax = getFlatSingleMax(ctx.stars);
+            const allPossibleStats = ['SPD', 'CR%', 'CD%', 'HP%', 'ATK%', 'DEF%', 'ACC%', 'RES%'];
+
+            const validCandidates = allPossibleStats.filter(s => {
+                if (s === ctx.mainType) return false;
+                if (ctx.innateType !== 'None' && s === ctx.innateType) return false;
+                if (ctx.slot === 1 && (s === 'DEF%' || s === 'Flat DEF')) return false;
+                if (ctx.slot === 3 && (s === 'ATK%' || s === 'Flat ATK')) return false;
+                return true;
+            });
+
+            let bestRescue = null;
+
+            for (let sub of ctx.subs) {
+                const otherSubTypes = ctx.subs.filter(s => s.slotIdx !== sub.slotIdx).map(s => s.type);
+
+                for (let gemType of validCandidates) {
+                    if (otherSubTypes.includes(gemType)) continue;
+
+                    const gemVal = getGemMaxVal(gemType, isAncient);
+
+                    const simSubs = ctx.subs.map(s => {
+                        if (s.slotIdx === sub.slotIdx) {
+                            return { slotIdx: s.slotIdx, type: gemType, val: gemVal, plusVal: 0 };
+                        }
+                        return { ...s };
+                    });
+
+                    let simTotalSpeed = 0;
+                    let simFlatCount = 0;
+                    let simPercentCount = 0;
+                    let simFlatWithRolls = [];
+
+                    simSubs.forEach(s => {
+                        if (s.type === 'SPD') simTotalSpeed += s.val;
+                        if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) {
+                            simFlatCount++;
+                            if (s.plusVal > 0 || (flatSingleMax[s.type] && s.val > flatSingleMax[s.type])) {
+                                simFlatWithRolls.push(s);
+                            }
+                        }
+                        if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(s.type)) {
+                            simPercentCount++;
+                        }
+                    });
+
+                    const simEff = calculateEfficiency(simSubs, ctx.innateType, ctx.innateVal, isAncient, simFlatCount);
+
+                    const simVerdict = computeVerdict({
+                        slot: ctx.slot,
+                        set: ctx.set,
+                        stars: ctx.stars,
+                        rarity: ctx.rarity,
+                        level: ctx.level,
+                        userTier: ctx.userTier,
+                        mainType: ctx.mainType,
+                        totalSpeed: simTotalSpeed,
+                        flatCount: simFlatCount,
+                        percentCount: simPercentCount,
+                        flatWithRolls: simFlatWithRolls,
+                        combatEfficiency: simEff.combatEff,
+                        rawEfficiency: simEff.rawEff,
+                        innateType: ctx.innateType,
+                        subs: simSubs,
+                        hasGem: true
+                    });
+
+                    if (simVerdict.status === 'KEEP') {
+                        let score = simEff.combatEff;
+                        if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(sub.type)) score += 40;
+                        if (sub.plusVal === 0) score += 20;
+                        if (gemType === 'SPD') score += 15;
+                        if (gemType === 'CR%') score += 10;
+
+                        if (!bestRescue || score > bestRescue.score) {
+                            bestRescue = {
+                                subToReplace: sub,
+                                gemType,
+                                gemVal,
+                                simEff: simEff.combatEff,
+                                simRawEff: simEff.rawEff,
+                                simVerdict,
+                                score
+                            };
+                        }
+                    }
+                }
+            }
+
+            return bestRescue;
+        }
+
+        function evaluateRune() {
+            const set = document.getElementById('rune-set').value;
+            const stars = document.getElementById('rune-stars').value;
+            const rarity = document.getElementById('rune-rarity').value;
+            const level = document.getElementById('rune-level').value;
+            const userTier = document.getElementById('user-tier').value;
+            const mainType = document.getElementById('main-stat-type').value;
+            const mainVal = parseFloat(document.getElementById('main-stat-val').value) || 0;
+            const hasGem = document.getElementById('rune-has-gem')?.checked || false;
+
+            const innateType = document.getElementById('innate-type').value;
+            const innateVal = parseFloat(document.getElementById('innate-val').value) || 0;
+
+            const subs = [];
+            let totalSpeed = 0;
+            let flatCount = 0;
+            let percentCount = 0;
+            let flatWithRolls = [];
+
+            const isAncient = stars === '6-ancient';
+            const flatSingleMax = getFlatSingleMax(stars);
+
+            for(let i=1; i<=4; i++) {
+                const typeEl = document.getElementById(`sub-stat-${i}`);
+                const valEl = document.getElementById(`sub-val-${i}`);
+                const plusEl = document.getElementById(`sub-plus-${i}`);
+
+                if (!typeEl || !valEl) continue;
+
+                const type = typeEl.value;
+                const val = parseFloat(valEl.value) || 0;
+                const plusVal = parseFloat(plusEl ? plusEl.value : 0) || 0;
+
+                if(type !== 'None' && val > 0) {
+                    subs.push({ slotIdx: i, type, val, plusVal });
+                    
+                    if(type === 'SPD') {
+                        totalSpeed += val;
+                    }
+                    if(['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
+                        flatCount++;
+                        if(plusVal > 0 || (flatSingleMax[type] && val > flatSingleMax[type])) {
+                            flatWithRolls.push({ type, val, plusVal });
+                        }
+                    }
+                    if(['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(type)) percentCount++;
+                }
+            }
+
+            updateLiveCard(set, rarity, level, stars, mainType, mainVal, innateType, innateVal, subs);
+
+            const deadStatAlert = document.getElementById('dead-stat-alert');
+            if (flatCount >= 2) {
+                deadStatAlert.classList.remove('hidden');
+            } else {
+                deadStatAlert.classList.add('hidden');
+            }
+
+            const effResults = calculateEfficiency(subs, innateType, innateVal, isAncient, flatCount);
+            document.getElementById('combat-eff-badge').innerText = `Eficiență Reală: ${effResults.combatEff.toFixed(1)}%`;
+            document.getElementById('raw-eff-badge').innerText = `Brut: ${effResults.rawEff.toFixed(1)}%`;
+
+            const verdict = computeVerdict({
+                slot: currentSlot,
+                set,
+                stars,
+                rarity,
+                level,
+                userTier,
+                mainType,
+                totalSpeed,
+                flatCount,
+                percentCount,
+                flatWithRolls,
+                combatEfficiency: effResults.combatEff,
+                rawEfficiency: effResults.rawEff,
+                innateType,
+                subs,
+                hasGem
+            });
+
+            const isSellVerdict = verdict.status === 'SELL';
+            const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
+
+            // Verificăm dacă există opțiune de salvare prin Gem
+            const gemRescue = isSellVerdict ? findGemRescueOption({
+                slot: currentSlot,
+                set,
+                mainType,
+                innateType,
+                innateVal,
+                subs,
+                level,
+                rarity,
+                stars,
+                userTier,
+                flatCount,
+                flatWithRolls,
+                combatEfficiency: effResults.combatEff,
+                hasGem
+            }) : null;
+
+            renderVerdict(verdict, gemRescue);
+
+            // 1. Gem Advisor (propune mereu salvarea din Sell în Keep dacă este posibil)
+            renderGemAdvisor({
+                slot: currentSlot,
+                set,
+                mainType,
+                innateType,
+                innateVal,
+                subs,
+                level,
+                rarity,
+                stars,
+                userTier,
+                flatCount,
+                flatWithRolls,
+                isSellVerdict,
+                combatEfficiency: effResults.combatEff,
+                hasGem
+            }, gemRescue);
+
+            // 2. Consilier Reappraisal
+            renderReappraisalAdvisor({
+                slot: currentSlot,
+                set,
+                stars,
+                rarity,
+                mainType,
+                innateType,
+                subs,
+                efficiency: effResults.combatEff,
+                level,
+                isSellVerdict,
+                isMustKeepForReapp
+            });
+
+            // 3. Consilier Rune Refinement (vine DUPĂ Reappraisal)
+            renderRefinementAdvisor({
+                slot: currentSlot,
+                set,
+                stars,
+                rarity,
+                level,
+                mainType,
+                innateType,
+                subs,
+                combatEfficiency: effResults.combatEff,
+                hasGem,
+                isSellVerdict,
+                percentCount,
+                totalSpeed
+            });
+        }
+
+        function renderVerdict(verdict, gemRescue = null) {
             const banner = document.getElementById('verdict-banner');
             banner.className = `p-3 sm:p-3.5 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border ${verdict.color}`;
             banner.innerHTML = verdict.title;
 
-            document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
+            let reasonsHtml = verdict.reasons;
+            if (gemRescue) {
+                reasonsHtml += `
+                    <div class="mt-2.5 p-2 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-[11px] font-black flex items-center gap-1.5 shadow-xs">
+                        <span>💎</span>
+                        <span><strong>OPORTUNITATE GEM:</strong> Runa poate fi SALVATĂ și transformată în <strong>KEEP</strong> dacă înlocuiești <u>${gemRescue.subToReplace.type}</u> cu un Gem de <u>${gemRescue.gemType}</u> (${gemRescue.simEff.toFixed(1)}% eff)!</span>
+                    </div>
+                `;
+            }
+
+            document.getElementById('verdict-reasons').innerHTML = reasonsHtml;
             document.getElementById('verdict-archetypes').innerHTML = verdict.archetypes;
         }
 
         // ==========================================
-        // CONSILIER RUNE REFINEMENT (NOU IMPLEMENTAT)
+        // 1. RECOMANDĂRI GEM (CONVERSIE SUBSTAT)
         // ==========================================
-        function renderRefinementAdvisor(ctx) {
-            const container = document.getElementById('refine-recommendation-box');
-            const badge = document.getElementById('refine-badge');
-            container.innerHTML = '';
-
-            const isLevelEligible = ['+12', '+15'].includes(ctx.level);
-            const isIntangible = ctx.set === 'Intangible';
-
-            // 1. Verificare Regulă Oficială: Intangible Runes nu pot fi rafinate
-            if (isIntangible) {
-                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300';
-                badge.innerText = 'Interzis pe Intangible';
-                container.innerHTML = `
-                    <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🚫 <strong>Regulă Oficială:</strong> Rune Refinement <strong>nu poate fi folosit pe rune Intangible</strong>.
-                    </div>
-                `;
-                return;
-            }
-
-            // 2. Verificare Regulă Oficială: Nu se poate folosi dacă are Gem aplicat
-            if (ctx.hasGem) {
-                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300';
-                badge.innerText = 'Blocat (Are Gem)';
-                container.innerHTML = `
-                    <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
-                        🚫 <strong>Restricție Oficială:</strong> Rune Refinement <strong>nu poate fi aplicat</strong> unei rune care are un substat convertit prin Enchanted Gem. Folosește Refinement <em>înainte</em> de a aplica Gem-ul!
-                    </div>
-                `;
-                return;
-            }
-
-            // 3. Verificare Regulă Oficială: Minim nivel +12
-            if (!isLevelEligible) {
-                badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200';
-                badge.innerText = 'Necesită +12';
-                container.innerHTML = `
-                    <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold leading-relaxed">
-                        ⏳ <strong>Eligibil doar la +12 / +15:</strong> Rune Refinement poate fi activat exclusiv pe rune aduse la cel puțin nivelul +12.
-                    </div>
-                `;
-                return;
-            }
-
-            // 4. Număr oficial de Power-ups reaplicate
-            const powerUpsCount = {
-                'Legend': 4,
-                'Hero': 3,
-                'Rare': 2,
-                'Magic': 1,
-                'Normal': 0
-            }[ctx.rarity] || 0;
-
-            const existingTypes = ctx.subs.map(s => s.type);
-            const hasSpd = existingTypes.includes('SPD');
-            const hasCrit = existingTypes.includes('CR%') || existingTypes.includes('CD%');
-            const isHighSynergyBase = (hasSpd && (hasCrit || ctx.percentCount >= 2)) || ctx.percentCount >= 3;
-
-            // Dacă runa e deja foarte eficientă (de ex. quad roll bun sau eficiență > 80%)
-            if (ctx.combatEfficiency >= 82 || ctx.totalSpeed >= 20) {
-                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
-                badge.innerText = 'Nu atinge (Rulaj Deja Bun)';
-                container.innerHTML = `
-                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px] font-bold leading-relaxed space-y-1">
-                        ✅ <strong>Rulaje deja optime:</strong> Runa are deja o eficiență mare (${ctx.combatEfficiency.toFixed(1)}% / +${ctx.totalSpeed} SPD). Refinement-ul ar risca să îți strice valorile bune obținute!
-                    </div>
-                `;
-                return;
-            }
-
-            // Candidat ideal: Bază excelentă de substaturi (ex. SPD + CR% + CD% + ATK%), dar plusările au ieșit proaste (low rolls sau au nimerit greșit)
-            if ((ctx.rarity === 'Legend' || ctx.rarity === 'Hero') && isHighSynergyBase) {
-                badge.className = 'text-[10px] bg-amber-200 text-amber-950 font-black px-2 py-0.5 rounded border border-amber-400';
-                badge.innerText = `Candidat Excelent (${powerUpsCount} Power-ups)`;
-                container.innerHTML = `
-                    <div class="p-3 bg-amber-50 rounded-lg border-2 border-amber-400 text-amber-950 text-[11px] font-bold leading-relaxed space-y-1.5">
-                        <div class="font-black text-xs text-amber-900 flex items-center gap-1.5">
-                            <span>✨</span> OPORTUNITATE IDEALĂ DE REFINEMENT!
-                        </div>
-                        <p>
-                            Această rună are un profil perfect de substaturi (<strong>${existingTypes.join(', ')}</strong>), dar valorile plusărilor actuale sunt modeste.
-                        </p>
-                        <div class="p-1.5 bg-white/90 rounded border border-amber-200 text-[10px] text-amber-900">
-                            🎲 Refinement-ul va păstra <strong>toate cele 4 tipuri de substaturi</strong> și va reaplica aleatoriu exact <strong>${powerUpsCount} Power-ups</strong> cu șanse egale per atribut și valoare conform rarității de bază (${ctx.rarity}).
-                        </div>
-                        <p class="text-amber-800 font-extrabold pt-0.5">
-                            👉 Recomandare: Folosește Refinement pentru a încerca să concentrezi plusările în SPD sau procente ofensive!
-                        </p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Situație în care runa are substaturi mediocre
-            badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200';
-            badge.innerText = 'Prioritate Scăzută';
-            container.innerHTML = `
-                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
-                    ℹ️ Refinement-ul păstrează substaturile existente. Deoarece această piesă nu are 4 substaturi de elită nativ, investiția în Refinement este considerată risipă de resurse. Folosește mai degrabă Reappraisal sau obține o bază mai curată.
-                </div>
-            `;
-        }
-
-        function renderGemAdvisor(ctx) {
+        function renderGemAdvisor(ctx, precomputedRescue = null) {
             const container = document.getElementById('gem-recommendation-box');
             const badge = document.getElementById('gem-badge');
             container.innerHTML = '';
 
-            if (ctx.isSellVerdict) {
-                badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200';
-                badge.innerText = 'Inutil (Sell)';
+            if (ctx.hasGem) {
+                badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300';
+                badge.innerText = 'Gem Deja Aplicat';
                 container.innerHTML = `
-                    <div class="p-2.5 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold leading-relaxed">
-                        🚫 <strong>Nu irosi materiale:</strong> Runa are verdict de vânzare. Este contraindicat să folosești pietre Gem pe această piesă.
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
+                        ℹ️ Runa are deja bifa <strong>„Are Gem aplicat”</strong> activată. Conform regulilor jocului, nu se poate aplica mai mult de un Gem pe o rună.
                     </div>
                 `;
                 return;
             }
 
+            // CAZ CRITIC: Runa are verdict de VÂNZARE -> căutăm conversie salvatoare în KEEP
+            if (ctx.isSellVerdict) {
+                const rescue = precomputedRescue || findGemRescueOption(ctx);
+
+                if (rescue) {
+                    badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700';
+                    badge.innerText = '✨ SALVARE: SELL ➔ KEEP';
+                    container.innerHTML = `
+                        <div class="p-3 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold leading-relaxed space-y-2">
+                            <div class="font-black text-xs text-emerald-900 flex items-center gap-1.5">
+                                <span>💡</span> CONVERSIE SALVATOARE DISPONIBILĂ (SELL ➔ KEEP)!
+                            </div>
+                            <p class="text-slate-700 font-semibold">
+                                Deși runa are în prezent verdict de <strong>VÂNZARE</strong> (${ctx.combatEfficiency.toFixed(1)}% eficiență), ea poate deveni o piesă <strong>EFICIENTĂ DE PĂSTRAT (KEEP)</strong> printr-o singură conversie Gem:
+                            </p>
+                            <div class="p-2.5 bg-white rounded-lg border border-emerald-300 space-y-1 text-slate-800">
+                                <div>👉 Înlocuiește substatul mort: <strong class="text-rose-600">${rescue.subToReplace.type} (+${rescue.subToReplace.val}${rescue.subToReplace.plusVal > 0 ? ', ▲' + rescue.subToReplace.plusVal : ''})</strong></div>
+                                <div>💎 Aplică Gem Legend: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal}${rescue.gemType.includes('%') ? '%' : ''})</strong></div>
+                            </div>
+                            <div class="text-[11px] text-emerald-900 bg-emerald-100/70 p-2 rounded-lg border border-emerald-200 font-extrabold">
+                                📈 <strong>Efectul conversiei:</strong> Eficiența reală crește la <strong>${rescue.simEff.toFixed(1)}%</strong>, depășind pragul obiectivului tău PvE și validând piesa ca <strong>PĂSTREAZĂ</strong> (${rescue.simVerdict.archetypes}).
+                            </div>
+                            <div class="text-[10px] text-amber-800 font-extrabold border-t border-emerald-200/80 pt-1">
+                                * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rune Refinement pe această piesă.
+                            </div>
+                        </div>
+                    `;
+                    return;
+                } else {
+                    badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200';
+                    badge.innerText = 'Fără Salvare (Sell)';
+                    container.innerHTML = `
+                        <div class="p-2.5 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold leading-relaxed">
+                            🚫 <strong>Nu poate fi salvată prin Gem:</strong> Chiar și prin aplicarea celui mai bun Gem Legend (+${ctx.stars === '6-ancient' ? '15%' : '13%'}), runa nu poate atinge pragul de eficiență cerut pentru obiectivul tău (${[2,4,6].includes(ctx.slot) && ['Flat HP','Flat ATK','Flat DEF'].includes(ctx.mainType) ? 'stat principal flat pe slot par' : 'valori de bază prea mici sau rulaje eșuate'}). Rămâne pentru <strong>VÂNZARE</strong>.
+                        </div>
+                    `;
+                    return;
+                }
+            }
+
+            // CAZ ÎN CARE RUNA ESTE DEJA DE PĂSTRAT (KEEP/ROLL)
             badge.className = 'text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200';
             badge.innerText = 'Activ';
 
@@ -1690,7 +1798,7 @@
             if (!isKeeperLevel) {
                 container.innerHTML = `
                     <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">
-                        ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează power-up-ul înainte de a investi Gem.
+                        ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează power-up-ul înainte de a investi pietre Gem.
                     </div>
                 `;
                 return;
@@ -1729,7 +1837,7 @@
             if (mustGemSub) {
                 container.innerHTML = `
                     <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-300 text-[11px] text-amber-900 font-bold space-y-1">
-                        <div><span class="font-black">⚠️ Recomandare Conversie Gem:</span> ${gemReason}</div>
+                        <div><span class="font-black">⚠️ Optimizare Recomandată:</span> ${gemReason}</div>
                         <div class="font-extrabold text-slate-800">
                             👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.val})</strong> cu un Gem de <strong class="text-emerald-700">${desiredGemIn}</strong>.
                         </div>
@@ -1741,12 +1849,15 @@
             } else {
                 container.innerHTML = `
                     <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">
-                        ✅ <strong>Fără Gem obligatoriu:</strong> Toate valorile substaturilor au o sinergie bună.
+                        ✅ <strong>Fără Gem obligatoriu:</strong> Toate valorile substaturilor au deja o sinergie bună.
                     </div>
                 `;
             }
         }
 
+        // ==========================================
+        // 2. CONSILIER REAPPRAISAL (PIETRE REAPP)
+        // ==========================================
         function renderReappraisalAdvisor(ctx) {
             const container = document.getElementById('reapp-recommendation-box');
             const badge = document.getElementById('reapp-badge');
@@ -1913,6 +2024,105 @@
                         🎲 <strong>Șansă SPD la Reapp:</strong> ${spdChancePercent}% (din ${poolSize} atribute posibile).<br>
                         ${innateBonusNote}
                     </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 3. CONSILIER RUNE REFINEMENT (DUPĂ REAPP)
+        // ==========================================
+        function renderRefinementAdvisor(ctx) {
+            const container = document.getElementById('refine-recommendation-box');
+            const badge = document.getElementById('refine-badge');
+            container.innerHTML = '';
+
+            const isLevelEligible = ['+12', '+15'].includes(ctx.level);
+            const isIntangible = ctx.set === 'Intangible';
+
+            if (isIntangible) {
+                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300';
+                badge.innerText = 'Interzis pe Intangible';
+                container.innerHTML = `
+                    <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
+                        🚫 <strong>Regulă Oficială:</strong> Rune Refinement <strong>nu poate fi folosit pe rune Intangible</strong>.
+                    </div>
+                `;
+                return;
+            }
+
+            if (ctx.hasGem) {
+                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300';
+                badge.innerText = 'Blocat (Are Gem)';
+                container.innerHTML = `
+                    <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-300 text-rose-900 text-[11px] font-bold leading-relaxed">
+                        🚫 <strong>Restricție Oficială:</strong> Rune Refinement <strong>nu poate fi aplicat</strong> unei rune care are un substat convertit prin Enchanted Gem. Folosește Refinement <em>înainte</em> de a aplica Gem-ul!
+                    </div>
+                `;
+                return;
+            }
+
+            if (!isLevelEligible) {
+                badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200';
+                badge.innerText = 'Necesită +12';
+                container.innerHTML = `
+                    <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold leading-relaxed">
+                        ⏳ <strong>Eligibil doar la +12 / +15:</strong> Rune Refinement poate fi activat exclusiv pe rune aduse la cel puțin nivelul +12.
+                    </div>
+                `;
+                return;
+            }
+
+            const powerUpsCount = {
+                'Legend': 4,
+                'Hero': 3,
+                'Rare': 2,
+                'Magic': 1,
+                'Normal': 0
+            }[ctx.rarity] || 0;
+
+            const existingTypes = ctx.subs.map(s => s.type);
+            const hasSpd = existingTypes.includes('SPD');
+            const hasCrit = existingTypes.includes('CR%') || existingTypes.includes('CD%');
+            const isHighSynergyBase = (hasSpd && (hasCrit || ctx.percentCount >= 2)) || ctx.percentCount >= 3;
+
+            if (ctx.combatEfficiency >= 82 || ctx.totalSpeed >= 20) {
+                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
+                badge.innerText = 'Nu atinge (Rulaj Deja Bun)';
+                container.innerHTML = `
+                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px] font-bold leading-relaxed space-y-1">
+                        ✅ <strong>Rulaje deja optime:</strong> Runa are deja o eficiență mare (${ctx.combatEfficiency.toFixed(1)}% / +${ctx.totalSpeed} SPD). Refinement-ul ar risca să îți strice valorile bune obținute!
+                    </div>
+                `;
+                return;
+            }
+
+            if ((ctx.rarity === 'Legend' || ctx.rarity === 'Hero') && isHighSynergyBase) {
+                badge.className = 'text-[10px] bg-amber-200 text-amber-950 font-black px-2 py-0.5 rounded border border-amber-400';
+                badge.innerText = `Candidat Excelent (${powerUpsCount} Power-ups)`;
+                container.innerHTML = `
+                    <div class="p-3 bg-amber-50 rounded-lg border-2 border-amber-400 text-amber-950 text-[11px] font-bold leading-relaxed space-y-1.5">
+                        <div class="font-black text-xs text-amber-900 flex items-center gap-1.5">
+                            <span>✨</span> OPORTUNITATE IDEALĂ DE REFINEMENT!
+                        </div>
+                        <p>
+                            Această rună are un profil perfect de substaturi (<strong>${existingTypes.join(', ')}</strong>), dar valorile plusărilor actuale sunt modeste.
+                        </p>
+                        <div class="p-1.5 bg-white/90 rounded border border-amber-200 text-[10px] text-amber-900">
+                            🎲 Refinement-ul va păstra <strong>toate cele 4 tipuri de substaturi</strong> și va reaplica aleatoriu exact <strong>${powerUpsCount} Power-ups</strong> cu șanse egale per atribut și valoare conform rarității de bază (${ctx.rarity}).
+                        </div>
+                        <p class="text-amber-800 font-extrabold pt-0.5">
+                            👉 Recomandare: Folosește Refinement pentru a încerca să concentrezi plusările în SPD sau procente ofensive!
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200';
+            badge.innerText = 'Prioritate Scăzută';
+            container.innerHTML = `
+                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
+                    ℹ️ Refinement-ul păstrează substaturile existente. Deoarece această piesă nu are 4 substaturi de elită nativ, investiția în Refinement este considerată risipă de resurse. Folosește mai degrabă Reappraisal sau obține o bază mai curată.
                 </div>
             `;
         }
