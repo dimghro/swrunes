@@ -86,7 +86,7 @@
                     <h1 class="text-lg sm:text-2xl font-black tracking-wide text-slate-900 flex flex-wrap items-center gap-1.5 sm:gap-2">
                         SUMMONERS WAR <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">Optimizare PvE • Grind & Sinergie</span>
                     </h1>
-                    <p class="text-xs text-slate-500 font-semibold">Evaluator Avansat de Rune: Grindstones, Enchanted Gems, Reappraisal, Refinement & Cap PvE</p>
+                    <p class="text-xs text-slate-500 font-semibold">Evaluator Avansat de Rune: Enchanted Gems, Reappraisal, Refinement, Grindstones & Cap PvE</p>
                 </div>
             </div>
 
@@ -550,19 +550,7 @@
                         </div>
                     </div>
 
-                    <!-- CONSILIER 1: GRINDSTONES -->
-                    <div class="border border-emerald-300 rounded-xl p-3 sm:p-3.5 bg-emerald-50/40 space-y-2">
-                        <div class="flex items-center justify-between border-b border-emerald-200 pb-1.5">
-                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                                <span class="text-emerald-600">🔨</span> CONSILIER GRINDSTONES
-                            </h3>
-                            <span id="grind-badge" class="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-200">Evaluare Grind</span>
-                        </div>
-                        <div id="grind-recommendation-box" class="space-y-1.5 text-xs">
-                        </div>
-                    </div>
-
-                    <!-- CONSILIER 2: ENCHANTED GEM -->
+                    <!-- CONSILIER 1: ENCHANTED GEM -->
                     <div class="border border-cyan-200 rounded-xl p-3 sm:p-3.5 bg-cyan-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-cyan-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -574,7 +562,7 @@
                         </div>
                     </div>
 
-                    <!-- CONSILIER 3: REAPPRAISAL STONE -->
+                    <!-- CONSILIER 2: REAPPRAISAL STONE -->
                     <div class="border border-purple-200 rounded-xl p-3 sm:p-3.5 bg-purple-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-purple-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -586,7 +574,7 @@
                         </div>
                     </div>
 
-                    <!-- CONSILIER 4: RUNE REFINEMENT -->
+                    <!-- CONSILIER 3: RUNE REFINEMENT -->
                     <div class="border border-amber-300 rounded-xl p-3 sm:p-3.5 bg-amber-50/60 space-y-2">
                         <div class="flex items-center justify-between border-b border-amber-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
@@ -598,6 +586,18 @@
                         </div>
                     </div>
 
+                    <!-- CONSILIER 4: GRINDSTONES (POZIȚIONAT DUPĂ CONSILIER RUNE REFINEMENT) -->
+                    <div class="border border-emerald-300 rounded-xl p-3 sm:p-3.5 bg-emerald-50/40 space-y-2">
+                        <div class="flex items-center justify-between border-b border-emerald-200 pb-1.5">
+                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                <span class="text-emerald-600">🔨</span> CONSILIER GRINDSTONES
+                            </h3>
+                            <span id="grind-badge" class="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-200">Evaluare Grind</span>
+                        </div>
+                        <div id="grind-recommendation-box" class="space-y-1.5 text-xs">
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -606,7 +606,7 @@
         <!-- STRATEGY GUIDE CARD CU REGULI OFICIALE PENTRU CELE 23 DE SETURI & GRINDSTONES -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
             <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: SINERGIE SETURI, GRINDSTONES, GEMS, REAPPRAISAL & CAP-URI PVE
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: SINERGIE SETURI, GEMS, REAPPRAISAL, REFINEMENT & GRINDSTONES
             </h3>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs text-slate-600">
@@ -994,7 +994,7 @@
             'Flat HP': 435, 'Flat ATK': 24, 'Flat DEF': 24
         };
 
-        // TABEL OFICIAL GRINDSTONES (CONFORM IMAGINII ATAȘATE)
+        // TABEL OFICIAL GRINDSTONES
         const standardGrindTable = {
             'SPD': { magic: [1, 2], rare: [2, 3], hero: [3, 4], legend: [4, 5], maxHero: 4, maxLegend: 5 },
             'HP%': { magic: [2, 5], rare: [3, 6], hero: [4, 7], legend: [5, 10], maxHero: 7, maxLegend: 10 },
@@ -1489,18 +1489,15 @@
 
             subs.forEach(s => {
                 if (table[s.type]) {
-                    // Raw folosește doar valoarea neglindată din plusări
                     const rawRatio = s.val / table[s.type];
                     rawPoints += rawRatio;
 
-                    // Combat folosește valoarea totală (bază + grind actual)
                     const totalVal = s.val + (s.grindVal || 0);
                     const combatRatio = totalVal / table[s.type];
                     const isFlat = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type);
 
                     combatPoints += isFlat ? (combatRatio * 0.35) : combatRatio;
 
-                    // Calcul potențial maxim de Legend Grind
                     let potentialVal = totalVal;
                     if (isGrindable(s.type)) {
                         const lim = getGrindLimits(s.type, isAncient);
@@ -1518,9 +1515,8 @@
                 maxGrindCombatPoints *= 0.85;
             }
 
-            const maxBaseDivisor = 9.0; // Divizor standard Com2uS 6★ Legend
+            const maxBaseDivisor = 9.0;
             
-            // Divizor Relativ pentru a nu penaliza runele Hero native
             const relativeDivisors = {
                 'Legend': 9.0,
                 'Hero': 8.0,
@@ -1627,9 +1623,7 @@
                 };
             }
 
-            // ==========================================
             // DETECTOR SPECIAL: BROKEN SET OFENSIV DE TOP (PVE ABYSS NUKER)
-            // ==========================================
             const crSub = ctx.subs.find(s => s.type === 'CR%');
             const cdSub = ctx.subs.find(s => s.type === 'CD%');
             const atkSub = ctx.subs.find(s => s.type === 'ATK%');
@@ -1678,14 +1672,12 @@
                 };
             }
 
-            // Praguri de eficiență adaptate obiectivului
             let effThreshold = 65;
             let spdThreshold = 10;
             if(ctx.userTier === 'mid') { effThreshold = 71; spdThreshold = 12; }
             if(ctx.userTier === 'late') { effThreshold = 77; spdThreshold = 15; }
             if(ctx.userTier === 'end') { effThreshold = 84; spdThreshold = 18; }
 
-            // Recunoaștere a valorii unei rune Hero bine rulate
             const isStrongHero = ctx.rarity === 'Hero' && ctx.relativeEfficiency >= 82;
 
             if(ctx.combatEfficiency >= effThreshold || isStrongHero || ctx.maxGrindEfficiency >= (effThreshold + 6)) {
@@ -1992,14 +1984,6 @@
 
             renderVerdict(verdict, gemRescue);
 
-            renderGrindAdvisor({
-                subs,
-                stars,
-                isAncient,
-                combatEfficiency: effResults.combatEff,
-                maxGrindEfficiency: effResults.maxGrindEff
-            });
-
             renderGemAdvisor({
                 slot: currentSlot,
                 set,
@@ -2048,6 +2032,14 @@
                 percentCount,
                 totalSpeed
             });
+
+            renderGrindAdvisor({
+                subs,
+                stars,
+                isAncient,
+                combatEfficiency: effResults.combatEff,
+                maxGrindEfficiency: effResults.maxGrindEff
+            });
         }
 
         function renderVerdict(verdict, gemRescue = null) {
@@ -2074,84 +2066,7 @@
         }
 
         // ==========================================
-        // 1. CONSILIER GRINDSTONES (CONFORM IMAGINII ATAȘATE)
-        // ==========================================
-        function renderGrindAdvisor(ctx) {
-            const container = document.getElementById('grind-recommendation-box');
-            const badge = document.getElementById('grind-badge');
-            container.innerHTML = '';
-
-            const grindableSubs = ctx.subs.filter(s => isGrindable(s.type));
-            const nonGrindableSubs = ctx.subs.filter(s => !isGrindable(s.type));
-
-            if (grindableSubs.length === 0) {
-                badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300';
-                badge.innerText = 'Fără Stats Grindabile';
-                container.innerHTML = `
-                    <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
-                        ℹ️ Runa conține doar substaturi ne-grindabile (${nonGrindableSubs.map(s => s.type).join(', ')}). Valorile obținute din roll-uri sunt definitive!
-                    </div>
-                `;
-                return;
-            }
-
-            const ungrinded = grindableSubs.filter(s => !s.grindVal || s.grindVal === 0);
-            const grindGain = ctx.maxGrindEfficiency - ctx.combatEfficiency;
-
-            if (ungrinded.length === 0) {
-                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
-                badge.innerText = 'Toate Grinduite';
-                container.innerHTML = `
-                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px] font-bold leading-relaxed">
-                        ✅ <strong>Piesă Complet Șlefuită:</strong> Toate cele ${grindableSubs.length} substaturi compatibile au deja un Grindstone aplicat!
-                    </div>
-                `;
-                return;
-            }
-
-            badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700';
-            badge.innerText = `+${grindGain.toFixed(1)}% Potențial Grind`;
-
-            let itemsHtml = '';
-            grindableSubs.forEach(s => {
-                const lim = getGrindLimits(s.type, ctx.isAncient);
-                const isGrinded = s.grindVal > 0;
-                const unit = s.type.includes('%') ? '%' : '';
-
-                itemsHtml += `
-                    <div class="flex justify-between items-center p-1.5 rounded-md bg-white border border-emerald-200 text-[11px]">
-                        <div>
-                            <span class="font-extrabold text-slate-800">${s.type}</span>: 
-                            <span class="text-slate-600 font-black">${s.val}${unit}</span>
-                            ${isGrinded ? `<span class="text-indigo-600 font-black pl-1">(+${s.grindVal} Grind)</span>` : '<span class="text-amber-600 font-black pl-1">(Ne-șlefuit)</span>'}
-                        </div>
-                        <div class="text-[10px] text-right">
-                            <span class="text-purple-700 font-extrabold">Hero: +${lim.hero[0]}~${lim.hero[1]}${unit}</span> | 
-                            <span class="text-amber-700 font-black">Legend: +${lim.legend[0]}~${lim.legend[1]}${unit}</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <div class="space-y-1.5">
-                    <p class="text-[11px] text-slate-700 font-semibold leading-relaxed">
-                        Aplicarea de Grindstones poate crește eficiența runei cu până la <strong class="text-emerald-700">+${grindGain.toFixed(1)}%</strong>:
-                    </p>
-                    <div class="space-y-1">
-                        ${itemsHtml}
-                    </div>
-                    ${nonGrindableSubs.length > 0 ? `
-                        <div class="text-[10px] text-slate-500 font-bold pt-1">
-                            🔒 <em>Substat-uri Ne-grindabile:</em> ${nonGrindableSubs.map(s => s.type).join(', ')} (nu admit Grindstones conform regulilor Com2uS).
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // ==========================================
-        // 2. CONSILIER ENCHANTED GEM
+        // 1. CONSILIER ENCHANTED GEM
         // ==========================================
         function renderGemAdvisor(ctx, precomputedRescue = null) {
             const container = document.getElementById('gem-recommendation-box');
@@ -2209,7 +2124,6 @@
                 return;
             }
 
-            // Min-Maxing Gem pentru rune KEEP
             const isAncient = ctx.stars === '6-ancient';
             const flatSingleMax = getFlatSingleMax(ctx.stars);
             const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'CR%', 'CD%'], prioritySub: 'SPD' };
@@ -2251,7 +2165,7 @@
         }
 
         // ==========================================
-        // 3. CONSILIER REAPPRAISAL STONE
+        // 2. CONSILIER REAPPRAISAL STONE
         // ==========================================
         function renderReappraisalAdvisor(ctx) {
             const container = document.getElementById('reapp-recommendation-box');
@@ -2337,7 +2251,7 @@
         }
 
         // ==========================================
-        // 4. CONSILIER RUNE REFINEMENT
+        // 3. CONSILIER RUNE REFINEMENT
         // ==========================================
         function renderRefinementAdvisor(ctx) {
             const container = document.getElementById('refine-recommendation-box');
@@ -2418,6 +2332,83 @@
             container.innerHTML = `
                 <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">
                     ℹ️ Refinement păstrează substaturile existente. Deoarece piesa nu are o sinergie foarte bună, folosește mai degrabă Reappraisal.
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 4. CONSILIER GRINDSTONES (DUPĂ RUNE REFINEMENT)
+        // ==========================================
+        function renderGrindAdvisor(ctx) {
+            const container = document.getElementById('grind-recommendation-box');
+            const badge = document.getElementById('grind-badge');
+            container.innerHTML = '';
+
+            const grindableSubs = ctx.subs.filter(s => isGrindable(s.type));
+            const nonGrindableSubs = ctx.subs.filter(s => !isGrindable(s.type));
+
+            if (grindableSubs.length === 0) {
+                badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300';
+                badge.innerText = 'Fără Stats Grindabile';
+                container.innerHTML = `
+                    <div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
+                        ℹ️ Runa conține doar substaturi ne-grindabile (${nonGrindableSubs.map(s => s.type).join(', ')}). Valorile obținute din roll-uri sunt definitive!
+                    </div>
+                `;
+                return;
+            }
+
+            const ungrinded = grindableSubs.filter(s => !s.grindVal || s.grindVal === 0);
+            const grindGain = ctx.maxGrindEfficiency - ctx.combatEfficiency;
+
+            if (ungrinded.length === 0) {
+                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
+                badge.innerText = 'Toate Grinduite';
+                container.innerHTML = `
+                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px] font-bold leading-relaxed">
+                        ✅ <strong>Piesă Complet Șlefuită:</strong> Toate cele ${grindableSubs.length} substaturi compatibile au deja un Grindstone aplicat!
+                    </div>
+                `;
+                return;
+            }
+
+            badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700';
+            badge.innerText = `+${grindGain.toFixed(1)}% Potențial Grind`;
+
+            let itemsHtml = '';
+            grindableSubs.forEach(s => {
+                const lim = getGrindLimits(s.type, ctx.isAncient);
+                const isGrinded = s.grindVal > 0;
+                const unit = s.type.includes('%') ? '%' : '';
+
+                itemsHtml += `
+                    <div class="flex justify-between items-center p-1.5 rounded-md bg-white border border-emerald-200 text-[11px]">
+                        <div>
+                            <span class="font-extrabold text-slate-800">${s.type}</span>: 
+                            <span class="text-slate-600 font-black">${s.val}${unit}</span>
+                            ${isGrinded ? `<span class="text-indigo-600 font-black pl-1">(+${s.grindVal} Grind)</span>` : '<span class="text-amber-600 font-black pl-1">(Ne-șlefuit)</span>'}
+                        </div>
+                        <div class="text-[10px] text-right">
+                            <span class="text-purple-700 font-extrabold">Hero: +${lim.hero[0]}~${lim.hero[1]}${unit}</span> | 
+                            <span class="text-amber-700 font-black">Legend: +${lim.legend[0]}~${lim.legend[1]}${unit}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="space-y-1.5">
+                    <p class="text-[11px] text-slate-700 font-semibold leading-relaxed">
+                        Aplicarea de Grindstones poate crește eficiența runei cu până la <strong class="text-emerald-700">+${grindGain.toFixed(1)}%</strong>:
+                    </p>
+                    <div class="space-y-1">
+                        ${itemsHtml}
+                    </div>
+                    ${nonGrindableSubs.length > 0 ? `
+                        <div class="text-[10px] text-slate-500 font-bold pt-1">
+                            🔒 <em>Substat-uri Ne-grindabile:</em> ${nonGrindableSubs.map(s => s.type).join(', ')} (nu admit Grindstones conform regulilor Com2uS).
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
