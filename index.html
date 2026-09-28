@@ -474,7 +474,7 @@
                     <div id="verdict-rescue-option" class="hidden transition-all">
                     </div>
 
-                    <!-- SET SYNERGY BANNER (REVIZUIT: ALINIAT LA STÂNGA, UNUL SUB ALTUL) -->
+                    <!-- SET SYNERGY BANNER (ALINIAT LA STÂNGA, UNUL SUB ALTUL) -->
                     <div id="set-synergy-banner" class="p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all">
                     </div>
 
@@ -691,6 +691,7 @@
 
         // ==========================================
         // GHIDUL OFICIAL PENTRU TOATE CELE 23 DE SETURI
+        // REVIZUIT: ACC% ȘI RES% APAR EXCLUSIV PE SLOT 6
         // ==========================================
         const RUNE_SETS_GUIDE = {
             'Energy': {
@@ -751,24 +752,24 @@
             'Focus': {
                 pieces: 2, bonus: 'ACC +20%', role: 'Debuffer / CC / Stripper',
                 evenMain: {
-                    2: ['SPD', 'ATK%', 'HP%'],
-                    4: ['DEF%', 'HP%', 'ATK%'],
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['ACC%', 'HP%', 'DEF%']
                 },
                 desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'ATK%'],
                 prioritySub: 'ACC%',
-                notes: 'Asigură atingerea pragurilor de Accuracy pentru aplicarea sigură a debuff-urilor.'
+                notes: 'Asigură atingerea pragurilor de Accuracy pentru aplicarea sigură a debuff-urilor. Slot 6 ACC% este ideal.'
             },
             'Endure': {
                 pieces: 2, bonus: 'RES +20%', role: 'Raid Front-line / Cleanse Tank',
                 evenMain: {
                     2: ['SPD', 'HP%', 'DEF%'],
-                    4: ['HP%', 'DEF%', 'RES%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['RES%', 'HP%', 'DEF%']
                 },
                 desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
                 prioritySub: 'RES%',
-                notes: 'Ușurează atingerea pragului de 100% Resistance pe tancuri și cleanseri de Solo R5.'
+                notes: 'Ușurează atingerea pragului de 100% Resistance pe tancuri și cleanseri de Solo R5. RES% este exclusiv pe Slot 6.'
             },
             'Fatal': {
                 pieces: 4, bonus: 'ATK +35%', role: 'Bomber / Pure ATK Nuker',
@@ -784,7 +785,7 @@
             'Despair': {
                 pieces: 4, bonus: 'Stun +25%', role: 'AOE CC / Control / ToA',
                 evenMain: {
-                    2: ['SPD', 'ATK%', 'HP%'],
+                    2: ['SPD', 'HP%', 'DEF%', 'ATK%'],
                     4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'],
                     6: ['HP%', 'DEF%', 'ACC%']
                 },
@@ -818,7 +819,7 @@
                 pieces: 2, bonus: 'ATB +4% per 7% HP Lost', role: 'Interrupt / Healer / Suport',
                 evenMain: {
                     2: ['SPD', 'HP%', 'DEF%'],
-                    4: ['HP%', 'DEF%', 'RES%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['HP%', 'DEF%', 'RES%']
                 },
                 desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'],
@@ -840,7 +841,7 @@
                 pieces: 2, bonus: 'Shield 15% Base HP', role: 'Team Survivability / Cleave Shield',
                 evenMain: {
                     2: ['SPD', 'HP%', 'DEF%'],
-                    4: ['HP%', 'DEF%', 'ACC%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['HP%', 'DEF%', 'RES%']
                 },
                 desiredSubs: ['HP%', 'SPD', 'DEF%', 'RES%'],
@@ -884,7 +885,7 @@
                 pieces: 2, bonus: 'Ally DEF +8%', role: 'Solo R5 Front-line / Team Tank',
                 evenMain: {
                     2: ['SPD', 'DEF%', 'HP%'],
-                    4: ['DEF%', 'HP%', 'CR%'],
+                    4: ['DEF%', 'HP%'],
                     6: ['DEF%', 'HP%', 'RES%']
                 },
                 desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'CR%'],
@@ -905,31 +906,31 @@
             'Accuracy': {
                 pieces: 2, bonus: 'Ally ACC +10%', role: 'Debuff Consistency / Speed Cairos',
                 evenMain: {
-                    2: ['SPD', 'ACC%', 'HP%'],
-                    4: ['ACC%', 'HP%', 'DEF%'],
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['ACC%', 'HP%', 'DEF%']
                 },
                 desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'RES%'],
                 prioritySub: 'ACC%',
-                notes: 'Permite nukerilor să nu sacrifice stats pentru Accuracy în dungeon-uri.'
+                notes: 'Permite nukerilor să nu sacrifice stats pentru Accuracy în dungeon-uri. ACC% este exclusiv pe Slot 6.'
             },
             'Tolerance': {
                 pieces: 2, bonus: 'Ally RES +10%', role: 'Raid R5 100% Resistance Cap',
                 evenMain: {
-                    2: ['SPD', 'RES%', 'HP%'],
-                    4: ['RES%', 'HP%', 'DEF%'],
+                    2: ['SPD', 'HP%', 'DEF%'],
+                    4: ['HP%', 'DEF%'],
                     6: ['RES%', 'HP%', 'DEF%']
                 },
                 desiredSubs: ['RES%', 'SPD', 'HP%', 'DEF%', 'ACC%'],
                 prioritySub: 'RES%',
-                notes: 'Asigură 100% Resistance pe toată echipa de raid fără a irosi substaturi pe DPS.'
+                notes: 'Asigură 100% Resistance pe toată echipa de raid fără a irosi substaturi pe DPS. RES% este exclusiv pe Slot 6.'
             },
             'Seal': {
                 pieces: 2, bonus: 'Seal Effect +15%', role: 'PvP Disruptor / Set Lock',
                 evenMain: {
                     2: ['SPD', 'HP%', 'DEF%'],
-                    4: ['HP%', 'DEF%', 'ACC%'],
-                    6: ['HP%', 'DEF%', 'RES%']
+                    4: ['HP%', 'DEF%'],
+                    6: ['ACC%', 'HP%', 'DEF%', 'RES%']
                 },
                 desiredSubs: ['SPD', 'HP%', 'DEF%', 'ACC%', 'RES%'],
                 prioritySub: 'SPD',
@@ -999,6 +1000,7 @@
             }
         };
 
+        // REVIZUIT: MAIN STATURI LEGALE PER FIECARE SLOT
         const slotMainTypes = {
             1: [{ type: "Flat ATK", name: "Flat ATK" }],
             2: [
@@ -2364,11 +2366,11 @@
             }
         }
 
-       function parseAndApplyRuneOCR(rawText) {
+        function parseAndApplyRuneOCR(rawText) {
             let cleanText = rawText.replace(/,/g, '').replace(/[\r\t]/g, ' ');
             const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-            // 1. Deteție Slot
+            // 1. Detecție Slot
             const slotMatch = cleanText.match(/(?:Rune|\bSlot|\b)\s*\((\d)\)|Slot\s*(\d)|Rune\s*\(?(\d)\)?/i);
             if (slotMatch) {
                 const detectedSlot = parseInt(slotMatch[1] || slotMatch[2] || slotMatch[3]);
@@ -2377,7 +2379,7 @@
                 }
             }
 
-            // 2. Deteție Nivel
+            // 2. Detecție Nivel
             const levelMatch = cleanText.match(/\+(\d{1,2})/);
             if (levelMatch) {
                 const lvl = parseInt(levelMatch[1]);
@@ -2389,7 +2391,7 @@
                 else document.getElementById('rune-level').value = '+0';
             }
 
-            // 3. Deteție Set
+            // 3. Detecție Set
             const runeSets = Object.keys(RUNE_SETS_GUIDE);
             for (let s of runeSets) {
                 const regex = new RegExp(`\\b${s}\\b`, 'i');
@@ -2399,7 +2401,7 @@
                 }
             }
 
-            // 4. Deteție Stele și Raritate
+            // 4. Detecție Stele și Raritate
             const isAncient = /(?:^|\s|\b)[A▲\^4\<\>]\s*Legend/i.test(cleanText) || /\bAncient\b/i.test(cleanText);
             if (isAncient) {
                 document.getElementById('rune-stars').value = '6-ancient';
@@ -2495,7 +2497,7 @@
                 if (Array.from(mainSelect.options).some(o => o.value === mainCandidate.type)) {
                     mainSelect.value = mainCandidate.type;
                     document.getElementById('main-stat-val').value = mainCandidate.val;
-                    extractedStats.shift(); // Elimină Main Stat din lista de procesare
+                    extractedStats.shift();
                 }
             }
 
