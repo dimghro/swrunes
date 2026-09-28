@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <!-- Google Fonts: Familia Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300..1000;1,300..1000&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -691,7 +691,6 @@
 
         // ==========================================
         // GHIDUL OFICIAL PENTRU TOATE CELE 23 DE SETURI
-        // REVIZUIT: ACC% ȘI RES% APAR EXCLUSIV PE SLOT 6
         // ==========================================
         const RUNE_SETS_GUIDE = {
             'Energy': {
@@ -1000,7 +999,6 @@
             }
         };
 
-        // REVIZUIT: MAIN STATURI LEGALE PER FIECARE SLOT
         const slotMainTypes = {
             1: [{ type: "Flat ATK", name: "Flat ATK" }],
             2: [
@@ -1398,6 +1396,9 @@
             return { rawEff, combatEff };
         }
 
+        // ==========================================
+        // VERDICT ENGINE COERENT CU SINERGIA SETULUI
+        // ==========================================
         function computeVerdict(ctx) {
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
@@ -1509,37 +1510,61 @@
             if(ctx.userTier === 'end') { effThreshold = 84; spdThreshold = 18; }
 
             const crSub = ctx.subs.find(s => s.type === 'CR%');
+            const cdSub = ctx.subs.find(s => s.type === 'CD%');
+            const atkSub = ctx.subs.find(s => s.type === 'ATK%');
+            const isNukerCore = (crSub && crSub.val >= 10) || (cdSub && cdSub.val >= 12) || (crSub && cdSub) || (atkSub && atkSub.val >= 14);
+
             if (crSub && crSub.val >= 18) {
+                const synText = (ctx.synergy && ctx.synergy.level === 'BROKEN') 
+                    ? 'Piesă excelentă ca Broken Set pentru completare CRI Rate.'
+                    : `Sinergie bună pentru setul ${ctx.set}.`;
                 return {
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (VALOARE MARE CRI RATE: +${crSub.val}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
                     reasons: `Runa conține **+${crSub.val}% CRI Rate%**. Esențială pentru a atinge pragul de 100% CRI Rate pe nukeri fără a irosi Slot 4 pe CRI Rate%.`,
-                    archetypes: 'Abyss Nukers (Teshar, Julie, Liam, Luna, Kro).'
+                    archetypes: `Abyss Nukers (Teshar, Julie, Liam, Luna, Kro). ${synText}`
                 };
             }
 
             if(ctx.combatEfficiency >= effThreshold) {
                 let role = guide.role || "Tank / PvE Support";
-                if(ctx.percentCount >= 3 || ['CD%', 'CR%'].includes(ctx.mainType)) {
+                if(ctx.percentCount >= 3 || ['CD%', 'CR%'].includes(ctx.mainType) || isNukerCore) {
                     role = "PvE Nuker / Damage Dealer";
                 }
+
+                let synergyText = `Piesă compatibilă cu rolul setului ${ctx.set}.`;
+                if (ctx.synergy) {
+                    if (ctx.synergy.level === 'EXCELLENT') {
+                        synergyText = `Piesă ideală pentru setul nativ ${ctx.set}.`;
+                    } else if (ctx.synergy.level === 'GOOD') {
+                        synergyText = `Sinergie solidă cu rolul setului ${ctx.set}.`;
+                    } else if (ctx.synergy.level === 'BROKEN') {
+                        synergyText = `Piesă remarcabilă ca <strong>Broken Set</strong> (sau convertibilă pentru setul ${ctx.set} prin Enchanted Gem).`;
+                    } else if (ctx.synergy.level === 'OFF_META') {
+                        synergyText = `Main Stat atipic pentru setul ${ctx.set} (recomandată ca Broken Set).`;
+                    }
+                }
+
                 return {
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (EFICIENȚĂ PVE EXCELENTĂ: ${ctx.combatEfficiency.toFixed(1)}%)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
                     reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) depășește pragul necesar de ${effThreshold}%. Valorile și plusările sunt solide.`,
-                    archetypes: `${role}. Piesă ideală pentru setul ${ctx.set}.`
+                    archetypes: `${role}. ${synergyText}`
                 };
             }
 
             if(ctx.totalSpeed >= spdThreshold) {
+                const synText = (ctx.synergy && ctx.synergy.level === 'BROKEN') 
+                    ? 'Piesă rapidă utilizabilă ca Broken Set pentru speed tuning.' 
+                    : `Sincronizare utilă pentru setul ${ctx.set}.`;
                 return {
                     status: 'KEEP',
                     title: `PĂSTREAZĂ (VITEZĂ PVE: +${ctx.totalSpeed} SPD)`,
                     color: 'bg-emerald-50 text-emerald-900 border-emerald-300',
                     reasons: `Viteza (+${ctx.totalSpeed} SPD) atinge pragul minim necesar pentru sincronizarea ordinii de atac.`,
-                    archetypes: 'Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea).'
+                    archetypes: `Def-breakers și Bufferi (Galleon, Loren, Fran, Prilea). ${synText}`
                 };
             }
 
@@ -1610,6 +1635,7 @@
                     });
 
                     const simEff = calculateEfficiency(simSubs, ctx.innateType, ctx.innateVal, isAncient, simFlatCount);
+                    const simSynergy = analyzeSetSynergy(ctx.set, ctx.slot, ctx.mainType, simSubs);
 
                     const simVerdict = computeVerdict({
                         slot: ctx.slot,
@@ -1627,7 +1653,8 @@
                         rawEfficiency: simEff.rawEff,
                         innateType: ctx.innateType,
                         subs: simSubs,
-                        hasGem: true
+                        hasGem: true,
+                        synergy: simSynergy
                     });
 
                     if (simVerdict.status === 'KEEP') {
@@ -1737,7 +1764,8 @@
                 rawEfficiency: effResults.rawEff,
                 innateType,
                 subs,
-                hasGem
+                hasGem,
+                synergy
             });
 
             const isSellVerdict = verdict.status === 'SELL';
@@ -1777,7 +1805,8 @@
                 flatWithRolls,
                 isSellVerdict,
                 combatEfficiency: effResults.combatEff,
-                hasGem
+                hasGem,
+                synergy
             }, gemRescue);
 
             renderReappraisalAdvisor({
@@ -1835,7 +1864,7 @@
         }
 
         // ==========================================
-        // 1. CONSILIER ENCHANTED GEM
+        // 1. CONSILIER ENCHANTED GEM (REVIZUIT CU MIN-MAXING)
         // ==========================================
         function renderGemAdvisor(ctx, precomputedRescue = null) {
             const container = document.getElementById('gem-recommendation-box');
@@ -1853,6 +1882,7 @@
                 return;
             }
 
+            // A. Runa este SELL: Verificare Salvare prin Gem (SELL ➔ KEEP)
             if (ctx.isSellVerdict) {
                 const rescue = precomputedRescue || findGemRescueOption(ctx);
 
@@ -1892,16 +1922,17 @@
                 }
             }
 
-            badge.className = 'text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200';
-            badge.innerText = 'Activ';
-
             if (ctx.subs.length === 0) {
+                badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-black px-2 py-0.5 rounded border border-slate-200';
+                badge.innerText = 'Incomplet';
                 container.innerHTML = '<p class="text-slate-400 italic">Configurează cel puțin un substat.</p>';
                 return;
             }
 
             const isKeeperLevel = ['+9', '+12', '+15'].includes(ctx.level);
             if (!isKeeperLevel) {
+                badge.className = 'text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded border border-amber-200';
+                badge.innerText = 'Așteaptă Upgrade';
                 container.innerHTML = `
                     <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">
                         ⏳ <strong>Așteaptă +9 / +12:</strong> Finalizează îmbunătățirea runei înainte de a consuma un Enchanted Gem.
@@ -1910,56 +1941,211 @@
                 return;
             }
 
-            let mustGemSub = null;
-            let gemReason = '';
-            let desiredGemIn = 'HP%';
+            // B. Runa este KEEP: Optimizare & Min-Maxing Proactiv
+            const isAncient = ctx.stars === '6-ancient';
+            const flatSingleMax = getFlatSingleMax(ctx.stars);
+            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'CR%', 'CD%'], prioritySub: 'SPD' };
 
             const existingTypes = ctx.subs.map(s => s.type);
-            if (ctx.innateType !== 'None') existingTypes.push(ctx.innateType);
-            existingTypes.push(ctx.mainType);
+            const allOccupiedTypes = [...existingTypes];
+            if (ctx.innateType !== 'None') allOccupiedTypes.push(ctx.innateType);
+            allOccupiedTypes.push(ctx.mainType);
 
-            const flatSingleMax = getFlatSingleMax(ctx.stars);
-            const unrolledFlat = ctx.subs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.plusVal === 0 && s.val <= (flatSingleMax[s.type] || 375));
-            const antiSynergyRes = ctx.subs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.plusVal === 0 && s.val <= 8);
+            const hasSpd = allOccupiedTypes.includes('SPD');
+            const hasCrit = ctx.subs.some(s => ['CR%', 'CD%'].includes(s.type));
+            const isNukerProfile = hasCrit || ctx.subs.some(s => s.type === 'ATK%' && s.val >= 10);
 
-            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'CR%', 'CD%'] };
+            // Substat-uri fără plusări (rolls = 0)
+            const unrolledSubs = ctx.subs.filter(s => s.plusVal === 0);
+
+            // 1. Cazul substat Flat fără plusări
+            const unrolledFlat = unrolledSubs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.val <= (flatSingleMax[s.type] || 375));
+            // 2. Cazul substat anti-sinergic clar (RES% pe seturi ofensive)
+            const antiSynergyRes = unrolledSubs.find(s => s.type === 'RES%' && ['Fatal', 'Rage', 'Blade'].includes(ctx.set) && s.val <= 8);
+
+            const possibleGems = ['SPD', 'CR%', 'CD%', 'HP%', 'ATK%', 'DEF%', 'ACC%', 'RES%'].filter(g => {
+                if (g === ctx.mainType) return false;
+                if (ctx.innateType !== 'None' && g === ctx.innateType) return false;
+                if (ctx.slot === 1 && (g === 'DEF%' || g === 'Flat DEF')) return false;
+                if (ctx.slot === 3 && (g === 'ATK%' || g === 'Flat ATK')) return false;
+                return true;
+            });
 
             if (unrolledFlat) {
-                mustGemSub = unrolledFlat;
-                gemReason = `Conține un stat <strong>${unrolledFlat.type}</strong> fără plusări (▲0). Înlocuirea lui cu un Enchanted Gem va optimiza substanțial runa!`;
-            } else if (antiSynergyRes) {
-                mustGemSub = antiSynergyRes;
-                gemReason = `Statul <strong>RES%</strong> (+${antiSynergyRes.val}%, ▲0) nu ajută rolul ofensiv (${ctx.set}).`;
-            }
+                badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700';
+                badge.innerText = '⚠️ Înlocuire Flat (▲0)';
 
-            for (let cand of guide.desiredSubs) {
-                if (ctx.slot === 1 && (cand === 'DEF%' || cand === 'Flat DEF')) continue;
-                if (ctx.slot === 3 && (cand === 'ATK%' || cand === 'Flat ATK')) continue;
-                if (!existingTypes.includes(cand)) {
-                    desiredGemIn = cand;
-                    break;
+                let targetGem = 'HP%';
+                if (!hasSpd && possibleGems.includes('SPD')) {
+                    targetGem = 'SPD';
+                } else if (isNukerProfile) {
+                    targetGem = ['CR%', 'CD%', 'ATK%', 'HP%'].find(g => possibleGems.includes(g) && !existingTypes.includes(g)) || 'HP%';
+                } else {
+                    targetGem = guide.desiredSubs.find(g => possibleGems.includes(g) && !existingTypes.includes(g)) || 'HP%';
                 }
-            }
+                const gemVal = getGemMaxVal(targetGem, isAncient);
 
-            if (mustGemSub) {
                 container.innerHTML = `
-                    <div class="bg-amber-50 p-2.5 rounded-lg border border-amber-300 text-[11px] text-amber-900 font-bold space-y-1">
-                        <div><span class="font-black">⚠️ Recomandare Gem:</span> ${gemReason}</div>
-                        <div class="font-extrabold text-slate-800">
-                            👉 Înlocuiește <strong class="text-rose-600">${mustGemSub.type} (+${mustGemSub.val})</strong> cu un Enchanted Gem de <strong class="text-emerald-700">${desiredGemIn}</strong> conform cerințelor setului <strong>${ctx.set}</strong>.
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold space-y-2">
+                        <div class="font-black text-amber-900 flex items-center gap-1.5">
+                            <span>⚠️</span> ÎNLĂTURARE ATRIBUT FIX (FLAT STAT ▲0):
+                        </div>
+                        <p class="text-slate-700 font-semibold leading-relaxed">
+                            Runa conține statul fix <strong class="text-rose-600">${unrolledFlat.type} (+${unrolledFlat.val})</strong> fără plusări. Înlocuirea lui cu un procent este prioritară:
+                        </p>
+                        <div class="p-2.5 bg-white rounded-lg border border-amber-200 space-y-1 text-slate-800">
+                            <div>👉 Înlocuiește: <strong class="text-rose-600">${unrolledFlat.type} (+${unrolledFlat.val})</strong></div>
+                            <div>💎 Aplică Gem: <strong class="text-emerald-700">${targetGem} (+${gemVal}${targetGem.includes('%') ? '%' : ''})</strong> conform necesităților rolului.</div>
                         </div>
                         <div class="text-[10px] text-rose-700 font-bold border-t border-amber-200 pt-1">
                             * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rune Refinement pe această piesă.
                         </div>
                     </div>
                 `;
-            } else {
+                return;
+            }
+
+            if (antiSynergyRes) {
+                badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700';
+                badge.innerText = '⚠️ Eliminare RES% (▲0)';
+
+                let targetGem = (!hasSpd && possibleGems.includes('SPD')) ? 'SPD' : (['CR%', 'CD%', 'ATK%'].find(g => possibleGems.includes(g) && !existingTypes.includes(g)) || 'HP%');
+                const gemVal = getGemMaxVal(targetGem, isAncient);
+
                 container.innerHTML = `
-                    <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">
-                        ✅ <strong>Fără Gem obligatoriu:</strong> Toate substaturile sunt congruente cu profilul setului ${ctx.set}.
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold space-y-2">
+                        <div class="font-black text-amber-900 flex items-center gap-1.5">
+                            <span>⚠️</span> ELIMINARE STAT ANTI-SINERGIC (RES% ▲0):
+                        </div>
+                        <p class="text-slate-700 font-semibold leading-relaxed">
+                            Statul <strong>RES% (+${antiSynergyRes.val}%, ▲0)</strong> este neproductiv pe un set ofensiv pur (${ctx.set}).
+                        </p>
+                        <div class="p-2.5 bg-white rounded-lg border border-amber-200 space-y-1 text-slate-800">
+                            <div>👉 Înlocuiește: <strong class="text-rose-600">RES% (+${antiSynergyRes.val}%)</strong></div>
+                            <div>💎 Aplică Gem: <strong class="text-emerald-700">${targetGem} (+${gemVal}${targetGem.includes('%') ? '%' : ''})</strong></div>
+                        </div>
+                        <div class="text-[10px] text-rose-700 font-bold border-t border-amber-200 pt-1">
+                            * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rune Refinement pe această piesă.
+                        </div>
                     </div>
                 `;
+                return;
             }
+
+            // 3. Cazul Min-Maxing Proactiv: Piesă bună, dar cu substaturi fără plusări ce pot fi îmbunătățite
+            const isBrokenSet = ctx.synergy && (ctx.synergy.level === 'BROKEN' || ctx.synergy.level === 'OFF_META');
+            const isMissingSpd = !hasSpd && possibleGems.includes('SPD');
+            const isMissingSetPriority = guide.prioritySub && !allOccupiedTypes.includes(guide.prioritySub) && possibleGems.includes(guide.prioritySub);
+
+            if (unrolledSubs.length > 0 && (isMissingSpd || isBrokenSet || isMissingSetPriority)) {
+                badge.className = 'text-[10px] bg-cyan-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-cyan-700';
+                badge.innerText = '✨ Optimizare Min-Maxing';
+
+                // Selectăm statul ne-rulat cel mai potrivit pentru înlocuire
+                let subToReplace = unrolledSubs[0];
+                if (isNukerProfile) {
+                    const defOrHp = unrolledSubs.find(s => ['DEF%', 'HP%'].includes(s.type));
+                    if (defOrHp) {
+                        subToReplace = defOrHp;
+                    } else {
+                        subToReplace = unrolledSubs.reduce((min, cur) => cur.val < min.val ? cur : min, unrolledSubs[0]);
+                    }
+                } else {
+                    subToReplace = unrolledSubs.reduce((min, cur) => cur.val < min.val ? cur : min, unrolledSubs[0]);
+                }
+
+                const spdGemVal = getGemMaxVal('SPD', isAncient);
+                const setStatGem = guide.prioritySub || 'ACC%';
+                const setStatVal = getGemMaxVal(setStatGem, isAncient);
+
+                let optionsHtml = '';
+
+                // Opțiunea 1: Adăugare SPD pentru Nuker / Broken Set
+                if (isMissingSpd) {
+                    optionsHtml += `
+                        <div class="p-2.5 bg-white rounded-lg border border-cyan-300 space-y-1 text-slate-800">
+                            <div class="text-[11px] font-black text-cyan-900 flex items-center gap-1">
+                                <span>🚀</span> OPȚIUNEA 1: Pachet Complet DPS / Broken Set (Recomandat)
+                            </div>
+                            <div class="text-xs text-slate-700">
+                                Înlocuiește statul fără plusări <strong class="text-rose-600">${subToReplace.type} (+${subToReplace.val}${subToReplace.type.includes('%') ? '%' : ''})</strong> cu un Legend Gem de <strong class="text-emerald-700">SPD (+${spdGemVal} SPD)</strong>.
+                            </div>
+                            <div class="text-[10px] text-slate-500 font-bold">
+                                👉 <em>Efect:</em> Rezolvă lipsa vitezei și obține nucleul complet de Nuker: <strong>SPD + ATK% + CRI Rate% + CRI Dmg%</strong> (ideal pentru Abyss Speed Teams).
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Opțiunea 2: Sinergie cu Setul Nativ
+                if (isMissingSetPriority && possibleGems.includes(setStatGem)) {
+                    optionsHtml += `
+                        <div class="p-2.5 bg-white rounded-lg border border-purple-200 space-y-1 text-slate-800">
+                            <div class="text-[11px] font-black text-purple-900 flex items-center gap-1">
+                                <span>🎯</span> OPȚIUNEA 2: Reintegrare în Setul Nativ (${ctx.set})
+                            </div>
+                            <div class="text-xs text-slate-700">
+                                Înlocuiește <strong class="text-rose-600">${subToReplace.type} (+${subToReplace.val}${subToReplace.type.includes('%') ? '%' : ''})</strong> cu un Legend Gem de <strong class="text-purple-700">${setStatGem} (+${setStatVal}${setStatGem.includes('%') ? '%' : ''})</strong>.
+                            </div>
+                            <div class="text-[10px] text-slate-500 font-bold">
+                                👉 <em>Efect:</em> Restabilește sinergia cu rolul nativ al setului <strong>${ctx.set}</strong>, optimizând piesa pentru debufferi sau atacatori hibrizi.
+                            </div>
+                        </div>
+                    `;
+                } else if (!isMissingSpd && isBrokenSet) {
+                    const bestNativeSub = guide.desiredSubs.find(s => possibleGems.includes(s) && !allOccupiedTypes.includes(s)) || 'HP%';
+                    const nativeVal = getGemMaxVal(bestNativeSub, isAncient);
+                    optionsHtml += `
+                        <div class="p-2.5 bg-white rounded-lg border border-purple-200 space-y-1 text-slate-800">
+                            <div class="text-[11px] font-black text-purple-900 flex items-center gap-1">
+                                <span>🎯</span> Adaptare la Setul Nativ (${ctx.set})
+                            </div>
+                            <div class="text-xs text-slate-700">
+                                Înlocuiește <strong class="text-rose-600">${subToReplace.type} (+${subToReplace.val})</strong> cu un Legend Gem de <strong class="text-purple-700">${bestNativeSub} (+${nativeVal}${bestNativeSub.includes('%') ? '%' : ''})</strong>.
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = `
+                    <div class="bg-cyan-50/70 p-3 rounded-xl border border-cyan-300 text-xs text-cyan-950 font-bold space-y-2">
+                        <div class="font-black text-cyan-900 flex items-center gap-1.5">
+                            <span>💎</span> OPORTUNITĂȚI DE OPTIMIZARE (MIN-MAXING GEM):
+                        </div>
+                        <p class="text-slate-700 font-semibold leading-relaxed">
+                            Runa are eficiență excelentă (<strong>${ctx.combatEfficiency.toFixed(1)}%</strong>), însă conține substaturi fără plusări (▲0) ce pot fi optimizate:
+                        </p>
+                        <div class="space-y-2">
+                            ${optionsHtml}
+                        </div>
+                        <div class="text-[10px] text-amber-800 font-extrabold border-t border-cyan-200/80 pt-1.5">
+                            * Notă: Aplicarea unui Gem blochează definitiv opțiunea de Rune Refinement pe această piesă.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // 4. Toate cele 4 substaturi au primit plusări
+            if (unrolledSubs.length === 0) {
+                badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300';
+                badge.innerText = 'Toate Rulate (4/4)';
+                container.innerHTML = `
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold leading-relaxed">
+                        ℹ️ <strong>Toate cele 4 substaturi au primit plusări.</strong> Păstrează piesa așa cum e; aplicarea unui Gem ar suprascrie un stat îmbunătățit.
+                    </div>
+                `;
+                return;
+            }
+
+            // 5. Runa este perfect congruentă cu setul
+            badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
+            badge.innerText = 'Configurație Optimă';
+            container.innerHTML = `
+                <div class="bg-emerald-50 p-2.5 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold leading-relaxed">
+                    ✅ <strong>Fără Gem obligatoriu:</strong> Runa are deja o sinergie foarte bună cu setul <strong>${ctx.set}</strong>, iar substaturile acoperă cerințele necesare.
+                </div>
+            `;
         }
 
         // ==========================================
@@ -2457,7 +2643,7 @@
                 const numVal = mainValObj.val;
                 let rollInc = numbers.length > 1 ? numbers[1].val : 0;
 
-                // CORECȚIE OCR PENTRU TRIUNGHI (▲) CITIT CA "4"
+                // Corecție OCR pentru triunghi (▲) citit ca cifră
                 if (rollInc > 0) {
                     let rollStr = rollInc.toString();
                     if (rollStr.startsWith('4') && rollStr.length >= 2) {
@@ -2466,7 +2652,6 @@
                     }
                 }
 
-                // Detectarea precisă a tipului de stat (Flat vs %)
                 let type = 'DEF%';
                 if (rawName.includes('SPD') || rawName.includes('SPEED')) {
                     type = 'SPD';
@@ -2533,7 +2718,6 @@
                 if (currentSlot === 1 && (s.type === 'DEF%' || s.type === 'Flat DEF')) continue;
                 if (currentSlot === 3 && (s.type === 'ATK%' || s.type === 'Flat ATK')) continue;
                 
-                // Evită dublurile
                 if (s.type === currentMain) continue;
                 if (currentInnate !== 'None' && s.type === currentInnate) continue;
 
