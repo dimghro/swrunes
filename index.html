@@ -586,7 +586,7 @@
                         </div>
                     </div>
 
-                    <!-- CONSILIER 4: GRINDSTONES (POZIȚIONAT DUPĂ CONSILIER RUNE REFINEMENT) -->
+                    <!-- CONSILIER 4: GRINDSTONES -->
                     <div class="border border-emerald-300 rounded-xl p-3 sm:p-3.5 bg-emerald-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-emerald-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
@@ -1751,6 +1751,88 @@
         }
 
         // ==========================================
+        // MOTOR INTELIGENT SELECTARE GEM COMPATIBIL
+        // ==========================================
+        function getBestGemForSub(ctx, subToReplace) {
+            const isAncient = ctx.stars === '6-ancient';
+            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%'], prioritySub: 'SPD' };
+
+            // Colectăm toate substaturile existente pe rună, EXCEPTÂND cel pe care îl înlocuim
+            const existingOtherSubs = ctx.subs
+                .filter(s => s.slotIdx !== subToReplace.slotIdx)
+                .map(s => s.type);
+
+            // Toate candidatele posibile pentru Enchanted Gem
+            const allCandidates = ['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'];
+
+            // Filtrare strictă conform regulilor oficiale Summoners War
+            const validCandidates = allCandidates.filter(gem => {
+                // 1. Nu poate fi Main Stat
+                if (gem === ctx.mainType) return false;
+                // 2. Nu poate fi Innate Stat (Prefix)
+                if (ctx.innateType && ctx.innateType !== 'None' && gem === ctx.innateType) return false;
+                // 3. Nu poate fi un substat deja existent pe rună
+                if (existingOtherSubs.includes(gem)) return false;
+                // 4. Restricții oficiale pe slot
+                if (ctx.slot === 1 && (gem === 'DEF%' || gem === 'Flat DEF')) return false;
+                if (ctx.slot === 3 && (gem === 'ATK%' || gem === 'Flat ATK')) return false;
+                return true;
+            });
+
+            if (validCandidates.length === 0) return null;
+
+            // Algoritm de scor pentru a alege cel mai optim Gem
+            let bestGem = validCandidates[0];
+            let maxScore = -9999;
+
+            validCandidates.forEach(gem => {
+                let score = 0;
+
+                // SPD este esențial dacă nu există pe rună și slot != 2
+                if (gem === 'SPD') {
+                    score += 60;
+                }
+
+                // Substatul prioritar al setului
+                if (guide.prioritySub && guide.prioritySub === gem) {
+                    score += 45;
+                }
+
+                // Substat dorit conform ghidului de set
+                if (guide.desiredSubs && guide.desiredSubs.includes(gem)) {
+                    const idx = guide.desiredSubs.indexOf(gem);
+                    score += Math.max(12, 36 - idx * 4);
+                }
+
+                // Valori generale de eficiență
+                if (['HP%', 'DEF%'].includes(gem)) score += 25;
+                if (gem === 'ATK%') score += 20;
+                if (['CR%', 'CD%'].includes(gem)) score += 18;
+                if (gem === 'ACC%') score += 12;
+                if (gem === 'RES%') score += 8;
+
+                // Bonusuri pe profil set/rol
+                const isNukerSet = ['Rage', 'Fatal', 'Blade'].includes(ctx.set);
+                if (isNukerSet && ['ATK%', 'CR%', 'CD%'].includes(gem)) {
+                    score += 30;
+                }
+
+                const isTankSet = ['Energy', 'Guard', 'Shield', 'Endure', 'Nemesis'].includes(ctx.set);
+                if (isTankSet && ['HP%', 'DEF%', 'RES%'].includes(gem)) {
+                    score += 30;
+                }
+
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestGem = gem;
+                }
+            });
+
+            const gemVal = getGemMaxVal(bestGem, isAncient);
+            return { gemType: bestGem, gemVal };
+        }
+
+        // ==========================================
         // SIMULATOR SALVARE PRIN ENCHANTED GEM
         // ==========================================
         function findGemRescueOption(ctx) {
@@ -2066,7 +2148,7 @@
         }
 
         // ==========================================
-        // 1. CONSILIER ENCHANTED GEM
+        // 1. CONSILIER ENCHANTED GEM (REVIZUIT)
         // ==========================================
         function renderGemAdvisor(ctx, precomputedRescue = null) {
             const container = document.getElementById('gem-recommendation-box');
@@ -2124,42 +2206,40 @@
                 return;
             }
 
-            const isAncient = ctx.stars === '6-ancient';
-            const flatSingleMax = getFlatSingleMax(ctx.stars);
-            const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'CR%', 'CD%'], prioritySub: 'SPD' };
-
             const unrolledSubs = ctx.subs.filter(s => s.plusVal === 0);
-            const unrolledFlat = unrolledSubs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) && s.val <= (flatSingleMax[s.type] || 375));
+            const unrolledFlat = unrolledSubs.find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type));
 
+            // Dacă runa conține un Flat Substat neplusat, propunem înlocuirea lui cu cel mai bun stat valid lipsă
             if (unrolledFlat) {
-                badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700';
-                badge.innerText = '⚠️ Înlocuire Flat (▲0)';
+                const rec = getBestGemForSub(ctx, unrolledFlat);
 
-                const targetGem = (!ctx.subs.some(s => s.type === 'SPD') && ctx.slot !== 2) ? 'SPD' : 'HP%';
-                const gemVal = getGemMaxVal(targetGem, isAncient);
+                if (rec) {
+                    badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700';
+                    badge.innerText = '⚠️ Înlocuire Flat (▲ 0)';
 
-                container.innerHTML = `
-                    <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold space-y-1.5">
-                        <div class="font-black text-amber-900 flex items-center gap-1.5">
-                            <span>⚠️</span> ÎNLĂTURARE ATRIBUT FIX (FLAT ▲0):
+                    container.innerHTML = `
+                        <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold space-y-1.5">
+                            <div class="font-black text-amber-900 flex items-center gap-1.5">
+                                <span>⚠️</span> ÎNLĂTURARE ATRIBUT FIX (FLAT ▲ 0):
+                            </div>
+                            <p class="text-slate-700 text-[11px] font-semibold leading-relaxed">
+                                Runa conține statul fix <strong class="text-rose-600">${unrolledFlat.type} (+${unrolledFlat.val})</strong> fără plusări. Înlocuiește-l cu un atribut compatibil optim:
+                            </p>
+                            <div class="p-2 bg-white rounded-lg border border-amber-200 space-y-0.5 text-slate-800 text-[11px]">
+                                <div>👉 Înlocuiește: <strong class="text-rose-600">${unrolledFlat.type}</strong></div>
+                                <div>💎 Gem Recomandat: <strong class="text-emerald-700">${rec.gemType} (+${rec.gemVal}${rec.gemType.includes('%') ? '%' : ''})</strong></div>
+                            </div>
                         </div>
-                        <p class="text-slate-700 text-[11px] font-semibold leading-relaxed">
-                            Runa conține statul fix <strong class="text-rose-600">${unrolledFlat.type} (+${unrolledFlat.val})</strong> fără plusări. Înlocuiește-l cu un procent:
-                        </p>
-                        <div class="p-2 bg-white rounded-lg border border-amber-200 space-y-0.5 text-slate-800 text-[11px]">
-                            <div>👉 Înlocuiește: <strong class="text-rose-600">${unrolledFlat.type}</strong></div>
-                            <div>💎 Gem Recomandat: <strong class="text-emerald-700">${targetGem} (+${gemVal}${targetGem.includes('%') ? '%' : ''})</strong></div>
-                        </div>
-                    </div>
-                `;
-                return;
+                    `;
+                    return;
+                }
             }
 
             badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300';
             badge.innerText = 'Configurație Bună';
             container.innerHTML = `
                 <div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold leading-relaxed">
-                    ✅ Runa are o structură solidă de substaturi. Păstrează opțiunea de Gem deschisă pentru nevoi specifice de speed-tuning sau capping.
+                    ✅ Runa are o structură solidă de substaturi fără atribute fixe neplusate. Păstrează opțiunea de Gem deschisă pentru nevoi specifice de speed-tuning sau capping.
                 </div>
             `;
         }
@@ -2173,7 +2253,6 @@
             container.innerHTML = '';
 
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
-            const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
             const isLegend = ctx.rarity === 'Legend';
             const isSixStar = ctx.stars !== '5-star';
             const isIntangible = ctx.set === 'Intangible';
@@ -2337,7 +2416,7 @@
         }
 
         // ==========================================
-        // 4. CONSILIER GRINDSTONES (DUPĂ RUNE REFINEMENT)
+        // 4. CONSILIER GRINDSTONES
         // ==========================================
         function renderGrindAdvisor(ctx) {
             const container = document.getElementById('grind-recommendation-box');
