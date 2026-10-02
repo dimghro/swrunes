@@ -314,7 +314,7 @@
                     <div class="flex flex-wrap justify-between items-center gap-2">
                         <div class="flex items-center gap-2">
                             <label class="text-xs font-black text-slate-700 uppercase tracking-wider">Substats (1 - 4) & Grindstone</label>
-                            <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-extrabold">[Bază + Rolls + Grind]</span>
+                            <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-extrabold">[Valoare Totală + Rolls + Grind]</span>
                         </div>
                         
                         <!-- Quick Grind Simulation Toolbar -->
@@ -338,12 +338,12 @@
                         </div>
                     </div>
 
-                    <!-- Header Labels Desktop -->
+                    <!-- Header Labels Desktop (Claritate maximă UI) -->
                     <div class="hidden sm:grid grid-cols-12 gap-2 text-[10px] font-black text-slate-500 uppercase px-2 pb-0.5">
                         <span class="col-span-5">Substat</span>
-                        <span class="col-span-2 text-center">Bază+Roll</span>
-                        <span class="col-span-2 text-center text-emerald-700">Roll (▲)</span>
-                        <span class="col-span-3 text-center text-indigo-700">Grind (+)</span>
+                        <span class="col-span-2 text-center" title="Valoarea afișată pe rună în joc înainte de grind (albă)">Total (+Rolls)</span>
+                        <span class="col-span-2 text-center text-emerald-700" title="Valoarea adăugată de plusări (pentru a preveni suprascrierea cu Gem)">Rolls ▲</span>
+                        <span class="col-span-3 text-center text-indigo-700" title="Valoarea galbenă de Grindstone">Grind (+)</span>
                     </div>
 
                     <!-- Substats Rows -->
@@ -370,8 +370,8 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Bază:</span>
-                                    <input type="number" id="sub-val-1" value="10" placeholder="Bază" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <input type="number" id="sub-val-1" value="10" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
                                     <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Roll ▲:</span>
@@ -406,8 +406,8 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Bază:</span>
-                                    <input type="number" id="sub-val-2" value="14" placeholder="Bază" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <input type="number" id="sub-val-2" value="14" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
                                     <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Roll ▲:</span>
@@ -442,8 +442,8 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Bază:</span>
-                                    <input type="number" id="sub-val-3" value="12" placeholder="Bază" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <input type="number" id="sub-val-3" value="12" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
                                     <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Roll ▲:</span>
@@ -478,8 +478,8 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Bază:</span>
-                                    <input type="number" id="sub-val-4" value="17" placeholder="Bază" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <input type="number" id="sub-val-4" value="17" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
                                     <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Roll ▲:</span>
@@ -536,6 +536,10 @@
 
                     <!-- SET SYNERGY BANNER -->
                     <div id="set-synergy-banner" class="p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all">
+                    </div>
+
+                    <!-- TARGET ROLE SYNERGY BANNER (ACTIVAT & CONECTAT) -->
+                    <div id="role-synergy-banner" class="hidden p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all">
                     </div>
 
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-bold flex items-center gap-2">
@@ -616,7 +620,7 @@
         <div class="bg-white border-2 border-indigo-200 rounded-2xl p-4 sm:p-6 shadow-md space-y-5 mt-6" id="reapp-main-section">
             <div class="flex flex-wrap justify-between items-center border-b border-slate-100 pb-3">
                 <h2 class="text-lg sm:text-xl font-black text-indigo-900 flex items-center gap-2">
-                    <span class="text-indigo-500">🔄</span> COMPARATOR REAPPRAISAL (EDITABIL)
+                    <span class="text-indigo-500">🔄</span> COMPARATOR REAPPRAISAL (INTELIGENT & EDITABIL)
                 </h2>
                 <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg border border-indigo-200">
                     Proiectat exclusiv pentru rune 6★ Legend (+12)
@@ -901,7 +905,7 @@
 
     <script>
         // ==========================================
-        // STRUCTURI ȘI VARIABILE BAZĂ
+        // STRUCTURI ȘI VARIABILE BAZĂ (SWOP STANDARDS)
         // ==========================================
         let currentSlot = 3;
         let reappCurrentSlot = 3;
@@ -1277,6 +1281,82 @@
             return { level: 'BROKEN', color: 'bg-purple-100 text-purple-900 border-purple-300', label: `🧩 Profil Broken Set (${set})`, desc: `Substaturile nu sunt ideale pentru setul ${set}, dar formează un excelent Broken Set dacă au stats ridicate.` };
         }
 
+        // ==========================================
+        // ANALIZATOR DE ROL MONSTRU (CONECTAT & ACTIV)
+        // ==========================================
+        function analyzeRoleSynergy(targetRole, slot, mainType, subs) {
+            if (!targetRole || targetRole === 'auto') return null;
+
+            const roleProfiles = {
+                'nuker': {
+                    name: 'Abyss Nuker / DPS', icon: '⚔️',
+                    primeStats: ['CR%', 'CD%', 'ATK%', 'SPD'],
+                    goodStats: ['HP%'], badStats: ['Flat DEF', 'RES%'],
+                    evenMain: { 2: ['SPD', 'ATK%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%'] }
+                },
+                'tank': {
+                    name: 'Solo R5 Frontline / Tank', icon: '🛡️',
+                    primeStats: ['HP%', 'DEF%', 'RES%', 'SPD'],
+                    goodStats: ['ACC%'], badStats: ['Flat ATK', 'CR%', 'CD%'],
+                    evenMain: { 2: ['HP%', 'DEF%', 'SPD'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }
+                },
+                'support': {
+                    name: 'Buffer / Healer', icon: '💚',
+                    primeStats: ['SPD', 'HP%', 'DEF%', 'RES%'],
+                    goodStats: ['ACC%'], badStats: ['Flat ATK', 'CR%', 'CD%'],
+                    evenMain: { 2: ['SPD', 'HP%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }
+                },
+                'control': {
+                    name: 'Debuffer / CC', icon: '🎯',
+                    primeStats: ['SPD', 'ACC%', 'HP%', 'DEF%'],
+                    goodStats: ['ATK%'], badStats: ['Flat HP', 'Flat ATK', 'Flat DEF'],
+                    evenMain: { 2: ['SPD'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }
+                }
+            };
+
+            const prof = roleProfiles[targetRole];
+            if (!prof) return null;
+
+            const isEven = [2, 4, 6].includes(slot);
+            const mainMatches = !isEven || (prof.evenMain[slot] && prof.evenMain[slot].includes(mainType));
+            const subTypes = subs.map(s => s.type);
+            const matchedPrime = subTypes.filter(st => prof.primeStats.includes(st)).length;
+
+            if (isEven && !mainMatches && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
+                return {
+                    status: 'INCOMPATIBLE', color: 'bg-rose-100 text-rose-900 border-rose-300',
+                    label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`,
+                    desc: `Main stat-ul flat (${mainType}) pe slotul ${slot} distruge viabilitatea pentru acest rol.`
+                };
+            }
+            if (isEven && !mainMatches) {
+                return {
+                    status: 'OFF_META', color: 'bg-amber-100 text-amber-900 border-amber-300',
+                    label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`,
+                    desc: `Pentru ${prof.name} pe slotul ${slot} este recomandat: <strong>${prof.evenMain[slot].join(' / ')}</strong>.`
+                };
+            }
+            if (matchedPrime >= 3) {
+                return {
+                    status: 'PERFECT', color: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+                    label: `${prof.icon} Sinergie Excelentă cu Rolul: ${prof.name}`,
+                    desc: `Substaturile (${subTypes.join(', ')}) oferă un profil matematic optim pentru rol.`
+                };
+            }
+            if (matchedPrime >= 2) {
+                return {
+                    status: 'GOOD', color: 'bg-sky-100 text-sky-950 border-sky-300',
+                    label: `${prof.icon} Sinergie Bună cu Rolul: ${prof.name}`,
+                    desc: `Runa susține cerințele de bază (${matchedPrime} substaturi primare compatibile).`
+                };
+            }
+            return {
+                status: 'POOR', color: 'bg-slate-100 text-slate-800 border-slate-300',
+                label: `${prof.icon} Sinergie Scăzută cu Rolul: ${prof.name}`,
+                desc: `Runa conține puține atribute utile pentru acest rol (${prof.primeStats.join(', ')}). Verificați alt rol.`
+            };
+        }
+
         function checkMustKeepMainStat(set, slot, mainType) {
             const isEvenSlot = [2, 4, 6].includes(slot);
             if (!isEvenSlot) return false;
@@ -1288,13 +1368,30 @@
         }
 
         // ==========================================
-        // VERDICT ENGINE CU MATRICEA DE PROGRESIE
+        // VERDICT ENGINE CU MATRICEA DE PROGRESIE & CHECKPOINTS
         // ==========================================
         function computeVerdict(ctx) {
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
             const guide = RUNE_SETS_GUIDE[ctx.set] || {};
 
+            // 0. VERIFICARE ROL EXPLICITĂ (Dead Code Fixed)
+            if (ctx.targetRole !== 'auto' && ctx.roleSynergy) {
+                if (ctx.roleSynergy.status === 'INCOMPATIBLE' || ctx.roleSynergy.status === 'POOR') {
+                    // Dacă rolul selectat cere ofensive (Nuker) și runa n-are deloc CR/CD/ATK
+                    if (ctx.targetRole === 'nuker' && !ctx.subs.some(s => ['CR%', 'CD%', 'ATK%'].includes(s.type))) {
+                        return {
+                            status: 'SELL',
+                            title: `VINDE (INCOMPATIBIL CU ROLUL: NUKER)`,
+                            color: 'bg-rose-50 text-rose-800 border-rose-300',
+                            reasons: `Pentru Nuker este obligatoriu să conțină CR%, CD% sau ATK%. Runa actuală are doar atribute incompatibile.`,
+                            archetypes: 'Vânzare Rol'
+                        };
+                    }
+                }
+            }
+
+            // 1. EVALUARE ÎNCEPĂTOR (SCENARIO)
             if (ctx.userTier === 'beginner') {
                 if (ctx.stars === '4-star') {
                     if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR (TRANZIȚIE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Provizoriu pt. set.', archetypes: 'Tranziție' };
@@ -1308,42 +1405,141 @@
                 if (ctx.flatCount >= 2 && !['+0', '+3'].includes(ctx.level)) return { status: 'TEMP_KEEP', title: 'PĂSTREAZĂ PROVIZORIU', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Tranziție.', archetypes: 'Tranziție' };
             }
 
-            if (ctx.stars === '4-star') return { status: 'SELL', title: 'VINDE IMEDIAT (4★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Depășită.', archetypes: 'Vânzare' };
+            // 2. REGULI GENERALE ELIMINATORII DE PROGRESIE
+            if (ctx.stars === '4-star') return { status: 'SELL', title: 'VINDE IMEDIAT (4★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Depășită în afara stadiului de Scenario.', archetypes: 'Vânzare' };
             
             if (ctx.stars === '5-star') {
                 if (ctx.userTier === 'early') {
-                    if (isEvenSlot && !['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(ctx.mainType)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main Stat greșit.', archetypes: 'Vânzare' };
+                    if (isEvenSlot && !['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(ctx.mainType)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main Stat greșit pe slot par.', archetypes: 'Vânzare' };
                     if (ctx.combatEfficiency >= 60 || ctx.totalSpeed >= 12) return { status: 'KEEP', title: 'PĂSTREAZĂ (5★)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Tranziție GB10.', archetypes: 'GB10' };
                 }
                 return { status: 'SELL', title: 'VINDE IMEDIAT (5★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Vânzare automată Mid Game+.', archetypes: 'Vânzare' };
             }
 
-            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (FLAT MAIN)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Inutil în PvE.', archetypes: 'Vânzare' };
+            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (FLAT MAIN STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Sloturile 2/4/6 cu Flat Main sunt complet inutile în PvE.', archetypes: 'Vânzare' };
 
             if (ctx.flatWithRolls.length > 0 && ['+6', '+9', '+12', '+15'].includes(ctx.level)) {
-                return { status: 'SELL', title: 'VINDE (RULL IN FLAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Roll eșuat în flat stat.', archetypes: 'Vânzare' };
+                return { status: 'SELL', title: 'VINDE (ROLL EȘUAT ÎN FLAT STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Runa a consumat roll-uri în atribute plate (Flat HP/DEF/ATK).', archetypes: 'Vânzare' };
             }
 
             if (ctx.flatCount >= 2) {
                 if (['+0', '+3'].includes(ctx.level) && ctx.rarity === 'Legend' && (ctx.totalSpeed >= 5 || ctx.percentCount >= 1)) {
-                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Dacă ia flat, vinde.', archetypes: 'Test' };
+                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE FLAT)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Dacă ia roll în flat, vinde imediat.', archetypes: 'Test de siguranță' };
                 }
-                return { status: 'SELL', title: 'VINDE (2+ FLAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Dead stat blocat.', archetypes: 'Vânzare' };
+                return { status: 'SELL', title: 'VINDE (2+ FLAT SUBSTATS)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Dead stat garantat blocat.', archetypes: 'Vânzare' };
             }
 
+            // 3. EXCEPȚII DE ELITĂ PENTRU VITEZĂ & CRI RATE
             const isSwift = ctx.set === 'Swift'; const quadSpdThreshold = isSwift ? 24 : 22;
-            if (ctx.totalSpeed >= quadSpdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ: ★ QUAD ROLL SPD (+${ctx.totalSpeed})!`, color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: 'Top mondial.', archetypes: 'Booster' };
-            if (ctx.totalSpeed >= 17) return { status: 'KEEP', title: `PĂSTREAZĂ (TRIPLE SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Viteză excelentă.', archetypes: 'Suport' };
+            if (ctx.totalSpeed >= quadSpdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ: ★ QUAD ROLL SPD (+${ctx.totalSpeed})!`, color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: 'Viteză excepțională de nivel competițional.', archetypes: 'Booster / Starter' };
+            if (ctx.totalSpeed >= 18) return { status: 'KEEP', title: `PĂSTREAZĂ (TRIPLE SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Viteză excelentă conform standardelor.', archetypes: 'Suport / Universal' };
 
             const crSub = ctx.subs.find(s => s.type === 'CR%');
-            if (crSub && crSub.val >= 18) return { status: 'KEEP', title: `PĂSTREAZĂ (CR MARE: +${crSub.val}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Valoare critică.', archetypes: 'Nuker' };
+            if (crSub && crSub.val >= 18) return { status: 'KEEP', title: `PĂSTREAZĂ (CR RIDICAT: +${crSub.val}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Densitate critică excelentă pentru DPS.', archetypes: 'Nuker / Bruiser' };
 
-            if (['+0', '+3'].includes(ctx.level)) {
-                let spdEarlyReq = ctx.userTier === 'mid' ? 5 : (ctx.userTier === 'late' || ctx.userTier === 'end' ? 6 : 4);
-                if (ctx.totalSpeed >= spdEarlyReq || ctx.percentCount >= 2) return { status: 'ROLL', title: 'TESTEAZĂ LA +6', color: 'bg-sky-50 text-sky-900 border-sky-300', reasons: 'Potențial.', archetypes: 'Test' };
-                return { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Nu merită mana.', archetypes: 'Vânzare' };
+            // 4. CHECKPOINTS INTERMEDIARE DE UPGRADE (+0, +3, +6, +9)
+            if (['+0', '+3', '+6', '+9'].includes(ctx.level)) {
+                const lvlNum = parseInt(ctx.level.replace('+', '')) || 0;
+
+                // CHECKPOINT +0 / +3
+                if (lvlNum <= 3) {
+                    let spdReq = ctx.userTier === 'mid' ? 5 : (['late', 'end'].includes(ctx.userTier) ? 6 : 4);
+                    const hasGoodSpd = ctx.totalSpeed >= spdReq;
+                    const hasGoodPercents = ctx.percentCount >= 2;
+                    const hasHighPotential = ctx.maxPotentialEfficiency >= (ctx.userTier === 'end' ? 84 : 76);
+
+                    if (hasGoodSpd || hasGoodPercents || hasHighPotential) {
+                        return {
+                            status: 'ROLL',
+                            title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)',
+                            color: 'bg-sky-50 text-sky-900 border-sky-300',
+                            reasons: `Piesa are o bază inițială promițătoare (SPD: +${ctx.totalSpeed}, Stats %: ${ctx.percentCount}, Potențial: ${ctx.maxPotentialEfficiency.toFixed(1)}%). Îmbunătățește la +6 pentru a vedea primele 2 roll-uri.`,
+                            archetypes: guide.role || 'Test intermediar'
+                        };
+                    }
+                    return {
+                        status: 'SELL',
+                        title: 'VINDE (SUB PRAGUL INIȚIAL +0/+3)',
+                        color: 'bg-rose-50 text-rose-800 border-rose-300',
+                        reasons: `Runa nu atinge criteriile minime de pornire pentru profilul ${ctx.userTier} (SPD cerut: +${spdReq}).`,
+                        archetypes: 'Vânzare Mana'
+                    };
+                }
+
+                // CHECKPOINT +6 (au intrat primele 2 roll-uri)
+                if (lvlNum === 6) {
+                    const doubleSpdThreshold = ctx.userTier === 'end' ? 12 : (ctx.userTier === 'late' ? 11 : (ctx.userTier === 'mid' ? 10 : 8));
+                    const hasDoubleSpd = ctx.totalSpeed >= doubleSpdThreshold;
+                    const hasHighCrAt6 = crSub && crSub.val >= 11;
+                    const hasGoodRolls = (ctx.combatEfficiency >= 62.0) || (ctx.percentCount >= 2 && ctx.flatCount === 0);
+
+                    if (hasDoubleSpd) {
+                        return {
+                            status: 'ROLL',
+                            title: `TESTEAZĂ LA +9 (DOUBLE ROLL SPD: +${ctx.totalSpeed})`,
+                            color: 'bg-sky-50 text-sky-950 border-sky-400 font-black',
+                            reasons: `Viteza a rollat excelent la +6 (+${ctx.totalSpeed} SPD)! Continuă la +9 pentru potențial Triple SPD.`,
+                            archetypes: 'Viteză în urcare'
+                        };
+                    }
+
+                    if (hasHighCrAt6 || (hasGoodRolls && ctx.maxPotentialEfficiency >= 80)) {
+                        return {
+                            status: 'ROLL',
+                            title: 'TESTEAZĂ LA +9 (ROLL-URI PROCENTUALE BUNE)',
+                            color: 'bg-sky-50 text-sky-900 border-sky-300',
+                            reasons: `Roll-urile de la +6 au consolidat atribute procentuale valoroase. Îmbunătățește la +9 pentru verificare.`,
+                            archetypes: guide.role || 'Densitate procentuală'
+                        };
+                    }
+
+                    return {
+                        status: 'SELL',
+                        title: 'VINDE (A RATAT ROLL-URILE LA +6)',
+                        color: 'bg-rose-50 text-rose-800 border-rose-300',
+                        reasons: `La nivelul +6 runa a obținut roll-uri minime sau împrăștiate fără viteză (SPD actual: +${ctx.totalSpeed}, minim cerut: +${doubleSpdThreshold}).`,
+                        archetypes: 'Vânzare Mana'
+                    };
+                }
+
+                // CHECKPOINT +9 (au intrat 3 roll-uri)
+                if (lvlNum === 9) {
+                    const tripleSpdThreshold = ctx.userTier === 'end' ? 17 : (ctx.userTier === 'late' ? 16 : (ctx.userTier === 'mid' ? 15 : 12));
+                    const hasTripleSpd = ctx.totalSpeed >= tripleSpdThreshold;
+                    const hasTripleCr = crSub && crSub.val >= 16;
+                    const hasHighCombatEff = ctx.combatEfficiency >= 70.0;
+
+                    if (hasTripleSpd) {
+                        return {
+                            status: 'ROLL',
+                            title: `TESTEAZĂ LA +12 (TRIPLE ROLL SPD: +${ctx.totalSpeed})`,
+                            color: 'bg-emerald-50 text-emerald-950 border-emerald-400 font-black',
+                            reasons: `Performanță excelentă de viteză la +9 (+${ctx.totalSpeed} SPD)! Du-o la +12 pentru potențial Quad Roll.`,
+                            archetypes: 'Viteză / Booster'
+                        };
+                    }
+
+                    if (hasTripleCr || (hasHighCombatEff && ctx.flatCount === 0)) {
+                        return {
+                            status: 'ROLL',
+                            title: 'TESTEAZĂ LA +12 (STATISTICI CONCENTRATE)',
+                            color: 'bg-sky-50 text-sky-900 border-sky-300',
+                            reasons: `Roll-urile s-au concentrat favorabil la +9. Finalizează la +12 pentru deblocarea completă a piesei.`,
+                            archetypes: guide.role || 'Configurație concentrată'
+                        };
+                    }
+
+                    return {
+                        status: 'SELL',
+                        title: 'VINDE (A RATAT ROLL-URILE LA +9)',
+                        color: 'bg-rose-50 text-rose-800 border-rose-300',
+                        reasons: `La nivelul +9 runa nu a atins pragul critic (SPD: +${ctx.totalSpeed}, minim cerut: +${tripleSpdThreshold}; eficiență parțială insuficientă).`,
+                        archetypes: 'Vânzare Mana'
+                    };
+                }
             }
 
+            // 5. EVALUARE FINALĂ LA +12 ȘI +15 (PRAGURI STRATEGIICE SWOP)
             let effThreshold = 68.0; let spdThreshold = 15;
             if (ctx.userTier === 'beginner') { effThreshold = 48.0; spdThreshold = 6; } 
             else if (ctx.userTier === 'mid') { effThreshold = 78.0; spdThreshold = 18; } 
@@ -1351,10 +1547,10 @@
             else if (ctx.userTier === 'end') { effThreshold = 86.0; spdThreshold = 22; }
 
             const meetsEff = ctx.combatEfficiency >= effThreshold || ctx.maxPotentialEfficiency >= (effThreshold + 6);
-            if (meetsEff) return { status: 'KEEP', title: `PĂSTREAZĂ (EFICIENȚĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Se incadrează în standarde.', archetypes: guide.role || 'General' };
-            if (ctx.totalSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge prag viteză.', archetypes: 'Suport' };
+            if (meetsEff) return { status: 'KEEP', title: `PĂSTREAZĂ (EFICIENȚĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Se încadrează în standardele contului.', archetypes: guide.role || 'General' };
+            if (ctx.totalSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge pragul cerut de viteză.', archetypes: 'Suport / Universal' };
 
-            return { status: 'SELL', title: 'VINDE (SUB PRAG EFICIENȚĂ)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Sub pragul de ${effThreshold}%.`, archetypes: 'Vânzare' };
+            return { status: 'SELL', title: 'VINDE (SUB PRAG EFICIENȚĂ)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) este sub pragul de ${effThreshold}%.`, archetypes: 'Vânzare' };
         }
 
         // ==========================================
@@ -1366,9 +1562,9 @@
             let totalRes = (mainType === 'RES%' ? 64 : 0) + (innateType === 'RES%' ? innateVal : 0);
             subs.forEach(s => { const t = s.val + (s.grindVal || 0); if (s.type === 'ACC%') totalAcc += t; if (s.type === 'CR%') totalCr += t; if (s.type === 'RES%') totalRes += t; });
             const alerts = [];
-            if (totalAcc >= 45) alerts.push(`🎯 <strong>Acuratețe Ridicată (+${totalAcc}% ACC):</strong> Cap util: 45%-54%.`);
-            if (totalCr >= 30) alerts.push(`⚡ <strong>CRI Rate Dens (+${totalCr}% CR):</strong> Atenție la cap 100%.`);
-            if (totalRes >= 45) alerts.push(`🛡️ <strong>Rezistență Mare (+${totalRes}% RES):</strong> Cu lider, 59% e cap 100%.`);
+            if (totalAcc >= 45) alerts.push(`🎯 <strong>Acuratețe Ridicată (+${totalAcc}% ACC):</strong> Cap util în Cairos Abyss: 45%-54%.`);
+            if (totalCr >= 30) alerts.push(`⚡ <strong>CRI Rate Dens (+${totalCr}% CR):</strong> Atenție la plafonul maxim de 100%.`);
+            if (totalRes >= 45) alerts.push(`🛡️ <strong>Rezistență Mare (+${totalRes}% RES):</strong> Cu lider de 41%, pragul de 59% este cap 100%.`);
             return alerts;
         }
 
@@ -1402,6 +1598,7 @@
             return { gemType: bestGem, gemVal: getGemMaxVal(bestGem, isAncient) };
         }
 
+        // SALVARE GEM FĂRĂ SUPRASCRIEREA ROLL-URILOR
         function findGemRescueOption(ctx) {
             if (ctx.hasGem || ctx.subs.length === 0) return null;
             if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
@@ -1411,6 +1608,9 @@
             let bestRescue = null;
 
             for (let sub of ctx.subs) {
+                // REGULĂ COMPETIȚIONALĂ: Nu se dă NICIODATĂ Gem pe un substat care a mâncat roll-uri![cite: 5]
+                if (sub.plusVal > 0) continue;
+
                 const otherSubTypes = ctx.subs.filter(s => s.slotIdx !== sub.slotIdx).map(s => s.type);
                 for (let gemType of allPossibleStats) {
                     if (gemType === ctx.mainType || (ctx.innateType !== 'None' && gemType === ctx.innateType)) continue;
@@ -1435,8 +1635,7 @@
                     if (simVerdict.status === 'KEEP') {
                         let score = simEff.combatEff;
                         if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(sub.type)) score += 40;
-                        if (sub.plusVal === 0) score += 20;
-                        if (gemType === 'SPD') score += 15;
+                        if (gemType === 'SPD') score += 20;
 
                         if (!bestRescue || score > bestRescue.score) {
                             bestRescue = { subToReplace: sub, gemType, gemVal, simCombatEff: simEff.combatEff, simMaxGrind: simEff.maxPotentialEff, simVerdict, score };
@@ -1516,7 +1715,18 @@
             synBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${synergy.color}`;
             synBanner.innerHTML = `<div class="text-xs font-black tracking-wide flex items-center gap-1.5">${synergy.label}</div><div class="text-[11px] font-semibold text-left leading-relaxed">${synergy.desc}</div>`;
 
-            const verdictCtx = { slot: currentSlot, set, stars, rarity, level, userTier, targetRole, mainType, mainVal, totalSpeed, flatCount, percentCount, flatWithRolls, swopEfficiency: effResults.swopCurrentEff, combatEfficiency: effResults.combatEff, maxPotentialEfficiency: effResults.maxPotentialEff, relativeEfficiency: effResults.relativeEff, innateType, subs, hasGem, synergy };
+            // BANNER SINERGIE ROL ȚINTĂ
+            const roleSynergy = analyzeRoleSynergy(targetRole, currentSlot, mainType, subs);
+            const roleBanner = document.getElementById('role-synergy-banner');
+            if (roleSynergy && targetRole !== 'auto') {
+                roleBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${roleSynergy.color}`;
+                roleBanner.innerHTML = `<div class="text-xs font-black tracking-wide flex items-center gap-1.5">${roleSynergy.label}</div><div class="text-[11px] font-semibold text-left leading-relaxed">${roleSynergy.desc}</div>`;
+                roleBanner.classList.remove('hidden');
+            } else {
+                roleBanner.classList.add('hidden');
+            }
+
+            const verdictCtx = { slot: currentSlot, set, stars, rarity, level, userTier, targetRole, mainType, mainVal, totalSpeed, flatCount, percentCount, flatWithRolls, swopEfficiency: effResults.swopCurrentEff, combatEfficiency: effResults.combatEff, maxPotentialEfficiency: effResults.maxPotentialEff, relativeEfficiency: effResults.relativeEff, innateType, subs, hasGem, synergy, roleSynergy };
             const verdict = computeVerdict(verdictCtx);
 
             const isSellVerdict = verdict.status === 'SELL';
@@ -1539,7 +1749,7 @@
             banner.innerHTML = verdict.title;
             const rescueDiv = document.getElementById('verdict-rescue-option');
             if (gemRescue) {
-                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE:</strong> Înlocuiește <u>${gemRescue.subToReplace.type}</u> cu <u>${gemRescue.gemType}</u> (Eficiență: ${gemRescue.simCombatEff.toFixed(1)}%)!</span></div>`;
+                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE (FĂRĂ PIERDERE ROLL-URI):</strong> Înlocuiește <u>${gemRescue.subToReplace.type}</u> cu <u>${gemRescue.gemType}</u> (Eficiență: ${gemRescue.simCombatEff.toFixed(1)}%)!</span></div>`;
                 rescueDiv.classList.remove('hidden');
             } else { rescueDiv.innerHTML = ''; rescueDiv.classList.add('hidden'); }
             document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
@@ -1556,16 +1766,16 @@
             }
             if (ctx.hasGem) {
                 badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Gem Aplicat';
-                container.innerHTML = `<div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">ℹ️ Ai atins limita de un gem per piesă.</div>`; return;
+                container.innerHTML = `<div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">ℹ️ Ai atins limita de un gem per piesă conform regulilor jocului.</div>`; return;
             }
             if (ctx.isSellVerdict) {
                 const rescue = precomputedRescue || findGemRescueOption(ctx);
                 if (rescue) {
                     badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = '✨ SALVARE: SELL ➔ KEEP';
-                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black text-xs text-emerald-900 flex items-center gap-1.5"><span>💡</span> CONVERSIE SALVATOARE!</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 space-y-0.5 text-slate-800 text-[11px]"><div>👉 Înlocuiește: <strong class="text-rose-600">${rescue.subToReplace.type}</strong></div><div>💎 Gem: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div></div></div>`;
+                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black text-xs text-emerald-900 flex items-center gap-1.5"><span>💡</span> CONVERSIE SALVATOARE (ZERO ROLL-URI RISIPITE)!</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 space-y-0.5 text-slate-800 text-[11px]"><div>👉 Înlocuiește linia fără roll-uri: <strong class="text-rose-600">${rescue.subToReplace.type}</strong></div><div>💎 Gem Recomandat: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div></div></div>`;
                 } else {
                     badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200'; badge.innerText = 'Fără Salvare';
-                    container.innerHTML = `<div class="p-2 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold">🚫 Niciun Gem nu o poate ridica peste prag.</div>`;
+                    container.innerHTML = `<div class="p-2 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold">🚫 Niciun Gem nu o poate ridica peste prag fără a risipi roll-uri utile.</div>`;
                 }
                 return;
             }
@@ -1580,7 +1790,7 @@
                 }
             }
             badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300'; badge.innerText = 'Configurație Solidă';
-            container.innerHTML = `<div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">✅ Structură bună, păstrează opțiunea liberă.</div>`;
+            container.innerHTML = `<div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">✅ Structură bună, păstrează opțiunea de gem liberă.</div>`;
         }
 
         function renderReappraisalAdvisor(ctx) {
@@ -1594,7 +1804,7 @@
             if (ctx.innateType === 'SPD') { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Blocat de SPD'; container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🛑 SPD este Innate, nu va apărea niciodată la Reappraisal.</div>`; return; }
             if (ctx.isSellVerdict && ctx.isMustKeepForReapp) {
                 badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400'; badge.innerText = '💎 PĂSTREAZĂ PT. REAPP!';
-                container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">🎯 Bază 6★ Legend valoroasă pe ${ctx.set}. Păstrează-o pt Reappraisal!</div>`; return;
+                container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">🎯 Bază 6★ Legend extrem de valoroasă pe setul ${ctx.set}. Păstrează piesa pt Reappraisal!</div>`; return;
             }
             badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400'; badge.innerText = 'Candidat Elită';
             container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">✨ Bază 6★ Legend ideală pentru Reappraisal.</div>`;
@@ -1721,10 +1931,19 @@
             for (let line of validLines) {
                 const statMatch = line.match(statTypesPattern); if (!statMatch) continue;
                 const rawName = statMatch[1].toUpperCase(); const afterStat = line.substring(line.indexOf(statMatch[0]) + statMatch[0].length);
+
+                // Detectare paranteze Grindstone (ex: +18 (+4))
+                const grindMatch = afterStat.match(/\(\+?\s*(\d+)\%?\)/);
+                let detectedGrind = 0;
+                if (grindMatch) {
+                    detectedGrind = parseInt(grindMatch[1], 10) || 0;
+                }
+
                 const numRegex = /\+?\s*(\d+)(%?)/g; let numMatch; const numbers = []; let hasPercent = line.includes('%');
                 while ((numMatch = numRegex.exec(afterStat)) !== null) numbers.push({ val: parseInt(numMatch[1]), hasPercent: numMatch[2] === '%' || hasPercent });
                 if (numbers.length === 0) continue;
-                const mainValObj = numbers[0]; const numVal = mainValObj.val; let rollInc = numbers.length > 1 ? numbers[1].val : 0;
+                const mainValObj = numbers[0]; const numVal = mainValObj.val;
+                let rollInc = numbers.length > 1 && !grindMatch ? numbers[1].val : 0;
                 if (rollInc > 0) { let rollStr = rollInc.toString(); if (rollStr.startsWith('4') && rollStr.length >= 2) rollInc = parseInt(rollStr.substring(1), 10); }
 
                 let type = 'DEF%';
@@ -1737,7 +1956,7 @@
                 else if (rawName.includes('ATK')) type = mainValObj.hasPercent ? 'ATK%' : 'Flat ATK';
                 else if (rawName.includes('DEF')) type = mainValObj.hasPercent ? 'DEF%' : 'Flat DEF';
 
-                extractedStats.push({ type, val: numVal, plusVal: rollInc });
+                extractedStats.push({ type, val: numVal, plusVal: rollInc, grindVal: detectedGrind });
             }
 
             if (extractedStats.length > 0) {
@@ -1760,15 +1979,20 @@
                 if (currentSlot === 3 && (s.type === 'ATK%' || s.type === 'Flat ATK')) continue;
                 if (s.type === currentMain || (currentInnate !== 'None' && s.type === currentInnate)) continue;
                 assignedCount++;
-                const subSelect = document.getElementById(`sub-stat-${assignedCount}`); const subVal = document.getElementById(`sub-val-${assignedCount}`); const subPlus = document.getElementById(`sub-plus-${assignedCount}`);
-                if (subSelect && subVal) { subSelect.value = s.type; subVal.value = s.val; if (subPlus) subPlus.value = canSubstatHavePowerUps(rarity, assignedCount) ? (s.plusVal || 0) : 0; }
+                const subSelect = document.getElementById(`sub-stat-${assignedCount}`); const subVal = document.getElementById(`sub-val-${assignedCount}`); const subPlus = document.getElementById(`sub-plus-${assignedCount}`); const subGrind = document.getElementById(`sub-grind-${assignedCount}`);
+                if (subSelect && subVal) {
+                    subSelect.value = s.type;
+                    subVal.value = s.val;
+                    if (subPlus) subPlus.value = canSubstatHavePowerUps(rarity, assignedCount) ? (s.plusVal || 0) : 0;
+                    if (subGrind && isGrindable(s.type)) subGrind.value = s.grindVal || 0;
+                }
             }
 
             onRarityChange(); onSlotExclusionCheck(); evaluateRune();
         }
 
         // ==========================================
-        // MODUL: COMPARATOR REAPPRAISAL & POP-UP
+        // MODUL: COMPARATOR REAPPRAISAL INTELIGENT
         // ==========================================
         function reappSelectSlot(slotNum) {
             reappCurrentSlot = slotNum;
@@ -1796,17 +2020,9 @@
             evaluateReappFromUI();
         }
 
-        // Funcții control Modal
-        function openReappModal() {
-            document.getElementById('reapp-modal').classList.remove('hidden');
-        }
+        function openReappModal() { document.getElementById('reapp-modal').classList.remove('hidden'); }
+        function closeReappModal() { document.getElementById('reapp-modal').classList.add('hidden'); document.getElementById('reapp-modal-loading').classList.add('hidden'); }
 
-        function closeReappModal() {
-            document.getElementById('reapp-modal').classList.add('hidden');
-            document.getElementById('reapp-modal-loading').classList.add('hidden');
-        }
-
-        // Drag & Drop pentru Modal
         const reappModalDropzone = document.getElementById('reapp-modal-dropzone');
         const reappModalFile = document.getElementById('reapp-modal-file');
         
@@ -1820,11 +2036,8 @@
             });
         }
 
-        function handleModalReappFile(event) { 
-            if (event.target.files && event.target.files[0]) processReappImage(event.target.files[0]); 
-        }
+        function handleModalReappFile(event) { if (event.target.files && event.target.files[0]) processReappImage(event.target.files[0]); }
 
-        // ROUTER GLOBAL PENTRU PASTE CTRL+V
         window.addEventListener('paste', (e) => {
             if (e.clipboardData && e.clipboardData.files.length > 0) {
                 const file = e.clipboardData.files[0];
@@ -2021,13 +2234,33 @@
 
             let winner = 'none'; let reason = '';
 
-            if (afterData.spd >= 18 && beforeData.spd < afterData.spd) { winner = 'after'; reason = `Varianta nouă aduce un roll superior în Viteză (+${afterData.spd} SPD). SPD este regele!`; } 
-            else if (beforeData.spd >= 18 && afterData.spd < beforeData.spd) { winner = 'before'; reason = `Păstrează varianta veche! Are un roll masiv de viteză (+${beforeData.spd} SPD).`; } 
-            else if (afterData.eff > beforeData.eff + 4.0 && afterData.flatCount <= beforeData.flatCount) { winner = 'after'; reason = `Varianta nouă este mult mai eficientă Barion (+${(afterData.eff - beforeData.eff).toFixed(1)}%) și nu sacrifică calitatea cu flat-uri extra.`; } 
-            else if (beforeData.eff > afterData.eff + 4.0 && beforeData.flatCount <= afterData.flatCount) { winner = 'before'; reason = `Varianta veche păstrează o eficiență superioară (+${(beforeData.eff - afterData.eff).toFixed(1)}%). Nu o schimba!`; } 
-            else if (afterData.flatCount < beforeData.flatCount && afterData.eff >= beforeData.eff - 3.0) { winner = 'after'; reason = `Varianta nouă scapă de atributele flat, curățând runa.`; } 
-            else if (afterData.eff > beforeData.eff) { winner = 'after'; reason = `Marginal mai eficientă varianta nouă. Alege AFTER.`; } 
-            else { winner = 'before'; reason = `Nimic impresionant. Mai bine rămâi cu BEFORE și folosești alte Reapp-uri.`; }
+            const beforeIsGodTier = beforeData.eff >= 88.0 && beforeData.flatCount === 0;
+
+            if (afterData.spd >= 20 && beforeData.spd < afterData.spd) { 
+                winner = 'after'; 
+                reason = `Varianta nouă atinge un Quad/High Triple roll în Viteză (+${afterData.spd} SPD)!`; 
+            } else if (beforeIsGodTier && afterData.spd < 22) {
+                winner = 'before';
+                reason = `PĂSTREAZĂ BEFORE! Varianta inițială are o eficiență de elită (${beforeData.eff.toFixed(1)}%) fără flat-uri. Nu merită sacrificată pentru un roll mediu de viteză.`;
+            } else if (beforeData.spd >= 18 && afterData.spd < beforeData.spd) { 
+                winner = 'before'; 
+                reason = `Păstrează varianta veche! Are un roll masiv de viteză (+${beforeData.spd} SPD).`; 
+            } else if (afterData.eff > beforeData.eff + 4.0 && afterData.flatCount <= beforeData.flatCount) { 
+                winner = 'after'; 
+                reason = `Varianta nouă este substanțial mai eficientă (+${(afterData.eff - beforeData.eff).toFixed(1)}%) cu stats mai curate.`; 
+            } else if (beforeData.eff > afterData.eff + 4.0 && beforeData.flatCount <= afterData.flatCount) { 
+                winner = 'before'; 
+                reason = `Varianta veche păstrează o eficiență superioară (+${(beforeData.eff - afterData.eff).toFixed(1)}%). Nu o schimba!`; 
+            } else if (afterData.flatCount < beforeData.flatCount && afterData.eff >= beforeData.eff - 3.0) { 
+                winner = 'after'; 
+                reason = `Varianta nouă scapă de atributele flat, curățând runa.`; 
+            } else if (afterData.eff > beforeData.eff) { 
+                winner = 'after'; 
+                reason = `Marginal mai eficientă varianta nouă. Alege AFTER.`; 
+            } else { 
+                winner = 'before'; 
+                reason = `Nimic impresionant. Mai bine rămâi cu BEFORE și folosești alte Reapp-uri.`; 
+            }
 
             if (winner === 'after') {
                 panelAfter.classList.add('border-emerald-500', 'bg-emerald-50', 'ring-4', 'ring-emerald-500/20');
