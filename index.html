@@ -104,7 +104,28 @@
 
     <main class="max-w-[1600px] mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-grow w-full space-y-5 sm:space-y-6">
 
-        <!-- OCR / AI IMAGE SCANNER SECTION PENTRU RUNĂ STANDARD -->
+        <!-- OCR ROUTING TOGGLE (PENTRU PASTE) -->
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex flex-wrap justify-between items-center gap-3 shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="text-indigo-800 text-lg">⚙️</span>
+                <div>
+                    <h3 class="text-sm font-black text-indigo-900">Direcționare Scanare (Ctrl + V)</h3>
+                    <p class="text-[11px] font-bold text-indigo-700">Alege unde vrei să fie trimise datele din screenshot-ul tău.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 bg-white p-2 rounded-lg border border-indigo-100 shadow-sm">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="radio" name="ocr-mode" value="configurator" checked class="text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                    <span class="text-xs font-extrabold text-slate-700">Configurator Standard</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="radio" name="ocr-mode" value="reappraisal" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                    <span class="text-xs font-extrabold text-slate-700">Comparator Reappraisal</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- OCR / AI IMAGE SCANNER SECTION -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2.5">
                 <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
@@ -115,7 +136,7 @@
                 </span>
             </div>
 
-            <!-- Upload Area Standard -->
+            <!-- Upload Area -->
             <div id="ocr-dropzone" class="border-2 border-dashed border-slate-300 hover:border-amber-500 rounded-xl p-4 sm:p-6 text-center cursor-pointer transition bg-slate-50/70 hover:bg-amber-50/40 relative">
                 <input type="file" id="ocr-file-input" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
                 
@@ -141,15 +162,15 @@
                 </div>
             </div>
 
-            <!-- OCR feedback log standard -->
+            <!-- OCR feedback log -->
             <div id="ocr-result-alert" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold flex justify-between items-center">
                 <span id="ocr-result-msg">Scanare reușită! Valorile au fost mapate în configurator.</span>
                 <button onclick="document.getElementById('ocr-result-alert').classList.add('hidden')" class="text-emerald-700 hover:text-emerald-900 font-extrabold px-2">✕</button>
             </div>
         </div>
 
-        <!-- RUNE CONFIGURATOR & VERDICT PANEL -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+
             <!-- LEFT PANEL: RUNE BUILDER (6 COLS) -->
             <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -378,6 +399,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-2" class="hidden text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
@@ -410,6 +432,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-3" class="hidden text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
@@ -442,6 +465,7 @@
                                     <option value="Flat DEF">Flat DEF</option>
                                     <option value="None">-- Gol --</option>
                                 </select>
+                                <span id="sub-lock-4" class="hidden text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 shrink-0">Blocat</span>
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
@@ -905,7 +929,7 @@
             'Fight': { pieces: 2, role: 'Speed Teams / Cairos Abyss / Rift', evenMain: { 2: ['SPD', 'ATK%', 'HP%'], 4: ['ATK%', 'CR%', 'CD%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['SPD', 'ATK%', 'CR%', 'CD%', 'HP%'], prioritySub: 'ATK%', notes: 'Baza pentru echipele de record.' },
             'Determination': { pieces: 2, role: 'Solo R5 Front-line / Team Tank', evenMain: { 2: ['SPD', 'DEF%', 'HP%'], 4: ['DEF%', 'HP%'], 6: ['DEF%', 'HP%', 'RES%'] }, desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'CR%'], prioritySub: 'DEF%', notes: 'Crește rezistența echipei.' },
             'Enhance': { pieces: 2, role: 'Rift Beasts / Sustain Support', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], prioritySub: 'HP%', notes: 'Oferă bonus de viață.' },
-            'Accuracy': { pieces: 2, role: 'Debuff Consistency / Speed Cairos', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }, desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'RES%'], prioritySub: 'ACC%', notes: 'Atinge cap-ul Accuracy.' },
+            'Accuracy': { pieces: 2, role: 'Debuff Consistency / Speed Cairos', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }, desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'RES%'], prioritySub: 'ACC%', notes: 'Permite nukerilor să nu sacrifice substaturi pentru Accuracy.' },
             'Tolerance': { pieces: 2, role: 'Raid R5 100% Resistance Cap', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['RES%', 'HP%', 'DEF%'] }, desiredSubs: ['RES%', 'SPD', 'HP%', 'DEF%', 'ACC%'], prioritySub: 'RES%', notes: 'Asigură 100% Resistance.' },
             'Seal': { pieces: 2, role: 'PvP Disruptor / Set Lock', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ACC%', 'RES%'], prioritySub: 'SPD', notes: 'Dezactivează seturile adverse.' },
             'Intangible': { pieces: 1, role: 'Wildcard', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], prioritySub: 'SPD', notes: 'Completează automat un set lipsă.' }
@@ -1525,7 +1549,7 @@
             if (unrolledFlat) {
                 const rec = getBestGemForSub(ctx, unrolledFlat);
                 if (rec) {
-                    badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700'; badge.innerText = '⚠️️ Înlocuire Flat';
+                    badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700'; badge.innerText = '⚠️ Înlocuire Flat';
                     container.innerHTML = `<div class="bg-amber-50 p-2.5 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold"><div class="font-black text-amber-900 flex items-center gap-1.5"><span>⚠️</span> ÎNLĂTURARE FLAT NEPLUSAT</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-amber-200 space-y-0.5 text-slate-800 text-[11px]"><div>👉 Înlocuiește: <strong class="text-rose-600">${unrolledFlat.type}</strong></div><div>💎 Gem: <strong class="text-emerald-700">${rec.gemType} (+${rec.gemVal})</strong></div></div></div>`;
                     return;
                 }
@@ -1763,7 +1787,7 @@
         if (reappModalDropzone) {
             reappModalDropzone.addEventListener('click', () => reappModalFile.click());
             reappModalDropzone.addEventListener('dragover', (e) => { e.preventDefault(); reappModalDropzone.classList.add('dragover'); });
-            reappModalDropzone.addEventListener('dragleave', () => reappModalDropzone.classList.remove('dragover'); });
+            reappModalDropzone.addEventListener('dragleave', () => reappModalDropzone.classList.remove('dragover'));
             reappModalDropzone.addEventListener('drop', (e) => { 
                 e.preventDefault(); reappModalDropzone.classList.remove('dragover'); 
                 if (e.dataTransfer.files && e.dataTransfer.files[0]) processReappImage(e.dataTransfer.files[0]); 
@@ -1782,8 +1806,11 @@
                     e.preventDefault(); // Previne inserarea in alte input-uri posibile
                     
                     const reappModal = document.getElementById('reapp-modal');
-                    // Dacă pop-up-ul Reappraisal e deschis, execută pentru el
-                    if (!reappModal.classList.contains('hidden')) {
+                    const modeToggle = document.querySelector('input[name="ocr-mode"]:checked');
+                    const mode = modeToggle ? modeToggle.value : 'configurator';
+                    
+                    // Procesează pentru Reappraisal dacă modalul este deschis SAU dacă radio button-ul e pe 'reappraisal'
+                    if (!reappModal.classList.contains('hidden') || mode === 'reappraisal') {
                         processReappImage(file);
                     } else {
                         // Altfel, trimite direct la Configuratorul de Bază
@@ -1798,7 +1825,11 @@
             const progressBar = document.getElementById('reapp-modal-progress');
             const statusText = document.getElementById('reapp-modal-status');
             
-            loadingOverlay.classList.remove('hidden'); progressBar.style.width = '10%'; statusText.innerText = 'Încărcare imagine...';
+            // Afișează modalul automat (în cazul în care a fost inițiat din Radio Button fără să fie deschis)
+            document.getElementById('reapp-modal').classList.remove('hidden');
+            loadingOverlay.classList.remove('hidden'); 
+            progressBar.style.width = '10%'; 
+            statusText.innerText = 'Încărcare imagine...';
 
             try {
                 if (typeof Tesseract === 'undefined') throw new Error('Tesseract.js indisponibil.');
