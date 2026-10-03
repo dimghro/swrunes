@@ -98,11 +98,19 @@
                         <option value="auto" selected>Detectare automată a sinergiei</option>
                         <option value="nuker">Fast DPS / Nuker (CR/CD/ATK/SPD)</option>
                         <option value="slowdps">Slow / Leo DPS (CR/CD/ATK)</option>
+                        <option value="hpdps">HP-scaling DPS (HP/CR/CD)</option>
+                        <option value="defdps">DEF-scaling DPS (DEF/CR/CD)</option>
+                        <option value="critless">Critless DPS (ATK/DEF/HP, fără CR/CD)</option>
+                        <option value="speedscale">SPD-scaling DPS (SPD + damage)</option>
                         <option value="bomber">Bomber (ATK/ACC/SPD)</option>
                         <option value="bruiser">Bruiser (HP/DEF/ATK/CR)</option>
                         <option value="tank">Tank / Frontline (HP/DEF/RES)</option>
                         <option value="support">Buffer / Healer (SPD/HP/DEF)</option>
                         <option value="control">Debuffer / CC / Stripper (ACC/SPD)</option>
+                        <option value="turn2control">Turn-2 Control (HP/DEF/ACC/RES)</option>
+                        <option value="nospd">No-SPD / Leo / Anti-Leo</option>
+                        <option value="nemesistrap">Nemesis Trap ofensiv</option>
+                        <option value="auracarrier">Aura Carrier (Fight/Determination/Enhance/Accuracy/Tolerance)</option>
                     </select>
                 </div>
             </div>
@@ -987,30 +995,38 @@
             }
         };
 
+        const LEGAL_EVEN_MAIN = {
+            2: ['SPD', 'HP%', 'ATK%', 'DEF%'],
+            4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'],
+            6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%']
+        };
+        const AURA_SETS = new Set(['Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance']);
+        const FLEXIBLE_SETS = new Set(['Violent', 'Will', 'Nemesis', 'Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance', 'Seal', 'Intangible']);
+
         const RUNE_SETS_GUIDE = {
-            'Energy': { pieces: 2, role: 'Tank / Sustain / Support', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ACC%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], prioritySub: 'SPD', notes: 'Set defensiv pentru sustain.' },
-            'Guard': { pieces: 2, role: 'DEF Bruiser / Front-line', evenMain: { 2: ['SPD', 'DEF%', 'HP%'], 4: ['DEF%', 'HP%', 'ATK%'], 6: ['DEF%', 'HP%', 'ACC%'] }, desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'ACC%'], prioritySub: 'DEF%', notes: 'Ideal pentru monștri cu DEF-scaling.' },
-            'Swift': { pieces: 4, role: 'Turn Order / Starter / Booster', evenMain: { 2: ['SPD'], 4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%', 'ACC%'] }, desiredSubs: ['SPD', 'ATK%', 'HP%', 'DEF%', 'CR%', 'CD%', 'ACC%'], prioritySub: 'SPD', notes: 'Set esențial de viteză.' },
-            'Blade': { pieces: 2, role: 'Damage Dealer / Nuker', evenMain: { 2: ['SPD', 'ATK%', 'HP%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD'], prioritySub: 'CR%', notes: 'Asigură atingerea pragului de 100% CRI Rate.' },
-            'Rage': { pieces: 4, role: 'PvE Nuker / Burst DPS', evenMain: { 2: ['ATK%', 'SPD', 'HP%'], 4: ['CD%', 'CR%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['CD%', 'CR%', 'ATK%', 'SPD'], prioritySub: 'CD%', notes: 'Standardul de aur pentru nukeri.' },
-            'Focus': { pieces: 2, role: 'Debuffer / CC / Stripper', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }, desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'ATK%'], prioritySub: 'ACC%', notes: 'Ușurează atingerea pragului ACC.' },
-            'Endure': { pieces: 2, role: 'Raid Front-line / Cleanse Tank', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['RES%', 'HP%', 'DEF%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], prioritySub: 'RES%', notes: 'Ușurează atingerea pragului de 100% Resistance.' },
-            'Fatal': { pieces: 4, role: 'Bomber / Pure ATK Nuker', evenMain: { 2: ['ATK%', 'SPD', 'HP%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'HP%', 'DEF%'], prioritySub: 'ATK%', notes: 'Recomandat pentru bomberi.' },
-            'Despair': { pieces: 4, role: 'AOE CC / Control / ToA', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'ACC%'] }, desiredSubs: ['SPD', 'ACC%', 'HP%', 'DEF%', 'CR%', 'CD%'], prioritySub: 'SPD', notes: 'Excelent pe unități de control.' },
-            'Vampire': { pieces: 4, role: 'Solo Farmer / Bruiser Sustain', evenMain: { 2: ['ATK%', 'SPD', 'HP%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'HP%', 'DEF%'], prioritySub: 'CR%', notes: 'Esențial pentru unități de supraviețuire.' },
-            'Violent': { pieces: 4, role: 'Universal King / Toate Rolurile', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], prioritySub: 'SPD', notes: 'Cel mai valoros și versatil set.' },
-            'Nemesis': { pieces: 2, role: 'Interrupt / Healer / Suport', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], prioritySub: 'SPD', notes: 'Turnuri rapide după daune.' },
-            'Will': { pieces: 2, role: 'Turn 1 Protection / PvE Safe', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%', 'CR%', 'CD%'], 6: ['HP%', 'DEF%', 'ACC%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%', 'CR%'], prioritySub: 'SPD', notes: 'Protejează din turnul 1.' },
-            'Shield': { pieces: 2, role: 'Team Survivability / Cleave Shield', evenMain: { 2: ['SPD', 'HP%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, desiredSubs: ['HP%', 'SPD', 'DEF%', 'RES%'], prioritySub: 'HP%', notes: 'Scutul oferit echipei.' },
-            'Revenge': { pieces: 2, role: 'Skill 1 Counter / Bruiser', evenMain: { 2: ['SPD', 'ATK%', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%'], prioritySub: 'CR%', notes: 'Esențial pe contraatac.' },
-            'Destroy': { pieces: 2, role: 'Bruiser / Anti-Heal Fights', evenMain: { 2: ['HP%', 'DEF%', 'SPD', 'ATK%'], 4: ['HP%', 'DEF%', 'CR%', 'CD%'], 6: ['HP%', 'DEF%', 'ATK%'] }, desiredSubs: ['HP%', 'DEF%', 'SPD', 'ATK%', 'CR%'], prioritySub: 'HP%', notes: 'Distruge viața maximă.' },
-            'Fight': { pieces: 2, role: 'Speed Teams / Cairos Abyss / Rift', evenMain: { 2: ['SPD', 'ATK%', 'HP%'], 4: ['ATK%', 'CR%', 'CD%'], 6: ['ATK%', 'HP%', 'DEF%'] }, desiredSubs: ['SPD', 'ATK%', 'CR%', 'CD%', 'HP%'], prioritySub: 'ATK%', notes: 'Baza pentru echipele de record.' },
-            'Determination': { pieces: 2, role: 'Solo R5 Front-line / Team Tank', evenMain: { 2: ['SPD', 'DEF%', 'HP%'], 4: ['DEF%', 'HP%'], 6: ['DEF%', 'HP%', 'RES%'] }, desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'CR%'], prioritySub: 'DEF%', notes: 'Crește rezistența echipei.' },
-            'Enhance': { pieces: 2, role: 'Rift Beasts / Sustain Support', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], prioritySub: 'HP%', notes: 'Oferă bonus de viață.' },
-            'Accuracy': { pieces: 2, role: 'Debuff Consistency / Speed Cairos', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }, desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%', 'RES%'], prioritySub: 'ACC%', notes: 'Permite nukerilor să nu sacrifice substaturi pentru Accuracy.' },
-            'Tolerance': { pieces: 2, role: 'Raid R5 100% Resistance Cap', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['RES%', 'HP%', 'DEF%'] }, desiredSubs: ['RES%', 'SPD', 'HP%', 'DEF%', 'ACC%'], prioritySub: 'RES%', notes: 'Asigură 100% Resistance.' },
-            'Seal': { pieces: 2, role: 'PvP Disruptor / Set Lock', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ACC%', 'RES%'], prioritySub: 'SPD', notes: 'Dezactivează seturile adverse.' },
-            'Intangible': { pieces: 1, role: 'Wildcard', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], prioritySub: 'SPD', notes: 'Completează automat un set lipsă.' }
+            'Energy': { pieces: 2, role: 'Tank / Sustain / Support / HP-scaling', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ACC%'] }, nicheMain: { 2: ['ATK%'], 4: ['CD%', 'CR%'], 6: ['ATK%', 'RES%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%'], nicheSubs: ['ATK%', 'CR%', 'CD%'], prioritySub: 'SPD', notes: 'Set defensiv; poate păstra și profile HP-scaling sau broken ofensiv foarte bun.' },
+            'Guard': { pieces: 2, role: 'DEF Bruiser / DEF-scaling DPS / Front-line', evenMain: { 2: ['SPD', 'DEF%', 'HP%'], 4: ['DEF%', 'HP%', 'ATK%'], 6: ['DEF%', 'HP%'] }, nicheMain: { 2: ['ATK%'], 4: ['CD%', 'CR%'], 6: ['ATK%', 'ACC%', 'RES%'] }, desiredSubs: ['SPD', 'DEF%', 'HP%', 'RES%', 'ACC%'], nicheSubs: ['ATK%', 'CR%', 'CD%'], prioritySub: 'DEF%', notes: 'Nu elimina CR/CD când piesa deservește un monstru cu DEF-scaling ofensiv.' },
+            'Swift': { pieces: 4, role: 'Turn Order / Starter / Booster / SPD-scaling', evenMain: { 2: ['SPD'], 4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%', 'ACC%'] }, nicheMain: { 2: ['ATK%', 'HP%', 'DEF%'], 4: [], 6: ['RES%'] }, desiredSubs: ['SPD', 'ATK%', 'HP%', 'DEF%', 'CR%', 'CD%', 'ACC%'], nicheSubs: ['RES%'], prioritySub: 'SPD', notes: 'SPD rămâne prioritatea, dar main-urile legale cu roll-uri excepționale de SPD nu se vând automat.' },
+            'Blade': { pieces: 2, role: 'Damage Dealer / Crit Bruiser / HP-DEF scaling', evenMain: { 2: ['SPD', 'ATK%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%'] }, nicheMain: { 2: ['HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'ACC%', 'RES%'] }, desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD'], nicheSubs: ['HP%', 'DEF%', 'ACC%', 'RES%'], prioritySub: 'CR%', notes: 'Setul poate servi și bruiseri sau scaleri HP/DEF, nu doar nukeri ATK.' },
+            'Rage': { pieces: 4, role: 'Burst DPS / HP-DEF scaling / Slow DPS', evenMain: { 2: ['ATK%', 'SPD'], 4: ['CD%', 'CR%'], 6: ['ATK%'] }, nicheMain: { 2: ['HP%', 'DEF%'], 4: ['ATK%', 'HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'ACC%', 'RES%'] }, desiredSubs: ['CD%', 'CR%', 'ATK%', 'SPD'], nicheSubs: ['HP%', 'DEF%', 'ACC%', 'RES%'], prioritySub: 'CD%', notes: 'Păstrează profilele HP/DEF-scaling cu CR/CD coerent, inclusiv variante lente.' },
+            'Focus': { pieces: 2, role: 'Debuffer / CC / Stripper / Bomber', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }, nicheMain: { 2: ['ATK%'], 4: ['ATK%', 'CR%', 'CD%'], 6: ['ATK%', 'RES%'] }, desiredSubs: ['ACC%', 'SPD', 'HP%', 'DEF%'], nicheSubs: ['ATK%', 'CR%', 'CD%', 'RES%'], prioritySub: 'ACC%', notes: 'Permite și profile damage-debuffer/bomber dacă ACC și statisticile ofensive sunt coerente.' },
+            'Endure': { pieces: 2, role: 'Tank / Cleanser / Resistant Bruiser', evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['RES%', 'HP%', 'DEF%'] }, nicheMain: { 2: ['ATK%'], 4: ['ATK%', 'CR%', 'CD%'], 6: ['ATK%', 'ACC%'] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%'], nicheSubs: ['ACC%', 'ATK%', 'CR%', 'CD%'], prioritySub: 'RES%', notes: 'Profilele turn-2/no-SPD și bruiser pot fi valide chiar fără viteză mare.' },
+            'Fatal': { pieces: 4, role: 'ATK Nuker / Bomber / Critless DPS', evenMain: { 2: ['ATK%', 'SPD'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'ACC%'] }, nicheMain: { 2: ['HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'ACC%'], nicheSubs: ['HP%', 'DEF%', 'RES%'], prioritySub: 'ATK%', notes: 'ACC este relevant pentru bomberi; CR/CD nu sunt obligatorii pe damage dealer-ele critless.' },
+            'Despair': { pieces: 4, role: 'AOE CC / Control / Damage-Control', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CR%', 'CD%', 'ATK%', 'HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'ACC%', 'ATK%'] }, nicheMain: { 2: [], 4: [], 6: ['RES%'] }, desiredSubs: ['SPD', 'ACC%', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%'], nicheSubs: ['RES%'], prioritySub: 'SPD', notes: 'Acceptă atât control rapid, cât și damage-control sau turn-2.' },
+            'Vampire': { pieces: 4, role: 'Sustain DPS / Bruiser / HP-DEF scaler / Critless', evenMain: { 2: ['ATK%', 'SPD', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%'] }, nicheMain: { 2: [], 4: [], 6: ['ACC%', 'RES%'] }, desiredSubs: ['ATK%', 'CR%', 'CD%', 'SPD', 'HP%', 'DEF%'], nicheSubs: ['ACC%', 'RES%'], prioritySub: 'CR%', notes: 'Nu impune CR/CD dacă profilul detectat este critless.' },
+            'Violent': { pieces: 4, role: 'Universal / Toate Rolurile', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'SPD', flexible: true, notes: 'Set universal: orice main legal poate fi corect dacă rolul și roll-urile sunt coerente.' },
+            'Nemesis': { pieces: 2, role: 'Interrupt / Healer / Tank / Nemesis Trap', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'RES%', 'ACC%', 'ATK%', 'CR%', 'CD%'], nicheSubs: [], prioritySub: 'SPD', flexible: true, notes: 'Include explicit profile ofensive Nemesis Trap, nu doar suport defensiv.' },
+            'Will': { pieces: 2, role: 'Universal PvP / Turn 1 Protection', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'SPD', flexible: true, notes: 'Set PvP universal: poate aparține nukerilor, bomberilor, bruiserilor, tankurilor sau buildurilor lente.' },
+            'Shield': { pieces: 2, role: 'Team Survivability / Cleave Carrier / HP-scaling', evenMain: { 2: ['SPD', 'HP%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }, nicheMain: { 2: ['ATK%', 'DEF%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'ACC%'] }, desiredSubs: ['HP%', 'SPD', 'DEF%', 'RES%'], nicheSubs: ['ATK%', 'CR%', 'CD%', 'ACC%'], prioritySub: 'HP%', notes: 'HP rămâne ideal pentru scut, dar un cleave carrier poate folosi statistici ofensive.' },
+            'Revenge': { pieces: 2, role: 'Skill 1 Counter / Bruiser / Counter DPS', evenMain: { 2: ['SPD', 'ATK%', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['ATK%', 'HP%', 'DEF%'] }, nicheMain: { 2: [], 4: [], 6: ['ACC%', 'RES%'] }, desiredSubs: ['CR%', 'CD%', 'ATK%', 'SPD', 'HP%', 'DEF%'], nicheSubs: ['ACC%', 'RES%'], prioritySub: 'CR%', notes: 'SPD nu este obligatoriu; suporturile cu S1 valoros pot folosi ACC/RES.' },
+            'Destroy': { pieces: 2, role: 'Bruiser / Tank / Slow DPS / Critless', evenMain: { 2: ['HP%', 'DEF%', 'SPD', 'ATK%'], 4: ['HP%', 'DEF%', 'CR%', 'CD%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%'] }, nicheMain: { 2: [], 4: [], 6: ['ACC%', 'RES%'] }, desiredSubs: ['HP%', 'DEF%', 'SPD', 'ATK%', 'CR%', 'CD%'], nicheSubs: ['ACC%', 'RES%'], prioritySub: 'HP%', notes: 'Nu cere CR dacă profilul este critless/no-SPD; densitatea HP/DEF/ATK poate fi suficientă.' },
+            'Fight': { pieces: 2, role: 'Aura Carrier / Speed Teams / PvE', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'ATK%', flexible: true, notes: 'Set de aură: statisticile purtătorului se evaluează după rol, nu după bonusul setului.' },
+            'Determination': { pieces: 2, role: 'Aura Carrier / DEF Team / Tank', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'DEF%', flexible: true, notes: 'Set de aură: acceptă orice profil coerent al purtătorului, inclusiv DEF-scaling.' },
+            'Enhance': { pieces: 2, role: 'Aura Carrier / HP Team / Sustain', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'HP%', flexible: true, notes: 'Set de aură: nu constrânge main/substats la HP dacă purtătorul are alt rol.' },
+            'Accuracy': { pieces: 2, role: 'Aura Carrier / Debuff Team', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'ACC%', flexible: true, notes: 'Set de aură: poate fi purtat și de DPS sau suport; rolul decide statisticile individuale.' },
+            'Tolerance': { pieces: 2, role: 'Aura Carrier / Resistance Team', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'RES%', flexible: true, notes: 'Set de aură: nu trata RES ca obligație pe fiecare piesă.' },
+            'Seal': { pieces: 2, role: 'PvP Disruptor / Control / Bruiser / Damage', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'SPD', flexible: true, notes: 'Poate fi control, bruiser sau damage disruptor; nu limita profilul la suport defensiv.' },
+            'Intangible': { pieces: 1, role: 'Wildcard Universal', evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }, nicheMain: { 2: [], 4: [], 6: [] }, desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'], nicheSubs: [], prioritySub: 'SPD', flexible: true, notes: 'Wildcard: orice main legal poate deveni strategic dacă statisticile și roll-urile sunt bune.' }
         };
 
         const mainStatTable = {
@@ -1274,6 +1290,26 @@
                 weights: { 'ATK%': 1.00, 'CR%': 1.00, 'CD%': 1.00, 'HP%': 0.45, 'DEF%': 0.35, 'SPD': 0.15, 'ACC%': 0.10, 'RES%': 0.10 },
                 evenMain: { 2: ['ATK%', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'HP%', 'DEF%'] }
             },
+            'hpdps': {
+                name: 'HP-scaling DPS', icon: '❤️',
+                weights: { 'HP%': 1.00, 'CR%': 1.00, 'CD%': 0.95, 'SPD': 0.65, 'DEF%': 0.55, 'ATK%': 0.25, 'ACC%': 0.15, 'RES%': 0.10 },
+                evenMain: { 2: ['SPD', 'HP%'], 4: ['CD%', 'CR%', 'HP%'], 6: ['HP%', 'DEF%'] }
+            },
+            'defdps': {
+                name: 'DEF-scaling DPS', icon: '🛡️⚔️',
+                weights: { 'DEF%': 1.00, 'CR%': 1.00, 'CD%': 0.95, 'SPD': 0.65, 'HP%': 0.55, 'ATK%': 0.25, 'ACC%': 0.15, 'RES%': 0.10 },
+                evenMain: { 2: ['SPD', 'DEF%'], 4: ['CD%', 'CR%', 'DEF%'], 6: ['DEF%', 'HP%'] }
+            },
+            'critless': {
+                name: 'Critless DPS', icon: '💥',
+                weights: { 'ATK%': 1.00, 'DEF%': 0.85, 'HP%': 0.75, 'SPD': 0.70, 'ACC%': 0.45, 'RES%': 0.25, 'CR%': 0.02, 'CD%': 0.02 },
+                evenMain: { 2: ['SPD', 'ATK%', 'HP%', 'DEF%'], 4: ['ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%', 'ACC%'] }
+            },
+            'speedscale': {
+                name: 'SPD-scaling DPS', icon: '⚡',
+                weights: { 'SPD': 1.00, 'ATK%': 0.85, 'CR%': 0.75, 'CD%': 0.70, 'HP%': 0.45, 'DEF%': 0.35, 'ACC%': 0.30, 'RES%': 0.10 },
+                evenMain: { 2: ['SPD'], 4: ['CD%', 'CR%', 'ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%', 'ACC%'] }
+            },
             'bomber': {
                 name: 'Bomber', icon: '💣',
                 weights: { 'ATK%': 1.00, 'ACC%': 0.95, 'SPD': 0.80, 'HP%': 0.35, 'DEF%': 0.30, 'RES%': 0.10, 'CR%': 0.05, 'CD%': 0.05 },
@@ -1298,6 +1334,26 @@
                 name: 'Debuffer / CC / Stripper', icon: '🎯',
                 weights: { 'SPD': 1.00, 'ACC%': 1.00, 'HP%': 0.80, 'DEF%': 0.70, 'RES%': 0.25, 'ATK%': 0.20, 'CR%': 0.10, 'CD%': 0.05 },
                 evenMain: { 2: ['SPD'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }
+            },
+            'turn2control': {
+                name: 'Turn-2 Control', icon: '🧠',
+                weights: { 'ACC%': 1.00, 'HP%': 0.95, 'DEF%': 0.85, 'RES%': 0.65, 'SPD': 0.35, 'ATK%': 0.15, 'CR%': 0.05, 'CD%': 0.05 },
+                evenMain: { 2: ['HP%', 'DEF%', 'SPD'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%', 'RES%'] }
+            },
+            'nospd': {
+                name: 'No-SPD / Leo / Anti-Leo', icon: '🐢',
+                weights: { 'ATK%': 0.90, 'HP%': 0.90, 'DEF%': 0.90, 'CR%': 0.80, 'CD%': 0.75, 'RES%': 0.45, 'ACC%': 0.35, 'SPD': 0.02 },
+                evenMain: { 2: ['ATK%', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'HP%', 'DEF%', 'RES%', 'ACC%'] }
+            },
+            'nemesistrap': {
+                name: 'Nemesis Trap ofensiv', icon: '🪤', sets: ['Nemesis'],
+                weights: { 'SPD': 1.00, 'ATK%': 0.95, 'ACC%': 0.85, 'CR%': 0.65, 'CD%': 0.55, 'HP%': 0.25, 'DEF%': 0.20, 'RES%': 0.10 },
+                evenMain: { 2: ['SPD', 'ATK%'], 4: ['ATK%', 'CR%', 'CD%'], 6: ['ATK%', 'ACC%'] }
+            },
+            'auracarrier': {
+                name: 'Aura Carrier', icon: '🌐', sets: ['Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance'], autoEligible: false,
+                weights: { 'SPD': 0.80, 'HP%': 0.75, 'DEF%': 0.75, 'ATK%': 0.75, 'ACC%': 0.60, 'RES%': 0.60, 'CR%': 0.50, 'CD%': 0.45 },
+                evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CD%', 'CR%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%', 'ACC%', 'RES%'] }
             }
         };
 
@@ -1306,14 +1362,38 @@
             return Math.max(0, value / M_J[type]);
         }
 
+        function isLegalNonFlatMain(slot, mainType) {
+            if (![2, 4, 6].includes(slot)) return true;
+            return (LEGAL_EVEN_MAIN[slot] || []).includes(mainType);
+        }
+
+        function classifyMainStatFit(set, slot, mainType) {
+            if (![2, 4, 6].includes(slot)) return 'FIXED';
+            if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) return 'FLAT';
+            if (!isLegalNonFlatMain(slot, mainType)) return 'ILLEGAL';
+            const guide = RUNE_SETS_GUIDE[set];
+            if (!guide) return 'LEGAL';
+            if (guide.evenMain?.[slot]?.includes(mainType)) return 'META';
+            if (guide.nicheMain?.[slot]?.includes(mainType)) return 'NICHE';
+            if (guide.flexible || AURA_SETS.has(set)) return 'NICHE';
+            return 'LEGAL';
+        }
+
+        function getSetStatFitWeight(guide, stat) {
+            if (!guide) return 0;
+            if (guide.desiredSubs?.includes(stat)) return 1.0;
+            if (guide.nicheSubs?.includes(stat)) return 0.65;
+            return guide.flexible && !['Flat HP', 'Flat ATK', 'Flat DEF'].includes(stat) ? 0.75 : 0;
+        }
+
         function getRoleScoreForProfile(profile, slot, mainType, subs) {
             if (!profile) return 0;
             const isEven = [2, 4, 6].includes(slot);
             let mainScore = 20;
             if (isEven) {
-                if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) mainScore = 0;
+                if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType) || !isLegalNonFlatMain(slot, mainType)) mainScore = 0;
                 else if (profile.evenMain[slot] && profile.evenMain[slot].includes(mainType)) mainScore = 20;
-                else mainScore = 8;
+                else mainScore = 10;
             }
 
             const weights = Object.values(profile.weights).sort((a, b) => b - a).slice(0, 4);
@@ -1328,12 +1408,16 @@
             return Math.max(0, Math.min(100, mainScore + subScore));
         }
 
-        function calculateRoleScore(targetRole, slot, mainType, subs) {
+        function calculateRoleScore(targetRole, slot, mainType, subs, set = null) {
             if (targetRole && targetRole !== 'auto' && ROLE_PROFILES[targetRole]) {
-                return { score: getRoleScoreForProfile(ROLE_PROFILES[targetRole], slot, mainType, subs), roleKey: targetRole, roleName: ROLE_PROFILES[targetRole].name };
+                const profile = ROLE_PROFILES[targetRole];
+                const setAllowed = !profile.sets || !set || profile.sets.includes(set);
+                return { score: setAllowed ? getRoleScoreForProfile(profile, slot, mainType, subs) : 0, roleKey: targetRole, roleName: profile.name };
             }
             let best = { score: -1, roleKey: 'support', roleName: ROLE_PROFILES.support.name };
             Object.entries(ROLE_PROFILES).forEach(([key, profile]) => {
+                if (profile.autoEligible === false) return;
+                if (profile.sets && set && !profile.sets.includes(set)) return;
                 const score = getRoleScoreForProfile(profile, slot, mainType, subs);
                 if (score > best.score) best = { score, roleKey: key, roleName: profile.name };
             });
@@ -1450,24 +1534,31 @@
             const guide = RUNE_SETS_GUIDE[set];
             if (!guide) return { level: 'OK', label: 'Set Standard', desc: 'Analiză generală.', score: 50 };
 
-            const isEven = [2, 4, 6].includes(slot);
-            const mainIsRecommended = !isEven || !guide.evenMain?.[slot] || guide.evenMain[slot].includes(mainType);
-            if (isEven && !mainIsRecommended && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
+            const fit = classifyMainStatFit(set, slot, mainType);
+            if (fit === 'FLAT') {
                 return { level: 'TRASH', score: 0, color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Flat Main Stat pe Slot ${slot}`, desc: `Main Stat ${mainType} compromite piesa în majoritatea buildurilor.` };
             }
-            if (isEven && !mainIsRecommended) {
-                return { level: 'OFF_META', score: 35, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `⚠️ Main Stat atipic pentru ${set}`, desc: `Ghidul recomandă: <strong>${guide.evenMain[slot].join(' / ')}</strong>.` };
+            if (fit === 'ILLEGAL') {
+                return { level: 'TRASH', score: 0, color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Main Stat imposibil pe Slot ${slot}`, desc: `Combinația ${mainType} / Slot ${slot} nu este legală.` };
             }
 
-            let totalQuality = 0, desiredQuality = 0;
+            let totalQuality = 0, alignedQuality = 0;
             subs.forEach(s => {
                 const q = Math.min(5, getStatRollEquivalent(s.type, s.val + (s.grindVal || 0)));
                 totalQuality += q;
-                if (guide.desiredSubs.includes(s.type)) desiredQuality += q;
+                alignedQuality += q * getSetStatFitWeight(guide, s.type);
             });
-            const ratio = totalQuality > 0 ? desiredQuality / totalQuality : 0;
+            const ratio = totalQuality > 0 ? alignedQuality / totalQuality : 0;
             const hasPriority = subs.some(s => s.type === guide.prioritySub);
-            const score = Math.round(Math.min(100, ratio * 85 + (hasPriority ? 15 : 0)));
+            const mainBonus = fit === 'META' || fit === 'FIXED' ? 12 : (fit === 'NICHE' ? 7 : 3);
+            const score = Math.round(Math.min(100, ratio * 78 + mainBonus + (hasPriority ? (guide.flexible ? 5 : 10) : 0)));
+
+            if (fit === 'NICHE' || fit === 'LEGAL') {
+                const recommended = guide.evenMain?.[slot]?.join(' / ') || 'după rol';
+                const niche = guide.nicheMain?.[slot]?.join(' / ');
+                const extra = niche ? ` Variante de nișă urmărite: <strong>${niche}</strong>.` : '';
+                return { level: 'NICHE', score, color: 'bg-amber-100 text-amber-950 border-amber-300', label: `🧠 Main Stat legal de nișă (${set})`, desc: `Nu se vinde automat. Main meta uzual: <strong>${recommended}</strong>.${extra} Scor de set: ${score}/100; verdictul final este decis de rol, roll-uri și safety net.` };
+            }
 
             if (score >= 80) {
                 return { level: 'EXCELLENT', score, color: 'bg-emerald-100 text-emerald-900 border-emerald-300', label: `💎 Sinergie Excelentă (${set})`, desc: `Setul și calitatea substaturilor se aliniază foarte bine (${score}/100).` };
@@ -1475,16 +1566,19 @@
             if (score >= 55) {
                 return { level: 'GOOD', score, color: 'bg-sky-100 text-sky-900 border-sky-300', label: `✅ Sinergie Bună (${set})`, desc: `Rol recomandat: ${guide.role}. Scor sinergie: ${score}/100.` };
             }
-            return { level: 'BROKEN', score, color: 'bg-purple-100 text-purple-900 border-purple-300', label: `🧩 Profil Broken Set (${set})`, desc: `Setul nu este perfect aliniat. Dacă nu urmărești broken sets, verifică în CONSILIER REAPPRAISAL variantele complete de substat-uri recomandate și legale pentru acest set, slot, main stat și innate. Scor: ${score}/100.` };
+            return { level: 'BROKEN', score, color: 'bg-purple-100 text-purple-900 border-purple-300', label: `🧩 Profil Broken Set (${set})`, desc: `Setul nu este perfect aliniat, dar o rună cu roll-uri bune poate rămâne valoroasă ca broken set. Verifică rolurile și CONSILIER REAPPRAISAL înainte de vânzare. Scor: ${score}/100.` };
         }
 
         // ==========================================
         // ANALIZATOR DE ROL MONSTRU
         // ==========================================
-        function analyzeRoleSynergy(targetRole, slot, mainType, subs) {
+        function analyzeRoleSynergy(targetRole, slot, mainType, subs, set = null) {
             if (!targetRole || targetRole === 'auto') return null;
             const prof = ROLE_PROFILES[targetRole];
             if (!prof) return null;
+            if (prof.sets && set && !prof.sets.includes(set)) {
+                return { status: 'INCOMPATIBLE', score: 0, color: 'bg-rose-100 text-rose-900 border-rose-300', label: `${prof.icon} Rol incompatibil cu setul`, desc: `${prof.name} este un profil specific seturilor: <strong>${prof.sets.join(' / ')}</strong>.` };
+            }
             const score = getRoleScoreForProfile(prof, slot, mainType, subs);
             const isEven = [2, 4, 6].includes(slot);
             const mainMatches = !isEven || (prof.evenMain[slot] && prof.evenMain[slot].includes(mainType));
@@ -1493,21 +1587,70 @@
                 return { status: 'INCOMPATIBLE', score, color: 'bg-rose-100 text-rose-900 border-rose-300', label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`, desc: `Un Main Stat cu valoare fixă pe slotul ${slot} este neviabil pentru acest rol.` };
             }
             if (!mainMatches) {
-                return { status: 'OFF_META', score, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`, desc: `Main recomandat pe slotul ${slot}: <strong>${prof.evenMain[slot].join(' / ')}</strong>. Scor rol: ${score.toFixed(0)}/100.` };
+                return { status: 'OFF_META', score, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`, desc: `Main recomandat pe slotul ${slot}: <strong>${prof.evenMain[slot].join(' / ')}</strong>. Main-ul actual rămâne legal și poate fi de nișă. Scor rol: ${score.toFixed(0)}/100.` };
             }
             if (score >= 75) return { status: 'PERFECT', score, color: 'bg-emerald-100 text-emerald-950 border-emerald-300', label: `${prof.icon} Sinergie Excelentă: ${prof.name}`, desc: `Calitatea și distribuția statisticilor oferă ${score.toFixed(0)}/100 pentru acest rol.` };
             if (score >= 55) return { status: 'GOOD', score, color: 'bg-sky-100 text-sky-950 border-sky-300', label: `${prof.icon} Sinergie Bună: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100.` };
             if (score >= 35) return { status: 'FAIR', score, color: 'bg-slate-100 text-slate-800 border-slate-300', label: `${prof.icon} Sinergie Medie: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100. Runa poate avea o utilizare de nișă.` };
-            return { status: 'POOR', score, color: 'bg-rose-50 text-rose-800 border-rose-200', label: `${prof.icon} Sinergie Scăzută: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100. Verifică alt rol înainte de a vinde.` };
+            return { status: 'POOR', score, color: 'bg-rose-50 text-rose-800 border-rose-200', label: `${prof.icon} Sinergie Scăzută: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100. Verifică modul Auto înainte de a lua o decizie de vânzare.` };
         }
 
         function checkMustKeepMainStat(set, slot, mainType) {
             if ([2, 4, 6].includes(slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) return false;
-            const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal', 'Nemesis', 'Revenge', 'Vampire'];
-            if (!primeSets.includes(set)) return false;
+            if (set === 'Intangible') return false;
+            const reappValueSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fatal', 'Vampire', 'Fight', 'Determination', 'Enhance', 'Accuracy', 'Tolerance', 'Seal', 'Nemesis', 'Revenge', 'Destroy'];
+            if (!reappValueSets.includes(set)) return false;
             if ([1, 3, 5].includes(slot)) return true;
-            const guide = RUNE_SETS_GUIDE[set];
-            return !!(guide && guide.evenMain && guide.evenMain[slot] && guide.evenMain[slot].includes(mainType));
+            const fit = classifyMainStatFit(set, slot, mainType);
+            return ['META', 'NICHE'].includes(fit) || AURA_SETS.has(set);
+        }
+
+        function getSafetyNetReview(ctx) {
+            if (!['6-standard', '6-ancient'].includes(ctx.stars)) return null;
+            if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
+
+            const autoRole = calculateRoleScore('auto', ctx.slot, ctx.mainType, ctx.subs, ctx.set);
+            const autoProfile = ROLE_PROFILES[autoRole.roleKey];
+            const usefulForAuto = ctx.subs.filter(s => autoProfile && (autoProfile.weights[s.type] || 0) >= 0.5).length;
+            const nonFlat = ctx.subs
+                .filter(s => !['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type))
+                .map(s => ({ ...s, eq: getStatRollEquivalent(s.type, s.val) }))
+                .sort((a, b) => b.eq - a.eq);
+
+            const lvlNum = parseInt(String(ctx.level || '').replace('+', ''), 10) || 0;
+            const exceptionalReq = lvlNum >= 12 ? 2.75 : (lvlNum >= 9 ? 2.25 : (lvlNum >= 6 ? 1.80 : 1.45));
+            const exceptionalLine = nonFlat[0] && nonFlat[0].eq >= exceptionalReq ? nonFlat[0] : null;
+            const duoRoll = nonFlat.length >= 2 && nonFlat[0].eq >= 2.05 && nonFlat[1].eq >= 1.55 && autoRole.score >= 50;
+            const coherentCore = usefulForAuto >= 3 && autoRole.score >= 58;
+            const specialRoles = ['hpdps', 'defdps', 'critless', 'speedscale', 'turn2control', 'nospd', 'nemesistrap'];
+            const nicheRole = specialRoles.includes(autoRole.roleKey) && autoRole.score >= 54;
+            const mainFit = classifyMainStatFit(ctx.set, ctx.slot, ctx.mainType);
+            const valuableInnate = ctx.innateType && ctx.innateType !== 'None' && !['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.innateType);
+            const reappBase = ctx.rarity === 'Legend' && ctx.set !== 'Intangible' && ['META', 'NICHE'].includes(mainFit) && (valuableInnate || checkMustKeepMainStat(ctx.set, ctx.slot, ctx.mainType));
+            const wildcard = ctx.set === 'Intangible' && autoRole.score >= 48 && (usefulForAuto >= 2 || exceptionalLine);
+            const auraCarrier = AURA_SETS.has(ctx.set) && autoRole.score >= 50 && (usefulForAuto >= 2 || nonFlat.length >= 3);
+
+            const reasons = [];
+            if (exceptionalLine) reasons.push(`${exceptionalLine.type} are densitate de roll excepțională (~${exceptionalLine.eq.toFixed(1)} roll-uri maxime)`);
+            if (duoRoll) reasons.push('două linii au densitate ridicată și pot forma un nucleu valoros');
+            if (coherentCore) reasons.push(`3+ statistici sunt coerente cu profilul ${autoRole.roleName}`);
+            if (nicheRole) reasons.push(`profil de nișă detectat: ${autoRole.roleName}`);
+            if (reappBase) reasons.push('bază Legend 6★ cu valoare potențială pentru Reappraisal');
+            if (wildcard) reasons.push('Intangible cu main legal și profil utilizabil');
+            if (auraCarrier) reasons.push('set de aură: purtătorul trebuie evaluat după rol, nu după tema bonusului de set');
+
+            if (!reasons.length) return null;
+            return {
+                status: 'REVIEW',
+                title: 'NU VINDE AUTOMAT: PĂSTREAZĂ PENTRU VERIFICARE',
+                color: 'bg-violet-50 text-violet-950 border-violet-400',
+                reasons: `Safety net 2026 activ: ${reasons.join('; ')}. Runa nu trece direct la SELL; verifică buildul/monstrul concret înainte de vânzare.`,
+                archetypes: autoRole.roleName || 'Nișă / Broken set'
+            };
+        }
+
+        function safetyNetOrSell(ctx, sellVerdict) {
+            return getSafetyNetReview(ctx) || sellVerdict;
         }
 
         // ==========================================
@@ -1544,7 +1687,7 @@
             if (ctx.stars === '4-star') return { status: 'SELL', title: 'VINDE IMEDIAT (4★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Depășită în afara stadiului Scenario.', archetypes: 'Vânzare' };
             if (ctx.stars === '5-star') {
                 if (ctx.userTier === 'early') {
-                    if (isEvenSlot && !['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(ctx.mainType)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main stat nepotrivit pe slot par.', archetypes: 'Vânzare' };
+                    if (isEvenSlot && (!isLegalNonFlatMain(ctx.slot, ctx.mainType) || isFlatMain)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main stat nepotrivit pe slot par.', archetypes: 'Vânzare' };
                     if (ctx.combatEfficiency >= 60 || nativeSpeed >= 12 || roleScore >= 65) return { status: 'KEEP', title: 'PĂSTREAZĂ (5★)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Piesă de tranziție bună pentru Early Game.', archetypes: ctx.detectedRole || 'Early PvE' };
                 }
                 return { status: 'SELL', title: 'VINDE IMEDIAT (5★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Vânzare automată Mid Game+.', archetypes: 'Vânzare' };
@@ -1564,7 +1707,7 @@
                 if (['+0', '+3'].includes(ctx.level) && ctx.rarity === 'Legend' && (nativeSpeed >= 5 || usefulCount >= 2)) {
                     return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE: 2 VALORI FIXE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Continuă numai dacă roll-urile merg în statisticile utile.', archetypes: 'Test de siguranță' };
                 }
-                return { status: 'SELL', title: 'VINDE (2+ SUBSTATS CU VALORI FIXE)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Prea multe linii greu de valorificat pentru nivelul contului.', archetypes: 'Vânzare' };
+                return safetyNetOrSell(ctx, { status: 'SELL', title: 'VINDE (2+ SUBSTATS CU VALORI FIXE)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Prea multe linii greu de valorificat pentru nivelul contului.', archetypes: 'Vânzare' });
             }
 
             const hasFlatRoll = ctx.flatWithRolls.length > 0;
@@ -1572,7 +1715,7 @@
 
             // 5. Rol explicit
             if (ctx.targetRole !== 'auto' && roleScore < 30 && ['+12', '+15'].includes(ctx.level)) {
-                return { status: 'SELL', title: 'VINDE PENTRU ROLUL SELECTAT', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Scorul pentru rolul selectat este doar ${roleScore.toFixed(0)}/100. Verifică totuși și modul Auto înainte de vânzare.`, archetypes: 'Incompatibilitate de rol' };
+                return { status: 'REVIEW', title: 'NU VINDE AUTOMAT: SLABĂ PENTRU ROLUL SELECTAT', color: 'bg-amber-50 text-amber-950 border-amber-400', reasons: `Scorul pentru rolul selectat este doar ${roleScore.toFixed(0)}/100. Runa poate fi validă pentru alt rol; verifică modul Auto înainte de vânzare.`, archetypes: 'Incompatibilitate de rol, nu verdict global' };
             }
 
             // 6. Checkpoints +0/+3/+6/+9
@@ -1582,21 +1725,21 @@
                     const spdReq = ctx.userTier === 'mid' ? 5 : (['late', 'end'].includes(ctx.userTier) ? 6 : 4);
                     const hasGoodBase = nativeSpeed >= spdReq || usefulCount >= 2 || roleScore >= 45 || runeScore >= (ctx.userTier === 'end' ? 55 : 45);
                     if (hasGoodBase) return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)', color: 'bg-sky-50 text-sky-900 border-sky-300', reasons: `SPD nativ +${nativeSpeed}, ${usefulCount} stats utile, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Test intermediar' };
-                    return { status: 'SELL', title: 'VINDE (SUB PRAGUL INIȚIAL)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Baza inițială nu justifică investiția de Mana pentru nivelul contului.', archetypes: 'Vânzare Mana' };
+                    return safetyNetOrSell(ctx, { status: 'SELL', title: 'VINDE (SUB PRAGUL INIȚIAL)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Baza inițială nu justifică investiția de Mana pentru nivelul contului.', archetypes: 'Vânzare Mana' });
                 }
                 if (lvlNum === 6) {
                     const spdReq = ctx.userTier === 'end' ? 12 : (ctx.userTier === 'late' ? 11 : (ctx.userTier === 'mid' ? 10 : 8));
                     if (nativeSpeed >= spdReq || roleScore >= 58 || (ctx.combatEfficiency - flatRollPenalty) >= 62 || runeScore >= 80) {
                         return { status: 'ROLL', title: 'TESTEAZĂ LA +9', color: 'bg-sky-50 text-sky-950 border-sky-400', reasons: `Roll-uri încă viabile: SPD nativ +${nativeSpeed}, Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Scor rol ${roleScore.toFixed(0)}.`, archetypes: ctx.detectedRole || guide.role || 'În dezvoltare' };
                     }
-                    return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +6)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Roll-urile nu au consolidat suficient nicio direcție utilă.', archetypes: 'Vânzare Mana' };
+                    return safetyNetOrSell(ctx, { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +6)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Roll-urile nu au consolidat suficient nicio direcție utilă.', archetypes: 'Vânzare Mana' });
                 }
                 if (lvlNum === 9) {
                     const spdReq = ctx.userTier === 'end' ? 17 : (ctx.userTier === 'late' ? 16 : (ctx.userTier === 'mid' ? 15 : 12));
                     if (nativeSpeed >= spdReq || roleScore >= 65 || (ctx.combatEfficiency - flatRollPenalty) >= 70 || runeScore >= 115) {
                         return { status: 'ROLL', title: 'TESTEAZĂ LA +12', color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: `Piesa păstrează potențial: SPD nativ +${nativeSpeed}, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Configurație concentrată' };
                     }
-                    return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +9)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'La +9 nu există suficientă densitate statistică pentru nivelul contului.', archetypes: 'Vânzare Mana' };
+                    return safetyNetOrSell(ctx, { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +9)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'La +9 nu există suficientă densitate statistică pentru nivelul contului.', archetypes: 'Vânzare Mana' });
                 }
             }
 
@@ -1612,7 +1755,7 @@
             if (meetsQuality) return { status: 'KEEP', title: `PĂSTREAZĂ (AJUSTATĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: `Scor rol ${roleScore.toFixed(0)}/100, Scor rună ${runeScore}, potențial ${ctx.maxPotentialEfficiency.toFixed(1)}%.`, archetypes: ctx.detectedRole || guide.role || 'General' };
             if (nativeSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD NATIV: +${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge pragul de viteză nativă al profilului de cont.', archetypes: 'Suport / Universal' };
 
-            return { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: 'Vânzare' };
+            return safetyNetOrSell(ctx, { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: 'Vânzare' });
         }
 
         // ==========================================
@@ -1648,8 +1791,9 @@
             validCandidates.forEach(gem => {
                 let score = (role.weights[gem] || 0.05) * 100;
                 if (gem === 'SPD') score += 18;
-                if (guide.prioritySub === gem) score += 18;
-                if (guide.desiredSubs?.includes(gem)) score += 12;
+                if (guide.prioritySub === gem) score += guide.flexible ? 6 : 18;
+                const setFitWeight = getSetStatFitWeight(guide, gem);
+                if (setFitWeight > 0) score += 12 * setFitWeight;
                 const gemVal = getGemMaxVal(gem, isAncient);
                 if (!best || score > best.score) best = { gemType: gem, gemVal, score };
             });
@@ -1663,7 +1807,7 @@
                 if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) { flatCount++; if (s.plusVal > 0) flatWithRolls.push(s); }
                 if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'].includes(s.type)) percentCount++;
             });
-            const role = calculateRoleScore(ctx.targetRole, ctx.slot, ctx.mainType, simSubs);
+            const role = calculateRoleScore(ctx.targetRole, ctx.slot, ctx.mainType, simSubs, ctx.set);
             const usefulCount = simSubs.filter(s => {
                 const prof = ROLE_PROFILES[role.roleKey];
                 return prof && (prof.weights[s.type] || 0) >= 0.5;
@@ -1757,7 +1901,7 @@
                 }
             }
 
-            const roleMetrics = calculateRoleScore(targetRole, currentSlot, mainType, subs);
+            const roleMetrics = calculateRoleScore(targetRole, currentSlot, mainType, subs, set);
             const roleProfile = ROLE_PROFILES[roleMetrics.roleKey];
             const usefulStatCount = subs.filter(s => roleProfile && (roleProfile.weights[s.type] || 0) >= 0.5).length;
 
@@ -1789,7 +1933,7 @@
             synBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${synergy.color}`;
             synBanner.innerHTML = `<div class="text-xs font-black tracking-wide flex items-center gap-1.5">${synergy.label}</div><div class="text-[11px] font-semibold text-left leading-relaxed">${synergy.desc}</div>`;
 
-            const roleSynergy = analyzeRoleSynergy(targetRole, currentSlot, mainType, subs);
+            const roleSynergy = analyzeRoleSynergy(targetRole, currentSlot, mainType, subs, set);
             const roleBanner = document.getElementById('role-synergy-banner');
             if (roleSynergy && targetRole !== 'auto') {
                 roleBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${roleSynergy.color}`;
@@ -1808,13 +1952,23 @@
                 roleScore: roleMetrics.score, detectedRole: roleMetrics.roleName, detectedRoleKey: roleMetrics.roleKey,
                 innateType, innateVal, subs, hasGem, gemmedSubIndex, synergy, roleSynergy
             };
-            const verdict = computeVerdict(verdictCtx);
-            const isSellVerdict = verdict.status === 'SELL';
+            let verdict = computeVerdict(verdictCtx);
+            const wasSellBeforeGem = verdict.status === 'SELL';
             const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
-            const gemRescue = isSellVerdict ? findGemRescueOption(verdictCtx) : null;
+            const gemRescue = wasSellBeforeGem ? findGemRescueOption(verdictCtx) : null;
+            if (wasSellBeforeGem && gemRescue) {
+                verdict = {
+                    status: 'REVIEW',
+                    title: 'NU VINDE ÎNCĂ: SALVABILĂ CU ENCHANTED GEM',
+                    color: 'bg-emerald-50 text-emerald-950 border-emerald-400',
+                    reasons: `Verdictul brut era SELL, dar o conversie legală ${gemRescue.subToReplace.type} ➜ ${gemRescue.gemType} (+${gemRescue.gemVal}) o ridică la KEEP.`,
+                    archetypes: gemRescue.simVerdict.archetypes || roleMetrics.roleName
+                };
+            }
+            const isSellVerdict = verdict.status === 'SELL';
 
             renderVerdict(verdict, gemRescue);
-            renderGemAdvisor({ ...verdictCtx, isSellVerdict }, gemRescue);
+            renderGemAdvisor({ ...verdictCtx, isSellVerdict: wasSellBeforeGem }, gemRescue);
             renderReappraisalAdvisor({ ...verdictCtx, efficiency: effResults.combatEff, isSellVerdict, isMustKeepForReapp });
             renderRefinementAdvisor({ ...verdictCtx, combatEfficiency: effResults.combatEff, isSellVerdict });
             renderGrindAdvisor({ subs, stars, userTier, isAncient, combatEfficiency: effResults.combatEff, maxGrindEfficiency: effResults.maxGrindEff });
@@ -1878,59 +2032,46 @@
         const REAPP_DISPLAY_ORDER = ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'];
 
         const REAPP_TARGET_TEMPLATES = {
-            nuker: {
-                core: ['SPD', 'ATK%', 'CR%', 'CD%'],
-                flex: ['HP%', 'DEF%']
-            },
-            slowdps: {
-                core: ['ATK%', 'CR%', 'CD%'],
-                flex: ['HP%', 'DEF%', 'SPD']
-            },
-            bomber: {
-                core: ['SPD', 'ATK%', 'ACC%'],
-                flex: ['HP%', 'DEF%', 'RES%']
-            },
-            bruiser: {
-                core: ['HP%', 'CR%'],
-                flex: ['DEF%', 'ATK%', 'SPD', 'CD%', 'RES%']
-            },
-            tank: {
-                core: ['HP%', 'DEF%'],
-                flex: ['SPD', 'RES%', 'ACC%']
-            },
-            support: {
-                core: ['SPD', 'HP%', 'DEF%'],
-                flex: ['RES%', 'ACC%']
-            },
-            control: {
-                core: ['SPD', 'ACC%', 'HP%'],
-                flex: ['DEF%', 'RES%']
-            }
+            nuker: { core: ['SPD', 'ATK%', 'CR%', 'CD%'], flex: ['HP%', 'DEF%'] },
+            slowdps: { core: ['ATK%', 'CR%', 'CD%'], flex: ['HP%', 'DEF%', 'SPD'] },
+            hpdps: { core: ['HP%', 'CR%', 'CD%'], flex: ['SPD', 'DEF%', 'ATK%', 'RES%'] },
+            defdps: { core: ['DEF%', 'CR%', 'CD%'], flex: ['SPD', 'HP%', 'ATK%', 'RES%'] },
+            critless: { core: ['ATK%', 'DEF%'], flex: ['SPD', 'HP%', 'ACC%', 'RES%'] },
+            speedscale: { core: ['SPD'], flex: ['ATK%', 'CR%', 'CD%', 'HP%', 'DEF%', 'ACC%'] },
+            bomber: { core: ['SPD', 'ATK%', 'ACC%'], flex: ['HP%', 'DEF%', 'RES%'] },
+            bruiser: { core: ['HP%', 'CR%'], flex: ['DEF%', 'ATK%', 'SPD', 'CD%', 'RES%'] },
+            tank: { core: ['HP%', 'DEF%'], flex: ['SPD', 'RES%', 'ACC%'] },
+            support: { core: ['SPD', 'HP%', 'DEF%'], flex: ['RES%', 'ACC%'] },
+            control: { core: ['SPD', 'ACC%', 'HP%'], flex: ['DEF%', 'RES%'] },
+            turn2control: { core: ['ACC%', 'HP%', 'DEF%'], flex: ['RES%', 'SPD'] },
+            nospd: { core: ['HP%', 'DEF%'], flex: ['ATK%', 'CR%', 'CD%', 'RES%', 'ACC%'] },
+            nemesistrap: { core: ['SPD', 'ATK%', 'ACC%'], flex: ['CR%', 'CD%', 'HP%', 'DEF%'] },
+            auracarrier: { core: [], flex: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%', 'ACC%', 'RES%'] }
         };
 
         const REAPP_SET_ROLE_KEYS = {
-            Energy: ['support', 'tank', 'bruiser'],
-            Guard: ['tank', 'bruiser'],
-            Swift: ['support', 'control', 'nuker', 'bomber'],
-            Blade: ['nuker', 'slowdps', 'bruiser'],
-            Rage: ['nuker', 'slowdps', 'bruiser'],
-            Focus: ['control', 'bomber', 'support'],
-            Endure: ['tank', 'support'],
-            Fatal: ['nuker', 'slowdps', 'bomber', 'bruiser'],
-            Despair: ['control', 'support', 'nuker', 'bruiser'],
-            Vampire: ['bruiser', 'nuker', 'slowdps'],
-            Violent: ['support', 'control', 'bruiser', 'nuker', 'bomber', 'tank', 'slowdps'],
-            Nemesis: ['support', 'tank', 'control'],
-            Will: ['support', 'tank', 'bruiser', 'control'],
-            Shield: ['support', 'tank'],
-            Revenge: ['bruiser', 'nuker', 'slowdps'],
-            Destroy: ['bruiser', 'tank', 'slowdps'],
-            Fight: ['nuker', 'bomber', 'slowdps'],
-            Determination: ['tank', 'bruiser', 'support'],
-            Enhance: ['support', 'tank', 'bruiser'],
-            Accuracy: ['control', 'bomber', 'support'],
-            Tolerance: ['tank', 'support', 'control'],
-            Seal: ['control', 'support', 'tank', 'bruiser'],
+            Energy: ['support', 'tank', 'bruiser', 'hpdps'],
+            Guard: ['tank', 'bruiser', 'defdps'],
+            Swift: ['support', 'control', 'nuker', 'bomber', 'speedscale'],
+            Blade: ['nuker', 'slowdps', 'bruiser', 'hpdps', 'defdps'],
+            Rage: ['nuker', 'slowdps', 'bruiser', 'hpdps', 'defdps'],
+            Focus: ['control', 'turn2control', 'bomber', 'support'],
+            Endure: ['tank', 'support', 'turn2control', 'nospd'],
+            Fatal: ['nuker', 'slowdps', 'bomber', 'bruiser', 'critless'],
+            Despair: ['control', 'turn2control', 'support', 'nuker', 'bruiser'],
+            Vampire: ['bruiser', 'nuker', 'slowdps', 'hpdps', 'defdps', 'critless'],
+            Violent: ['support', 'control', 'turn2control', 'bruiser', 'nuker', 'bomber', 'tank', 'slowdps', 'hpdps', 'defdps', 'critless', 'speedscale', 'nospd'],
+            Nemesis: ['support', 'tank', 'control', 'turn2control', 'bruiser', 'nemesistrap', 'nospd'],
+            Will: ['support', 'tank', 'bruiser', 'control', 'turn2control', 'nuker', 'bomber', 'slowdps', 'hpdps', 'defdps', 'critless', 'nospd'],
+            Shield: ['support', 'tank', 'hpdps', 'bruiser'],
+            Revenge: ['bruiser', 'nuker', 'slowdps', 'hpdps', 'defdps', 'critless'],
+            Destroy: ['bruiser', 'tank', 'slowdps', 'hpdps', 'defdps', 'critless', 'nospd'],
+            Fight: ['auracarrier', 'nuker', 'bomber', 'slowdps', 'critless', 'support'],
+            Determination: ['auracarrier', 'tank', 'bruiser', 'defdps', 'support'],
+            Enhance: ['auracarrier', 'support', 'tank', 'bruiser', 'hpdps'],
+            Accuracy: ['auracarrier', 'control', 'turn2control', 'bomber', 'support'],
+            Tolerance: ['auracarrier', 'tank', 'support', 'control', 'turn2control'],
+            Seal: ['control', 'turn2control', 'support', 'tank', 'bruiser', 'nuker'],
             Intangible: []
         };
 
@@ -1962,12 +2103,12 @@
         function isRoleMainCompatibleForReapp(roleKey, ctx) {
             const profile = ROLE_PROFILES[roleKey];
             if (!profile) return false;
+            if (profile.sets && !profile.sets.includes(ctx.set)) return false;
             if (![2, 4, 6].includes(ctx.slot)) return true;
             const mains = profile.evenMain?.[ctx.slot] || [];
             if (mains.length === 0 || mains.includes(ctx.mainType)) return true;
-            const guide = RUNE_SETS_GUIDE[ctx.set];
-            const setAcceptsMain = !!(guide?.evenMain?.[ctx.slot]?.includes(ctx.mainType));
-            return setAcceptsMain && (profile.weights?.[ctx.mainType] || 0) >= 0.25;
+            const fit = classifyMainStatFit(ctx.set, ctx.slot, ctx.mainType);
+            return ['META', 'NICHE', 'LEGAL'].includes(fit) && (profile.weights?.[ctx.mainType] || 0) >= 0.25;
         }
 
         function sortReappCombo(stats) {
@@ -1976,9 +2117,9 @@
 
         function getReappVariantScore(roleKey, combo, guide) {
             const profile = ROLE_PROFILES[roleKey];
-            const setFit = combo.filter(stat => guide?.desiredSubs?.includes(stat)).length;
+            const setFit = combo.reduce((sum, stat) => sum + getSetStatFitWeight(guide, stat), 0);
             const roleFit = combo.reduce((sum, stat) => sum + (profile?.weights?.[stat] || 0), 0);
-            const priorityBonus = guide?.prioritySub && combo.includes(guide.prioritySub) ? 0.35 : 0;
+            const priorityBonus = guide?.prioritySub && combo.includes(guide.prioritySub) ? (guide.flexible ? 0.10 : 0.35) : 0;
             return roleFit + (setFit * 0.30) + priorityBonus;
         }
 
@@ -1992,7 +2133,7 @@
             const need = Math.max(0, 4 - legalCore.length);
             if (need === 0) {
                 const combo = sortReappCombo(legalCore.slice(0, 4));
-                const setFit = combo.filter(stat => guide?.desiredSubs?.includes(stat)).length;
+                const setFit = combo.reduce((sum, stat) => sum + getSetStatFitWeight(guide, stat), 0);
                 return setFit >= 2 ? [{ stats: combo, score: getReappVariantScore(roleKey, combo, guide) }] : [];
             }
 
@@ -2012,10 +2153,10 @@
                 const key = combo.join('|');
                 if (seen.has(key)) return;
 
-                const setFit = combo.filter(stat => guide?.desiredSubs?.includes(stat)).length;
+                const setFit = combo.reduce((sum, stat) => sum + getSetStatFitWeight(guide, stat), 0);
                 const roleFit = combo.reduce((sum, stat) => sum + (profile.weights[stat] || 0), 0);
                 const fixedStats = [ctx.mainType, ctx.innateType].filter(stat => stat && stat !== 'None');
-                const fixedSetFit = fixedStats.filter(stat => guide?.desiredSubs?.includes(stat)).length;
+                const fixedSetFit = fixedStats.reduce((sum, stat) => sum + getSetStatFitWeight(guide, stat), 0);
                 const fixedRoleFit = fixedStats.reduce((sum, stat) => sum + (profile.weights[stat] || 0), 0);
                 if ((setFit + fixedSetFit) < 3 || (roleFit + fixedRoleFit) < 2.65) return;
 
@@ -2023,7 +2164,7 @@
                 variants.push({ stats: combo, score: getReappVariantScore(roleKey, combo, guide) });
             });
 
-            return variants.sort((a, b) => b.score - a.score);
+            return variants.sort((a, b) => b.score - a.score).slice(0, 12);
         }
 
         function buildReappTargetProfiles(ctx) {
@@ -2144,7 +2285,7 @@
             if (ctx.set === 'Intangible') { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Neeligibil'; container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🛑 Intangible nu permite Reappraisal.</div>`; return; }
             if (ctx.rarity !== 'Legend' || ['4-star', '5-star'].includes(ctx.stars)) { badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-black px-2 py-0.5 rounded border border-slate-200'; badge.innerText = 'Neeligibil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Reappraisal este rezervat pieselor 6★ Legend.</div>`; return; }
 
-            const premium = { Violent: 25, Will: 24, Despair: 22, Swift: 20, Rage: 19, Vampire: 16, Fight: 16, Nemesis: 15, Revenge: 15, Seal: 14, Destroy: 12 };
+            const premium = { Violent: 25, Will: 24, Despair: 22, Swift: 20, Rage: 19, Fatal: 18, Vampire: 16, Fight: 16, Nemesis: 15, Revenge: 15, Seal: 14, Destroy: 12, Determination: 12, Enhance: 12, Accuracy: 12, Tolerance: 10 };
             let score = premium[ctx.set] || 8;
             if (ctx.isMustKeepForReapp) score += 24;
             if ([1, 3, 5].includes(ctx.slot)) score += 7;
@@ -2722,7 +2863,7 @@
                 const flatCount = subs.filter(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)).length;
                 const nativeSpd = subs.filter(s => s.type === 'SPD').reduce((sum, s) => sum + s.val, 0);
                 const eff = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, 'Legend', '+12', reappCurrentSlot, 0);
-                const role = calculateRoleScore(targetRole, reappCurrentSlot, mainType, subs);
+                const role = calculateRoleScore(targetRole, reappCurrentSlot, mainType, subs, set);
                 const scoreNorm = Math.min(100, eff.runeScore / 2.0);
                 let speedBonus = 0;
                 if (nativeSpd >= 18) speedBonus += Math.min(8, (nativeSpd - 17) * (set === 'Swift' ? 0.8 : 0.5));
