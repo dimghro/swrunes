@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summoners War - Rune Evaluator & Optimizer (PvE & SWOP Edition)</title>
+    <title>Summoners War - Evaluator și Optimizator de Rune (ediția PvE & SWOP)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tesseract.js OCR CDN pentru scanare automată din imagini -->
@@ -70,28 +70,28 @@
                 <span class="text-3xl p-1 bg-amber-50 rounded-xl border border-amber-200 shadow-sm shrink-0">🔮</span>
                 <div>
                     <h1 class="text-lg sm:text-2xl font-black tracking-wide text-slate-900 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                        SUMMONERS WAR <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">SWOP Standard & PvE Optimizer</span>
+                        SUMMONERS WAR <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">Standard SWOP & Optimizare PvE</span>
                     </h1>
-                    <p class="text-xs text-slate-500 font-semibold">Model Matematic Barion • Evaluare Praguri Progresie • Gems, Reapp, Refine & Grinds</p>
+                    <p class="text-xs text-slate-500 font-semibold">Model matematic Barion • Evaluare praguri de progresie • Enchanted Gems, Reappraisal, Refinement și Grindstones</p>
                 </div>
             </div>
 
             <!-- Progression & Target Role Selectors -->
             <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full md:w-auto justify-between md:justify-start">
                 <div class="flex items-center gap-1.5">
-                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Nivel Progres Cont:</span>
+                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Nivelul progresului contului:</span>
                     <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 truncate max-w-[240px] sm:max-w-none">
                         <option value="beginner">Debut / Scenario (Campanie, 4★-5★)</option>
-                        <option value="early">Early Game (GB10/DB10, Abyss N, ToA N)</option>
-                        <option value="mid" selected>Mid Game (Abyss H stabil, Solo R5, C1-C3)</option>
-                        <option value="late">Late Game (Abyss Speed, Tartarus H, G1)</option>
-                        <option value="end">End-Game (Recorduri &lt;30s, Siege G2+, G3)</option>
+                        <option value="early">Început de joc (GB10/DB10, Abyss N, ToA N)</option>
+                        <option value="mid" selected>Joc intermediar (Abyss H stabil, Solo R5, C1-C3)</option>
+                        <option value="late">Joc avansat (Abyss Speed, Tartarus H, G1)</option>
+                        <option value="end">Final de joc (recorduri &lt;30s, Siege G2+, G3)</option>
                     </select>
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Rol Monstru:</span>
+                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Rolul monstrului:</span>
                     <select id="target-role" onchange="evaluateRune()" class="bg-white text-sky-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500/30 truncate max-w-[180px] sm:max-w-none">
-                        <option value="auto" selected>Auto-Detect Sinergie</option>
+                        <option value="auto" selected>Detectare automată a sinergiei</option>
                         <option value="nuker">Fast DPS / Nuker (CR/CD/ATK/SPD)</option>
                         <option value="slowdps">Slow / Leo DPS (CR/CD/ATK)</option>
                         <option value="bomber">Bomber (ATK/ACC/SPD)</option>
@@ -107,35 +107,15 @@
 
     <main class="max-w-[1600px] mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-grow w-full space-y-5 sm:space-y-6">
 
-        <!-- OCR ROUTING TOGGLE (PENTRU PASTE) -->
-        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex flex-wrap justify-between items-center gap-3 shadow-sm">
-            <div class="flex items-center gap-2">
-                <span class="text-indigo-800 text-lg">⚙️</span>
-                <div>
-                    <h3 class="text-sm font-black text-indigo-900">Direcționare Scanare (Ctrl + V)</h3>
-                    <p class="text-[11px] font-bold text-indigo-700">Alege unde vrei să fie trimise datele din screenshot-ul tău.</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-4 bg-white p-2 rounded-lg border border-indigo-100 shadow-sm">
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="ocr-mode" value="configurator" checked class="text-indigo-600 focus:ring-indigo-500 w-4 h-4">
-                    <span class="text-xs font-extrabold text-slate-700">Configurator Standard</span>
-                </label>
-                <label class="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" name="ocr-mode" value="reappraisal" class="text-indigo-600 focus:ring-indigo-500 w-4 h-4">
-                    <span class="text-xs font-extrabold text-slate-700">Comparator Reappraisal</span>
-                </label>
-            </div>
-        </div>
 
         <!-- OCR / AI IMAGE SCANNER SECTION -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2.5">
                 <h2 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                    <span class="text-xl">📷</span> SCANARE AUTOMATĂ RUNĂ DIN SCREENSHOT (OCR)
+                    <span class="text-xl">📷</span> SCANARE AUTOMATĂ A RUNEI DIN CAPTURĂ DE ECRAN (OCR)
                 </h2>
                 <span class="text-xs bg-sky-50 text-sky-700 border border-sky-200 px-3 py-0.5 rounded-full font-bold">
-                    Drag & Drop, Selectare Fișier sau Paste (Ctrl+V)
+                    Tragere și plasare, selectare fișier sau lipire (Ctrl+V)
                 </span>
             </div>
 
@@ -148,10 +128,10 @@
                         📸
                     </div>
                     <div class="text-xs sm:text-sm font-bold text-slate-700">
-                        Apasă pentru a alege un screenshot sau trage imaginea aici
+                        Apasă pentru a alege o captură de ecran sau trage imaginea aici
                     </div>
                     <p class="text-xs text-slate-500 font-semibold">
-                        Sau fă screenshot în Summoners War și apasă direct <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd>
+                        Sau fă o captură de ecran în Summoners War și apasă direct <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd>
                     </p>
                 </div>
 
@@ -167,15 +147,13 @@
 
             <!-- OCR feedback log -->
             <div id="ocr-result-alert" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold flex justify-between items-center">
-                <span id="ocr-result-msg">Scanare reușită! Valorile au fost mapate în configurator.</span>
+                <span id="ocr-result-msg">Scanare reușită! Valorile au fost preluate în Configurator Rună.</span>
                 <button onclick="document.getElementById('ocr-result-alert').classList.add('hidden')" class="text-emerald-700 hover:text-emerald-900 font-extrabold px-2">✕</button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
-
-            <!-- LEFT PANEL: RUNE BUILDER (6 COLS) -->
-            <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
+            <!-- CONFIGURATOR RUNĂ ORIZONTAL -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                     <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
                         <span class="text-amber-500">🛠️</span> CONFIGURATOR RUNĂ
@@ -184,6 +162,9 @@
                         <span>🔄</span> Resetează Configurația
                     </button>
                 </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6 items-start">
+                    <div class="space-y-5">
 
                 <!-- Slot Selector Buttons -->
                 <div>
@@ -201,7 +182,7 @@
                 <!-- Rune Base Attributes -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set Runic (23 Seturi)</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set de rună (23 de seturi)</label>
                         <select id="rune-set" onchange="onSetChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
                             <optgroup label="Seturi de 4 Piese">
                                 <option value="Violent">Violent</option>
@@ -240,7 +221,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Grad Runic (★)</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Gradul runei (★)</label>
                         <select id="rune-stars" onchange="onStarsChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
                             <option value="6-standard">6★ Standard</option>
                             <option value="6-ancient" selected>6★ Ancient</option>
@@ -250,7 +231,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Raritate Inițială</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Raritate inițială</label>
                         <select id="rune-rarity" onchange="onRarityChange()" class="w-full bg-white text-xs border border-amber-300 rounded-lg p-2 text-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-black shadow-sm">
                             <option value="Legend" selected>Legend (4 Substats)</option>
                             <option value="Hero">Hero (3 Substats)</option>
@@ -261,7 +242,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Nivel Îmbunătățire</label>
+                        <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Nivel de îmbunătățire</label>
                         <select id="rune-level" onchange="onLevelChange()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold shadow-sm">
                             <option value="+0">+0</option>
                             <option value="+3">+3</option>
@@ -307,11 +288,14 @@
                                 <option value="Flat ATK">Flat ATK</option>
                                 <option value="Flat DEF">Flat DEF</option>
                             </select>
-                            <input type="number" id="innate-val" value="0" placeholder="Valoare" oninput="evaluateRune()" class="col-span-3 bg-white text-xs border border-purple-300 rounded-lg p-2 text-purple-800 font-black focus:ring-2 focus:ring-purple-500 shadow-sm text-center">
+                            <input type="number" id="innate-val" value="0" placeholder="Valoare" oninput="onInnateValueChange()" class="col-span-3 bg-white text-xs border border-purple-300 rounded-lg p-2 text-purple-800 font-black focus:ring-2 focus:ring-purple-500 shadow-sm text-center">
                         </div>
                     </div>
                 </div>
 
+                    </div>
+
+                    <div class="space-y-3">
                 <!-- SUBSTATS CU GRINDSTONES INTEGRAT -->
                 <div class="space-y-3">
                     <div class="flex flex-wrap justify-between items-center gap-2">
@@ -323,16 +307,16 @@
                         <!-- Quick Grind Simulation Toolbar -->
                         <div class="flex flex-wrap items-center gap-1.5">
                             <button onclick="applyGrindPreset('hero')" type="button" class="text-[10px] font-black text-purple-700 hover:text-purple-800 bg-purple-50 hover:bg-purple-100 border border-purple-300 px-2.5 py-1 rounded-lg transition shadow-xs" title="Simulează aplicarea de Hero Grinds maxime">
-                                ⚡ Hero Grinds
+                                ⚡ Hero Grindstones
                             </button>
                             <button onclick="applyGrindPreset('legend')" type="button" class="text-[10px] font-black text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-lg transition shadow-xs" title="Simulează aplicarea de Legend Grinds maxime">
-                                💎 Legend Grinds
+                                💎 Legend Grindstones
                             </button>
                             <button onclick="applyGrindPreset('reset')" type="button" class="text-[10px] font-black text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition shadow-xs" title="Șterge valorile de grind introduse">
-                                ✕ Reset
+                                ✕ Resetează
                             </button>
                             <label class="flex items-center gap-1 text-[11px] font-extrabold text-cyan-800 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200 ml-1">
-                                <span>Linie Gem:</span>
+                                <span>Linie GEM:</span>
                                 <select id="gemmed-sub-index" onchange="evaluateRune()" class="bg-white border border-cyan-200 rounded px-1 py-0.5 text-[10px] font-black text-cyan-900">
                                     <option value="0" selected>Niciuna</option>
                                     <option value="1">#1</option>
@@ -352,7 +336,7 @@
                         <span class="col-span-5">Substat</span>
                         <span class="col-span-2 text-center" title="Valoarea afișată pe rună în joc înainte de grind (albă)">Total (+Rolls)</span>
                         <span class="col-span-2 text-center text-emerald-700" title="Valoarea adăugată de plusări (pentru a preveni suprascrierea cu Gem)">Rolls ▲</span>
-                        <span class="col-span-3 text-center text-indigo-700" title="Valoarea galbenă de Grindstone">Grind (+)</span>
+                        <span class="col-span-3 text-center text-indigo-700" title="Valoarea galbenă de Grindstone">Grindstone (+)</span>
                     </div>
 
                     <!-- Substats Rows -->
@@ -379,7 +363,7 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+roll):</span>
                                     <input type="number" id="sub-val-1" value="10" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
@@ -415,7 +399,7 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+roll):</span>
                                     <input type="number" id="sub-val-2" value="14" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
@@ -451,7 +435,7 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+roll):</span>
                                     <input type="number" id="sub-val-3" value="12" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
@@ -487,7 +471,7 @@
                             </div>
                             <div class="grid grid-cols-3 gap-1.5 sm:col-span-7">
                                 <div>
-                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+Roll):</span>
+                                    <span class="block text-[9px] font-extrabold text-slate-400 sm:hidden">Total (+roll):</span>
                                     <input type="number" id="sub-val-4" value="17" placeholder="Total" oninput="evaluateRune()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-900 font-black text-center focus:ring-2 focus:ring-amber-500 shadow-sm">
                                 </div>
                                 <div>
@@ -502,12 +486,12 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- RIGHT PANEL: VERDICT OPTIMIZER & ADVISORS (6 COLS) -->
-            <div class="lg:col-span-6 space-y-4">
-                
-                <!-- INTEGRATED VERDICT OPTIMIZATION ENGINE -->
+        <!-- VERDICT & EFICIENȚĂ SWOP -->
+                <!-- VERDICT & EFICIENȚĂ SWOP, STRUCTURĂ ORIZONTALĂ -->
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5" id="verdict-card-container">
                     <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
                         <span class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
@@ -519,18 +503,19 @@
                             <span id="swop-eff-badge" class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-900 font-black text-xs border border-sky-300" title="Eficiență matematică standard SWOP Barion (14.0 divisor)">
                                 SWOP: 0.0%
                             </span>
-                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență ajustată: model SWOP cu flat stats ponderate la 50%">
+                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență ajustată: model SWOP cu atribute cu valori fixe ponderate la 50%">
                                 Ajustată: 0.0%
                             </span>
                             <span id="max-grind-badge" class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] border border-emerald-300" title="Potențial teoretic după upgrade la +12/+15, Legend Grinds și cea mai bună conversie Gem legală">
                                 Potențial: 0.0%
                             </span>
-                            <span id="relative-eff-badge" class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 font-extrabold text-[10px] border border-purple-200" title="Rune Score estimat după formula Com2uS reverse-engineered: innate + substats, main stat exclus">
-                                Rune Score: 0
+                            <span id="relative-eff-badge" class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 font-extrabold text-[10px] border border-purple-200" title="Scor rună estimat după formula Com2uS reverse-engineered: Innate Stat + substats, Main Stat exclus">
+                                Scor rună: 0
                             </span>
                         </div>
                     </div>
-
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5 items-start">
+                        <div class="space-y-3.5">
                     <!-- 1. VERDICTUL FINAL -->
                     <div id="verdict-banner" class="p-3 rounded-xl text-center font-black text-sm sm:text-base tracking-wide uppercase transition-all shadow-sm border leading-snug">
                     </div>
@@ -553,20 +538,20 @@
 
                     <div id="dead-stat-alert" class="hidden p-2.5 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[11px] font-bold flex items-center gap-2">
                         <span>⚠️</span>
-                        <span id="dead-stat-alert-text">Atenție: Runa conține <strong>2 sau mai multe Flat Substats</strong>! Poți schimba doar un singur atribut printr-un Enchanted Gem; celălalt rămâne blocat ca dead stat.</span>
+                        <span id="dead-stat-alert-text">Atenție: runa conține <strong>2 sau mai multe substats cu valori fixe</strong>! Poți schimba un singur atribut printr-un Enchanted Gem; celălalt rămâne un substat inutil.</span>
                     </div>
 
                     <div class="space-y-2.5 text-xs">
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-slate-800 font-black block mb-1 flex items-center gap-1.5">
-                                <span class="text-amber-500">📊</span> Analiză Valori & Calitate Rulaj (SWOP):
+                                <span class="text-amber-500">📊</span> Analiză valori și calitatea roll-urilor (SWOP):
                             </strong>
                             <p id="verdict-reasons" class="text-slate-600 leading-relaxed font-bold"></p>
                         </div>
 
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-sky-800 font-black block mb-1 flex items-center gap-1.5">
-                                <span class="text-sky-500">🎯</span> Sinergie Set & Rol Recomandat:
+                                <span class="text-sky-500">🎯</span> Sinergie set și rol recomandat:
                             </strong>
                             <p id="verdict-archetypes" class="text-slate-600 leading-relaxed font-bold"></p>
                         </div>
@@ -578,19 +563,20 @@
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-cyan-600">💎</span> CONSILIER ENCHANTED GEM
                             </h3>
-                            <span id="gem-badge" class="text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200">Evaluare Gem</span>
+                            <span id="gem-badge" class="text-[10px] bg-cyan-100 text-cyan-800 font-black px-2 py-0.5 rounded border border-cyan-200">Evaluare Enchanted Gem</span>
                         </div>
                         <div id="gem-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
                     </div>
-
+                        </div>
+                        <div class="space-y-3.5">
                     <!-- CONSILIER 2: REAPPRAISAL STONE -->
                     <div class="border border-purple-200 rounded-xl p-3 sm:p-3.5 bg-purple-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-purple-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL STONE
                             </h3>
-                            <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare Reapp</span>
+                            <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare Reappraisal</span>
                         </div>
                         <div id="reapp-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
@@ -602,44 +588,30 @@
                             <h3 class="font-black text-xs uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
                                 <span class="text-amber-600">✨</span> CONSILIER RUNE REFINEMENT
                             </h3>
-                            <span id="refine-badge" class="text-[10px] bg-amber-200 text-amber-900 font-black px-2 py-0.5 rounded border border-amber-300">Evaluare Refine</span>
+                            <span id="refine-badge" class="text-[10px] bg-amber-200 text-amber-900 font-black px-2 py-0.5 rounded border border-amber-300">Evaluare Refinement</span>
                         </div>
                         <div id="refine-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
                     </div>
-
-                    <!-- CONSILIER 4: GRINDSTONES -->
-                    <div class="border border-emerald-300 rounded-xl p-3 sm:p-3.5 bg-emerald-50/40 space-y-2">
-                        <div class="flex items-center justify-between border-b border-emerald-200 pb-1.5">
-                            <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                                <span class="text-emerald-600">🔨</span> CONSILIER GRINDSTONES
-                            </h3>
-                            <span id="grind-badge" class="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-200">Evaluare Grind</span>
-                        </div>
-                        <div id="grind-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
                     </div>
-
                 </div>
 
-            </div>
-        </div>
-
-        <!-- NEW REAPPRAISAL COMPARATOR SECTION -->
+        <!-- COMPARATOR REAPPRAISAL -->
         <div class="bg-white border-2 border-indigo-200 rounded-2xl p-4 sm:p-6 shadow-md space-y-5 mt-6" id="reapp-main-section">
             <div class="flex flex-wrap justify-between items-center border-b border-slate-100 pb-3">
                 <h2 class="text-lg sm:text-xl font-black text-indigo-900 flex items-center gap-2">
                     <span class="text-indigo-500">🔄</span> COMPARATOR REAPPRAISAL (INTELIGENT & EDITABIL)
                 </h2>
                 <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg border border-indigo-200">
-                    Proiectat exclusiv pentru rune 6★ Legend (+12)
+                    Baza runei este sincronizată automat cu Configurator Rună • 6★ Legend (+12)
                 </span>
             </div>
 
-            <!-- Manual Config for Reappraisal -->
+            <!-- Date de bază sincronizate cu Configurator Rună; rămân editabile -->
             <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
                 <div class="lg:col-span-2">
-                    <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Selectează Slotul Runei (1-6)</label>
+                    <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Slotul runei (sincronizat)</label>
                     <div class="grid grid-cols-6 gap-1">
                         <button onclick="reappSelectSlot(1)" id="reapp-slot-1" class="reapp-slot-btn p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold transition">1</button>
                         <button onclick="reappSelectSlot(2)" id="reapp-slot-2" class="reapp-slot-btn p-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-bold transition">2</button>
@@ -650,7 +622,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set Runic (23 Seturi)</label>
+                    <label class="block text-[11px] font-extrabold text-slate-600 mb-1">Set de rună (23 de seturi)</label>
                     <select id="reapp-set" onchange="evaluateReappFromUI()" class="w-full bg-white text-xs border border-slate-300 rounded-lg p-2 text-slate-800 font-bold shadow-sm focus:ring-2 focus:ring-indigo-400">
                         <optgroup label="Seturi de 4 Piese">
                             <option value="Violent" selected>Violent</option><option value="Swift">Swift</option><option value="Despair">Despair</option><option value="Rage">Rage</option><option value="Fatal">Fatal</option><option value="Vampire">Vampire</option>
@@ -694,7 +666,7 @@
             <!-- Buton Deschidere Modal Reappraisal -->
             <div class="flex justify-center mt-2">
                 <button onclick="openReappModal()" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-6 py-3 rounded-xl font-black shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                    <span class="text-lg">📷</span> SCANEAZĂ SCREENSHOT REAPPRAISAL (PASTE SAU UPLOAD)
+                    <span class="text-lg">📷</span> SCANEAZĂ CAPTURĂ REAPPRAISAL (LIPIRE SAU ÎNCĂRCARE)
                 </button>
             </div>
 
@@ -702,7 +674,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2" id="reapp-results-container">
                 <!-- BEFORE -->
                 <div id="reapp-before-panel" class="border-2 border-slate-200 rounded-xl p-4 bg-slate-50 transition-all">
-                    <h3 class="text-center font-black text-slate-600 mb-3 tracking-wide">BEFORE REAPPRAISAL</h3>
+                    <h3 class="text-center font-black text-slate-600 mb-3 tracking-wide">ÎNAINTE DE REAPPRAISAL</h3>
                     <div id="reapp-before-inputs" class="space-y-2 mb-4">
                         <!-- Substats generat JS (4 rânduri editabile) -->
                         <div class="flex items-center gap-1.5"><span class="text-[10px] font-black text-slate-400 w-4">#1</span><select id="reapp-b-type-1" onchange="evaluateReappFromUI()" class="w-full bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-800 font-bold focus:ring-2 focus:ring-indigo-400 shadow-sm"><option value="None">-- Gol --</option><option value="SPD">SPD</option><option value="HP%">HP%</option><option value="ATK%">ATK%</option><option value="DEF%">DEF%</option><option value="CR%">CRI Rate%</option><option value="CD%">CRI Dmg%</option><option value="RES%">Resistance%</option><option value="ACC%">Accuracy%</option><option value="Flat HP">Flat HP</option><option value="Flat ATK">Flat ATK</option><option value="Flat DEF">Flat DEF</option></select><input type="number" id="reapp-b-val-1" oninput="evaluateReappFromUI()" class="w-16 bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-indigo-400 shadow-sm" value="0"></div>
@@ -719,7 +691,7 @@
 
                 <!-- AFTER -->
                 <div id="reapp-after-panel" class="border-2 border-slate-200 rounded-xl p-4 bg-slate-50 transition-all">
-                    <h3 class="text-center font-black text-slate-600 mb-3 tracking-wide">AFTER REAPPRAISAL</h3>
+                    <h3 class="text-center font-black text-slate-600 mb-3 tracking-wide">DUPĂ REAPPRAISAL</h3>
                     <div id="reapp-after-inputs" class="space-y-2 mb-4">
                         <!-- Substats generat JS (4 rânduri editabile) -->
                         <div class="flex items-center gap-1.5"><span class="text-[10px] font-black text-slate-400 w-4">#1</span><select id="reapp-a-type-1" onchange="evaluateReappFromUI()" class="w-full bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-800 font-bold focus:ring-2 focus:ring-indigo-400 shadow-sm"><option value="None">-- Gol --</option><option value="SPD">SPD</option><option value="HP%">HP%</option><option value="ATK%">ATK%</option><option value="DEF%">DEF%</option><option value="CR%">CRI Rate%</option><option value="CD%">CRI Dmg%</option><option value="RES%">Resistance%</option><option value="ACC%">Accuracy%</option><option value="Flat HP">Flat HP</option><option value="Flat ATK">Flat ATK</option><option value="Flat DEF">Flat DEF</option></select><input type="number" id="reapp-a-val-1" oninput="evaluateReappFromUI()" class="w-16 bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-indigo-400 shadow-sm" value="0"></div>
@@ -736,7 +708,40 @@
                 
                 <!-- VERDICT REAPP -->
                 <div class="md:col-span-2 p-4 rounded-xl border-2 border-dashed border-slate-300 text-center text-slate-500 font-bold shadow-sm" id="reapp-final-verdict">
-                    ⏳ Introduceți atributele manual sau scanați un screenshot pentru a vedea verdictul.
+                    ⏳ Introdu atributele manual sau scanează o captură de ecran pentru a vedea verdictul.
+                </div>
+            </div>
+        </div>
+
+
+        <!-- CONSILIER GRINDSTONES, SECȚIUNE SEPARATĂ -->
+        <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4 sm:p-6 shadow-md space-y-5 mt-6" id="grind-main-section">
+            <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
+                <h2 class="text-lg sm:text-xl font-black text-emerald-900 flex items-center gap-2">
+                    <span class="text-emerald-600">🔨</span> CONSILIER GRINDSTONES
+                </h2>
+                <span class="text-xs font-bold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-lg border border-emerald-200">
+                    Folosește datele din Configurator Rună
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 items-start">
+                <div class="lg:col-span-2 bg-emerald-50/40 border border-emerald-200 rounded-xl p-4 space-y-3">
+                    <h3 class="text-xs font-black uppercase tracking-wider text-emerald-950">Scanare captură de ecran</h3>
+                    <p class="text-xs font-semibold text-slate-600 leading-relaxed">Poți lipi sau încărca aceeași captură de ecran cu o singură rună folosită în Configurator Rună. Datele detectate actualizează configuratorul, iar recomandările Grindstone se recalculează automat.</p>
+                    <button onclick="openGrindModal()" class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-5 py-3 rounded-xl font-black shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        <span class="text-lg">📷</span> SCANEAZĂ CAPTURĂ RUNĂ (LIPIRE SAU ÎNCĂRCARE)
+                    </button>
+                </div>
+
+                <div class="lg:col-span-3 border border-emerald-300 rounded-xl p-3 sm:p-4 bg-emerald-50/40 space-y-2">
+                    <div class="flex items-center justify-between border-b border-emerald-200 pb-2">
+                        <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                            <span class="text-emerald-600">📈</span> Recomandare Grindstone
+                        </h3>
+                        <span id="grind-badge" class="text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-200">Evaluare Grindstone</span>
+                    </div>
+                    <div id="grind-recommendation-box" class="space-y-1.5 text-xs"></div>
                 </div>
             </div>
         </div>
@@ -744,13 +749,13 @@
         <!-- STRATEGY & PROGRESSION GUIDE ACCORDION / REFERENCE CARD -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
             <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: PROGRESIE, SWOP, GEMS, REAPP & GRINDS
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: PROGRESIE, SWOP, ENCHANTED GEMS, REAPPRAISAL & GRINDSTONES
             </h3>
             
             <!-- Matrice strategică de filtrare -->
             <div class="space-y-2">
                 <h4 class="font-black text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
-                    <span>🎯</span> Matricea de Filtrare pe Niveluri de Cont (Keep/Sell Thresholds)
+                    <span>🎯</span> Matricea de filtrare pe niveluri de cont (praguri de păstrare/vânzare)
                 </h4>
                 <div class="overflow-x-auto">
                     <table class="w-full text-center border-collapse text-[11px]">
@@ -815,18 +820,18 @@
             <!-- Tabel Valori Grindstone & Gems (JSON Arhitectură) -->
             <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-3">
                 <h4 class="font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>📊</span> Tabel Grindstones & Enchanted Gems (Normal vs. Ancient)
+                    <span>📊</span> Tabel Grindstones & Enchanted Gems (normal vs. Ancient)
                 </h4>
                 <div class="overflow-x-auto">
                     <table class="w-full text-center border-collapse text-[11px]">
                         <thead>
                             <tr class="bg-emerald-100/70 text-emerald-950 font-black">
                                 <th class="p-2 border border-slate-300 text-left">Atribut Substat</th>
-                                <th class="p-2 border border-slate-300">Normal Hero Grind</th>
-                                <th class="p-2 border border-slate-300">Normal Legend Grind</th>
-                                <th class="p-2 border border-slate-300 text-cyan-800">Ancient Hero Grind</th>
-                                <th class="p-2 border border-slate-300 text-cyan-800">Ancient Legend Grind</th>
-                                <th class="p-2 border border-slate-300 text-amber-800">Legend Gem (Norm / Anc)</th>
+                                <th class="p-2 border border-slate-300">Hero Grindstone normal</th>
+                                <th class="p-2 border border-slate-300">Legend Grindstone normal</th>
+                                <th class="p-2 border border-slate-300 text-cyan-800">Hero Ancient Grindstone</th>
+                                <th class="p-2 border border-slate-300 text-cyan-800">Legend Ancient Grindstone</th>
+                                <th class="p-2 border border-slate-300 text-amber-800">Legend Enchanted Gem (normal / Ancient)</th>
                             </tr>
                         </thead>
                         <tbody class="font-bold text-slate-700">
@@ -847,7 +852,7 @@
                                 <td class="p-2 border border-slate-300 text-amber-700 font-black">+9~13% / +9~15%</td>
                             </tr>
                             <tr>
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">Flat ATK / DEF</td>
+                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">ATK / DEF fix</td>
                                 <td class="p-2 border border-slate-300">+12 ~ +22</td>
                                 <td class="p-2 border border-slate-300 text-emerald-700 font-black">+18 ~ +30</td>
                                 <td class="p-2 border border-slate-300 text-cyan-700">+12 ~ +26</td>
@@ -855,7 +860,7 @@
                                 <td class="p-2 border border-slate-300 text-amber-700 font-black">+28~40 / +28~44</td>
                             </tr>
                             <tr class="bg-white">
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">Flat HP</td>
+                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">HP fix</td>
                                 <td class="p-2 border border-slate-300">+230 ~ +450</td>
                                 <td class="p-2 border border-slate-300 text-emerald-700 font-black">+430 ~ +550</td>
                                 <td class="p-2 border border-slate-300 text-cyan-700">+230 ~ +510</td>
@@ -865,7 +870,7 @@
                             <tr class="bg-rose-50 text-rose-800">
                                 <td class="p-2 border border-slate-300 font-black text-left">CR% / CD% / ACC% / RES%</td>
                                 <td colspan="4" class="p-2 border border-slate-300 font-black text-center">
-                                    🚫 NE-GRINDABIL (Nu admit Grindstones; valorile din roll-uri sunt definitive)
+                                    🚫 FĂRĂ GRINDSTONE (aceste atribute nu acceptă Grindstones; valorile din roll-uri sunt definitive)
                                 </td>
                                 <td class="p-2 border border-slate-300 text-amber-700 font-black">
                                     CR: 6~9% (10%) | CD: 7~10% (12%)
@@ -878,26 +883,27 @@
         </div>
     </main>
 
+
     <!-- POP-UP MODAL PENTRU REAPPRAISAL -->
     <div id="reapp-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative">
             <button onclick="closeReappModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-bold text-xl">&times;</button>
             <h3 class="text-lg font-black text-indigo-900 flex items-center gap-2 mb-4">
-                <span>🔄</span> INSERARE SCREENSHOT REAPPRAISAL
+                <span>🔄</span> INSERARE CAPTURĂ REAPPRAISAL
             </h3>
             
             <div id="reapp-modal-dropzone" class="border-2 border-dashed border-indigo-300 hover:border-indigo-500 rounded-xl p-8 text-center cursor-pointer transition bg-indigo-50/40 relative">
                 <input type="file" id="reapp-modal-file" accept="image/*" class="hidden" onchange="handleModalReappFile(event)">
                 <div class="flex flex-col items-center justify-center space-y-3 pointer-events-none">
                     <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl shadow-sm font-bold">📋</div>
-                    <div class="text-sm font-bold text-slate-700">Apasă <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd> aici pentru a scana</div>
-                    <p class="text-xs text-slate-500 font-semibold">sau apasă click pentru a alege fișierul / drag & drop</p>
+                    <div class="text-sm font-bold text-slate-700">Apasă <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd> aici pentru a lipi și scana</div>
+                    <p class="text-xs text-slate-500 font-semibold">sau apasă pentru a alege fișierul / trage și plasează</p>
                 </div>
 
                 <!-- Loader în interiorul pop-up-ului -->
                 <div id="reapp-modal-loading" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center p-4 space-y-3 z-10">
                     <div class="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                    <div id="reapp-modal-status" class="text-xs font-extrabold text-indigo-700">Decupare Duală & OCR...</div>
+                    <div id="reapp-modal-status" class="text-xs font-extrabold text-indigo-700">Decupare duală și OCR...</div>
                     <div class="w-48 bg-indigo-200 rounded-full h-2 overflow-hidden">
                         <div id="reapp-modal-progress" class="bg-indigo-500 h-2 w-0 transition-all duration-200"></div>
                     </div>
@@ -906,9 +912,39 @@
         </div>
     </div>
 
+
+
+    <!-- POP-UP MODAL PENTRU GRINDSTONES -->
+    <div id="grind-modal" class="hidden fixed inset-0 z-[110] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative">
+            <button onclick="closeGrindModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-bold text-xl">&times;</button>
+            <h3 class="text-lg font-black text-emerald-900 flex items-center gap-2 mb-2">
+                <span>🔨</span> INSERARE CAPTURĂ RUNĂ PENTRU GRINDSTONES
+            </h3>
+            <p class="text-xs font-semibold text-slate-500 mb-4">Folosește aceeași captură cu o singură rună ca în Configurator Rună.</p>
+
+            <div id="grind-modal-dropzone" class="border-2 border-dashed border-emerald-300 hover:border-emerald-500 rounded-xl p-8 text-center cursor-pointer transition bg-emerald-50/40 relative">
+                <input type="file" id="grind-modal-file" accept="image/*" class="hidden" onchange="handleModalGrindFile(event)">
+                <div class="flex flex-col items-center justify-center space-y-3 pointer-events-none">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl shadow-sm font-bold">📋</div>
+                    <div class="text-sm font-bold text-slate-700">Apasă <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd> aici pentru a lipi și scana</div>
+                    <p class="text-xs text-slate-500 font-semibold">sau apasă pentru a alege fișierul / trage și plasează</p>
+                </div>
+
+                <div id="grind-modal-loading" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center p-4 space-y-3 z-10">
+                    <div class="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                    <div id="grind-modal-status" class="text-xs font-extrabold text-emerald-700">Inițializare OCR...</div>
+                    <div class="w-48 bg-emerald-200 rounded-full h-2 overflow-hidden">
+                        <div id="grind-modal-progress" class="bg-emerald-500 h-2 w-0 transition-all duration-200"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-white text-slate-400 border-t border-slate-200 py-4 text-center text-xs font-bold">
         <div class="max-w-[1600px] mx-auto px-4">
-            <p>Summoners War: Sky Arena - Rune Evaluator & Optimizer &copy; 2026. Standard Matematic Barion / SWOP. Ghid 23 Seturi & Evaluare Progresie PvE.</p>
+            <p>Summoners War: Sky Arena - Evaluator și Optimizator de Rune &copy; 2026. Standard matematic Barion / SWOP. Ghid 23 seturi și evaluarea progresiei PvE.</p>
         </div>
     </footer>
 
@@ -1142,7 +1178,7 @@
             const activeBtn = document.getElementById(`slot-btn-${slotNum}`);
             if (activeBtn) activeBtn.classList.add('active');
             document.getElementById('main-stat-badge').innerText = [1, 3, 5].includes(slotNum) ? `Slot ${slotNum} Fix` : `Slot ${slotNum} Variabil`;
-            updateMainStatControls(false); onSlotExclusionCheck(); evaluateRune();
+            updateMainStatControls(false); onSlotExclusionCheck(); syncReappBaseFromConfigurator(); evaluateRune();
         }
 
         function onSlotExclusionCheck() {
@@ -1181,17 +1217,18 @@
             }
         }
 
-        function onSetChange() { evaluateRune(); }
+        function onSetChange() { syncReappBaseFromConfigurator(); evaluateRune(); }
         function onMainStatTypeChange() {
             const level = document.getElementById('rune-level').value; const stars = document.getElementById('rune-stars').value;
             const currentType = document.getElementById('main-stat-type').value;
             document.getElementById('main-stat-val').value = getMainStatDefault(currentType, level, stars);
-            onSlotExclusionCheck(); evaluateRune();
+            onSlotExclusionCheck(); syncReappBaseFromConfigurator(); evaluateRune();
         }
-        function onInnateChange() { onSlotExclusionCheck(); evaluateRune(); }
+        function onInnateChange() { onSlotExclusionCheck(); syncReappBaseFromConfigurator(); evaluateRune(); }
+        function onInnateValueChange() { syncReappBaseFromConfigurator(); evaluateRune(); }
         function onSubstatChange(index) { syncSubstatInputsVisibility(); onSlotExclusionCheck(); evaluateRune(); }
         function onLevelChange() { syncSubstatInputsVisibility(); updateMainStatControls(true); onSlotExclusionCheck(); evaluateRune(); }
-        function onStarsChange() { onRarityChange(); updateMainStatControls(true); evaluateRune(); }
+        function onStarsChange() { onRarityChange(); updateMainStatControls(true); syncReappBaseFromConfigurator(); evaluateRune(); }
         function onRarityChange() { syncSubstatInputsVisibility(); onSlotExclusionCheck(); evaluateRune(); }
 
         function resetSubstats() {
@@ -1412,7 +1449,7 @@
             const isEven = [2, 4, 6].includes(slot);
             const mainIsRecommended = !isEven || !guide.evenMain?.[slot] || guide.evenMain[slot].includes(mainType);
             if (isEven && !mainIsRecommended && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
-                return { level: 'TRASH', score: 0, color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Flat Main Stat pe Slot ${slot}`, desc: `Main stat-ul ${mainType} compromite piesa în majoritatea buildurilor.` };
+                return { level: 'TRASH', score: 0, color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Flat Main Stat pe Slot ${slot}`, desc: `Main Stat ${mainType} compromite piesa în majoritatea buildurilor.` };
             }
             if (isEven && !mainIsRecommended) {
                 return { level: 'OFF_META', score: 35, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `⚠️ Main Stat atipic pentru ${set}`, desc: `Ghidul recomandă: <strong>${guide.evenMain[slot].join(' / ')}</strong>.` };
@@ -1449,7 +1486,7 @@
             const mainMatches = !isEven || (prof.evenMain[slot] && prof.evenMain[slot].includes(mainType));
 
             if (isEven && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
-                return { status: 'INCOMPATIBLE', score, color: 'bg-rose-100 text-rose-900 border-rose-300', label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`, desc: `Main stat-ul flat pe slotul ${slot} este neviabil pentru acest rol.` };
+                return { status: 'INCOMPATIBLE', score, color: 'bg-rose-100 text-rose-900 border-rose-300', label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`, desc: `Un Main Stat cu valoare fixă pe slotul ${slot} este neviabil pentru acest rol.` };
             }
             if (!mainMatches) {
                 return { status: 'OFF_META', score, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`, desc: `Main recomandat pe slotul ${slot}: <strong>${prof.evenMain[slot].join(' / ')}</strong>. Scor rol: ${score.toFixed(0)}/100.` };
@@ -1489,7 +1526,7 @@
             // 1. Tranziția de început
             if (ctx.userTier === 'beginner') {
                 if (ctx.stars === '4-star') {
-                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR (TRANZIȚIE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Main flat acceptabil doar ca soluție temporară în Scenario.', archetypes: 'Tranziție' };
+                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR (TRANZIȚIE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Un Main Stat cu valoare fixă este acceptabil doar ca soluție temporară în Scenario.', archetypes: 'Tranziție' };
                     if (ctx.combatEfficiency >= 42 || nativeSpeed >= 4 || usefulCount >= 1 || [1, 3, 5].includes(ctx.slot)) return { status: 'KEEP', title: 'PĂSTREAZĂ (4★ SCENARIO)', color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Utilă pentru progresul inițial.', archetypes: ctx.detectedRole || 'Starter' };
                     return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Valoare redusă chiar și pentru Scenario.', archetypes: 'Vânzare' };
                 }
@@ -1508,7 +1545,7 @@
                 }
                 return { status: 'SELL', title: 'VINDE IMEDIAT (5★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Vânzare automată Mid Game+.', archetypes: 'Vânzare' };
             }
-            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (FLAT MAIN STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Sloturile 2/4/6 cu main flat sunt în general neviabile.', archetypes: 'Vânzare' };
+            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (MAIN STAT CU VALOARE FIXĂ)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Sloturile 2/4/6 cu main flat sunt în general neviabile.', archetypes: 'Vânzare' };
 
             // 3. Excepții de elită ÎNAINTE de penalizarea flat-urilor
             if (eliteSpeed) return { status: 'KEEP', title: `PĂSTREAZĂ: SPD NATIV EXCEPȚIONAL (+${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: 'Viteza nativă este excepțională. Grindstone-ul nu este inclus în acest prag.', archetypes: 'Booster / Universal' };
@@ -1518,12 +1555,12 @@
             // 4. Dead stats: penalizare, nu execuție automată pentru un singur roll flat
             if (ctx.flatCount >= 2) {
                 if (ctx.combatEfficiency >= 82 || roleScore >= 75) {
-                    return { status: 'KEEP', title: 'PĂSTREAZĂ CU ATENȚIE (2 FLAT-URI, DAR VALOARE MARE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Două flat-uri reduc flexibilitatea, însă scorul global rămâne suficient de mare.', archetypes: ctx.detectedRole || guide.role || 'Nișă' };
+                    return { status: 'KEEP', title: 'PĂSTREAZĂ CU ATENȚIE (2 VALORI FIXE, DAR VALOARE MARE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Două substats cu valori fixe reduc flexibilitatea, însă scorul global rămâne suficient de mare.', archetypes: ctx.detectedRole || guide.role || 'Nișă' };
                 }
                 if (['+0', '+3'].includes(ctx.level) && ctx.rarity === 'Legend' && (nativeSpeed >= 5 || usefulCount >= 2)) {
-                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE: 2 FLAT-URI)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Continuă numai dacă roll-urile merg în statisticile utile.', archetypes: 'Test de siguranță' };
+                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE: 2 VALORI FIXE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Continuă numai dacă roll-urile merg în statisticile utile.', archetypes: 'Test de siguranță' };
                 }
-                return { status: 'SELL', title: 'VINDE (2+ FLAT SUBSTATS)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Prea multe linii greu de valorificat pentru nivelul contului.', archetypes: 'Vânzare' };
+                return { status: 'SELL', title: 'VINDE (2+ SUBSTATS CU VALORI FIXE)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Prea multe linii greu de valorificat pentru nivelul contului.', archetypes: 'Vânzare' };
             }
 
             const hasFlatRoll = ctx.flatWithRolls.length > 0;
@@ -1540,20 +1577,20 @@
                 if (lvlNum <= 3) {
                     const spdReq = ctx.userTier === 'mid' ? 5 : (['late', 'end'].includes(ctx.userTier) ? 6 : 4);
                     const hasGoodBase = nativeSpeed >= spdReq || usefulCount >= 2 || roleScore >= 45 || runeScore >= (ctx.userTier === 'end' ? 55 : 45);
-                    if (hasGoodBase) return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)', color: 'bg-sky-50 text-sky-900 border-sky-300', reasons: `SPD nativ +${nativeSpeed}, ${usefulCount} stats utile, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Test intermediar' };
+                    if (hasGoodBase) return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)', color: 'bg-sky-50 text-sky-900 border-sky-300', reasons: `SPD nativ +${nativeSpeed}, ${usefulCount} stats utile, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Test intermediar' };
                     return { status: 'SELL', title: 'VINDE (SUB PRAGUL INIȚIAL)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Baza inițială nu justifică investiția de Mana pentru nivelul contului.', archetypes: 'Vânzare Mana' };
                 }
                 if (lvlNum === 6) {
                     const spdReq = ctx.userTier === 'end' ? 12 : (ctx.userTier === 'late' ? 11 : (ctx.userTier === 'mid' ? 10 : 8));
                     if (nativeSpeed >= spdReq || roleScore >= 58 || (ctx.combatEfficiency - flatRollPenalty) >= 62 || runeScore >= 80) {
-                        return { status: 'ROLL', title: 'TESTEAZĂ LA +9', color: 'bg-sky-50 text-sky-950 border-sky-400', reasons: `Roll-uri încă viabile: SPD nativ +${nativeSpeed}, Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Role Score ${roleScore.toFixed(0)}.`, archetypes: ctx.detectedRole || guide.role || 'În dezvoltare' };
+                        return { status: 'ROLL', title: 'TESTEAZĂ LA +9', color: 'bg-sky-50 text-sky-950 border-sky-400', reasons: `Roll-uri încă viabile: SPD nativ +${nativeSpeed}, Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Scor rol ${roleScore.toFixed(0)}.`, archetypes: ctx.detectedRole || guide.role || 'În dezvoltare' };
                     }
                     return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +6)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Roll-urile nu au consolidat suficient nicio direcție utilă.', archetypes: 'Vânzare Mana' };
                 }
                 if (lvlNum === 9) {
                     const spdReq = ctx.userTier === 'end' ? 17 : (ctx.userTier === 'late' ? 16 : (ctx.userTier === 'mid' ? 15 : 12));
                     if (nativeSpeed >= spdReq || roleScore >= 65 || (ctx.combatEfficiency - flatRollPenalty) >= 70 || runeScore >= 115) {
-                        return { status: 'ROLL', title: 'TESTEAZĂ LA +12', color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: `Piesa păstrează potențial: SPD nativ +${nativeSpeed}, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Configurație concentrată' };
+                        return { status: 'ROLL', title: 'TESTEAZĂ LA +12', color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: `Piesa păstrează potențial: SPD nativ +${nativeSpeed}, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Configurație concentrată' };
                     }
                     return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +9)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'La +9 nu există suficientă densitate statistică pentru nivelul contului.', archetypes: 'Vânzare Mana' };
                 }
@@ -1568,10 +1605,10 @@
 
             const effectiveEff = ctx.combatEfficiency - flatRollPenalty;
             const meetsQuality = effectiveEff >= effThreshold || (roleScore >= roleThreshold && effectiveEff >= effThreshold - 5) || ctx.maxPotentialEfficiency >= effThreshold + 6;
-            if (meetsQuality) return { status: 'KEEP', title: `PĂSTREAZĂ (AJUSTATĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: `Role Score ${roleScore.toFixed(0)}/100, Rune Score ${runeScore}, potențial ${ctx.maxPotentialEfficiency.toFixed(1)}%.`, archetypes: ctx.detectedRole || guide.role || 'General' };
+            if (meetsQuality) return { status: 'KEEP', title: `PĂSTREAZĂ (AJUSTATĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: `Scor rol ${roleScore.toFixed(0)}/100, Scor rună ${runeScore}, potențial ${ctx.maxPotentialEfficiency.toFixed(1)}%.`, archetypes: ctx.detectedRole || guide.role || 'General' };
             if (nativeSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD NATIV: +${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge pragul de viteză nativă al profilului de cont.', archetypes: 'Suport / Universal' };
 
-            return { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: 'Vânzare' };
+            return { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Scor rol ${roleScore.toFixed(0)}, Scor rună ${runeScore}.`, archetypes: 'Vânzare' };
         }
 
         // ==========================================
@@ -1725,8 +1762,8 @@
             if (flatCount >= 2) {
                 deadStatAlert.classList.remove('hidden');
                 deadStatAlertText.innerHTML = userTier === 'beginner'
-                    ? `Notă Începător: runa conține <strong>${flatCount} Flat Substats</strong>. Poate fi folosită provizoriu.`
-                    : `Atenție: runa conține <strong>${flatCount} Flat Substats</strong>. Nu înseamnă vânzare automată dacă are un roll excepțional, dar flexibilitatea este redusă.`;
+                    ? `Notă Începător: runa conține <strong>${flatCount} substats cu valori fixe</strong>. Poate fi folosită provizoriu.`
+                    : `Atenție: runa conține <strong>${flatCount} substats cu valori fixe</strong>. Nu înseamnă vânzare automată dacă are un roll excepțional, dar flexibilitatea este redusă.`;
             } else { deadStatAlert.classList.add('hidden'); }
 
             const effResults = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, currentSlot, gemmedSubIndex);
@@ -1734,7 +1771,7 @@
             document.getElementById('swop-eff-badge').innerText = `SWOP: ${effResults.swopCurrentEff.toFixed(1)}%`;
             document.getElementById('combat-eff-badge').innerText = `Ajustată: ${effResults.combatEff.toFixed(1)}%`;
             document.getElementById('max-grind-badge').innerText = `Potențial: ${effResults.maxPotentialEff.toFixed(1)}%`;
-            document.getElementById('relative-eff-badge').innerText = `Rune Score: ${effResults.runeScore}`;
+            document.getElementById('relative-eff-badge').innerText = `Scor rună: ${effResults.runeScore}`;
 
             const capAlerts = checkPvECaps(mainType, mainVal, innateType, innateVal, subs);
             const capBox = document.getElementById('cap-alert-box');
@@ -1788,7 +1825,7 @@
             banner.innerHTML = verdict.title;
             const rescueDiv = document.getElementById('verdict-rescue-option');
             if (gemRescue) {
-                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE:</strong> ${gemRescue.subToReplace.type} ➜ ${gemRescue.gemType} (+${gemRescue.gemVal}), Eficiență ajustată ${gemRescue.simCombatEff.toFixed(1)}%, Role Score ${gemRescue.simRoleScore.toFixed(0)}.</span></div>`;
+                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE:</strong> ${gemRescue.subToReplace.type} ➜ ${gemRescue.gemType} (+${gemRescue.gemVal}), Eficiență ajustată ${gemRescue.simCombatEff.toFixed(1)}%, Scor rol ${gemRescue.simRoleScore.toFixed(0)}.</span></div>`;
                 rescueDiv.classList.remove('hidden');
             } else { rescueDiv.innerHTML = ''; rescueDiv.classList.add('hidden'); }
             document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
@@ -2147,7 +2184,7 @@
         function renderRefinementAdvisor(ctx) {
             const container = document.getElementById('refine-recommendation-box');
             const badge = document.getElementById('refine-badge');
-            if (ctx.userTier === 'beginner') { badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded'; badge.innerText = 'Info Refine'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Refinement este o resursă de optimizare avansată.</div>`; return; }
+            if (ctx.userTier === 'beginner') { badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded'; badge.innerText = 'Info Refinement'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Refinement este o resursă de optimizare avansată.</div>`; return; }
             if (ctx.set === 'Intangible' || ctx.stars === '6-ancient' || ctx.hasGem || !['+12', '+15'].includes(ctx.level)) {
                 badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Neeligibil';
                 const why = ctx.stars === '6-ancient' ? 'Ancient Runes nu pot fi rafinate.' : (ctx.hasGem ? 'Runele convertite cu Gem nu pot fi rafinate.' : (ctx.set === 'Intangible' ? 'Intangible nu poate fi rafinată.' : 'Este necesar nivelul +12 sau +15.'));
@@ -2158,7 +2195,7 @@
             const usefulTypes = ctx.subs.filter(s => (prof.weights[s.type] || 0) >= 0.5).length;
             const badTypes = ctx.subs.filter(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) || (prof.weights[s.type] || 0) <= 0.10).length;
             if (ctx.nativeSpeed >= 20 || ctx.combatEfficiency >= 84 || ctx.runeScore >= 175) {
-                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Nu Rafina';
+                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Nu folosi Refinement';
                 container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Runa are deja un rezultat puternic. Refinement poate redistribui nefavorabil roll-urile.</div>`; return;
             }
             if (usefulTypes >= 3 && badTypes <= 1) {
@@ -2173,14 +2210,14 @@
             const container = document.getElementById('grind-recommendation-box');
             const badge = document.getElementById('grind-badge');
             const grindableSubs = ctx.subs.filter(s => isGrindable(s.type));
-            if (!grindableSubs.length) { badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Ne-grindabil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Toate substaturile sunt ne-grindabile.</div>`; return; }
+            if (!grindableSubs.length) { badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Fără Grindstone'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Toate substaturile sunt ne-grindabile.</div>`; return; }
             const ungrinded = grindableSubs.filter(s => !s.grindVal || s.grindVal === 0);
-            if (!ungrinded.length) { badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Toate Grinduite'; container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Toate liniile grindabile au deja Grindstone introdus.</div>`; return; }
+            if (!ungrinded.length) { badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Toate optimizate'; container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Toate liniile grindabile au deja Grindstone introdus.</div>`; return; }
             const grindGain = Math.max(0, ctx.maxGrindEfficiency - ctx.combatEfficiency);
             badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = `+${grindGain.toFixed(1)}% Grind`;
             const itemsHtml = grindableSubs.map(s => {
                 const isGrinded = s.grindVal > 0; const unit = s.type.includes('%') ? '%' : '';
-                return `<div class="flex justify-between items-center p-1.5 rounded-md bg-white border border-emerald-200 text-[11px]"><div><span class="font-extrabold">${s.type}</span>: <span class="font-black">${s.val}${unit}</span> ${isGrinded ? `<span class="text-indigo-600">(+${s.grindVal} Grind)</span>` : '<span class="text-amber-600">(Ne-șlefuit)</span>'}</div></div>`;
+                return `<div class="flex justify-between items-center p-1.5 rounded-md bg-white border border-emerald-200 text-[11px]"><div><span class="font-extrabold">${s.type}</span>: <span class="font-black">${s.val}${unit}</span> ${isGrinded ? `<span class="text-indigo-600">(+${s.grindVal} Grind)</span>` : '<span class="text-amber-600">(Fără Grindstone)</span>'}</div></div>`;
             }).join('');
             container.innerHTML = `<div class="space-y-1.5"><p class="text-[11px] font-semibold">Câștigul maxim estimat exclusiv din Grindstones este <strong class="text-emerald-700">+${grindGain.toFixed(1)}%</strong>.</p><div class="space-y-1">${itemsHtml}</div></div>`;
         }
@@ -2337,22 +2374,59 @@
                 }
             }
 
-            onRarityChange(); onSlotExclusionCheck(); evaluateRune();
+            onRarityChange(); onSlotExclusionCheck(); syncReappBaseFromConfigurator(); evaluateRune();
         }
 
         // ==========================================
         // MODUL: COMPARATOR REAPPRAISAL INTELIGENT
         // ==========================================
+        function populateReappMainStatOptions(slotNum) {
+            const mainSelect = document.getElementById('reapp-main-type');
+            if (!mainSelect) return;
+            mainSelect.innerHTML = '';
+            (slotMainTypes[slotNum] || []).forEach(opt => {
+                const el = document.createElement('option');
+                el.value = opt.type;
+                el.innerText = opt.name;
+                mainSelect.appendChild(el);
+            });
+        }
+
         function reappSelectSlot(slotNum) {
             reappCurrentSlot = slotNum;
             document.querySelectorAll('.reapp-slot-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`reapp-slot-${slotNum}`).classList.add('active');
-            
-            const mainSelect = document.getElementById('reapp-main-type');
-            mainSelect.innerHTML = '';
-            (slotMainTypes[slotNum] || []).forEach(opt => {
-                const el = document.createElement('option'); el.value = opt.type; el.innerText = opt.name; mainSelect.appendChild(el);
-            });
+            const activeBtn = document.getElementById(`reapp-slot-${slotNum}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            populateReappMainStatOptions(slotNum);
+            reappExclusionCheck();
+        }
+
+        function syncReappBaseFromConfigurator() {
+            const reappSet = document.getElementById('reapp-set');
+            const reappMain = document.getElementById('reapp-main-type');
+            const reappInnate = document.getElementById('reapp-innate-type');
+            const reappInnateVal = document.getElementById('reapp-innate-val');
+            const reappAncient = document.getElementById('reapp-is-ancient');
+            if (!reappSet || !reappMain || !reappInnate || !reappInnateVal || !reappAncient) return;
+
+            reappCurrentSlot = currentSlot;
+            document.querySelectorAll('.reapp-slot-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`reapp-slot-${currentSlot}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            populateReappMainStatOptions(currentSlot);
+
+            const sourceSet = document.getElementById('rune-set')?.value;
+            const sourceMain = document.getElementById('main-stat-type')?.value;
+            const sourceInnate = document.getElementById('innate-type')?.value || 'None';
+            const sourceInnateVal = parseFloat(document.getElementById('innate-val')?.value) || 0;
+            const sourceStars = document.getElementById('rune-stars')?.value;
+
+            if (sourceSet && Array.from(reappSet.options).some(o => o.value === sourceSet)) reappSet.value = sourceSet;
+            if (sourceMain && Array.from(reappMain.options).some(o => o.value === sourceMain)) reappMain.value = sourceMain;
+            if (Array.from(reappInnate.options).some(o => o.value === sourceInnate)) reappInnate.value = sourceInnate;
+            reappInnateVal.value = sourceInnateVal;
+            reappAncient.checked = sourceStars === '6-ancient';
+
             reappExclusionCheck();
         }
 
@@ -2387,16 +2461,80 @@
 
         function handleModalReappFile(event) { if (event.target.files && event.target.files[0]) processReappImage(event.target.files[0]); }
 
+        function openGrindModal() {
+            const modal = document.getElementById('grind-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeGrindModal() {
+            const modal = document.getElementById('grind-modal');
+            const loading = document.getElementById('grind-modal-loading');
+            if (modal) modal.classList.add('hidden');
+            if (loading) loading.classList.add('hidden');
+        }
+
+        const grindModalDropzone = document.getElementById('grind-modal-dropzone');
+        const grindModalFile = document.getElementById('grind-modal-file');
+
+        if (grindModalDropzone) {
+            grindModalDropzone.addEventListener('click', () => grindModalFile.click());
+            grindModalDropzone.addEventListener('dragover', (e) => { e.preventDefault(); grindModalDropzone.classList.add('dragover'); });
+            grindModalDropzone.addEventListener('dragleave', () => { grindModalDropzone.classList.remove('dragover'); });
+            grindModalDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                grindModalDropzone.classList.remove('dragover');
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) processGrindImage(e.dataTransfer.files[0]);
+            });
+        }
+
+        function handleModalGrindFile(event) {
+            if (event.target.files && event.target.files[0]) processGrindImage(event.target.files[0]);
+        }
+
+        async function processGrindImage(imageFile) {
+            const loadingOverlay = document.getElementById('grind-modal-loading');
+            const progressBar = document.getElementById('grind-modal-progress');
+            const statusText = document.getElementById('grind-modal-status');
+
+            document.getElementById('grind-modal').classList.remove('hidden');
+            loadingOverlay.classList.remove('hidden');
+            progressBar.style.width = '10%';
+            statusText.innerText = 'Preprocesare contrast...';
+
+            try {
+                if (typeof Tesseract === 'undefined') throw new Error('Tesseract.js indisponibil.');
+                const processedDataUrl = await preprocessImage(imageFile);
+                progressBar.style.width = '35%';
+                statusText.innerText = 'Inițializare OCR...';
+                const worker = await Tesseract.createWorker('eng');
+                progressBar.style.width = '65%';
+                statusText.innerText = 'Extragere atribute rună...';
+                const ret = await worker.recognize(processedDataUrl);
+                progressBar.style.width = '90%';
+                statusText.innerText = 'Actualizare Configurator Rună...';
+                await worker.terminate();
+                parseAndApplyRuneOCR(ret.data.text);
+                progressBar.style.width = '100%';
+                statusText.innerText = 'Finalizat.';
+                setTimeout(closeGrindModal, 250);
+            } catch (err) {
+                console.error('Grindstone OCR Error:', err);
+                loadingOverlay.classList.add('hidden');
+                alert('Eroare la procesarea OCR pentru Grindstones: ' + err.message);
+            }
+        }
+
         window.addEventListener('paste', (e) => {
             if (e.clipboardData && e.clipboardData.files.length > 0) {
                 const file = e.clipboardData.files[0];
                 if (file.type.startsWith('image/')) {
                     e.preventDefault();
                     const reappModal = document.getElementById('reapp-modal');
-                    const modeToggle = document.querySelector('input[name="ocr-mode"]:checked');
-                    const mode = modeToggle ? modeToggle.value : 'configurator';
-                    
-                    if (!reappModal.classList.contains('hidden') || mode === 'reappraisal') {
+                    const grindModal = document.getElementById('grind-modal');
+
+                    if (grindModal && !grindModal.classList.contains('hidden')) {
+                        processGrindImage(file);
+                    } else if (reappModal && !reappModal.classList.contains('hidden')) {
                         processReappImage(file);
                     } else {
                         processRuneImage(file);
@@ -2447,9 +2585,9 @@
                     progressBar.style.width = '40%'; statusText.innerText = 'Inițializare OCR...';
                     const worker = await Tesseract.createWorker('eng');
                     
-                    progressBar.style.width = '60%'; statusText.innerText = 'Scanare variante (Before)...';
+                    progressBar.style.width = '60%'; statusText.innerText = 'Scanare variantă (înainte)...';
                     const retLeft = await worker.recognize(leftData);
-                    progressBar.style.width = '80%'; statusText.innerText = 'Scanare variante (After)...';
+                    progressBar.style.width = '80%'; statusText.innerText = 'Scanare variantă (după)...';
                     const retRight = await worker.recognize(rightData);
                     
                     await worker.terminate(); progressBar.style.width = '100%'; statusText.innerText = 'Finalizare...';
@@ -2533,7 +2671,7 @@
             const verdictBox = document.getElementById('reapp-final-verdict');
             if (!beforeSubs.length && !afterSubs.length) {
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 border-dashed border-slate-300 text-center text-slate-500 font-bold shadow-sm';
-                verdictBox.innerHTML = `⏳ Introduceți atributele manual sau scanați un screenshot pentru a vedea verdictul.`;
+                verdictBox.innerHTML = `⏳ Introdu atributele manual sau scanează o captură de ecran pentru a vedea verdictul.`;
                 document.getElementById('reapp-before-eff').innerText = `0.0%`;
                 document.getElementById('reapp-before-spd').innerText = `Viteză nativă: +0 SPD`;
                 document.getElementById('reapp-after-eff').innerText = `0.0%`;
@@ -2551,7 +2689,7 @@
 
             if (set === 'Intangible') {
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center border-rose-400 bg-rose-50 text-rose-900 font-black';
-                verdictBox.innerHTML = `🛑 Intangible Rune nu poate fi reappraised.`;
+                verdictBox.innerHTML = `🛑 Runa Intangible nu poate fi supusă Reappraisal.`;
                 return;
             }
 
@@ -2569,7 +2707,7 @@
                 return errors;
             }
 
-            const errors = [...validateSide(beforeSubs, 'BEFORE'), ...validateSide(afterSubs, 'AFTER')];
+            const errors = [...validateSide(beforeSubs, 'ÎNAINTE'), ...validateSide(afterSubs, 'DUPĂ')];
             if (errors.length) {
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center border-rose-400 bg-rose-50 text-rose-900 font-black';
                 verdictBox.innerHTML = `⚠️ DATE REAPPRAISAL INVALIDE<br><span class="text-sm font-bold">${errors.join('<br>')}</span><br><span class="text-xs">Corectează manual valorile OCR; aplicația nu mai transformă automat un stat imposibil în alt stat.</span>`;
@@ -2592,9 +2730,9 @@
             const afterData = computeSide(afterSubs);
 
             document.getElementById('reapp-before-eff').innerText = `${beforeData.eff.combatEff.toFixed(1)}%`;
-            document.getElementById('reapp-before-spd').innerHTML = `Viteză nativă: +${beforeData.nativeSpd} SPD • Rol: ${beforeData.role.score.toFixed(0)} • Score: ${beforeData.eff.runeScore}`;
+            document.getElementById('reapp-before-spd').innerHTML = `Viteză nativă: +${beforeData.nativeSpd} SPD • Rol: ${beforeData.role.score.toFixed(0)} • Scor rună: ${beforeData.eff.runeScore}`;
             document.getElementById('reapp-after-eff').innerText = `${afterData.eff.combatEff.toFixed(1)}%`;
-            document.getElementById('reapp-after-spd').innerHTML = `Viteză nativă: +${afterData.nativeSpd} SPD • Rol: ${afterData.role.score.toFixed(0)} • Score: ${afterData.eff.runeScore}`;
+            document.getElementById('reapp-after-spd').innerHTML = `Viteză nativă: +${afterData.nativeSpd} SPD • Rol: ${afterData.role.score.toFixed(0)} • Scor rună: ${afterData.eff.runeScore}`;
 
             const panelBefore = document.getElementById('reapp-before-panel');
             const panelAfter = document.getElementById('reapp-after-panel');
@@ -2613,9 +2751,9 @@
 
             const chosen = winner === 'after' ? afterData : beforeData;
             const other = winner === 'after' ? beforeData : afterData;
-            const chosenLabel = winner === 'after' ? 'AFTER REAPPRAISAL' : 'BEFORE (PĂSTREAZĂ)';
+            const chosenLabel = winner === 'after' ? 'DUPĂ REAPPRAISAL' : 'ÎNAINTE (PĂSTREAZĂ)';
             const continueHint = chosen.composite < 72 ? ' Păstrează această variantă pentru moment, dar continuă Reappraisal când resursele permit.' : '';
-            const reason = `Scor compozit ${chosen.composite.toFixed(1)} vs ${other.composite.toFixed(1)}; Ajustată ${chosen.eff.combatEff.toFixed(1)}%, Role Score ${chosen.role.score.toFixed(0)}, Rune Score ${chosen.eff.runeScore}, SPD nativ +${chosen.nativeSpd}.${continueHint}`;
+            const reason = `Scor compozit ${chosen.composite.toFixed(1)} vs ${other.composite.toFixed(1)}; Ajustată ${chosen.eff.combatEff.toFixed(1)}%, Scor rol ${chosen.role.score.toFixed(0)}, Scor rună ${chosen.eff.runeScore}, SPD nativ +${chosen.nativeSpd}.${continueHint}`;
 
             if (winner === 'after') {
                 panelAfter.classList.add('border-emerald-500', 'bg-emerald-50', 'ring-4', 'ring-emerald-500/20');
@@ -2635,20 +2773,20 @@
             document.getElementById('rune-set').value = 'Nemesis'; document.getElementById('rune-stars').value = '6-ancient';
             document.getElementById('rune-rarity').value = 'Legend'; document.getElementById('rune-level').value = '+12';
             if (document.getElementById('gemmed-sub-index')) document.getElementById('gemmed-sub-index').value = '0';
-            selectSlot(3); reappSelectSlot(3);
+            selectSlot(3);
             document.getElementById('innate-type').value = 'None'; document.getElementById('innate-val').value = 0;
             resetSubstats();
             document.getElementById('sub-stat-1').value = 'DEF%'; document.getElementById('sub-val-1').value = 10;
             document.getElementById('sub-stat-2').value = 'SPD'; document.getElementById('sub-val-2').value = 14; document.getElementById('sub-plus-2').value = 8;
             document.getElementById('sub-stat-3').value = 'CR%'; document.getElementById('sub-val-3').value = 12; document.getElementById('sub-plus-3').value = 6;
             document.getElementById('sub-stat-4').value = 'HP%'; document.getElementById('sub-val-4').value = 17; document.getElementById('sub-plus-4').value = 7;
-            onRarityChange(); onSlotExclusionCheck(); evaluateRune();
-            evaluateReappFromUI(); // Inițializează și partea de jos
+            onRarityChange(); onSlotExclusionCheck(); syncReappBaseFromConfigurator(); evaluateRune();
+            evaluateReappFromUI(); // Inițializează comparatorul
         }
 
         document.addEventListener("DOMContentLoaded", () => {
             resetBuilder();
-            reappSelectSlot(3);
+            syncReappBaseFromConfigurator();
         });
     </script>
 </body>
