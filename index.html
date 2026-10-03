@@ -327,9 +327,9 @@
                             <button onclick="applyGrindPreset('reset')" type="button" class="text-[10px] font-black text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition shadow-xs" title="Șterge valorile de grind introduse">
                                 ✕ Resetează
                             </button>
-                            <label class="flex items-center gap-1 text-[11px] font-extrabold text-cyan-800 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200 ml-1">
+                            <label title="Marchează conversia Gem deja folosită. După Reappraisal, confirmă acțiunea în consilierul Reappraisal." class="flex items-center gap-1 text-[11px] font-extrabold text-cyan-800 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200 ml-1">
                                 <span>Linie GEM:</span>
-                                <select id="gemmed-sub-index" onchange="evaluateRune()" class="bg-white border border-cyan-200 rounded px-1 py-0.5 text-[10px] font-black text-cyan-900">
+                                <select id="gemmed-sub-index" onchange="evaluateRune()" class="bg-white border border-cyan-200 rounded px-1 py-0.5 text-[10px] font-black text-cyan-900 disabled:cursor-not-allowed disabled:opacity-50">
                                     <option value="0" selected>Niciuna</option>
                                     <option value="1">#1</option>
                                     <option value="2">#2</option>
@@ -589,6 +589,9 @@
                                 <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL STONE
                             </h3>
                             <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare Reappraisal</span>
+                        </div>
+                        <div class="flex justify-end">
+                            <button id="reapp-gem-reset-button" type="button" onclick="confirmReappraisalApplied()" disabled title="După ce aplici Reappraisal în joc și introduci noile substat-uri, confirmă aici pentru a permite o nouă conversie Gem." class="inline-flex items-center gap-1 rounded-lg border border-purple-300 bg-white px-2.5 py-1.5 text-[10px] font-black text-purple-800 shadow-sm hover:bg-purple-100 disabled:cursor-not-allowed disabled:opacity-40">🔄 Confirmă Reappraisal-ul aplicat</button>
                         </div>
                         <div id="reapp-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
@@ -1817,12 +1820,11 @@
         }
 
         function findBestGemOption(ctx, rescueOnly = false) {
+            if (ctx.hasGem) return null;
             if (!ctx.subs.length) return null;
             if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
 
-            const allowedLines = ctx.gemmedSubIndex > 0
-                ? ctx.subs.filter(s => s.slotIdx === ctx.gemmedSubIndex)
-                : ctx.subs.filter(s => s.plusVal === 0);
+            const allowedLines = ctx.subs.filter(s => s.plusVal === 0);
             if (!allowedLines.length) return null;
 
             const baseComposite = ctx.combatEfficiency + (ctx.roleScore || 0) * 0.35;
@@ -1857,6 +1859,13 @@
             return best;
         }
 
+        function syncGemUsageControls(hasGem) {
+            const gemmedSelect = document.getElementById('gemmed-sub-index');
+            if (gemmedSelect) gemmedSelect.disabled = hasGem;
+            const reappGemResetButton = document.getElementById('reapp-gem-reset-button');
+            if (reappGemResetButton) reappGemResetButton.disabled = !hasGem;
+        }
+
         function findGemRescueOption(ctx) {
             return findBestGemOption(ctx, true);
         }
@@ -1875,6 +1884,7 @@
             const mainVal = parseFloat(document.getElementById('main-stat-val').value) || 0;
             const gemmedSubIndex = parseInt(document.getElementById('gemmed-sub-index')?.value || '0', 10) || 0;
             const hasGem = gemmedSubIndex > 0;
+            syncGemUsageControls(hasGem);
             const innateType = document.getElementById('innate-type').value;
             const innateVal = parseFloat(document.getElementById('innate-val').value) || 0;
 
@@ -1990,23 +2000,81 @@
             document.getElementById('verdict-archetypes').innerHTML = verdict.archetypes;
         }
 
+        function resetGemmedSubIndex() {
+            const gemmedSelect = document.getElementById('gemmed-sub-index');
+            if (!gemmedSelect) return;
+            gemmedSelect.value = '0';
+            gemmedSelect.disabled = false;
+        }
+
+        function confirmReappraisalApplied() {
+            const gemmedSelect = document.getElementById('gemmed-sub-index');
+            if (!gemmedSelect || (parseInt(gemmedSelect.value || '0', 10) || 0) === 0) return;
+            resetGemmedSubIndex();
+            evaluateRune();
+        }
+
+        function applyGemRecommendation(slotIdx, expectedType, gemType, gemVal) {
+            const gemmedSelect = document.getElementById('gemmed-sub-index');
+            const alreadyGemmed = parseInt(gemmedSelect?.value || '0', 10) || 0;
+            const slot = Number(slotIdx);
+            const statSelect = document.getElementById(`sub-stat-${slot}`);
+            const valueInput = document.getElementById(`sub-val-${slot}`);
+            const plusInput = document.getElementById(`sub-plus-${slot}`);
+            const grindInput = document.getElementById(`sub-grind-${slot}`);
+            if (alreadyGemmed || !gemmedSelect || !Number.isInteger(slot) || slot < 1 || slot > 4 || !statSelect || !valueInput || statSelect.value !== expectedType || (parseFloat(plusInput?.value || '0') || 0) > 0) {
+                evaluateRune();
+                return;
+            }
+
+            const otherTypes = [];
+            for (let i = 1; i <= 4; i++) {
+                if (i === slot) continue;
+                const otherType = document.getElementById(`sub-stat-${i}`)?.value || 'None';
+                if (otherType !== 'None') otherTypes.push(otherType);
+            }
+            const mainType = document.getElementById('main-stat-type')?.value || '';
+            const innateType = document.getElementById('innate-type')?.value || 'None';
+            if (!getLegalGemCandidates(mainType, innateType, otherTypes, currentSlot).includes(gemType) || !(Number(gemVal) > 0)) {
+                evaluateRune();
+                return;
+            }
+
+            statSelect.value = gemType;
+            valueInput.value = String(gemVal);
+            if (plusInput) plusInput.value = '0';
+            if (grindInput) grindInput.value = '0';
+            gemmedSelect.value = String(slot);
+            onSubstatChange(slot);
+        }
+
+        function gemApplyButtonMarkup(option) {
+            const slot = option.subToReplace.slotIdx;
+            const oldType = option.subToReplace.type;
+            return `<button type="button" onclick="applyGemRecommendation(${slot}, '${oldType}', '${option.gemType}', ${option.gemVal})" class="mt-2 inline-flex items-center gap-1 rounded-lg bg-cyan-700 px-2.5 py-1.5 text-[10px] font-black text-white shadow-sm hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/40">✅ Confirmă Gem-ul aplicat în joc</button>`;
+        }
+
         function renderGemAdvisor(ctx, precomputedRescue = null) {
             const container = document.getElementById('gem-recommendation-box');
             const badge = document.getElementById('gem-badge');
             container.innerHTML = '';
+            if (ctx.hasGem) {
+                if (!ctx.subs.some(s => s.slotIdx === ctx.gemmedSubIndex)) {
+                    badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300'; badge.innerText = 'Linie Gem Invalidă';
+                    container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">Runa este marcată ca Gemmed, deci nicio altă conversie nu este recomandată. Selectează un substat existent sau confirmă Reappraisal-ul după ce îl aplici în joc.</div>`; return;
+                }
+                badge.className = 'text-[10px] bg-slate-700 text-white font-black px-2 py-0.5 rounded border border-slate-800'; badge.innerText = 'Gem deja folosit';
+                container.innerHTML = `<div class="p-2.5 bg-slate-50 rounded-lg border border-slate-300 text-[11px] text-slate-800 font-bold">🔒 Conversia Gem a fost deja marcată pe linia #${ctx.gemmedSubIndex}. Runa nu poate primi o a doua conversie până la Reappraisal.</div>`; return;
+            }
             if (ctx.userTier === 'beginner' && ['4-star', '5-star'].includes(ctx.stars)) {
                 badge.className = 'text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded border border-amber-300'; badge.innerText = 'Economisește Gemurile';
                 container.innerHTML = `<div class="p-2.5 bg-amber-50/80 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">🐣 Evită consumul de Gemuri valoroase pe rune 4★/5★; păstrează-le pentru 6★.</div>`; return;
             }
-            if (ctx.hasGem && !ctx.subs.some(s => s.slotIdx === ctx.gemmedSubIndex)) {
-                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300'; badge.innerText = 'Linie Gem Invalidă';
-                container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">Selectează ca „Linie Gem” un substat existent.</div>`; return;
-            }
             if (ctx.isSellVerdict) {
                 const rescue = precomputedRescue || findBestGemOption(ctx, true);
                 if (rescue) {
-                    badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = ctx.hasGem ? '✨ RE-GEM: SELL ➜ KEEP' : '✨ GEM: SELL ➜ KEEP';
-                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black">💡 Conversie recomandată</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 text-[11px]">👉 Linie #${rescue.subToReplace.slotIdx}: <strong class="text-rose-600">${rescue.subToReplace.type}</strong> ➜ <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div></div>`;
+                    badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = '✨ GEM: SELL ➜ KEEP';
+                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black">💡 Conversie recomandată</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 text-[11px]">👉 Linie #${rescue.subToReplace.slotIdx}: <strong class="text-rose-600">${rescue.subToReplace.type}</strong> ➜ <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div>${gemApplyButtonMarkup(rescue)}</div>`;
                 } else {
                     badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200'; badge.innerText = 'Fără Salvare Clară';
                     container.innerHTML = `<div class="p-2 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold">🚫 Nicio conversie legală nu o ridică suficient fără să sacrifice prea multă valoare.</div>`;
@@ -2016,8 +2084,8 @@
 
             const improvement = findBestGemOption(ctx, false);
             if (improvement) {
-                badge.className = 'text-[10px] bg-cyan-600 text-white font-black px-2.5 py-0.5 rounded border border-cyan-700'; badge.innerText = ctx.hasGem ? 'Re-Gem Util' : 'Gem Util';
-                container.innerHTML = `<div class="bg-cyan-50 p-2.5 rounded-xl border border-cyan-300 text-[11px] font-bold text-cyan-950">💎 Linie #${improvement.subToReplace.slotIdx}: ${improvement.subToReplace.type} ➜ <strong>${improvement.gemType} (+${improvement.gemVal})</strong>. Câștig estimat de profil: +${improvement.improvement.toFixed(1)} puncte.</div>`;
+                badge.className = 'text-[10px] bg-cyan-600 text-white font-black px-2.5 py-0.5 rounded border border-cyan-700'; badge.innerText = 'Gem Util';
+                container.innerHTML = `<div class="bg-cyan-50 p-2.5 rounded-xl border border-cyan-300 text-[11px] font-bold text-cyan-950">💎 Linie #${improvement.subToReplace.slotIdx}: ${improvement.subToReplace.type} ➜ <strong>${improvement.gemType} (+${improvement.gemVal})</strong>. Câștig estimat de profil: +${improvement.improvement.toFixed(1)} puncte.${gemApplyButtonMarkup(improvement)}</div>`;
                 return;
             }
             badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300'; badge.innerText = 'Configurație Solidă';
@@ -2917,7 +2985,7 @@
         function resetBuilder() {
             document.getElementById('rune-set').value = 'Nemesis'; document.getElementById('rune-stars').value = '6-ancient';
             document.getElementById('rune-rarity').value = 'Legend'; document.getElementById('rune-level').value = '+12';
-            if (document.getElementById('gemmed-sub-index')) document.getElementById('gemmed-sub-index').value = '0';
+            resetGemmedSubIndex();
             selectSlot(3);
             document.getElementById('innate-type').value = 'None'; document.getElementById('innate-val').value = 0;
             resetSubstats();
