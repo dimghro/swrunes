@@ -92,10 +92,13 @@
                     <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Rol Monstru:</span>
                     <select id="target-role" onchange="evaluateRune()" class="bg-white text-sky-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500/30 truncate max-w-[180px] sm:max-w-none">
                         <option value="auto" selected>Auto-Detect Sinergie</option>
-                        <option value="nuker">Abyss Nuker / DPS (CR/CD/ATK)</option>
-                        <option value="tank">Solo R5 Frontline / Tank (HP/DEF/RES)</option>
+                        <option value="nuker">Fast DPS / Nuker (CR/CD/ATK/SPD)</option>
+                        <option value="slowdps">Slow / Leo DPS (CR/CD/ATK)</option>
+                        <option value="bomber">Bomber (ATK/ACC/SPD)</option>
+                        <option value="bruiser">Bruiser (HP/DEF/ATK/CR)</option>
+                        <option value="tank">Tank / Frontline (HP/DEF/RES)</option>
                         <option value="support">Buffer / Healer (SPD/HP/DEF)</option>
-                        <option value="control">Debuffer / CC (ACC Cap/SPD)</option>
+                        <option value="control">Debuffer / CC / Stripper (ACC/SPD)</option>
                     </select>
                 </div>
             </div>
@@ -328,9 +331,15 @@
                             <button onclick="applyGrindPreset('reset')" type="button" class="text-[10px] font-black text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded-lg transition shadow-xs" title="Șterge valorile de grind introduse">
                                 ✕ Reset
                             </button>
-                            <label class="flex items-center gap-1 text-[11px] font-extrabold text-cyan-800 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200 cursor-pointer ml-1">
-                                <input type="checkbox" id="rune-has-gem" onchange="evaluateRune()" class="rounded text-cyan-600 focus:ring-cyan-500 w-3 h-3">
-                                <span>Gem Aplicat?</span>
+                            <label class="flex items-center gap-1 text-[11px] font-extrabold text-cyan-800 bg-cyan-50 px-2 py-1 rounded-lg border border-cyan-200 ml-1">
+                                <span>Linie Gem:</span>
+                                <select id="gemmed-sub-index" onchange="evaluateRune()" class="bg-white border border-cyan-200 rounded px-1 py-0.5 text-[10px] font-black text-cyan-900">
+                                    <option value="0" selected>Niciuna</option>
+                                    <option value="1">#1</option>
+                                    <option value="2">#2</option>
+                                    <option value="3">#3</option>
+                                    <option value="4">#4</option>
+                                </select>
                             </label>
                             <button onclick="resetSubstats()" type="button" class="text-xs font-extrabold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2 py-1 rounded-lg transition shadow-xs">
                                 🧹
@@ -510,14 +519,14 @@
                             <span id="swop-eff-badge" class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-900 font-black text-xs border border-sky-300" title="Eficiență matematică standard SWOP Barion (14.0 divisor)">
                                 SWOP: 0.0%
                             </span>
-                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență reală în luptă PvE, penalizând flat substats">
-                                Reală: 0.0%
+                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență ajustată: model SWOP cu flat stats ponderate la 50%">
+                                Ajustată: 0.0%
                             </span>
-                            <span id="max-grind-badge" class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] border border-emerald-300" title="Eficiență potențială maximă după aplicarea de Legend Grinds">
+                            <span id="max-grind-badge" class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] border border-emerald-300" title="Potențial teoretic după upgrade la +12/+15, Legend Grinds și cea mai bună conversie Gem legală">
                                 Potențial: 0.0%
                             </span>
-                            <span id="relative-eff-badge" class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 font-extrabold text-[10px] border border-purple-200" title="Eficiență raportată la clasa nativă">
-                                Clasă: 0.0%
+                            <span id="relative-eff-badge" class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 font-extrabold text-[10px] border border-purple-200" title="Rune Score estimat după formula Com2uS reverse-engineered: innate + substats, main stat exclus">
+                                Rune Score: 0
                             </span>
                         </div>
                     </div>
@@ -702,9 +711,9 @@
                         <div class="flex items-center gap-1.5"><span class="text-[10px] font-black text-slate-400 w-4">#4</span><select id="reapp-b-type-4" onchange="evaluateReappFromUI()" class="w-full bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-800 font-bold focus:ring-2 focus:ring-indigo-400 shadow-sm"><option value="None">-- Gol --</option><option value="SPD">SPD</option><option value="HP%">HP%</option><option value="ATK%">ATK%</option><option value="DEF%">DEF%</option><option value="CR%">CRI Rate%</option><option value="CD%">CRI Dmg%</option><option value="RES%">Resistance%</option><option value="ACC%">Accuracy%</option><option value="Flat HP">Flat HP</option><option value="Flat ATK">Flat ATK</option><option value="Flat DEF">Flat DEF</option></select><input type="number" id="reapp-b-val-4" oninput="evaluateReappFromUI()" class="w-16 bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-indigo-400 shadow-sm" value="0"></div>
                     </div>
                     <div class="bg-white border border-slate-200 rounded-lg p-3 text-center space-y-1">
-                        <div class="text-[10px] uppercase font-black text-slate-500">Eficiență Combat</div>
+                        <div class="text-[10px] uppercase font-black text-slate-500">Eficiență Ajustată</div>
                         <div class="text-xl font-black text-slate-800" id="reapp-before-eff">0.0%</div>
-                        <div class="text-xs font-bold text-emerald-600" id="reapp-before-spd">Viteză: +0 SPD</div>
+                        <div class="text-xs font-bold text-emerald-600" id="reapp-before-spd">Viteză nativă: +0 SPD</div>
                     </div>
                 </div>
 
@@ -719,9 +728,9 @@
                         <div class="flex items-center gap-1.5"><span class="text-[10px] font-black text-slate-400 w-4">#4</span><select id="reapp-a-type-4" onchange="evaluateReappFromUI()" class="w-full bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-800 font-bold focus:ring-2 focus:ring-indigo-400 shadow-sm"><option value="None">-- Gol --</option><option value="SPD">SPD</option><option value="HP%">HP%</option><option value="ATK%">ATK%</option><option value="DEF%">DEF%</option><option value="CR%">CRI Rate%</option><option value="CD%">CRI Dmg%</option><option value="RES%">Resistance%</option><option value="ACC%">Accuracy%</option><option value="Flat HP">Flat HP</option><option value="Flat ATK">Flat ATK</option><option value="Flat DEF">Flat DEF</option></select><input type="number" id="reapp-a-val-4" oninput="evaluateReappFromUI()" class="w-16 bg-white text-xs border border-slate-300 rounded-md p-1.5 text-slate-900 font-black text-center focus:ring-2 focus:ring-indigo-400 shadow-sm" value="0"></div>
                     </div>
                     <div class="bg-white border border-slate-200 rounded-lg p-3 text-center space-y-1">
-                        <div class="text-[10px] uppercase font-black text-slate-500">Eficiență Combat</div>
+                        <div class="text-[10px] uppercase font-black text-slate-500">Eficiență Ajustată</div>
                         <div class="text-xl font-black text-slate-800" id="reapp-after-eff">0.0%</div>
-                        <div class="text-xs font-bold text-emerald-600" id="reapp-after-spd">Viteză: +0 SPD</div>
+                        <div class="text-xs font-bold text-emerald-600" id="reapp-after-spd">Viteză nativă: +0 SPD</div>
                     </div>
                 </div>
                 
@@ -735,10 +744,10 @@
         <!-- STRATEGY & PROGRESSION GUIDE ACCORDION / REFERENCE CARD -->
         <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
             <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC OFICIAL: PROGRESIE, SWOP, GEMS, REAPP & GRINDS
+                <span class="text-amber-500">📚</span> GHID STRATEGIC: PROGRESIE, SWOP, GEMS, REAPP & GRINDS
             </h3>
             
-            <!-- Matricea Oficială de Filtrare -->
+            <!-- Matrice strategică de filtrare -->
             <div class="space-y-2">
                 <h4 class="font-black text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
                     <span>🎯</span> Matricea de Filtrare pe Niveluri de Cont (Keep/Sell Thresholds)
@@ -806,7 +815,7 @@
             <!-- Tabel Valori Grindstone & Gems (JSON Arhitectură) -->
             <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-3">
                 <h4 class="font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>📊</span> Tabel Oficial Grindstones & Enchanted Gems (Normal vs. Ancient)
+                    <span>📊</span> Tabel Grindstones & Enchanted Gems (Normal vs. Ancient)
                 </h4>
                 <div class="overflow-x-auto">
                     <table class="w-full text-center border-collapse text-[11px]">
@@ -975,11 +984,19 @@
             },
             '5-star': {
                 '+0':  { 'SPD': 5,  'HP%': 8,  'ATK%': 8,  'DEF%': 8,  'CR%': 5,  'CD%': 8,  'RES%': 9,  'ACC%': 9,  'Flat HP': 270,  'Flat ATK': 15,  'Flat DEF': 15 },
+                '+3':  { 'SPD': 11, 'HP%': 15, 'ATK%': 15, 'DEF%': 15, 'CR%': 12, 'CD%': 18, 'RES%': 16, 'ACC%': 16, 'Flat HP': 585,  'Flat ATK': 36,  'Flat DEF': 36 },
+                '+6':  { 'SPD': 17, 'HP%': 22, 'ATK%': 22, 'DEF%': 22, 'CR%': 19, 'CD%': 28, 'RES%': 23, 'ACC%': 23, 'Flat HP': 900,  'Flat ATK': 57,  'Flat DEF': 57 },
+                '+9':  { 'SPD': 23, 'HP%': 29, 'ATK%': 29, 'DEF%': 29, 'CR%': 27, 'CD%': 38, 'RES%': 31, 'ACC%': 31, 'Flat HP': 1215, 'Flat ATK': 78,  'Flat DEF': 78 },
+                '+12': { 'SPD': 29, 'HP%': 37, 'ATK%': 37, 'DEF%': 37, 'CR%': 34, 'CD%': 48, 'RES%': 38, 'ACC%': 38, 'Flat HP': 1530, 'Flat ATK': 99,  'Flat DEF': 99 },
                 '+15': { 'SPD': 39, 'HP%': 51, 'ATK%': 51, 'DEF%': 51, 'CR%': 47, 'CD%': 65, 'RES%': 51, 'ACC%': 51, 'Flat HP': 2088, 'Flat ATK': 135, 'Flat DEF': 135 }
             },
             '4-star': {
                 '+0':  { 'SPD': 4,  'HP%': 5,  'ATK%': 5,  'DEF%': 5,  'CR%': 4,  'CD%': 6,  'RES%': 6,  'ACC%': 6,  'Flat HP': 160,  'Flat ATK': 10,  'Flat DEF': 10 },
-                '+15': { 'SPD': 30, 'HP%': 43, 'ATK%': 43, 'DEF%': 43, 'CR%': 37, 'CD%': 54, 'RES%': 41, 'ACC%': 41, 'Flat HP': 1530, 'Flat ATK': 100, 'Flat DEF': 100 }
+                '+3':  { 'SPD': 8,  'HP%': 11, 'ATK%': 11, 'DEF%': 11, 'CR%': 11, 'CD%': 15, 'RES%': 13, 'ACC%': 13, 'Flat HP': 430,  'Flat ATK': 28,  'Flat DEF': 28 },
+                '+6':  { 'SPD': 13, 'HP%': 18, 'ATK%': 18, 'DEF%': 18, 'CR%': 17, 'CD%': 24, 'RES%': 19, 'ACC%': 19, 'Flat HP': 700,  'Flat ATK': 46,  'Flat DEF': 46 },
+                '+9':  { 'SPD': 17, 'HP%': 24, 'ATK%': 24, 'DEF%': 24, 'CR%': 24, 'CD%': 33, 'RES%': 26, 'ACC%': 26, 'Flat HP': 970,  'Flat ATK': 64,  'Flat DEF': 64 },
+                '+12': { 'SPD': 22, 'HP%': 31, 'ATK%': 31, 'DEF%': 31, 'CR%': 30, 'CD%': 42, 'RES%': 32, 'ACC%': 32, 'Flat HP': 1240, 'Flat ATK': 82,  'Flat DEF': 82 },
+                '+15': { 'SPD': 30, 'HP%': 43, 'ATK%': 43, 'DEF%': 43, 'CR%': 41, 'CD%': 58, 'RES%': 44, 'ACC%': 44, 'Flat HP': 1704, 'Flat ATK': 112, 'Flat DEF': 112 }
             }
         };
 
@@ -1202,52 +1219,187 @@
         }
 
         // ==========================================
-        // FORMULA MATEMATICĂ OFICIALĂ SWOP (BARION)
         // ==========================================
-        function calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level) {
-            const maxMain15 = mainStatTable['6-star']['+15'][mainType] || mainVal || 1;
-            const mainRatio = Math.min(1.0, mainVal / maxMain15);
+        // FORMULE MATEMATICE: SWOP, RUNE SCORE ȘI POTENȚIAL
+        // ==========================================
+        const ROLE_PROFILES = {
+            'nuker': {
+                name: 'Fast DPS / Nuker', icon: '⚔️',
+                weights: { 'ATK%': 1.00, 'CR%': 1.00, 'CD%': 1.00, 'SPD': 0.75, 'HP%': 0.20, 'DEF%': 0.10, 'ACC%': 0.10, 'RES%': 0.05 },
+                evenMain: { 2: ['SPD', 'ATK%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%'] }
+            },
+            'slowdps': {
+                name: 'Slow / Leo DPS', icon: '🗡️',
+                weights: { 'ATK%': 1.00, 'CR%': 1.00, 'CD%': 1.00, 'HP%': 0.45, 'DEF%': 0.35, 'SPD': 0.15, 'ACC%': 0.10, 'RES%': 0.10 },
+                evenMain: { 2: ['ATK%', 'HP%', 'DEF%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%', 'HP%', 'DEF%'] }
+            },
+            'bomber': {
+                name: 'Bomber', icon: '💣',
+                weights: { 'ATK%': 1.00, 'ACC%': 0.95, 'SPD': 0.80, 'HP%': 0.35, 'DEF%': 0.30, 'RES%': 0.10, 'CR%': 0.05, 'CD%': 0.05 },
+                evenMain: { 2: ['SPD', 'ATK%'], 4: ['ATK%', 'HP%', 'DEF%'], 6: ['ATK%', 'ACC%', 'HP%'] }
+            },
+            'bruiser': {
+                name: 'Bruiser', icon: '🥊',
+                weights: { 'HP%': 1.00, 'DEF%': 0.85, 'ATK%': 0.80, 'CR%': 0.75, 'SPD': 0.65, 'CD%': 0.60, 'RES%': 0.35, 'ACC%': 0.25 },
+                evenMain: { 2: ['SPD', 'HP%', 'DEF%', 'ATK%'], 4: ['CR%', 'CD%', 'HP%', 'DEF%', 'ATK%'], 6: ['HP%', 'DEF%', 'ATK%'] }
+            },
+            'tank': {
+                name: 'Tank / Frontline', icon: '🛡️',
+                weights: { 'HP%': 1.00, 'DEF%': 1.00, 'RES%': 0.80, 'SPD': 0.65, 'ACC%': 0.25, 'ATK%': 0.10, 'CR%': 0.05, 'CD%': 0.05 },
+                evenMain: { 2: ['HP%', 'DEF%', 'SPD'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }
+            },
+            'support': {
+                name: 'Buffer / Healer', icon: '💚',
+                weights: { 'SPD': 1.00, 'HP%': 0.95, 'DEF%': 0.80, 'RES%': 0.55, 'ACC%': 0.35, 'ATK%': 0.10, 'CR%': 0.05, 'CD%': 0.05 },
+                evenMain: { 2: ['SPD', 'HP%', 'DEF%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%', 'ACC%'] }
+            },
+            'control': {
+                name: 'Debuffer / CC / Stripper', icon: '🎯',
+                weights: { 'SPD': 1.00, 'ACC%': 1.00, 'HP%': 0.80, 'DEF%': 0.70, 'RES%': 0.25, 'ATK%': 0.20, 'CR%': 0.10, 'CD%': 0.05 },
+                evenMain: { 2: ['SPD'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }
+            }
+        };
 
-            let sumSubRatiosRaw = 0; let sumSubRatiosGrinded = 0; let sumSubRatiosCombat = 0; let sumSubRatiosPotential = 0;
+        function getStatRollEquivalent(type, value) {
+            if (!M_J[type] || !value) return 0;
+            return Math.max(0, value / M_J[type]);
+        }
 
-            if (innateType !== 'None' && innateVal > 0 && M_J[innateType]) {
-                const r = innateVal / M_J[innateType]; sumSubRatiosRaw += r; sumSubRatiosGrinded += r;
-                const isFlat = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(innateType);
-                sumSubRatiosCombat += isFlat ? (r * 0.35) : r; sumSubRatiosPotential += isFlat ? (r * 0.35) : r;
+        function getRoleScoreForProfile(profile, slot, mainType, subs) {
+            if (!profile) return 0;
+            const isEven = [2, 4, 6].includes(slot);
+            let mainScore = 20;
+            if (isEven) {
+                if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) mainScore = 0;
+                else if (profile.evenMain[slot] && profile.evenMain[slot].includes(mainType)) mainScore = 20;
+                else mainScore = 8;
             }
 
+            const weights = Object.values(profile.weights).sort((a, b) => b - a).slice(0, 4);
+            const targetWeightedRolls = Math.max(1, weights.reduce((a, b) => a + b, 0) * 2.0);
+            let weightedRolls = 0;
             subs.forEach(s => {
-                if (M_J[s.type]) {
-                    const rawR = s.val / M_J[s.type]; sumSubRatiosRaw += rawR;
-                    const totalVal = s.val + (s.grindVal || 0); const grindedR = totalVal / M_J[s.type]; sumSubRatiosGrinded += grindedR;
-                    const isFlat = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type);
-                    sumSubRatiosCombat += isFlat ? (grindedR * 0.35) : grindedR;
-                    
-                    let potentialVal = totalVal;
-                    if (isGrindable(s.type)) {
-                        const lim = getGrindLimits(s.type, isAncient);
-                        if (lim) potentialVal = Math.max(totalVal, s.val + lim.maxLegend);
-                    }
-                    const potR = potentialVal / M_J[s.type]; sumSubRatiosPotential += isFlat ? (potR * 0.35) : potR;
-                }
+                const finalVal = s.val + (s.grindVal || 0);
+                const w = profile.weights[s.type] || (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) ? 0.08 : 0.05);
+                weightedRolls += w * Math.min(5.0, getStatRollEquivalent(s.type, finalVal));
             });
+            const subScore = Math.min(80, (weightedRolls / targetWeightedRolls) * 80);
+            return Math.max(0, Math.min(100, mainScore + subScore));
+        }
+
+        function calculateRoleScore(targetRole, slot, mainType, subs) {
+            if (targetRole && targetRole !== 'auto' && ROLE_PROFILES[targetRole]) {
+                return { score: getRoleScoreForProfile(ROLE_PROFILES[targetRole], slot, mainType, subs), roleKey: targetRole, roleName: ROLE_PROFILES[targetRole].name };
+            }
+            let best = { score: -1, roleKey: 'support', roleName: ROLE_PROFILES.support.name };
+            Object.entries(ROLE_PROFILES).forEach(([key, profile]) => {
+                const score = getRoleScoreForProfile(profile, slot, mainType, subs);
+                if (score > best.score) best = { score, roleKey: key, roleName: profile.name };
+            });
+            return best;
+        }
+
+        function calculateRuneScore(subs, innateType, innateVal) {
+            const linePoints = (type, value) => {
+                if (!M_J[type] || !value) return 0;
+                let pts = (value / M_J[type]) * 20;
+                if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) pts /= 3;
+                return pts;
+            };
+            let score = 0;
+            if (innateType !== 'None' && innateVal > 0) score += linePoints(innateType, innateVal);
+            subs.forEach(s => score += linePoints(s.type, s.val + (s.grindVal || 0)));
+            return Math.max(0, Math.round(score));
+        }
+
+        function getLegalGemCandidates(mainType, innateType, otherTypes, slot) {
+            return ['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'].filter(type => {
+                if (type === mainType || (innateType !== 'None' && type === innateType) || otherTypes.includes(type)) return false;
+                if (slot === 1 && type === 'DEF%') return false;
+                if (slot === 3 && type === 'ATK%') return false;
+                return true;
+            });
+        }
+
+        function getPotentialLineRatio(type, baseValue, isAncient, flatWeight = 0.5) {
+            if (!M_J[type]) return 0;
+            let finalValue = baseValue;
+            if (isGrindable(type)) {
+                const lim = getGrindLimits(type, isAncient);
+                if (lim) finalValue += lim.maxLegend;
+            }
+            let ratio = finalValue / M_J[type];
+            if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) ratio *= flatWeight;
+            return ratio;
+        }
+
+        function calculateBestGemPotentialGain(subs, mainType, innateType, isAncient, slot, gemmedSubIndex = 0) {
+            if (!subs.length) return 0;
+            const candidateLines = gemmedSubIndex > 0 ? subs.filter(s => s.slotIdx === gemmedSubIndex) : subs;
+            let bestGain = 0;
+            candidateLines.forEach(sub => {
+                const otherTypes = subs.filter(s => s.slotIdx !== sub.slotIdx).map(s => s.type);
+                const candidates = getLegalGemCandidates(mainType, innateType, otherTypes, slot);
+                const currentRatio = getPotentialLineRatio(sub.type, sub.val, isAncient, 0.5);
+                candidates.forEach(type => {
+                    const gemBase = getGemMaxVal(type, isAncient);
+                    const newRatio = getPotentialLineRatio(type, gemBase, isAncient, 0.5);
+                    bestGain = Math.max(bestGain, newRatio - currentRatio);
+                });
+            });
+            return Math.max(0, bestGain);
+        }
+
+        function calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, slot = 0, gemmedSubIndex = 0) {
+            const maxMain15 = mainStatTable['6-star']['+15'][mainType] || mainVal || 1;
+            const mainRatio = Math.min(1.0, mainVal / maxMain15);
+            let sumRaw = 0, sumGrinded = 0, sumAdjusted = 0, sumMaxGrind = 0;
+
+            const addLine = (type, rawVal, grindVal = 0) => {
+                if (!M_J[type]) return;
+                const rawR = rawVal / M_J[type];
+                const totalVal = rawVal + (grindVal || 0);
+                const grindedR = totalVal / M_J[type];
+                const flatFactor = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type) ? 0.5 : 1.0;
+                sumRaw += rawR;
+                sumGrinded += grindedR;
+                sumAdjusted += grindedR * flatFactor;
+
+                let potentialVal = totalVal;
+                if (isGrindable(type)) {
+                    const lim = getGrindLimits(type, isAncient);
+                    if (lim) potentialVal = Math.max(totalVal, rawVal + lim.maxLegend);
+                }
+                sumMaxGrind += (potentialVal / M_J[type]) * flatFactor;
+            };
+
+            if (innateType !== 'None' && innateVal > 0) addLine(innateType, innateVal, 0);
+            subs.forEach(s => addLine(s.type, s.val, s.grindVal || 0));
 
             const lvlNum = parseInt(level.replace('+', '')) || 0;
             const rollsLeft = Math.max(0, Math.floor((12 - Math.min(lvlNum, 12)) / 3));
-            sumSubRatiosPotential += (rollsLeft * 1.0);
+            const gemGain = calculateBestGemPotentialGain(subs, mainType, innateType, isAncient, slot, gemmedSubIndex);
 
-            if (flatCount >= 2) { sumSubRatiosCombat *= 0.85; sumSubRatiosPotential *= 0.85; }
-
-            const swopCurrentEff = ((5.0 * mainRatio + sumSubRatiosGrinded) / 14.0) * 100;
-            const swopRawEff = ((5.0 * mainRatio + sumSubRatiosRaw) / 14.0) * 100;
-            const combatEff = ((5.0 * mainRatio + sumSubRatiosCombat) / 14.0) * 100;
-            const maxPotentialEff = ((5.0 * 1.0 + sumSubRatiosPotential) / 14.0) * 100;
+            const swopCurrentEff = ((5.0 * mainRatio + sumGrinded) / 14.0) * 100;
+            const swopRawEff = ((5.0 * mainRatio + sumRaw) / 14.0) * 100;
+            const adjustedEff = ((5.0 * mainRatio + sumAdjusted) / 14.0) * 100;
+            const maxGrindEff = ((5.0 * mainRatio + sumMaxGrind) / 14.0) * 100;
+            const maxPotentialEff = ((5.0 + sumMaxGrind + rollsLeft + gemGain) / 14.0) * 100;
 
             const classDivisors = { 'Legend': 14.0, 'Hero': 13.0, 'Rare': 12.0, 'Magic': 11.0, 'Normal': 10.0 };
             const relDiv = classDivisors[rarity] || 14.0;
-            const relativeEff = ((5.0 * mainRatio + sumSubRatiosCombat) / relDiv) * 100;
+            const relativeEff = ((5.0 * mainRatio + sumAdjusted) / relDiv) * 100;
 
-            return { swopCurrentEff: Math.max(0, swopCurrentEff), swopRawEff: Math.max(0, swopRawEff), combatEff: Math.max(0, combatEff), maxPotentialEff: Math.max(0, maxPotentialEff), relativeEff: Math.max(0, relativeEff) };
+            return {
+                swopCurrentEff: Math.max(0, swopCurrentEff),
+                swopRawEff: Math.max(0, swopRawEff),
+                combatEff: Math.max(0, adjustedEff),
+                adjustedEff: Math.max(0, adjustedEff),
+                maxGrindEff: Math.max(0, maxGrindEff),
+                maxPotentialEff: Math.max(0, maxPotentialEff),
+                relativeEff: Math.max(0, relativeEff),
+                runeScore: calculateRuneScore(subs, innateType, innateVal)
+            };
         }
 
         // ==========================================
@@ -1255,395 +1407,273 @@
         // ==========================================
         function analyzeSetSynergy(set, slot, mainType, subs) {
             const guide = RUNE_SETS_GUIDE[set];
-            if (!guide) return { level: 'OK', label: 'Set Standard', desc: 'Analiză generală.' };
+            if (!guide) return { level: 'OK', label: 'Set Standard', desc: 'Analiză generală.', score: 50 };
 
-            const isEven = [2, 4, 6].includes(slot); let mainIsRecommended = true;
-            if (isEven && guide.evenMain && guide.evenMain[slot]) mainIsRecommended = guide.evenMain[slot].includes(mainType);
-
-            const subTypes = subs.map(s => s.type); let matchingDesired = 0;
-            subTypes.forEach(st => { if (guide.desiredSubs.includes(st)) matchingDesired++; });
-
-            const hasPrioritySub = subTypes.includes(guide.prioritySub);
-            const totalSubs = subs.length || 1; const matchRatio = matchingDesired / totalSubs;
-
+            const isEven = [2, 4, 6].includes(slot);
+            const mainIsRecommended = !isEven || !guide.evenMain?.[slot] || guide.evenMain[slot].includes(mainType);
             if (isEven && !mainIsRecommended && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
-                return { level: 'TRASH', color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Flat Main Stat pe Slot ${slot}`, desc: `În conținutul PvE, statul ${mainType} compromite piesa. Setul ${set} are nevoie de procente.` };
+                return { level: 'TRASH', score: 0, color: 'bg-rose-100 text-rose-800 border-rose-300', label: `❌ Flat Main Stat pe Slot ${slot}`, desc: `Main stat-ul ${mainType} compromite piesa în majoritatea buildurilor.` };
             }
             if (isEven && !mainIsRecommended) {
-                return { level: 'OFF_META', color: 'bg-amber-100 text-amber-900 border-amber-300', label: `⚠️ Main Stat atipic pentru ${set}`, desc: `Ghidul recomandă: <strong>${guide.evenMain[slot].join(' / ')}</strong>.` };
+                return { level: 'OFF_META', score: 35, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `⚠️ Main Stat atipic pentru ${set}`, desc: `Ghidul recomandă: <strong>${guide.evenMain[slot].join(' / ')}</strong>.` };
             }
-            if (matchRatio >= 0.75 || (matchingDesired >= 3 && hasPrioritySub)) {
-                return { level: 'EXCELLENT', color: 'bg-emerald-100 text-emerald-900 border-emerald-300', label: `💎 Sinergie Perfectă (${set})`, desc: `Atributele (${subTypes.join(', ')}) se potrivesc excelent cerințelor.` };
+
+            let totalQuality = 0, desiredQuality = 0;
+            subs.forEach(s => {
+                const q = Math.min(5, getStatRollEquivalent(s.type, s.val + (s.grindVal || 0)));
+                totalQuality += q;
+                if (guide.desiredSubs.includes(s.type)) desiredQuality += q;
+            });
+            const ratio = totalQuality > 0 ? desiredQuality / totalQuality : 0;
+            const hasPriority = subs.some(s => s.type === guide.prioritySub);
+            const score = Math.round(Math.min(100, ratio * 85 + (hasPriority ? 15 : 0)));
+
+            if (score >= 80) {
+                return { level: 'EXCELLENT', score, color: 'bg-emerald-100 text-emerald-900 border-emerald-300', label: `💎 Sinergie Excelentă (${set})`, desc: `Setul și calitatea substaturilor se aliniază foarte bine (${score}/100).` };
             }
-            if (matchRatio >= 0.5) {
-                return { level: 'GOOD', color: 'bg-sky-100 text-sky-900 border-sky-300', label: `✅ Sinergie Bună (${set})`, desc: `Rol recomandat: ${guide.role}.` };
+            if (score >= 55) {
+                return { level: 'GOOD', score, color: 'bg-sky-100 text-sky-900 border-sky-300', label: `✅ Sinergie Bună (${set})`, desc: `Rol recomandat: ${guide.role}. Scor sinergie: ${score}/100.` };
             }
-            return { level: 'BROKEN', color: 'bg-purple-100 text-purple-900 border-purple-300', label: `🧩 Profil Broken Set (${set})`, desc: `Substaturile nu sunt ideale pentru setul ${set}, dar formează un excelent Broken Set dacă au stats ridicate.` };
+            return { level: 'BROKEN', score, color: 'bg-purple-100 text-purple-900 border-purple-300', label: `🧩 Profil Broken Set (${set})`, desc: `Setul nu este perfect aliniat, dar roll-urile bune pot rămâne valoroase ca broken set. Scor: ${score}/100.` };
         }
 
         // ==========================================
-        // ANALIZATOR DE ROL MONSTRU (CONECTAT & ACTIV)
+        // ANALIZATOR DE ROL MONSTRU
         // ==========================================
         function analyzeRoleSynergy(targetRole, slot, mainType, subs) {
             if (!targetRole || targetRole === 'auto') return null;
-
-            const roleProfiles = {
-                'nuker': {
-                    name: 'Abyss Nuker / DPS', icon: '⚔️',
-                    primeStats: ['CR%', 'CD%', 'ATK%', 'SPD'],
-                    goodStats: ['HP%'], badStats: ['Flat DEF', 'RES%'],
-                    evenMain: { 2: ['SPD', 'ATK%'], 4: ['CD%', 'CR%', 'ATK%'], 6: ['ATK%'] }
-                },
-                'tank': {
-                    name: 'Solo R5 Frontline / Tank', icon: '🛡️',
-                    primeStats: ['HP%', 'DEF%', 'RES%', 'SPD'],
-                    goodStats: ['ACC%'], badStats: ['Flat ATK', 'CR%', 'CD%'],
-                    evenMain: { 2: ['HP%', 'DEF%', 'SPD'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }
-                },
-                'support': {
-                    name: 'Buffer / Healer', icon: '💚',
-                    primeStats: ['SPD', 'HP%', 'DEF%', 'RES%'],
-                    goodStats: ['ACC%'], badStats: ['Flat ATK', 'CR%', 'CD%'],
-                    evenMain: { 2: ['SPD', 'HP%'], 4: ['HP%', 'DEF%'], 6: ['HP%', 'DEF%', 'RES%'] }
-                },
-                'control': {
-                    name: 'Debuffer / CC', icon: '🎯',
-                    primeStats: ['SPD', 'ACC%', 'HP%', 'DEF%'],
-                    goodStats: ['ATK%'], badStats: ['Flat HP', 'Flat ATK', 'Flat DEF'],
-                    evenMain: { 2: ['SPD'], 4: ['HP%', 'DEF%'], 6: ['ACC%', 'HP%', 'DEF%'] }
-                }
-            };
-
-            const prof = roleProfiles[targetRole];
+            const prof = ROLE_PROFILES[targetRole];
             if (!prof) return null;
-
+            const score = getRoleScoreForProfile(prof, slot, mainType, subs);
             const isEven = [2, 4, 6].includes(slot);
             const mainMatches = !isEven || (prof.evenMain[slot] && prof.evenMain[slot].includes(mainType));
-            const subTypes = subs.map(s => s.type);
-            const matchedPrime = subTypes.filter(st => prof.primeStats.includes(st)).length;
 
-            if (isEven && !mainMatches && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
-                return {
-                    status: 'INCOMPATIBLE', color: 'bg-rose-100 text-rose-900 border-rose-300',
-                    label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`,
-                    desc: `Main stat-ul flat (${mainType}) pe slotul ${slot} distruge viabilitatea pentru acest rol.`
-                };
+            if (isEven && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) {
+                return { status: 'INCOMPATIBLE', score, color: 'bg-rose-100 text-rose-900 border-rose-300', label: `${prof.icon} Incompatibil cu Rolul: ${prof.name}`, desc: `Main stat-ul flat pe slotul ${slot} este neviabil pentru acest rol.` };
             }
-            if (isEven && !mainMatches) {
-                return {
-                    status: 'OFF_META', color: 'bg-amber-100 text-amber-900 border-amber-300',
-                    label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`,
-                    desc: `Pentru ${prof.name} pe slotul ${slot} este recomandat: <strong>${prof.evenMain[slot].join(' / ')}</strong>.`
-                };
+            if (!mainMatches) {
+                return { status: 'OFF_META', score, color: 'bg-amber-100 text-amber-900 border-amber-300', label: `${prof.icon} Main Stat Atipic pentru ${prof.name}`, desc: `Main recomandat pe slotul ${slot}: <strong>${prof.evenMain[slot].join(' / ')}</strong>. Scor rol: ${score.toFixed(0)}/100.` };
             }
-            if (matchedPrime >= 3) {
-                return {
-                    status: 'PERFECT', color: 'bg-emerald-100 text-emerald-950 border-emerald-300',
-                    label: `${prof.icon} Sinergie Excelentă cu Rolul: ${prof.name}`,
-                    desc: `Substaturile (${subTypes.join(', ')}) oferă un profil matematic optim pentru rol.`
-                };
-            }
-            if (matchedPrime >= 2) {
-                return {
-                    status: 'GOOD', color: 'bg-sky-100 text-sky-950 border-sky-300',
-                    label: `${prof.icon} Sinergie Bună cu Rolul: ${prof.name}`,
-                    desc: `Runa susține cerințele de bază (${matchedPrime} substaturi primare compatibile).`
-                };
-            }
-            return {
-                status: 'POOR', color: 'bg-slate-100 text-slate-800 border-slate-300',
-                label: `${prof.icon} Sinergie Scăzută cu Rolul: ${prof.name}`,
-                desc: `Runa conține puține atribute utile pentru acest rol (${prof.primeStats.join(', ')}). Verificați alt rol.`
-            };
+            if (score >= 75) return { status: 'PERFECT', score, color: 'bg-emerald-100 text-emerald-950 border-emerald-300', label: `${prof.icon} Sinergie Excelentă: ${prof.name}`, desc: `Calitatea și distribuția statisticilor oferă ${score.toFixed(0)}/100 pentru acest rol.` };
+            if (score >= 55) return { status: 'GOOD', score, color: 'bg-sky-100 text-sky-950 border-sky-300', label: `${prof.icon} Sinergie Bună: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100.` };
+            if (score >= 35) return { status: 'FAIR', score, color: 'bg-slate-100 text-slate-800 border-slate-300', label: `${prof.icon} Sinergie Medie: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100. Runa poate avea o utilizare de nișă.` };
+            return { status: 'POOR', score, color: 'bg-rose-50 text-rose-800 border-rose-200', label: `${prof.icon} Sinergie Scăzută: ${prof.name}`, desc: `Scor rol: ${score.toFixed(0)}/100. Verifică alt rol înainte de a vinde.` };
         }
 
         function checkMustKeepMainStat(set, slot, mainType) {
-            const isEvenSlot = [2, 4, 6].includes(slot);
-            if (!isEvenSlot) return false;
-            if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) return false;
-            const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal', 'Nemesis', 'Revenge'];
+            if ([2, 4, 6].includes(slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(mainType)) return false;
+            const primeSets = ['Violent', 'Swift', 'Will', 'Despair', 'Rage', 'Fight', 'Seal', 'Nemesis', 'Revenge', 'Vampire'];
             if (!primeSets.includes(set)) return false;
+            if ([1, 3, 5].includes(slot)) return true;
             const guide = RUNE_SETS_GUIDE[set];
             return !!(guide && guide.evenMain && guide.evenMain[slot] && guide.evenMain[slot].includes(mainType));
         }
 
         // ==========================================
-        // VERDICT ENGINE CU MATRICEA DE PROGRESIE & CHECKPOINTS
+        // VERDICT ENGINE MULTI-SCOR
         // ==========================================
         function computeVerdict(ctx) {
             const isEvenSlot = [2, 4, 6].includes(ctx.slot);
             const isFlatMain = ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType);
             const guide = RUNE_SETS_GUIDE[ctx.set] || {};
+            const nativeSpeed = ctx.nativeSpeed ?? ctx.totalSpeed ?? 0;
+            const roleScore = ctx.roleScore ?? 0;
+            const runeScore = ctx.runeScore ?? 0;
+            const usefulCount = ctx.usefulStatCount ?? ctx.percentCount ?? 0;
+            const crSub = ctx.subs.find(s => s.type === 'CR%');
+            const isSwift = ctx.set === 'Swift';
+            const eliteSpeed = nativeSpeed >= (isSwift ? 24 : 22);
+            const highSpeed = nativeSpeed >= 18;
+            const highCR = !!(crSub && crSub.val >= 18);
 
-            // 0. VERIFICARE ROL EXPLICITĂ (Dead Code Fixed)
-            if (ctx.targetRole !== 'auto' && ctx.roleSynergy) {
-                if (ctx.roleSynergy.status === 'INCOMPATIBLE' || ctx.roleSynergy.status === 'POOR') {
-                    // Dacă rolul selectat cere ofensive (Nuker) și runa n-are deloc CR/CD/ATK
-                    if (ctx.targetRole === 'nuker' && !ctx.subs.some(s => ['CR%', 'CD%', 'ATK%'].includes(s.type))) {
-                        return {
-                            status: 'SELL',
-                            title: `VINDE (INCOMPATIBIL CU ROLUL: NUKER)`,
-                            color: 'bg-rose-50 text-rose-800 border-rose-300',
-                            reasons: `Pentru Nuker este obligatoriu să conțină CR%, CD% sau ATK%. Runa actuală are doar atribute incompatibile.`,
-                            archetypes: 'Vânzare Rol'
-                        };
-                    }
-                }
-            }
-
-            // 1. EVALUARE ÎNCEPĂTOR (SCENARIO)
+            // 1. Tranziția de început
             if (ctx.userTier === 'beginner') {
                 if (ctx.stars === '4-star') {
-                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR (TRANZIȚIE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Provizoriu pt. set.', archetypes: 'Tranziție' };
-                    if (ctx.combatEfficiency >= 42 || ctx.totalSpeed >= 4 || ctx.percentCount >= 1 || [1, 3, 5].includes(ctx.slot)) return { status: 'KEEP', title: 'PĂSTREAZĂ (4★ SCENARIO)', color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Solidă pt. debut.', archetypes: 'Starter' };
-                    return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Slabă.', archetypes: 'Vânzare' };
+                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR (TRANZIȚIE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Main flat acceptabil doar ca soluție temporară în Scenario.', archetypes: 'Tranziție' };
+                    if (ctx.combatEfficiency >= 42 || nativeSpeed >= 4 || usefulCount >= 1 || [1, 3, 5].includes(ctx.slot)) return { status: 'KEEP', title: 'PĂSTREAZĂ (4★ SCENARIO)', color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Utilă pentru progresul inițial.', archetypes: ctx.detectedRole || 'Starter' };
+                    return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Valoare redusă chiar și pentru Scenario.', archetypes: 'Vânzare' };
                 }
                 if (ctx.stars === '5-star') {
-                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Doar pt. set.', archetypes: 'Tranziție' };
-                    if (ctx.combatEfficiency >= 46 || ctx.totalSpeed >= 4 || ctx.percentCount >= 1 || [1, 3, 5].includes(ctx.slot)) return { status: 'KEEP', title: 'PĂSTREAZĂ', color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Solidă.', archetypes: 'Farming' };
+                    if (isEvenSlot && isFlatMain) return { status: 'TEMP_KEEP', title: 'FOLOSEȘTE TEMPORAR', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Doar pentru completarea unui set în tranziție.', archetypes: 'Tranziție' };
+                    if (ctx.combatEfficiency >= 46 || nativeSpeed >= 4 || usefulCount >= 1 || [1, 3, 5].includes(ctx.slot)) return { status: 'KEEP', title: 'PĂSTREAZĂ', color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Utilă pentru farming-ul de început.', archetypes: ctx.detectedRole || 'Farming' };
                 }
-                if (ctx.flatCount >= 2 && !['+0', '+3'].includes(ctx.level)) return { status: 'TEMP_KEEP', title: 'PĂSTREAZĂ PROVIZORIU', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Tranziție.', archetypes: 'Tranziție' };
             }
 
-            // 2. REGULI GENERALE ELIMINATORII DE PROGRESIE
-            if (ctx.stars === '4-star') return { status: 'SELL', title: 'VINDE IMEDIAT (4★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Depășită în afara stadiului de Scenario.', archetypes: 'Vânzare' };
-            
+            // 2. Reguli structurale
+            if (ctx.stars === '4-star') return { status: 'SELL', title: 'VINDE IMEDIAT (4★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Depășită în afara stadiului Scenario.', archetypes: 'Vânzare' };
             if (ctx.stars === '5-star') {
                 if (ctx.userTier === 'early') {
-                    if (isEvenSlot && !['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(ctx.mainType)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main Stat greșit pe slot par.', archetypes: 'Vânzare' };
-                    if (ctx.combatEfficiency >= 60 || ctx.totalSpeed >= 12) return { status: 'KEEP', title: 'PĂSTREAZĂ (5★)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Tranziție GB10.', archetypes: 'GB10' };
+                    if (isEvenSlot && !['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(ctx.mainType)) return { status: 'SELL', title: 'VINDE', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Main stat nepotrivit pe slot par.', archetypes: 'Vânzare' };
+                    if (ctx.combatEfficiency >= 60 || nativeSpeed >= 12 || roleScore >= 65) return { status: 'KEEP', title: 'PĂSTREAZĂ (5★)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Piesă de tranziție bună pentru Early Game.', archetypes: ctx.detectedRole || 'Early PvE' };
                 }
                 return { status: 'SELL', title: 'VINDE IMEDIAT (5★)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Vânzare automată Mid Game+.', archetypes: 'Vânzare' };
             }
+            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (FLAT MAIN STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Sloturile 2/4/6 cu main flat sunt în general neviabile.', archetypes: 'Vânzare' };
 
-            if (isEvenSlot && isFlatMain) return { status: 'SELL', title: 'VINDE IMEDIAT (FLAT MAIN STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Sloturile 2/4/6 cu Flat Main sunt complet inutile în PvE.', archetypes: 'Vânzare' };
+            // 3. Excepții de elită ÎNAINTE de penalizarea flat-urilor
+            if (eliteSpeed) return { status: 'KEEP', title: `PĂSTREAZĂ: SPD NATIV EXCEPȚIONAL (+${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: 'Viteza nativă este excepțională. Grindstone-ul nu este inclus în acest prag.', archetypes: 'Booster / Universal' };
+            if (highSpeed) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD NATIV RIDICAT: +${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Viteză nativă foarte bună, evaluată separat de Grindstone.', archetypes: 'Suport / Universal' };
+            if (highCR && ['nuker', 'slowdps', 'bruiser', 'auto'].includes(ctx.targetRole)) return { status: 'KEEP', title: `PĂSTREAZĂ (CR RIDICAT: +${crSub.val}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Densitate critică foarte bună pentru roluri de damage.', archetypes: 'DPS / Bruiser' };
 
-            if (ctx.flatWithRolls.length > 0 && ['+6', '+9', '+12', '+15'].includes(ctx.level)) {
-                return { status: 'SELL', title: 'VINDE (ROLL EȘUAT ÎN FLAT STAT)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Runa a consumat roll-uri în atribute plate (Flat HP/DEF/ATK).', archetypes: 'Vânzare' };
-            }
-
+            // 4. Dead stats: penalizare, nu execuție automată pentru un singur roll flat
             if (ctx.flatCount >= 2) {
-                if (['+0', '+3'].includes(ctx.level) && ctx.rarity === 'Legend' && (ctx.totalSpeed >= 5 || ctx.percentCount >= 1)) {
-                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE FLAT)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Dacă ia roll în flat, vinde imediat.', archetypes: 'Test de siguranță' };
+                if (ctx.combatEfficiency >= 82 || roleScore >= 75) {
+                    return { status: 'KEEP', title: 'PĂSTREAZĂ CU ATENȚIE (2 FLAT-URI, DAR VALOARE MARE)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Două flat-uri reduc flexibilitatea, însă scorul global rămâne suficient de mare.', archetypes: ctx.detectedRole || guide.role || 'Nișă' };
                 }
-                return { status: 'SELL', title: 'VINDE (2+ FLAT SUBSTATS)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Dead stat garantat blocat.', archetypes: 'Vânzare' };
+                if (['+0', '+3'].includes(ctx.level) && ctx.rarity === 'Legend' && (nativeSpeed >= 5 || usefulCount >= 2)) {
+                    return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (ATENȚIE: 2 FLAT-URI)', color: 'bg-amber-50 text-amber-900 border-amber-300', reasons: 'Continuă numai dacă roll-urile merg în statisticile utile.', archetypes: 'Test de siguranță' };
+                }
+                return { status: 'SELL', title: 'VINDE (2+ FLAT SUBSTATS)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Prea multe linii greu de valorificat pentru nivelul contului.', archetypes: 'Vânzare' };
             }
 
-            // 3. EXCEPȚII DE ELITĂ PENTRU VITEZĂ & CRI RATE
-            const isSwift = ctx.set === 'Swift'; const quadSpdThreshold = isSwift ? 24 : 22;
-            if (ctx.totalSpeed >= quadSpdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ: ★ QUAD ROLL SPD (+${ctx.totalSpeed})!`, color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: 'Viteză excepțională de nivel competițional.', archetypes: 'Booster / Starter' };
-            if (ctx.totalSpeed >= 18) return { status: 'KEEP', title: `PĂSTREAZĂ (TRIPLE SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Viteză excelentă conform standardelor.', archetypes: 'Suport / Universal' };
+            const hasFlatRoll = ctx.flatWithRolls.length > 0;
+            const flatRollPenalty = hasFlatRoll ? 4 : 0;
 
-            const crSub = ctx.subs.find(s => s.type === 'CR%');
-            if (crSub && crSub.val >= 18) return { status: 'KEEP', title: `PĂSTREAZĂ (CR RIDICAT: +${crSub.val}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Densitate critică excelentă pentru DPS.', archetypes: 'Nuker / Bruiser' };
+            // 5. Rol explicit
+            if (ctx.targetRole !== 'auto' && roleScore < 30 && ['+12', '+15'].includes(ctx.level)) {
+                return { status: 'SELL', title: 'VINDE PENTRU ROLUL SELECTAT', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Scorul pentru rolul selectat este doar ${roleScore.toFixed(0)}/100. Verifică totuși și modul Auto înainte de vânzare.`, archetypes: 'Incompatibilitate de rol' };
+            }
 
-            // 4. CHECKPOINTS INTERMEDIARE DE UPGRADE (+0, +3, +6, +9)
+            // 6. Checkpoints +0/+3/+6/+9
             if (['+0', '+3', '+6', '+9'].includes(ctx.level)) {
                 const lvlNum = parseInt(ctx.level.replace('+', '')) || 0;
-
-                // CHECKPOINT +0 / +3
                 if (lvlNum <= 3) {
-                    let spdReq = ctx.userTier === 'mid' ? 5 : (['late', 'end'].includes(ctx.userTier) ? 6 : 4);
-                    const hasGoodSpd = ctx.totalSpeed >= spdReq;
-                    const hasGoodPercents = ctx.percentCount >= 2;
-                    const hasHighPotential = ctx.maxPotentialEfficiency >= (ctx.userTier === 'end' ? 84 : 76);
-
-                    if (hasGoodSpd || hasGoodPercents || hasHighPotential) {
-                        return {
-                            status: 'ROLL',
-                            title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)',
-                            color: 'bg-sky-50 text-sky-900 border-sky-300',
-                            reasons: `Piesa are o bază inițială promițătoare (SPD: +${ctx.totalSpeed}, Stats %: ${ctx.percentCount}, Potențial: ${ctx.maxPotentialEfficiency.toFixed(1)}%). Îmbunătățește la +6 pentru a vedea primele 2 roll-uri.`,
-                            archetypes: guide.role || 'Test intermediar'
-                        };
-                    }
-                    return {
-                        status: 'SELL',
-                        title: 'VINDE (SUB PRAGUL INIȚIAL +0/+3)',
-                        color: 'bg-rose-50 text-rose-800 border-rose-300',
-                        reasons: `Runa nu atinge criteriile minime de pornire pentru profilul ${ctx.userTier} (SPD cerut: +${spdReq}).`,
-                        archetypes: 'Vânzare Mana'
-                    };
+                    const spdReq = ctx.userTier === 'mid' ? 5 : (['late', 'end'].includes(ctx.userTier) ? 6 : 4);
+                    const hasGoodBase = nativeSpeed >= spdReq || usefulCount >= 2 || roleScore >= 45 || runeScore >= (ctx.userTier === 'end' ? 55 : 45);
+                    if (hasGoodBase) return { status: 'ROLL', title: 'TESTEAZĂ LA +6 (POTENȚIAL PROMIȚĂTOR)', color: 'bg-sky-50 text-sky-900 border-sky-300', reasons: `SPD nativ +${nativeSpeed}, ${usefulCount} stats utile, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Test intermediar' };
+                    return { status: 'SELL', title: 'VINDE (SUB PRAGUL INIȚIAL)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Baza inițială nu justifică investiția de Mana pentru nivelul contului.', archetypes: 'Vânzare Mana' };
                 }
-
-                // CHECKPOINT +6 (au intrat primele 2 roll-uri)
                 if (lvlNum === 6) {
-                    const doubleSpdThreshold = ctx.userTier === 'end' ? 12 : (ctx.userTier === 'late' ? 11 : (ctx.userTier === 'mid' ? 10 : 8));
-                    const hasDoubleSpd = ctx.totalSpeed >= doubleSpdThreshold;
-                    const hasHighCrAt6 = crSub && crSub.val >= 11;
-                    const hasGoodRolls = (ctx.combatEfficiency >= 62.0) || (ctx.percentCount >= 2 && ctx.flatCount === 0);
-
-                    if (hasDoubleSpd) {
-                        return {
-                            status: 'ROLL',
-                            title: `TESTEAZĂ LA +9 (DOUBLE ROLL SPD: +${ctx.totalSpeed})`,
-                            color: 'bg-sky-50 text-sky-950 border-sky-400 font-black',
-                            reasons: `Viteza a rollat excelent la +6 (+${ctx.totalSpeed} SPD)! Continuă la +9 pentru potențial Triple SPD.`,
-                            archetypes: 'Viteză în urcare'
-                        };
+                    const spdReq = ctx.userTier === 'end' ? 12 : (ctx.userTier === 'late' ? 11 : (ctx.userTier === 'mid' ? 10 : 8));
+                    if (nativeSpeed >= spdReq || roleScore >= 58 || (ctx.combatEfficiency - flatRollPenalty) >= 62 || runeScore >= 80) {
+                        return { status: 'ROLL', title: 'TESTEAZĂ LA +9', color: 'bg-sky-50 text-sky-950 border-sky-400', reasons: `Roll-uri încă viabile: SPD nativ +${nativeSpeed}, Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Role Score ${roleScore.toFixed(0)}.`, archetypes: ctx.detectedRole || guide.role || 'În dezvoltare' };
                     }
-
-                    if (hasHighCrAt6 || (hasGoodRolls && ctx.maxPotentialEfficiency >= 80)) {
-                        return {
-                            status: 'ROLL',
-                            title: 'TESTEAZĂ LA +9 (ROLL-URI PROCENTUALE BUNE)',
-                            color: 'bg-sky-50 text-sky-900 border-sky-300',
-                            reasons: `Roll-urile de la +6 au consolidat atribute procentuale valoroase. Îmbunătățește la +9 pentru verificare.`,
-                            archetypes: guide.role || 'Densitate procentuală'
-                        };
-                    }
-
-                    return {
-                        status: 'SELL',
-                        title: 'VINDE (A RATAT ROLL-URILE LA +6)',
-                        color: 'bg-rose-50 text-rose-800 border-rose-300',
-                        reasons: `La nivelul +6 runa a obținut roll-uri minime sau împrăștiate fără viteză (SPD actual: +${ctx.totalSpeed}, minim cerut: +${doubleSpdThreshold}).`,
-                        archetypes: 'Vânzare Mana'
-                    };
+                    return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +6)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'Roll-urile nu au consolidat suficient nicio direcție utilă.', archetypes: 'Vânzare Mana' };
                 }
-
-                // CHECKPOINT +9 (au intrat 3 roll-uri)
                 if (lvlNum === 9) {
-                    const tripleSpdThreshold = ctx.userTier === 'end' ? 17 : (ctx.userTier === 'late' ? 16 : (ctx.userTier === 'mid' ? 15 : 12));
-                    const hasTripleSpd = ctx.totalSpeed >= tripleSpdThreshold;
-                    const hasTripleCr = crSub && crSub.val >= 16;
-                    const hasHighCombatEff = ctx.combatEfficiency >= 70.0;
-
-                    if (hasTripleSpd) {
-                        return {
-                            status: 'ROLL',
-                            title: `TESTEAZĂ LA +12 (TRIPLE ROLL SPD: +${ctx.totalSpeed})`,
-                            color: 'bg-emerald-50 text-emerald-950 border-emerald-400 font-black',
-                            reasons: `Performanță excelentă de viteză la +9 (+${ctx.totalSpeed} SPD)! Du-o la +12 pentru potențial Quad Roll.`,
-                            archetypes: 'Viteză / Booster'
-                        };
+                    const spdReq = ctx.userTier === 'end' ? 17 : (ctx.userTier === 'late' ? 16 : (ctx.userTier === 'mid' ? 15 : 12));
+                    if (nativeSpeed >= spdReq || roleScore >= 65 || (ctx.combatEfficiency - flatRollPenalty) >= 70 || runeScore >= 115) {
+                        return { status: 'ROLL', title: 'TESTEAZĂ LA +12', color: 'bg-emerald-50 text-emerald-950 border-emerald-400', reasons: `Piesa păstrează potențial: SPD nativ +${nativeSpeed}, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: ctx.detectedRole || guide.role || 'Configurație concentrată' };
                     }
-
-                    if (hasTripleCr || (hasHighCombatEff && ctx.flatCount === 0)) {
-                        return {
-                            status: 'ROLL',
-                            title: 'TESTEAZĂ LA +12 (STATISTICI CONCENTRATE)',
-                            color: 'bg-sky-50 text-sky-900 border-sky-300',
-                            reasons: `Roll-urile s-au concentrat favorabil la +9. Finalizează la +12 pentru deblocarea completă a piesei.`,
-                            archetypes: guide.role || 'Configurație concentrată'
-                        };
-                    }
-
-                    return {
-                        status: 'SELL',
-                        title: 'VINDE (A RATAT ROLL-URILE LA +9)',
-                        color: 'bg-rose-50 text-rose-800 border-rose-300',
-                        reasons: `La nivelul +9 runa nu a atins pragul critic (SPD: +${ctx.totalSpeed}, minim cerut: +${tripleSpdThreshold}; eficiență parțială insuficientă).`,
-                        archetypes: 'Vânzare Mana'
-                    };
+                    return { status: 'SELL', title: 'VINDE (A RATAT ROLL-URILE LA +9)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: 'La +9 nu există suficientă densitate statistică pentru nivelul contului.', archetypes: 'Vânzare Mana' };
                 }
             }
 
-            // 5. EVALUARE FINALĂ LA +12 ȘI +15 (PRAGURI STRATEGIICE SWOP)
-            let effThreshold = 68.0; let spdThreshold = 15;
-            if (ctx.userTier === 'beginner') { effThreshold = 48.0; spdThreshold = 6; } 
-            else if (ctx.userTier === 'mid') { effThreshold = 78.0; spdThreshold = 18; } 
-            else if (ctx.userTier === 'late') { effThreshold = 82.0; spdThreshold = 20; } 
-            else if (ctx.userTier === 'end') { effThreshold = 86.0; spdThreshold = 22; }
+            // 7. Evaluare finală +12/+15
+            let effThreshold = 68, spdThreshold = 15, roleThreshold = 58;
+            if (ctx.userTier === 'beginner') { effThreshold = 48; spdThreshold = 6; roleThreshold = 40; }
+            else if (ctx.userTier === 'mid') { effThreshold = 78; spdThreshold = 18; roleThreshold = 62; }
+            else if (ctx.userTier === 'late') { effThreshold = 82; spdThreshold = 20; roleThreshold = 68; }
+            else if (ctx.userTier === 'end') { effThreshold = 86; spdThreshold = 22; roleThreshold = 72; }
 
-            const meetsEff = ctx.combatEfficiency >= effThreshold || ctx.maxPotentialEfficiency >= (effThreshold + 6);
-            if (meetsEff) return { status: 'KEEP', title: `PĂSTREAZĂ (EFICIENȚĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Se încadrează în standardele contului.', archetypes: guide.role || 'General' };
-            if (ctx.totalSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD: +${ctx.totalSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge pragul cerut de viteză.', archetypes: 'Suport / Universal' };
+            const effectiveEff = ctx.combatEfficiency - flatRollPenalty;
+            const meetsQuality = effectiveEff >= effThreshold || (roleScore >= roleThreshold && effectiveEff >= effThreshold - 5) || ctx.maxPotentialEfficiency >= effThreshold + 6;
+            if (meetsQuality) return { status: 'KEEP', title: `PĂSTREAZĂ (AJUSTATĂ: ${ctx.combatEfficiency.toFixed(1)}%)`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: `Role Score ${roleScore.toFixed(0)}/100, Rune Score ${runeScore}, potențial ${ctx.maxPotentialEfficiency.toFixed(1)}%.`, archetypes: ctx.detectedRole || guide.role || 'General' };
+            if (nativeSpeed >= spdThreshold) return { status: 'KEEP', title: `PĂSTREAZĂ (SPD NATIV: +${nativeSpeed})`, color: 'bg-emerald-50 text-emerald-900 border-emerald-300', reasons: 'Atinge pragul de viteză nativă al profilului de cont.', archetypes: 'Suport / Universal' };
 
-            return { status: 'SELL', title: 'VINDE (SUB PRAG EFICIENȚĂ)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiența reală (${ctx.combatEfficiency.toFixed(1)}%) este sub pragul de ${effThreshold}%.`, archetypes: 'Vânzare' };
+            return { status: 'SELL', title: 'VINDE (SUB PRAG)', color: 'bg-rose-50 text-rose-800 border-rose-300', reasons: `Eficiență ajustată ${ctx.combatEfficiency.toFixed(1)}%, Role Score ${roleScore.toFixed(0)}, Rune Score ${runeScore}.`, archetypes: 'Vânzare' };
         }
 
         // ==========================================
-        // DETECTOR PVE CAPS & ADVISORS
+        // DETECTOR STAT CAPS & GEM SIMULATOR
         // ==========================================
-        function checkPvECaps(mainType, innateType, innateVal, subs) {
-            let totalAcc = (mainType === 'ACC%' ? 64 : 0) + (innateType === 'ACC%' ? innateVal : 0);
-            let totalCr = (mainType === 'CR%' ? 58 : 0) + (innateType === 'CR%' ? innateVal : 0);
-            let totalRes = (mainType === 'RES%' ? 64 : 0) + (innateType === 'RES%' ? innateVal : 0);
-            subs.forEach(s => { const t = s.val + (s.grindVal || 0); if (s.type === 'ACC%') totalAcc += t; if (s.type === 'CR%') totalCr += t; if (s.type === 'RES%') totalRes += t; });
+        function checkPvECaps(mainType, mainVal, innateType, innateVal, subs) {
+            let totalAcc = (mainType === 'ACC%' ? mainVal : 0) + (innateType === 'ACC%' ? innateVal : 0);
+            let totalCr = (mainType === 'CR%' ? mainVal : 0) + (innateType === 'CR%' ? innateVal : 0);
+            let totalRes = (mainType === 'RES%' ? mainVal : 0) + (innateType === 'RES%' ? innateVal : 0);
+            subs.forEach(s => {
+                const t = s.val + (s.grindVal || 0);
+                if (s.type === 'ACC%') totalAcc += t;
+                if (s.type === 'CR%') totalCr += t;
+                if (s.type === 'RES%') totalRes += t;
+            });
             const alerts = [];
-            if (totalAcc >= 45) alerts.push(`🎯 <strong>Acuratețe Ridicată (+${totalAcc}% ACC):</strong> Cap util în Cairos Abyss: 45%-54%.`);
-            if (totalCr >= 30) alerts.push(`⚡ <strong>CRI Rate Dens (+${totalCr}% CR):</strong> Atenție la plafonul maxim de 100%.`);
-            if (totalRes >= 45) alerts.push(`🛡️ <strong>Rezistență Mare (+${totalRes}% RES):</strong> Cu lider de 41%, pragul de 59% este cap 100%.`);
+            if (totalAcc >= 45) alerts.push(`🎯 <strong>ACC ridicată (+${totalAcc}%):</strong> verifică ținta exactă a conținutului/skillului pentru a evita overcap-ul.`);
+            if (totalCr >= 85) alerts.push(`⚡ <strong>CRI Rate foarte mare (+${totalCr}%):</strong> ești aproape de plafonul de 100%.`);
+            if (totalRes >= 85) alerts.push(`🛡️ <strong>Resistance foarte mare (+${totalRes}%):</strong> verifică liderul și buffurile înainte de a investi mai mult.`);
             return alerts;
         }
 
         function getBestGemForSub(ctx, subToReplace) {
             const isAncient = ctx.stars === '6-ancient';
             const guide = RUNE_SETS_GUIDE[ctx.set] || { desiredSubs: ['SPD', 'HP%', 'DEF%', 'ATK%', 'CR%', 'CD%'], prioritySub: 'SPD' };
+            const roleKey = ctx.targetRole === 'auto' ? (ctx.detectedRoleKey || 'support') : ctx.targetRole;
+            const role = ROLE_PROFILES[roleKey] || ROLE_PROFILES.support;
             const existingOtherSubs = ctx.subs.filter(s => s.slotIdx !== subToReplace.slotIdx).map(s => s.type);
-            const allCandidates = ['SPD', 'HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'];
-            
-            const validCandidates = allCandidates.filter(gem => {
-                if (gem === ctx.mainType) return false;
-                if (ctx.innateType !== 'None' && gem === ctx.innateType) return false;
-                if (existingOtherSubs.includes(gem)) return false;
-                if (ctx.slot === 1 && (gem === 'DEF%' || gem === 'Flat DEF')) return false;
-                if (ctx.slot === 3 && (gem === 'ATK%' || gem === 'Flat ATK')) return false;
-                return true;
-            });
+            const validCandidates = getLegalGemCandidates(ctx.mainType, ctx.innateType, existingOtherSubs, ctx.slot);
+            if (!validCandidates.length) return null;
 
-            if (validCandidates.length === 0) return null;
-            let bestGem = validCandidates[0]; let maxScore = -9999;
+            let best = null;
             validCandidates.forEach(gem => {
-                let score = 0;
-                if (gem === 'SPD') score += 60;
-                if (guide.prioritySub === gem) score += 45;
-                if (guide.desiredSubs && guide.desiredSubs.includes(gem)) score += Math.max(12, 36 - guide.desiredSubs.indexOf(gem) * 4);
-                if (['HP%', 'DEF%'].includes(gem)) score += 25;
-                if (gem === 'ATK%') score += 20;
-                if (['CR%', 'CD%'].includes(gem)) score += 18;
-                if (score > maxScore) { maxScore = score; bestGem = gem; }
+                let score = (role.weights[gem] || 0.05) * 100;
+                if (gem === 'SPD') score += 18;
+                if (guide.prioritySub === gem) score += 18;
+                if (guide.desiredSubs?.includes(gem)) score += 12;
+                const gemVal = getGemMaxVal(gem, isAncient);
+                if (!best || score > best.score) best = { gemType: gem, gemVal, score };
             });
-            return { gemType: bestGem, gemVal: getGemMaxVal(bestGem, isAncient) };
+            return best;
         }
 
-        // SALVARE GEM FĂRĂ SUPRASCRIEREA ROLL-URILOR
-        function findGemRescueOption(ctx) {
-            if (ctx.hasGem || ctx.subs.length === 0) return null;
+        function buildSimMetrics(ctx, simSubs, gemmedSubIndex) {
+            let nativeSpeed = 0, totalSpeed = 0, flatCount = 0, percentCount = 0, flatWithRolls = [];
+            simSubs.forEach(s => {
+                if (s.type === 'SPD') { nativeSpeed += s.val; totalSpeed += s.val + (s.grindVal || 0); }
+                if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) { flatCount++; if (s.plusVal > 0) flatWithRolls.push(s); }
+                if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'].includes(s.type)) percentCount++;
+            });
+            const role = calculateRoleScore(ctx.targetRole, ctx.slot, ctx.mainType, simSubs);
+            const usefulCount = simSubs.filter(s => {
+                const prof = ROLE_PROFILES[role.roleKey];
+                return prof && (prof.weights[s.type] || 0) >= 0.5;
+            }).length;
+            const eff = calculateSwopEfficiency(ctx.mainType, ctx.mainVal, simSubs, ctx.innateType, ctx.innateVal, ctx.stars === '6-ancient', flatCount, ctx.rarity, ctx.level, ctx.slot, gemmedSubIndex);
+            return { nativeSpeed, totalSpeed, flatCount, percentCount, flatWithRolls, role, usefulCount, eff };
+        }
+
+        function findBestGemOption(ctx, rescueOnly = false) {
+            if (!ctx.subs.length) return null;
             if ([2, 4, 6].includes(ctx.slot) && ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.mainType)) return null;
-            
-            const isAncient = ctx.stars === '6-ancient';
-            const allPossibleStats = ['SPD', 'CR%', 'CD%', 'HP%', 'ATK%', 'DEF%', 'ACC%', 'RES%'];
-            let bestRescue = null;
 
-            for (let sub of ctx.subs) {
-                // REGULĂ COMPETIȚIONALĂ: Nu se dă NICIODATĂ Gem pe un substat care a mâncat roll-uri![cite: 5]
-                if (sub.plusVal > 0) continue;
+            const allowedLines = ctx.gemmedSubIndex > 0
+                ? ctx.subs.filter(s => s.slotIdx === ctx.gemmedSubIndex)
+                : ctx.subs.filter(s => s.plusVal === 0);
+            if (!allowedLines.length) return null;
 
-                const otherSubTypes = ctx.subs.filter(s => s.slotIdx !== sub.slotIdx).map(s => s.type);
-                for (let gemType of allPossibleStats) {
-                    if (gemType === ctx.mainType || (ctx.innateType !== 'None' && gemType === ctx.innateType)) continue;
-                    if (otherSubTypes.includes(gemType)) continue;
-                    if (ctx.slot === 1 && (gemType === 'DEF%' || gemType === 'Flat DEF')) continue;
-                    if (ctx.slot === 3 && (gemType === 'ATK%' || gemType === 'Flat ATK')) continue;
-
-                    const gemVal = getGemMaxVal(gemType, isAncient);
-                    const simSubs = ctx.subs.map(s => s.slotIdx === sub.slotIdx ? { slotIdx: s.slotIdx, type: gemType, val: gemVal, plusVal: 0, grindVal: 0 } : { ...s });
-                    
-                    let simTotalSpeed = 0; let simFlatCount = 0; let simPercentCount = 0; let simFlatWithRolls = [];
-                    simSubs.forEach(s => {
-                        const tv = s.val + (s.grindVal || 0);
-                        if (s.type === 'SPD') simTotalSpeed += tv;
-                        if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) { simFlatCount++; if (s.plusVal > 0) simFlatWithRolls.push(s); }
-                        if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(s.type)) simPercentCount++;
-                    });
-
-                    const simEff = calculateSwopEfficiency(ctx.mainType, ctx.mainVal, simSubs, ctx.innateType, ctx.innateVal, isAncient, simFlatCount, ctx.rarity, ctx.level);
-                    const simVerdict = computeVerdict({ ...ctx, subs: simSubs, totalSpeed: simTotalSpeed, flatCount: simFlatCount, combatEfficiency: simEff.combatEff, maxPotentialEfficiency: simEff.maxPotentialEff });
-
-                    if (simVerdict.status === 'KEEP') {
-                        let score = simEff.combatEff;
-                        if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(sub.type)) score += 40;
-                        if (gemType === 'SPD') score += 20;
-
-                        if (!bestRescue || score > bestRescue.score) {
-                            bestRescue = { subToReplace: sub, gemType, gemVal, simCombatEff: simEff.combatEff, simMaxGrind: simEff.maxPotentialEff, simVerdict, score };
-                        }
+            const baseComposite = ctx.combatEfficiency + (ctx.roleScore || 0) * 0.35;
+            let best = null;
+            for (const sub of allowedLines) {
+                const otherTypes = ctx.subs.filter(s => s.slotIdx !== sub.slotIdx).map(s => s.type);
+                const candidates = getLegalGemCandidates(ctx.mainType, ctx.innateType, otherTypes, ctx.slot);
+                for (const gemType of candidates) {
+                    if (gemType === sub.type) continue;
+                    const gemVal = getGemMaxVal(gemType, ctx.stars === '6-ancient');
+                    const simSubs = ctx.subs.map(s => s.slotIdx === sub.slotIdx ? { ...s, type: gemType, val: gemVal, plusVal: 0, grindVal: 0 } : { ...s });
+                    const m = buildSimMetrics(ctx, simSubs, sub.slotIdx);
+                    const simCtx = {
+                        ...ctx, subs: simSubs, nativeSpeed: m.nativeSpeed, totalSpeed: m.totalSpeed, flatCount: m.flatCount,
+                        percentCount: m.percentCount, flatWithRolls: m.flatWithRolls, combatEfficiency: m.eff.combatEff,
+                        maxPotentialEfficiency: m.eff.maxPotentialEff, runeScore: m.eff.runeScore, roleScore: m.role.score,
+                        detectedRole: m.role.roleName, usefulStatCount: m.usefulCount, gemmedSubIndex: sub.slotIdx
+                    };
+                    const simVerdict = computeVerdict(simCtx);
+                    const composite = m.eff.combatEff + m.role.score * 0.35;
+                    const improvement = composite - baseComposite;
+                    if (rescueOnly && simVerdict.status !== 'KEEP') continue;
+                    if (!rescueOnly && improvement < 2.0) continue;
+                    let score = improvement;
+                    if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(sub.type)) score += 4;
+                    if (gemType === 'SPD') score += 1.5;
+                    if (!best || score > best.score) {
+                        best = { subToReplace: sub, gemType, gemVal, simCombatEff: m.eff.combatEff, simRoleScore: m.role.score, simVerdict, improvement, score };
                     }
                 }
             }
-            return bestRescue;
+            return best;
+        }
+
+        function findGemRescueOption(ctx) {
+            return findBestGemOption(ctx, true);
         }
 
         // ==========================================
@@ -1658,11 +1688,13 @@
             const targetRole = document.getElementById('target-role')?.value || 'auto';
             const mainType = document.getElementById('main-stat-type').value;
             const mainVal = parseFloat(document.getElementById('main-stat-val').value) || 0;
-            const hasGem = document.getElementById('rune-has-gem')?.checked || false;
+            const gemmedSubIndex = parseInt(document.getElementById('gemmed-sub-index')?.value || '0', 10) || 0;
+            const hasGem = gemmedSubIndex > 0;
             const innateType = document.getElementById('innate-type').value;
             const innateVal = parseFloat(document.getElementById('innate-val').value) || 0;
 
-            const subs = []; let totalSpeed = 0; let flatCount = 0; let percentCount = 0; let flatWithRolls = [];
+            const subs = [];
+            let nativeSpeed = 0, totalSpeed = 0, flatCount = 0, percentCount = 0, flatWithRolls = [];
             const isAncient = stars === '6-ancient';
 
             for (let i = 1; i <= 4; i++) {
@@ -1670,40 +1702,41 @@
                 const valEl = document.getElementById(`sub-val-${i}`);
                 const plusEl = document.getElementById(`sub-plus-${i}`);
                 const grindEl = document.getElementById(`sub-grind-${i}`);
-
                 if (!typeEl || !valEl) continue;
-                const type = typeEl.value; const val = parseFloat(valEl.value) || 0;
+                const type = typeEl.value;
+                const val = parseFloat(valEl.value) || 0;
                 const plusVal = parseFloat(plusEl ? plusEl.value : 0) || 0;
                 const grindVal = parseFloat(grindEl ? grindEl.value : 0) || 0;
 
                 if (type !== 'None' && val > 0) {
                     subs.push({ slotIdx: i, type, val, plusVal, grindVal });
-                    const fullVal = val + grindVal;
-                    if (type === 'SPD') totalSpeed += fullVal;
-                    if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) {
-                        flatCount++; if (plusVal > 0) flatWithRolls.push({ type, val, plusVal });
-                    }
-                    if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%'].includes(type)) percentCount++;
+                    if (type === 'SPD') { nativeSpeed += val; totalSpeed += val + grindVal; }
+                    if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(type)) { flatCount++; if (plusVal > 0) flatWithRolls.push({ slotIdx: i, type, val, plusVal }); }
+                    if (['HP%', 'ATK%', 'DEF%', 'CR%', 'CD%', 'ACC%', 'RES%'].includes(type)) percentCount++;
                 }
             }
+
+            const roleMetrics = calculateRoleScore(targetRole, currentSlot, mainType, subs);
+            const roleProfile = ROLE_PROFILES[roleMetrics.roleKey];
+            const usefulStatCount = subs.filter(s => roleProfile && (roleProfile.weights[s.type] || 0) >= 0.5).length;
 
             const deadStatAlert = document.getElementById('dead-stat-alert');
             const deadStatAlertText = document.getElementById('dead-stat-alert-text');
             if (flatCount >= 2) {
                 deadStatAlert.classList.remove('hidden');
-                deadStatAlertText.innerHTML = userTier === 'beginner' 
-                    ? `Notă Începător: Runa conține <strong>${flatCount} Flat Substats</strong>. Provizoriu pt set.` 
-                    : `Atenție: Runa conține <strong>2 sau mai multe Flat Substats</strong>! Dead stat garantat.`;
+                deadStatAlertText.innerHTML = userTier === 'beginner'
+                    ? `Notă Începător: runa conține <strong>${flatCount} Flat Substats</strong>. Poate fi folosită provizoriu.`
+                    : `Atenție: runa conține <strong>${flatCount} Flat Substats</strong>. Nu înseamnă vânzare automată dacă are un roll excepțional, dar flexibilitatea este redusă.`;
             } else { deadStatAlert.classList.add('hidden'); }
 
-            const effResults = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level);
-            
-            document.getElementById('swop-eff-badge').innerText = `SWOP: ${effResults.swopCurrentEff.toFixed(1)}%`;
-            document.getElementById('combat-eff-badge').innerText = `Reală: ${effResults.combatEff.toFixed(1)}%`;
-            document.getElementById('max-grind-badge').innerText = `Potențial: ${effResults.maxPotentialEff.toFixed(1)}%`;
-            document.getElementById('relative-eff-badge').innerText = `Clasă: ${effResults.relativeEff.toFixed(1)}%`;
+            const effResults = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, currentSlot, gemmedSubIndex);
 
-            const capAlerts = checkPvECaps(mainType, innateType, innateVal, subs);
+            document.getElementById('swop-eff-badge').innerText = `SWOP: ${effResults.swopCurrentEff.toFixed(1)}%`;
+            document.getElementById('combat-eff-badge').innerText = `Ajustată: ${effResults.combatEff.toFixed(1)}%`;
+            document.getElementById('max-grind-badge').innerText = `Potențial: ${effResults.maxPotentialEff.toFixed(1)}%`;
+            document.getElementById('relative-eff-badge').innerText = `Rune Score: ${effResults.runeScore}`;
+
+            const capAlerts = checkPvECaps(mainType, mainVal, innateType, innateVal, subs);
             const capBox = document.getElementById('cap-alert-box');
             if (capAlerts.length > 0) {
                 capBox.innerHTML = capAlerts.join('<br>');
@@ -1715,7 +1748,6 @@
             synBanner.className = `p-3 rounded-xl border flex flex-col items-start justify-start text-left text-xs font-bold gap-1 transition-all ${synergy.color}`;
             synBanner.innerHTML = `<div class="text-xs font-black tracking-wide flex items-center gap-1.5">${synergy.label}</div><div class="text-[11px] font-semibold text-left leading-relaxed">${synergy.desc}</div>`;
 
-            // BANNER SINERGIE ROL ȚINTĂ
             const roleSynergy = analyzeRoleSynergy(targetRole, currentSlot, mainType, subs);
             const roleBanner = document.getElementById('role-synergy-banner');
             if (roleSynergy && targetRole !== 'auto') {
@@ -1726,18 +1758,25 @@
                 roleBanner.classList.add('hidden');
             }
 
-            const verdictCtx = { slot: currentSlot, set, stars, rarity, level, userTier, targetRole, mainType, mainVal, totalSpeed, flatCount, percentCount, flatWithRolls, swopEfficiency: effResults.swopCurrentEff, combatEfficiency: effResults.combatEff, maxPotentialEfficiency: effResults.maxPotentialEff, relativeEfficiency: effResults.relativeEff, innateType, subs, hasGem, synergy, roleSynergy };
+            const verdictCtx = {
+                slot: currentSlot, set, stars, rarity, level, userTier, targetRole, mainType, mainVal,
+                nativeSpeed, totalSpeed, flatCount, percentCount, usefulStatCount, flatWithRolls,
+                swopEfficiency: effResults.swopCurrentEff, combatEfficiency: effResults.combatEff,
+                maxGrindEfficiency: effResults.maxGrindEff, maxPotentialEfficiency: effResults.maxPotentialEff,
+                relativeEfficiency: effResults.relativeEff, runeScore: effResults.runeScore,
+                roleScore: roleMetrics.score, detectedRole: roleMetrics.roleName, detectedRoleKey: roleMetrics.roleKey,
+                innateType, innateVal, subs, hasGem, gemmedSubIndex, synergy, roleSynergy
+            };
             const verdict = computeVerdict(verdictCtx);
-
             const isSellVerdict = verdict.status === 'SELL';
             const isMustKeepForReapp = checkMustKeepMainStat(set, currentSlot, mainType);
-            const gemRescue = isSellVerdict ? findGemRescueOption({ ...verdictCtx, innateVal }) : null;
+            const gemRescue = isSellVerdict ? findGemRescueOption(verdictCtx) : null;
 
             renderVerdict(verdict, gemRescue);
-            renderGemAdvisor({ ...verdictCtx, innateVal, isSellVerdict }, gemRescue);
-            renderReappraisalAdvisor({ slot: currentSlot, set, stars, rarity, mainType, innateType, subs, efficiency: effResults.combatEff, level, userTier, isSellVerdict, isMustKeepForReapp });
-            renderRefinementAdvisor({ slot: currentSlot, set, stars, rarity, level, userTier, mainType, innateType, subs, combatEfficiency: effResults.combatEff, hasGem, isSellVerdict, percentCount, totalSpeed });
-            renderGrindAdvisor({ subs, stars, userTier, isAncient, combatEfficiency: effResults.combatEff, maxGrindEfficiency: effResults.maxPotentialEff });
+            renderGemAdvisor({ ...verdictCtx, isSellVerdict }, gemRescue);
+            renderReappraisalAdvisor({ ...verdictCtx, efficiency: effResults.combatEff, isSellVerdict, isMustKeepForReapp });
+            renderRefinementAdvisor({ ...verdictCtx, combatEfficiency: effResults.combatEff, isSellVerdict });
+            renderGrindAdvisor({ subs, stars, userTier, isAncient, combatEfficiency: effResults.combatEff, maxGrindEfficiency: effResults.maxGrindEff });
         }
 
         // ==========================================
@@ -1749,7 +1788,7 @@
             banner.innerHTML = verdict.title;
             const rescueDiv = document.getElementById('verdict-rescue-option');
             if (gemRescue) {
-                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE (FĂRĂ PIERDERE ROLL-URI):</strong> Înlocuiește <u>${gemRescue.subToReplace.type}</u> cu <u>${gemRescue.gemType}</u> (Eficiență: ${gemRescue.simCombatEff.toFixed(1)}%)!</span></div>`;
+                rescueDiv.innerHTML = `<div class="p-2.5 bg-emerald-50 text-emerald-950 border border-emerald-300 rounded-lg text-xs font-black flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm"><span class="text-lg">💎</span><span class="text-center sm:text-left"><strong>OPORTUNITATE DE SALVARE:</strong> ${gemRescue.subToReplace.type} ➜ ${gemRescue.gemType} (+${gemRescue.gemVal}), Eficiență ajustată ${gemRescue.simCombatEff.toFixed(1)}%, Role Score ${gemRescue.simRoleScore.toFixed(0)}.</span></div>`;
                 rescueDiv.classList.remove('hidden');
             } else { rescueDiv.innerHTML = ''; rescueDiv.classList.add('hidden'); }
             document.getElementById('verdict-reasons').innerHTML = verdict.reasons;
@@ -1760,82 +1799,109 @@
             const container = document.getElementById('gem-recommendation-box');
             const badge = document.getElementById('gem-badge');
             container.innerHTML = '';
-            if (ctx.userTier === 'beginner') {
-                badge.className = 'text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded border border-amber-300'; badge.innerText = 'Info Începător';
-                container.innerHTML = `<div class="p-2.5 bg-amber-50/80 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">🐣 Nu consuma gemuri pe rune de 4/5★! Păstrează-le pentru 6★.</div>`; return;
+            if (ctx.userTier === 'beginner' && ['4-star', '5-star'].includes(ctx.stars)) {
+                badge.className = 'text-[10px] bg-amber-100 text-amber-800 font-black px-2 py-0.5 rounded border border-amber-300'; badge.innerText = 'Economisește Gemurile';
+                container.innerHTML = `<div class="p-2.5 bg-amber-50/80 rounded-lg border border-amber-200 text-amber-900 text-[11px] font-bold">🐣 Evită consumul de Gemuri valoroase pe rune 4★/5★; păstrează-le pentru 6★.</div>`; return;
             }
-            if (ctx.hasGem) {
-                badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Gem Aplicat';
-                container.innerHTML = `<div class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-bold">ℹ️ Ai atins limita de un gem per piesă conform regulilor jocului.</div>`; return;
+            if (ctx.hasGem && !ctx.subs.some(s => s.slotIdx === ctx.gemmedSubIndex)) {
+                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded border border-rose-300'; badge.innerText = 'Linie Gem Invalidă';
+                container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">Selectează ca „Linie Gem” un substat existent.</div>`; return;
             }
             if (ctx.isSellVerdict) {
-                const rescue = precomputedRescue || findGemRescueOption(ctx);
+                const rescue = precomputedRescue || findBestGemOption(ctx, true);
                 if (rescue) {
-                    badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = '✨ SALVARE: SELL ➔ KEEP';
-                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black text-xs text-emerald-900 flex items-center gap-1.5"><span>💡</span> CONVERSIE SALVATOARE (ZERO ROLL-URI RISIPITE)!</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 space-y-0.5 text-slate-800 text-[11px]"><div>👉 Înlocuiește linia fără roll-uri: <strong class="text-rose-600">${rescue.subToReplace.type}</strong></div><div>💎 Gem Recomandat: <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div></div></div>`;
+                    badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = ctx.hasGem ? '✨ RE-GEM: SELL ➜ KEEP' : '✨ GEM: SELL ➜ KEEP';
+                    container.innerHTML = `<div class="p-2.5 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-emerald-950 text-xs font-bold"><div class="font-black">💡 Conversie recomandată</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-emerald-300 text-[11px]">👉 Linie #${rescue.subToReplace.slotIdx}: <strong class="text-rose-600">${rescue.subToReplace.type}</strong> ➜ <strong class="text-emerald-700">${rescue.gemType} (+${rescue.gemVal})</strong></div></div>`;
                 } else {
-                    badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200'; badge.innerText = 'Fără Salvare';
-                    container.innerHTML = `<div class="p-2 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold">🚫 Niciun Gem nu o poate ridica peste prag fără a risipi roll-uri utile.</div>`;
+                    badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-black px-2 py-0.5 rounded border border-rose-200'; badge.innerText = 'Fără Salvare Clară';
+                    container.innerHTML = `<div class="p-2 bg-rose-50/70 rounded-lg border border-rose-200 text-rose-800 text-[11px] font-bold">🚫 Nicio conversie legală nu o ridică suficient fără să sacrifice prea multă valoare.</div>`;
                 }
                 return;
             }
-            if (ctx.subs.length === 0) return;
-            const unrolledFlat = ctx.subs.filter(s => s.plusVal === 0).find(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type));
-            if (unrolledFlat) {
-                const rec = getBestGemForSub(ctx, unrolledFlat);
-                if (rec) {
-                    badge.className = 'text-[10px] bg-amber-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-amber-700'; badge.innerText = '⚠️ Înlocuire Flat';
-                    container.innerHTML = `<div class="bg-amber-50 p-2.5 rounded-xl border border-amber-300 text-xs text-amber-950 font-bold"><div class="font-black text-amber-900 flex items-center gap-1.5"><span>⚠️</span> ÎNLĂTURARE FLAT NEPLUSAT</div><div class="p-2 mt-1.5 bg-white rounded-lg border border-amber-200 space-y-0.5 text-slate-800 text-[11px]"><div>👉 Înlocuiește: <strong class="text-rose-600">${unrolledFlat.type}</strong></div><div>💎 Gem: <strong class="text-emerald-700">${rec.gemType} (+${rec.gemVal})</strong></div></div></div>`;
-                    return;
-                }
+
+            const improvement = findBestGemOption(ctx, false);
+            if (improvement) {
+                badge.className = 'text-[10px] bg-cyan-600 text-white font-black px-2.5 py-0.5 rounded border border-cyan-700'; badge.innerText = ctx.hasGem ? 'Re-Gem Util' : 'Gem Util';
+                container.innerHTML = `<div class="bg-cyan-50 p-2.5 rounded-xl border border-cyan-300 text-[11px] font-bold text-cyan-950">💎 Linie #${improvement.subToReplace.slotIdx}: ${improvement.subToReplace.type} ➜ <strong>${improvement.gemType} (+${improvement.gemVal})</strong>. Câștig estimat de profil: +${improvement.improvement.toFixed(1)} puncte.</div>`;
+                return;
             }
             badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded border border-emerald-300'; badge.innerText = 'Configurație Solidă';
-            container.innerHTML = `<div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">✅ Structură bună, păstrează opțiunea de gem liberă.</div>`;
+            container.innerHTML = `<div class="bg-emerald-50 p-2 rounded-lg border border-emerald-300 text-[11px] text-emerald-900 font-bold">✅ Nu există o conversie care să îmbunătățească suficient profilul actual. Păstrează resursa.</div>`;
         }
 
         function renderReappraisalAdvisor(ctx) {
-            const container = document.getElementById('reapp-recommendation-box'); const badge = document.getElementById('reapp-badge');
+            const container = document.getElementById('reapp-recommendation-box');
+            const badge = document.getElementById('reapp-badge');
             if (ctx.userTier === 'beginner') {
                 badge.className = 'text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-300'; badge.innerText = 'Info Reapp';
-                container.innerHTML = `<div class="p-2 bg-purple-50 rounded-lg border border-purple-200 text-purple-950 text-[11px] font-bold">🔒 Păstrează Reappraisal Stone strict pentru rune 6★ Legend!</div>`; return;
+                container.innerHTML = `<div class="p-2 bg-purple-50 rounded-lg border border-purple-200 text-purple-950 text-[11px] font-bold">🔒 Prioritizează Reappraisal Stone pentru rune 6★ Legend cu set/main strategic.</div>`; return;
             }
-            if (ctx.set === 'Intangible') { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Blocat'; container.innerHTML = `<div class="p-2 bg-rose-50 border-rose-300 text-[11px] font-bold">🛑 Intangible nu permite Reappraisal.</div>`; return; }
-            if (ctx.rarity !== 'Legend' || ['4-star', '5-star'].includes(ctx.stars)) { badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-black px-2 py-0.5 rounded border border-slate-200'; badge.innerText = 'Neeligibil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Exclusiv pentru 6★ Legend.</div>`; return; }
-            if (ctx.innateType === 'SPD') { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Blocat de SPD'; container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🛑 SPD este Innate, nu va apărea niciodată la Reappraisal.</div>`; return; }
-            if (ctx.isSellVerdict && ctx.isMustKeepForReapp) {
-                badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400'; badge.innerText = '💎 PĂSTREAZĂ PT. REAPP!';
-                container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">🎯 Bază 6★ Legend extrem de valoroasă pe setul ${ctx.set}. Păstrează piesa pt Reappraisal!</div>`; return;
+            if (ctx.set === 'Intangible') { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Neeligibil'; container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🛑 Intangible nu permite Reappraisal.</div>`; return; }
+            if (ctx.rarity !== 'Legend' || ['4-star', '5-star'].includes(ctx.stars)) { badge.className = 'text-[10px] bg-slate-100 text-slate-500 font-black px-2 py-0.5 rounded border border-slate-200'; badge.innerText = 'Neeligibil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Reappraisal este rezervat pieselor 6★ Legend.</div>`; return; }
+
+            const premium = { Violent: 25, Swift: 24, Will: 23, Despair: 21, Rage: 19, Vampire: 16, Fight: 16, Nemesis: 15, Revenge: 15, Seal: 14, Destroy: 12 };
+            let score = premium[ctx.set] || 8;
+            if (ctx.isMustKeepForReapp) score += 24;
+            if ([1, 3, 5].includes(ctx.slot)) score += 7;
+            if (ctx.innateType !== 'None') score += ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(ctx.innateType) ? 10 : 5;
+            if (ctx.combatEfficiency < 74) score += 16; else if (ctx.combatEfficiency < 82) score += 10; else if (ctx.combatEfficiency >= 86) score -= 20;
+            if (ctx.nativeSpeed >= 20) score -= 18;
+            if (ctx.runeScore >= 170) score -= 10;
+
+            const innateNote = ctx.innateType === 'SPD' ? ' SPD este Innate, deci nu poate apărea în cele 4 substats după Reappraisal.' : '';
+            if (score >= 58) {
+                badge.className = 'text-[10px] bg-purple-600 text-white font-black px-2 py-0.5 rounded border border-purple-700'; badge.innerText = 'Prioritate Ridicată';
+                container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">🎯 Bază foarte bună pentru Reappraisal (${score} puncte prioritate).${innateNote}</div>`;
+            } else if (score >= 40) {
+                badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400'; badge.innerText = 'Prioritate Medie';
+                container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">Poate merita Reappraisal, dar după bazele premium cu scor mai mare (${score}).${innateNote}</div>`;
+            } else {
+                badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200'; badge.innerText = 'Prioritate Mică';
+                container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Nu consuma Reappraisal Stone aici decât dacă ai un motiv specific de build (${score} puncte).${innateNote}</div>`;
             }
-            badge.className = 'text-[10px] bg-purple-200 text-purple-900 font-black px-2 py-0.5 rounded border border-purple-400'; badge.innerText = 'Candidat Elită';
-            container.innerHTML = `<div class="p-2 bg-purple-50 text-[11px] font-bold">✨ Bază 6★ Legend ideală pentru Reappraisal.</div>`;
         }
 
         function renderRefinementAdvisor(ctx) {
-            const container = document.getElementById('refine-recommendation-box'); const badge = document.getElementById('refine-badge');
-            if (ctx.userTier === 'beginner') { badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded'; badge.innerText = 'Info Refine'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Mecanică End-Game.</div>`; return; }
-            if (ctx.set === 'Intangible' || ctx.hasGem || !['+12', '+15'].includes(ctx.level)) { badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Blocat/Neeligibil'; container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🚫 Nu se poate aplica.</div>`; return; }
-            if (ctx.combatEfficiency >= 82 || ctx.totalSpeed >= 20) { badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Optim'; container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Runa are deja rolls mari, Refinement riscă să scadă valoarea.</div>`; return; }
+            const container = document.getElementById('refine-recommendation-box');
+            const badge = document.getElementById('refine-badge');
+            if (ctx.userTier === 'beginner') { badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded'; badge.innerText = 'Info Refine'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Refinement este o resursă de optimizare avansată.</div>`; return; }
+            if (ctx.set === 'Intangible' || ctx.stars === '6-ancient' || ctx.hasGem || !['+12', '+15'].includes(ctx.level)) {
+                badge.className = 'text-[10px] bg-rose-100 text-rose-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Neeligibil';
+                const why = ctx.stars === '6-ancient' ? 'Ancient Runes nu pot fi rafinate.' : (ctx.hasGem ? 'Runele convertite cu Gem nu pot fi rafinate.' : (ctx.set === 'Intangible' ? 'Intangible nu poate fi rafinată.' : 'Este necesar nivelul +12 sau +15.'));
+                container.innerHTML = `<div class="p-2 bg-rose-50 text-[11px] font-bold">🚫 ${why}</div>`; return;
+            }
+
+            const prof = ROLE_PROFILES[ctx.detectedRoleKey] || ROLE_PROFILES.support;
+            const usefulTypes = ctx.subs.filter(s => (prof.weights[s.type] || 0) >= 0.5).length;
+            const badTypes = ctx.subs.filter(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type) || (prof.weights[s.type] || 0) <= 0.10).length;
+            if (ctx.nativeSpeed >= 20 || ctx.combatEfficiency >= 84 || ctx.runeScore >= 175) {
+                badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Nu Rafina';
+                container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Runa are deja un rezultat puternic. Refinement poate redistribui nefavorabil roll-urile.</div>`; return;
+            }
+            if (usefulTypes >= 3 && badTypes <= 1) {
+                badge.className = 'text-[10px] bg-amber-500 text-white font-black px-2 py-0.5 rounded border border-amber-600'; badge.innerText = 'Candidat Bun';
+                container.innerHTML = `<div class="p-2 bg-amber-50 text-[11px] font-bold">✨ Tipurile de substats sunt bune (${usefulTypes}/4 utile), dar distribuția valorilor este încă modestă. Acesta este exact profilul pe care Refinement îl poate îmbunătăți fără a schimba tipurile.</div>`; return;
+            }
             badge.className = 'text-[10px] bg-slate-100 text-slate-600 font-black px-2 py-0.5 rounded border border-slate-200'; badge.innerText = 'Prioritate Mică';
-            container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Preferabil Reappraisal.</div>`;
+            container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">ℹ️ Problema principală este structura substat-urilor, nu doar distribuția roll-urilor. Refinement nu schimbă tipurile de substats.</div>`;
         }
 
         function renderGrindAdvisor(ctx) {
-            const container = document.getElementById('grind-recommendation-box'); const badge = document.getElementById('grind-badge');
+            const container = document.getElementById('grind-recommendation-box');
+            const badge = document.getElementById('grind-badge');
             const grindableSubs = ctx.subs.filter(s => isGrindable(s.type));
-            if (grindableSubs.length === 0) { badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Ne-grindabil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Toate atributele sunt fixe (ne-grindabile).</div>`; return; }
+            if (!grindableSubs.length) { badge.className = 'text-[10px] bg-slate-200 text-slate-700 font-black px-2 py-0.5 rounded border border-slate-300'; badge.innerText = 'Ne-grindabil'; container.innerHTML = `<div class="p-2 bg-slate-50 text-[11px] font-bold">Toate substaturile sunt ne-grindabile.</div>`; return; }
             const ungrinded = grindableSubs.filter(s => !s.grindVal || s.grindVal === 0);
-            if (ungrinded.length === 0) { badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Toate Grinduite'; container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Complet șlefuită.</div>`; return; }
-            const grindGain = ctx.maxGrindEfficiency - ctx.combatEfficiency;
-            badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = `+${grindGain.toFixed(1)}% Potențial`;
-            
-            let itemsHtml = grindableSubs.map(s => {
-                const lim = getGrindLimits(s.type, ctx.isAncient); const isGrinded = s.grindVal > 0; const unit = s.type.includes('%') ? '%' : '';
+            if (!ungrinded.length) { badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-black px-2 py-0.5 rounded'; badge.innerText = 'Toate Grinduite'; container.innerHTML = `<div class="p-2 bg-emerald-50 text-[11px] font-bold">✅ Toate liniile grindabile au deja Grindstone introdus.</div>`; return; }
+            const grindGain = Math.max(0, ctx.maxGrindEfficiency - ctx.combatEfficiency);
+            badge.className = 'text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded shadow-sm border border-emerald-700'; badge.innerText = `+${grindGain.toFixed(1)}% Grind`;
+            const itemsHtml = grindableSubs.map(s => {
+                const isGrinded = s.grindVal > 0; const unit = s.type.includes('%') ? '%' : '';
                 return `<div class="flex justify-between items-center p-1.5 rounded-md bg-white border border-emerald-200 text-[11px]"><div><span class="font-extrabold">${s.type}</span>: <span class="font-black">${s.val}${unit}</span> ${isGrinded ? `<span class="text-indigo-600">(+${s.grindVal} Grind)</span>` : '<span class="text-amber-600">(Ne-șlefuit)</span>'}</div></div>`;
             }).join('');
-            container.innerHTML = `<div class="space-y-1.5"><p class="text-[11px] font-semibold">Grindstones adaugă până la <strong class="text-emerald-700">+${grindGain.toFixed(1)}%</strong>.</p><div class="space-y-1">${itemsHtml}</div></div>`;
+            container.innerHTML = `<div class="space-y-1.5"><p class="text-[11px] font-semibold">Câștigul maxim estimat exclusiv din Grindstones este <strong class="text-emerald-700">+${grindGain.toFixed(1)}%</strong>.</p><div class="space-y-1">${itemsHtml}</div></div>`;
         }
 
-        // ==========================================
         // OCR STANDARD & PREPROCESARE (CONFIGURATOR)
         // ==========================================
         const dropzone = document.getElementById('ocr-dropzone');
@@ -2171,105 +2237,111 @@
 
         function evaluateReappFromUI() {
             document.getElementById('reapp-results-container').classList.remove('hidden');
-
-            const beforeSubs = [];
-            const afterSubs = [];
-
-            for(let i=1; i<=4; i++) {
+            const beforeSubs = [], afterSubs = [];
+            for (let i = 1; i <= 4; i++) {
                 const bType = document.getElementById(`reapp-b-type-${i}`).value;
                 const bVal = parseInt(document.getElementById(`reapp-b-val-${i}`).value) || 0;
-                if (bType !== 'None' && bVal > 0) beforeSubs.push({type: bType, val: bVal});
-
+                if (bType !== 'None' && bVal > 0) beforeSubs.push({ slotIdx: i, type: bType, val: bVal, plusVal: 0, grindVal: 0 });
                 const aType = document.getElementById(`reapp-a-type-${i}`).value;
                 const aVal = parseInt(document.getElementById(`reapp-a-val-${i}`).value) || 0;
-                if (aType !== 'None' && aVal > 0) afterSubs.push({type: aType, val: aVal});
+                if (aType !== 'None' && aVal > 0) afterSubs.push({ slotIdx: i, type: aType, val: aVal, plusVal: 0, grindVal: 0 });
             }
 
             const verdictBox = document.getElementById('reapp-final-verdict');
-
-            if (beforeSubs.length === 0 && afterSubs.length === 0) {
+            if (!beforeSubs.length && !afterSubs.length) {
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 border-dashed border-slate-300 text-center text-slate-500 font-bold shadow-sm';
                 verdictBox.innerHTML = `⏳ Introduceți atributele manual sau scanați un screenshot pentru a vedea verdictul.`;
                 document.getElementById('reapp-before-eff').innerText = `0.0%`;
-                document.getElementById('reapp-before-spd').innerText = `Viteză: +0 SPD`;
+                document.getElementById('reapp-before-spd').innerText = `Viteză nativă: +0 SPD`;
                 document.getElementById('reapp-after-eff').innerText = `0.0%`;
-                document.getElementById('reapp-after-spd').innerText = `Viteză: +0 SPD`;
+                document.getElementById('reapp-after-spd').innerText = `Viteză nativă: +0 SPD`;
                 return;
             }
 
+            const set = document.getElementById('reapp-set').value;
             const isAncient = document.getElementById('reapp-is-ancient').checked;
             const mainType = document.getElementById('reapp-main-type').value;
             const innateType = document.getElementById('reapp-innate-type').value;
             const innateVal = parseFloat(document.getElementById('reapp-innate-val').value) || 0;
+            const targetRole = document.getElementById('target-role')?.value || 'auto';
             const mainVal = mainStatTable['6-star']['+15'][mainType] || 1;
 
-            function computeSide(subs) {
-                let spd = 0; let flatCount = 0; let subsCleaned = [];
-                subs.forEach(s => {
-                    // Prevenire erori de input uman sau OCR cu main/innate duplicate
-                    if (s.type === mainType || s.type === innateType) s.type = s.type.includes('%') ? 'Flat ' + s.type.replace('%','') : s.type + '%';
-                    if (s.type === 'SPD') spd += s.val;
-                    if (['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)) flatCount++;
-                    subsCleaned.push({ ...s, grindVal: 0 });
-                });
-                const eff = calculateSwopEfficiency(mainType, mainVal, subsCleaned, innateType, innateVal, isAncient, flatCount, 'Legend', '+12');
-                return { spd, flatCount, eff: eff.combatEff };
+            if (set === 'Intangible') {
+                verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center border-rose-400 bg-rose-50 text-rose-900 font-black';
+                verdictBox.innerHTML = `🛑 Intangible Rune nu poate fi reappraised.`;
+                return;
             }
 
-            const beforeData = computeSide(beforeSubs); 
+            function validateSide(subs, label) {
+                const errors = [];
+                const seen = new Set();
+                for (const s of subs) {
+                    if (seen.has(s.type)) errors.push(`${label}: substat duplicat (${s.type})`);
+                    seen.add(s.type);
+                    if (s.type === mainType) errors.push(`${label}: ${s.type} nu poate fi simultan Main Stat și substat`);
+                    if (innateType !== 'None' && s.type === innateType) errors.push(`${label}: ${s.type} nu poate duplica Innate Stat`);
+                    if (reappCurrentSlot === 1 && (s.type === 'DEF%' || s.type === 'Flat DEF')) errors.push(`${label}: DEF/DEF% nu este legal pe Slot 1`);
+                    if (reappCurrentSlot === 3 && (s.type === 'ATK%' || s.type === 'Flat ATK')) errors.push(`${label}: ATK/ATK% nu este legal pe Slot 3`);
+                }
+                return errors;
+            }
+
+            const errors = [...validateSide(beforeSubs, 'BEFORE'), ...validateSide(afterSubs, 'AFTER')];
+            if (errors.length) {
+                verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center border-rose-400 bg-rose-50 text-rose-900 font-black';
+                verdictBox.innerHTML = `⚠️ DATE REAPPRAISAL INVALIDE<br><span class="text-sm font-bold">${errors.join('<br>')}</span><br><span class="text-xs">Corectează manual valorile OCR; aplicația nu mai transformă automat un stat imposibil în alt stat.</span>`;
+                return;
+            }
+
+            function computeSide(subs) {
+                const flatCount = subs.filter(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)).length;
+                const nativeSpd = subs.filter(s => s.type === 'SPD').reduce((sum, s) => sum + s.val, 0);
+                const eff = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, 'Legend', '+12', reappCurrentSlot, 0);
+                const role = calculateRoleScore(targetRole, reappCurrentSlot, mainType, subs);
+                const scoreNorm = Math.min(100, eff.runeScore / 2.0);
+                let speedBonus = 0;
+                if (nativeSpd >= 18) speedBonus += Math.min(8, (nativeSpd - 17) * (set === 'Swift' ? 0.8 : 0.5));
+                const composite = eff.combatEff * 0.45 + role.score * 0.35 + scoreNorm * 0.20 + speedBonus;
+                return { nativeSpd, flatCount, eff, role, composite };
+            }
+
+            const beforeData = computeSide(beforeSubs);
             const afterData = computeSide(afterSubs);
 
-            document.getElementById('reapp-before-eff').innerText = `${beforeData.eff.toFixed(1)}%`; 
-            document.getElementById('reapp-before-spd').innerText = `Viteză: +${beforeData.spd} SPD`;
+            document.getElementById('reapp-before-eff').innerText = `${beforeData.eff.combatEff.toFixed(1)}%`;
+            document.getElementById('reapp-before-spd').innerHTML = `Viteză nativă: +${beforeData.nativeSpd} SPD • Rol: ${beforeData.role.score.toFixed(0)} • Score: ${beforeData.eff.runeScore}`;
+            document.getElementById('reapp-after-eff').innerText = `${afterData.eff.combatEff.toFixed(1)}%`;
+            document.getElementById('reapp-after-spd').innerHTML = `Viteză nativă: +${afterData.nativeSpd} SPD • Rol: ${afterData.role.score.toFixed(0)} • Score: ${afterData.eff.runeScore}`;
 
-            document.getElementById('reapp-after-eff').innerText = `${afterData.eff.toFixed(1)}%`; 
-            document.getElementById('reapp-after-spd').innerText = `Viteză: +${afterData.spd} SPD`;
-
-            const panelBefore = document.getElementById('reapp-before-panel'); 
+            const panelBefore = document.getElementById('reapp-before-panel');
             const panelAfter = document.getElementById('reapp-after-panel');
-
-            // Curățare clase precedente
-            panelBefore.className = 'border-2 rounded-xl p-4 transition-all bg-white border-slate-200'; 
+            panelBefore.className = 'border-2 rounded-xl p-4 transition-all bg-white border-slate-200';
             panelAfter.className = 'border-2 rounded-xl p-4 transition-all bg-white border-slate-200';
 
-            let winner = 'none'; let reason = '';
-
-            const beforeIsGodTier = beforeData.eff >= 88.0 && beforeData.flatCount === 0;
-
-            if (afterData.spd >= 20 && beforeData.spd < afterData.spd) { 
-                winner = 'after'; 
-                reason = `Varianta nouă atinge un Quad/High Triple roll în Viteză (+${afterData.spd} SPD)!`; 
-            } else if (beforeIsGodTier && afterData.spd < 22) {
-                winner = 'before';
-                reason = `PĂSTREAZĂ BEFORE! Varianta inițială are o eficiență de elită (${beforeData.eff.toFixed(1)}%) fără flat-uri. Nu merită sacrificată pentru un roll mediu de viteză.`;
-            } else if (beforeData.spd >= 18 && afterData.spd < beforeData.spd) { 
-                winner = 'before'; 
-                reason = `Păstrează varianta veche! Are un roll masiv de viteză (+${beforeData.spd} SPD).`; 
-            } else if (afterData.eff > beforeData.eff + 4.0 && afterData.flatCount <= beforeData.flatCount) { 
-                winner = 'after'; 
-                reason = `Varianta nouă este substanțial mai eficientă (+${(afterData.eff - beforeData.eff).toFixed(1)}%) cu stats mai curate.`; 
-            } else if (beforeData.eff > afterData.eff + 4.0 && beforeData.flatCount <= afterData.flatCount) { 
-                winner = 'before'; 
-                reason = `Varianta veche păstrează o eficiență superioară (+${(beforeData.eff - afterData.eff).toFixed(1)}%). Nu o schimba!`; 
-            } else if (afterData.flatCount < beforeData.flatCount && afterData.eff >= beforeData.eff - 3.0) { 
-                winner = 'after'; 
-                reason = `Varianta nouă scapă de atributele flat, curățând runa.`; 
-            } else if (afterData.eff > beforeData.eff) { 
-                winner = 'after'; 
-                reason = `Marginal mai eficientă varianta nouă. Alege AFTER.`; 
-            } else { 
-                winner = 'before'; 
-                reason = `Nimic impresionant. Mai bine rămâi cu BEFORE și folosești alte Reapp-uri.`; 
+            const diff = afterData.composite - beforeData.composite;
+            let winner = diff > 1.5 ? 'after' : (diff < -1.5 ? 'before' : 'tie');
+            if (winner === 'tie') {
+                if (afterData.eff.combatEff > beforeData.eff.combatEff + 1) winner = 'after';
+                else if (beforeData.eff.combatEff > afterData.eff.combatEff + 1) winner = 'before';
+                else if (afterData.role.score > beforeData.role.score + 2) winner = 'after';
+                else if (beforeData.role.score > afterData.role.score + 2) winner = 'before';
+                else winner = afterData.nativeSpd > beforeData.nativeSpd ? 'after' : 'before';
             }
+
+            const chosen = winner === 'after' ? afterData : beforeData;
+            const other = winner === 'after' ? beforeData : afterData;
+            const chosenLabel = winner === 'after' ? 'AFTER REAPPRAISAL' : 'BEFORE (PĂSTREAZĂ)';
+            const continueHint = chosen.composite < 72 ? ' Păstrează această variantă pentru moment, dar continuă Reappraisal când resursele permit.' : '';
+            const reason = `Scor compozit ${chosen.composite.toFixed(1)} vs ${other.composite.toFixed(1)}; Ajustată ${chosen.eff.combatEff.toFixed(1)}%, Role Score ${chosen.role.score.toFixed(0)}, Rune Score ${chosen.eff.runeScore}, SPD nativ +${chosen.nativeSpd}.${continueHint}`;
 
             if (winner === 'after') {
                 panelAfter.classList.add('border-emerald-500', 'bg-emerald-50', 'ring-4', 'ring-emerald-500/20');
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center shadow-sm border-emerald-400 bg-emerald-100 text-emerald-950 font-black';
-                verdictBox.innerHTML = `✅ ALEGE: AFTER REAPPRAISAL <br><span class="text-sm font-bold text-emerald-800">${reason}</span>`;
+                verdictBox.innerHTML = `✅ ALEGE: ${chosenLabel}<br><span class="text-sm font-bold text-emerald-800">${reason}</span>`;
             } else {
                 panelBefore.classList.add('border-amber-500', 'bg-amber-50', 'ring-4', 'ring-amber-500/20');
                 verdictBox.className = 'md:col-span-2 p-4 rounded-xl border-2 text-center shadow-sm border-amber-400 bg-amber-100 text-amber-950 font-black';
-                verdictBox.innerHTML = `✋ ALEGE: BEFORE (PĂSTREAZĂ) <br><span class="text-sm font-bold text-amber-800">${reason}</span>`;
+                verdictBox.innerHTML = `✋ ALEGE: ${chosenLabel}<br><span class="text-sm font-bold text-amber-800">${reason}</span>`;
             }
         }
 
@@ -2279,7 +2351,7 @@
         function resetBuilder() {
             document.getElementById('rune-set').value = 'Nemesis'; document.getElementById('rune-stars').value = '6-ancient';
             document.getElementById('rune-rarity').value = 'Legend'; document.getElementById('rune-level').value = '+12';
-            if (document.getElementById('rune-has-gem')) document.getElementById('rune-has-gem').checked = false;
+            if (document.getElementById('gemmed-sub-index')) document.getElementById('gemmed-sub-index').value = '0';
             selectSlot(3); reappSelectSlot(3);
             document.getElementById('innate-type').value = 'None'; document.getElementById('innate-val').value = 0;
             resetSubstats();
