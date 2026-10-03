@@ -24,6 +24,10 @@
         }
     </script>
     <style>
+        *, *::before, *::after {
+            border-radius: 5px !important;
+        }
+
         *, html, body, button, input, select, textarea, span, p, h1, h2, h3, h4, h5, h6 {
             font-family: 'Nunito', sans-serif !important;
         }
@@ -57,7 +61,7 @@
         }
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
-            border-radius: 9999px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -557,6 +561,8 @@
                         </div>
                     </div>
 
+                        </div>
+                        <div class="space-y-3.5">
                     <!-- CONSILIER 1: ENCHANTED GEM -->
                     <div class="border border-cyan-200 rounded-xl p-3 sm:p-3.5 bg-cyan-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-cyan-200 pb-1.5">
@@ -568,8 +574,6 @@
                         <div id="gem-recommendation-box" class="space-y-1.5 text-xs">
                         </div>
                     </div>
-                        </div>
-                        <div class="space-y-3.5">
                     <!-- CONSILIER 2: REAPPRAISAL STONE -->
                     <div class="border border-purple-200 rounded-xl p-3 sm:p-3.5 bg-purple-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-purple-200 pb-1.5">
