@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summoners War - Evaluator și Optimizator de Rune (ediția PvE & SWOP)</title>
+    <title>SW - Evaluator și Optimizator de Rune (ediția PvE &amp; ER)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tesseract.js OCR CDN pentru scanare automată din imagini -->
@@ -69,22 +69,22 @@
 
     <!-- HEADER RESPONSIVE -->
     <header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-[1600px] mx-auto px-3 sm:px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
-            <div class="flex items-center space-x-3 w-full md:w-auto">
+        <div class="w-full px-3 sm:px-4 py-3 flex flex-col xl:flex-row xl:items-center gap-3">
+            <div class="flex items-center gap-3 min-w-0 flex-1">
                 <span class="text-3xl p-1 bg-amber-50 rounded-xl border border-amber-200 shadow-sm shrink-0">🔮</span>
-                <div>
+                <div class="min-w-0">
                     <h1 class="text-lg sm:text-2xl font-black tracking-wide text-slate-900 flex flex-wrap items-center gap-1.5 sm:gap-2">
-                        SUMMONERS WAR <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">Standard SWOP & Optimizare PvE</span>
+                        SW <span class="text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">Eficiența Runei (ER) • Optimizare PvE</span>
                     </h1>
                     <p class="text-xs text-slate-500 font-semibold">Model matematic Barion • Evaluare praguri de progresie • Enchanted Gems, Reappraisal, Refinement și Grindstones</p>
                 </div>
             </div>
 
             <!-- Progression & Target Role Selectors -->
-            <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full md:w-auto justify-between md:justify-start">
-                <div class="flex items-center gap-1.5">
-                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Nivelul progresului contului:</span>
-                    <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 truncate max-w-[240px] sm:max-w-none">
+            <div class="flex flex-nowrap items-center gap-3 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full xl:w-auto xl:ml-auto overflow-x-auto">
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <span class="text-xs text-slate-600 font-extrabold pl-1 whitespace-nowrap">Nivelul progresului contului:</span>
+                    <select id="user-tier" onchange="evaluateRune()" class="bg-white text-amber-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 max-w-[250px]">
                         <option value="beginner">Debut / Scenario (Campanie, 4★-5★)</option>
                         <option value="early">Început de joc (GB10/DB10, Abyss N, ToA N)</option>
                         <option value="mid" selected>Joc intermediar (Abyss H stabil, Solo R5, C1-C3)</option>
@@ -92,9 +92,9 @@
                         <option value="end">Final de joc (recorduri &lt;30s, Siege G2+, G3)</option>
                     </select>
                 </div>
-                <div class="flex items-center gap-1.5">
-                    <span class="text-xs text-slate-600 font-extrabold pl-1 shrink-0">Rolul monstrului:</span>
-                    <select id="target-role" onchange="evaluateRune()" class="bg-white text-sky-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500/30 truncate max-w-[180px] sm:max-w-none">
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <span class="text-xs text-slate-600 font-extrabold pl-1 whitespace-nowrap">Rolul monstrului:</span>
+                    <select id="target-role" onchange="evaluateRune()" class="bg-white text-sky-700 text-xs font-extrabold rounded-lg px-2 py-1.5 border border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500/30 max-w-[220px]">
                         <option value="auto" selected>Detectare automată a sinergiei</option>
                         <option value="nuker">Fast DPS / Nuker (CR/CD/ATK/SPD)</option>
                         <option value="slowdps">Slow / Leo DPS (CR/CD/ATK)</option>
@@ -143,7 +143,7 @@
                         Apasă pentru a alege o captură de ecran sau trage imaginea aici
                     </div>
                     <p class="text-xs text-slate-500 font-semibold">
-                        Sau fă o captură de ecran în Summoners War și apasă direct <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd>
+                        Sau fă o captură de ecran în SW și apasă direct <kbd class="px-2 py-0.5 bg-white border border-slate-300 rounded text-slate-700 font-extrabold shadow-xs">Ctrl + V</kbd>
                     </p>
                 </div>
 
@@ -502,20 +502,20 @@
                 </div>
             </div>
 
-        <!-- VERDICT & EFICIENȚĂ SWOP -->
-                <!-- VERDICT & EFICIENȚĂ SWOP, STRUCTURĂ ORIZONTALĂ -->
+        <!-- VERDICT & EFICIENȚĂ ER -->
+                <!-- VERDICT & EFICIENȚĂ ER, STRUCTURĂ ORIZONTALĂ -->
                 <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5" id="verdict-card-container">
                     <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-3">
                         <span class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                            <span>⚖️</span> VERDICT & EFICIENȚĂ SWOP
+                            <span>⚖️</span> VERDICT & EFICIENȚĂ ER
                         </span>
                         
                         <!-- Metric Badges -->
                         <div class="flex flex-wrap items-center gap-1.5">
-                            <span id="swop-eff-badge" class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-900 font-black text-xs border border-sky-300" title="Eficiență matematică standard SWOP Barion (14.0 divisor)">
-                                SWOP: 0.0%
+                            <span id="rune-eff-badge" class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-900 font-black text-xs border border-sky-300" title="Eficiența Runei (ER), model matematic normalizat cu divizor 14,0">
+                                ER: 0.0%
                             </span>
-                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență ajustată: model SWOP cu atribute cu valori fixe ponderate la 50%">
+                            <span id="combat-eff-badge" class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs border border-cyan-300" title="Eficiență ajustată: model ER cu atributele cu valori fixe ponderate la 50%">
                                 Ajustată: 0.0%
                             </span>
                             <span id="max-grind-badge" class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-black text-[11px] border border-emerald-300" title="Potențial teoretic după upgrade la +12/+15, Legend Grinds și cea mai bună conversie Gem legală">
@@ -556,7 +556,7 @@
                     <div class="space-y-2.5 text-xs">
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
                             <strong class="text-slate-800 font-black block mb-1 flex items-center gap-1.5">
-                                <span class="text-amber-500">📊</span> Analiză valori și calitatea roll-urilor (SWOP):
+                                <span class="text-amber-500">📊</span> Analiză valori și calitatea roll-urilor (ER):
                             </strong>
                             <p id="verdict-reasons" class="text-slate-600 leading-relaxed font-bold"></p>
                         </div>
@@ -761,141 +761,333 @@
             </div>
         </div>
 
-        <!-- STRATEGY & PROGRESSION GUIDE ACCORDION / REFERENCE CARD -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
-            <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
-                <span class="text-amber-500">📚</span> GHID STRATEGIC: PROGRESIE, SWOP, ENCHANTED GEMS, REAPPRAISAL & GRINDSTONES
-            </h3>
-            
-            <!-- Matrice strategică de filtrare -->
-            <div class="space-y-2">
-                <h4 class="font-black text-slate-800 uppercase tracking-wider text-xs flex items-center gap-1.5">
-                    <span>🎯</span> Matricea de filtrare pe niveluri de cont (praguri de păstrare/vânzare)
-                </h4>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-center border-collapse text-[11px]">
-                        <thead>
-                            <tr class="bg-slate-100 text-slate-800 font-black">
-                                <th class="p-2 border border-slate-300 text-left">Profil Cont</th>
-                                <th class="p-2 border border-slate-300 text-left">Raritate & Stele Acceptate</th>
-                                <th class="p-2 border border-slate-300">SPD +0</th>
-                                <th class="p-2 border border-slate-300">SPD +6</th>
-                                <th class="p-2 border border-slate-300">SPD +9</th>
-                                <th class="p-2 border border-slate-300">SPD +12</th>
-                                <th class="p-2 border border-slate-300">Eficiență +0</th>
-                                <th class="p-2 border border-slate-300">Eficiență +12</th>
-                            </tr>
-                        </thead>
-                        <tbody class="font-bold text-slate-700">
-                            <tr class="bg-amber-50/70">
-                                <td class="p-2 border border-slate-300 font-black text-left text-amber-950">Debut / Scenario</td>
-                                <td class="p-2 border border-slate-300 text-left">4★ și 5★ (orice raritate; chiar și Flat provizoriu pe 2/4/6 pt. set); 6★ Orice</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">&ge; 3</td>
-                                <td class="p-2 border border-slate-300">&ge; 6</td>
-                                <td class="p-2 border border-slate-300">&ge; 9</td>
-                                <td class="p-2 border border-slate-300">&ge; 10</td>
-                                <td class="p-2 border border-slate-300">&ge; 45.0%</td>
-                                <td class="p-2 border border-slate-300">&ge; 52.0%</td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 border border-slate-300 font-black text-left bg-slate-50">Early Game</td>
-                                <td class="p-2 border border-slate-300 text-left">5★ Hero/Legend (exclusiv 2/4/6 Main %/SPD); 6★ Rare/Hero/Legend</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">&ge; 4</td>
-                                <td class="p-2 border border-slate-300">&ge; 8</td>
-                                <td class="p-2 border border-slate-300">&ge; 12</td>
-                                <td class="p-2 border border-slate-300">&ge; 15</td>
-                                <td class="p-2 border border-slate-300">&ge; 58.0%</td>
-                                <td class="p-2 border border-slate-300">&ge; 68.0%</td>
-                            </tr>
-                            <tr class="bg-white">
-                                <td class="p-2 border border-slate-300 font-black text-left bg-slate-50">Mid Game</td>
-                                <td class="p-2 border border-slate-300 text-left">Vânzare automată 5★; 6★ Hero/Legend (6★ Rare doar Swift cu 6 SPD nativ)</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">&ge; 5</td>
-                                <td class="p-2 border border-slate-300">&ge; 10</td>
-                                <td class="p-2 border border-slate-300">&ge; 15</td>
-                                <td class="p-2 border border-slate-300">&ge; 18</td>
-                                <td class="p-2 border border-slate-300">&ge; 68.0%</td>
-                                <td class="p-2 border border-slate-300">&ge; 78.0%</td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 border border-slate-300 font-black text-left bg-slate-50">Late / End-game</td>
-                                <td class="p-2 border border-slate-300 text-left">Exclusiv 6★ Hero (valori native aproape maxime) și 6★ Legend; 6★ Ancient</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">&ge; 6</td>
-                                <td class="p-2 border border-slate-300">&ge; 12</td>
-                                <td class="p-2 border border-slate-300">&ge; 17</td>
-                                <td class="p-2 border border-slate-300 font-black text-purple-700">&ge; 22 (24 Swift)</td>
-                                <td class="p-2 border border-slate-300">&ge; 74% / 80%</td>
-                                <td class="p-2 border border-slate-300">&ge; 86% (105% Grind)</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!-- DOCUMENTAȚIE COMPLETĂ A APLICAȚIEI -->
+        <section id="app-docs" class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+                        <span class="text-amber-500">📚</span> DOCUMENTAȚIA APLICAȚIEI
+                    </h3>
+                    <p class="mt-1 text-xs text-slate-500 font-semibold">Ghid complet pentru configurare, evaluare, verdict, ER, roluri, seturi, OCR, Gems, Reappraisal, Refinement și Grindstones.</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" onclick="document.querySelectorAll('#app-docs details.doc-section').forEach(d => d.open = true)" class="text-[11px] font-black text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 px-3 py-1.5 rounded-lg transition">Extinde tot</button>
+                    <button type="button" onclick="document.querySelectorAll('#app-docs details.doc-section').forEach(d => d.open = false)" class="text-[11px] font-black text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 px-3 py-1.5 rounded-lg transition">Restrânge tot</button>
                 </div>
             </div>
 
-            <!-- Tabel Valori Grindstone & Gems (JSON Arhitectură) -->
-            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-3">
-                <h4 class="font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <span>📊</span> Tabel Grindstones & Enchanted Gems (normal vs. Ancient)
-                </h4>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-center border-collapse text-[11px]">
-                        <thead>
-                            <tr class="bg-emerald-100/70 text-emerald-950 font-black">
-                                <th class="p-2 border border-slate-300 text-left">Atribut Substat</th>
-                                <th class="p-2 border border-slate-300">Hero Grindstone normal</th>
-                                <th class="p-2 border border-slate-300">Legend Grindstone normal</th>
-                                <th class="p-2 border border-slate-300 text-cyan-800">Hero Ancient Grindstone</th>
-                                <th class="p-2 border border-slate-300 text-cyan-800">Legend Ancient Grindstone</th>
-                                <th class="p-2 border border-slate-300 text-amber-800">Legend Enchanted Gem (normal / Ancient)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="font-bold text-slate-700">
-                            <tr>
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">SPD (Viteză)</td>
-                                <td class="p-2 border border-slate-300">+3 ~ +4</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">+4 ~ +5</td>
-                                <td class="p-2 border border-slate-300 text-cyan-700">+3 ~ +5</td>
-                                <td class="p-2 border border-slate-300 text-cyan-800 font-black">+4 ~ +6</td>
-                                <td class="p-2 border border-slate-300 text-amber-700 font-black">+7~10 / +7~11</td>
-                            </tr>
-                            <tr class="bg-white">
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">HP% / ATK% / DEF%</td>
-                                <td class="p-2 border border-slate-300">+4% ~ +7%</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">+5% ~ +10%</td>
-                                <td class="p-2 border border-slate-300 text-cyan-700">+4% ~ +9%</td>
-                                <td class="p-2 border border-slate-300 text-cyan-800 font-black">+5% ~ +12%</td>
-                                <td class="p-2 border border-slate-300 text-amber-700 font-black">+9~13% / +9~15%</td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">ATK / DEF fix</td>
-                                <td class="p-2 border border-slate-300">+12 ~ +22</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">+18 ~ +30</td>
-                                <td class="p-2 border border-slate-300 text-cyan-700">+12 ~ +26</td>
-                                <td class="p-2 border border-slate-300 text-cyan-800 font-black">+18 ~ +34</td>
-                                <td class="p-2 border border-slate-300 text-amber-700 font-black">+28~40 / +28~44</td>
-                            </tr>
-                            <tr class="bg-white">
-                                <td class="p-2 border border-slate-300 font-black bg-slate-100 text-left">HP fix</td>
-                                <td class="p-2 border border-slate-300">+230 ~ +450</td>
-                                <td class="p-2 border border-slate-300 text-emerald-700 font-black">+430 ~ +550</td>
-                                <td class="p-2 border border-slate-300 text-cyan-700">+230 ~ +510</td>
-                                <td class="p-2 border border-slate-300 text-cyan-800 font-black">+430 ~ +610</td>
-                                <td class="p-2 border border-slate-300 text-amber-700 font-black">+400~580 / +400~640</td>
-                            </tr>
-                            <tr class="bg-rose-50 text-rose-800">
-                                <td class="p-2 border border-slate-300 font-black text-left">CR% / CD% / ACC% / RES%</td>
-                                <td colspan="4" class="p-2 border border-slate-300 font-black text-center">
-                                    🚫 FĂRĂ GRINDSTONE (aceste atribute nu acceptă Grindstones; valorile din roll-uri sunt definitive)
-                                </td>
-                                <td class="p-2 border border-slate-300 text-amber-700 font-black">
-                                    CR: 6~9% (10%) | CD: 7~10% (12%)
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="grid grid-cols-1 lg:grid-cols-[250px_minmax(0,1fr)] gap-4 lg:gap-6 items-start">
+                <nav class="lg:sticky lg:top-24 bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-1 max-h-[72vh] overflow-y-auto" aria-label="Meniu documentație">
+                    <div class="text-[10px] font-black uppercase tracking-wider text-slate-500 px-2 pb-1">Navigare</div>
+                    <a href="#doc-overview" onclick="document.getElementById('doc-overview').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">1. Ce face aplicația</a>
+                    <a href="#doc-workflow" onclick="document.getElementById('doc-workflow').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">2. Flux recomandat</a>
+                    <a href="#doc-config" onclick="document.getElementById('doc-config').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">3. Configuratorul runei</a>
+                    <a href="#doc-ocr" onclick="document.getElementById('doc-ocr').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">4. Scanarea OCR</a>
+                    <a href="#doc-progress" onclick="document.getElementById('doc-progress').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">5. Nivelul contului</a>
+                    <a href="#doc-role" onclick="document.getElementById('doc-role').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">6. Rolul monstrului</a>
+                    <a href="#doc-er" onclick="document.getElementById('doc-er').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">7. ER și scorurile</a>
+                    <a href="#doc-verdict" onclick="document.getElementById('doc-verdict').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">8. Motorul de verdict</a>
+                    <a href="#doc-seturi" onclick="document.getElementById('doc-seturi').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">9. Seturi și sinergie</a>
+                    <a href="#doc-gems" onclick="document.getElementById('doc-gems').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">10. Enchanted Gems</a>
+                    <a href="#doc-reapp" onclick="document.getElementById('doc-reapp').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">11. Reappraisal</a>
+                    <a href="#doc-refinement" onclick="document.getElementById('doc-refinement').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">12. Rune Refinement</a>
+                    <a href="#doc-grinds" onclick="document.getElementById('doc-grinds').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">13. Grindstones</a>
+                    <a href="#doc-comparator" onclick="document.getElementById('doc-comparator').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">14. Comparator Reappraisal</a>
+                    <a href="#doc-ancient" onclick="document.getElementById('doc-ancient').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">15. Ancient și Intangible</a>
+                    <a href="#doc-limits" onclick="document.getElementById('doc-limits').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">16. Alerte și limitări</a>
+                    <a href="#doc-glossary" onclick="document.getElementById('doc-glossary').open=true" class="block px-2 py-1.5 text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-700 border border-transparent hover:border-slate-200">17. Glosar rapid</a>
+                </nav>
+
+                <div class="space-y-2.5 min-w-0">
+                    <details id="doc-overview" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">1. Ce face aplicația și ce nu face</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-2 border-t border-slate-100 pt-3">
+                            <p>Aplicația evaluează o rună pe baza slotului, setului, gradului, rarității, nivelului de îmbunătățire, Main Stat-ului, Innate Stat-ului, celor până la patru substat-uri, valorilor obținute din roll-uri și Grindstones. Rezultatul combină mai multe criterii, nu un singur procent.</p>
+                            <p>Motorul analizează simultan <strong>eficiența matematică ER</strong>, eficiența ajustată, potențialul maxim, Scorul runei, sinergia cu setul, sinergia cu rolul monstrului, SPD nativ, densitatea valorilor fixe și pragurile nivelului contului. Verdictul poate fi PĂSTREAZĂ, TESTEAZĂ, VERIFICĂ, FOLOSEȘTE TEMPORAR sau VINDE.</p>
+                            <p>Aplicația este un instrument de triere și optimizare. Nu cunoaște automat inventarul complet, bonusurile exacte ale unui monstru, lead skill-ul, artefactele, buffurile, viteza întregii echipe sau obiectivul concret al unui build. De aceea, verdictul include un <strong>safety net</strong> care încearcă să evite vânzarea automată a unor piese de nișă sau a unor baze bune pentru Reappraisal.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-workflow" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">2. Fluxul recomandat de utilizare</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed border-t border-slate-100 pt-3">
+                            <ol class="list-decimal pl-5 space-y-1.5 font-semibold">
+                                <li>Alege <strong>Nivelul progresului contului</strong>. Acesta stabilește cât de strict este filtrul.</li>
+                                <li>Alege un <strong>Rol al monstrului</strong> sau lasă Detectare automată a sinergiei.</li>
+                                <li>Introdu runa manual sau folosește OCR. Verifică întotdeauna datele recunoscute.</li>
+                                <li>Confirmă slotul, setul, gradul, raritatea, nivelul, Main Stat-ul și Innate Stat-ul.</li>
+                                <li>Completează substat-urile. În coloana <strong>Total (+Rolls)</strong> introdu valoarea albă totală a liniei, în <strong>Rolls ▲</strong> partea provenită din plusări, iar în <strong>Grindstone (+)</strong> numai valoarea adăugată de Grindstone.</li>
+                                <li>Citește verdictul, ER, eficiența ajustată, potențialul, Scorul runei și bannerele de sinergie.</li>
+                                <li>Verifică separat recomandările pentru Gem, Reappraisal, Refinement și Grindstones înainte de a consuma resurse.</li>
+                                <li>Pentru o ofertă de Reappraisal, folosește comparatorul ÎNAINTE/DUPĂ și verifică manual orice rezultat OCR.</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details id="doc-config" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">3. Configuratorul runei: toate câmpurile și regulile de bază</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 1:</strong> Main Stat fix Flat ATK. DEF% și Flat DEF nu sunt permise ca substat.</div>
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 2:</strong> Main Stat legal: SPD, HP%, ATK%, DEF%. Main-urile cu valori fixe sunt tratate ca neviabile de motorul de verdict.</div>
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 3:</strong> Main Stat fix Flat DEF. ATK% și Flat ATK nu sunt permise ca substat.</div>
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 4:</strong> Main Stat legal: CD%, CR%, HP%, DEF%, ATK%. Main-urile cu valori fixe sunt tratate ca neviabile.</div>
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 5:</strong> Main Stat fix Flat HP.</div>
+                                <div class="bg-white border border-slate-200 p-3 rounded-lg"><strong>Slot 6:</strong> Main Stat legal: HP%, DEF%, ATK%, ACC%, RES%. Main-urile cu valori fixe sunt tratate ca neviabile.</div>
+                            </div>
+                            <p><strong>Gradul runei:</strong> aplicația acceptă 4★, 5★, 6★ Standard și 6★ Ancient. Valorile Main Stat sunt completate automat după grad, tip și nivel când este posibil.</p>
+                            <p><strong>Raritatea inițială:</strong> Normal, Magic, Rare, Hero sau Legend determină câte substat-uri există de la +0 și care linii pot primi roll-uri la pragurile de îmbunătățire. Interfața ascunde sau blochează liniile care nu sunt încă disponibile.</p>
+                            <p><strong>Nivelul:</strong> +0, +3, +6, +9, +12 sau +15. Până la +12, motorul estimează și roll-urile rămase. +15 maximizează Main Stat-ul, dar nu mai adaugă substat-uri.</p>
+                            <p><strong>Innate Stat:</strong> este prefixul fix al runei. Nu primește roll-uri. Aplicația îl include în ER și Scorul runei și îl exclude din pool-ul legal de substat-uri/Gem/Reappraisal.</p>
+                            <p><strong>Substat Total (+Rolls):</strong> valoarea nativă totală înainte de Grindstone. <strong>Rolls ▲</strong> este folosit pentru a ști dacă o linie a primit plusări, informație importantă deoarece consilierul Gem nu recomandă înlocuirea unei linii cu plusări. <strong>Grindstone (+)</strong> este separat pentru a nu confunda viteza nativă cu viteza grinduită.</p>
+                            <p><strong>Linie GEM:</strong> marchează ce substat a fost deja convertit. După marcare, consilierul blochează a doua conversie până când este confirmat un Reappraisal aplicat.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-ocr" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">4. Scanarea OCR: încărcare, lipire și ce detectează</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-2 border-t border-slate-100 pt-3">
+                            <p>Zona OCR acceptă alegerea unui fișier, tragere și plasare sau lipire cu <strong>Ctrl+V</strong>. Imaginea este mărită atunci când este mică, convertită la contrast ridicat și procesată local în browser cu Tesseract.js, limba de recunoaștere fiind engleza.</p>
+                            <p>Parserul încearcă să detecteze slotul, nivelul de upgrade, setul, tipul Standard/Ancient, raritatea, Main Stat-ul, Innate Stat-ul, substat-urile, plusările și Grindstone-ul afișat în paranteză. Datele sunt apoi aplicate în Configurator, iar evaluarea se recalculează.</p>
+                            <p>Pentru Grindstones, scanarea folosește aceeași captură cu o singură rună și actualizează Configuratorul. Pentru Reappraisal, imaginea este împărțită în jumătatea stângă și cea dreaptă, apoi cele două variante sunt citite separat.</p>
+                            <p class="font-black text-amber-900 bg-amber-50 border border-amber-200 p-2.5 rounded-lg">OCR-ul nu este o sursă infailibilă. Orice valoare recunoscută greșit trebuie corectată manual înainte de verdict, mai ales procentul, tipul Flat/% și separarea dintre roll și Grindstone.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-progress" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">5. Nivelul progresului contului și pragurile de filtrare</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Selectorul de progres schimbă direct severitatea verdictului. Același obiect poate fi păstrat pe un cont aflat la început și vândut pe un cont avansat.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-center border-collapse text-[11px] bg-white">
+                                    <thead><tr class="bg-slate-100 font-black text-slate-800"><th class="p-2 border border-slate-300 text-left">Nivel</th><th class="p-2 border border-slate-300">ER ajustată finală</th><th class="p-2 border border-slate-300">SPD nativ final</th><th class="p-2 border border-slate-300">Scor rol</th></tr></thead>
+                                    <tbody class="font-bold text-slate-700">
+                                        <tr><td class="p-2 border border-slate-300 text-left">Debut / Scenario</td><td class="p-2 border border-slate-300">48%</td><td class="p-2 border border-slate-300">6</td><td class="p-2 border border-slate-300">40</td></tr>
+                                        <tr><td class="p-2 border border-slate-300 text-left">Început de joc</td><td class="p-2 border border-slate-300">68%</td><td class="p-2 border border-slate-300">15</td><td class="p-2 border border-slate-300">58</td></tr>
+                                        <tr><td class="p-2 border border-slate-300 text-left">Joc intermediar</td><td class="p-2 border border-slate-300">78%</td><td class="p-2 border border-slate-300">18</td><td class="p-2 border border-slate-300">62</td></tr>
+                                        <tr><td class="p-2 border border-slate-300 text-left">Joc avansat</td><td class="p-2 border border-slate-300">82%</td><td class="p-2 border border-slate-300">20</td><td class="p-2 border border-slate-300">68</td></tr>
+                                        <tr><td class="p-2 border border-slate-300 text-left">Final de joc</td><td class="p-2 border border-slate-300">86%</td><td class="p-2 border border-slate-300">22</td><td class="p-2 border border-slate-300">72</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>La +0/+3, motorul verifică dacă baza justifică un test până la +6. La +6 cere suficient SPD, rol, eficiență sau Scor rună pentru a continua la +9. La +9 cere un prag mai mare pentru continuarea la +12. În Mid Game și peste, runele 5★ sunt eliminate automat, iar 4★ sunt păstrate doar în profilul Debut / Scenario.</p>
+                            <p>La +12/+15, verdictul final poate fi obținut fie prin ER ajustată, fie prin combinația dintre scorul de rol și o ER apropiată de prag, fie printr-un potențial maxim suficient de mare. SPD nativ poate salva separat o piesă.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-role" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">6. Rolul monstrului și detectarea automată a sinergiei</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Fiecare rol are ponderi diferite pentru SPD, HP%, DEF%, ATK%, CR%, CD%, ACC% și RES% și o listă de Main Stat-uri preferate pe sloturile 2/4/6. Scorul de rol este normalizat la 0-100.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px]">
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Fast DPS / Nuker:</strong> ATK, CR, CD, apoi SPD.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Slow / Leo DPS:</strong> ATK, CR, CD, cu SPD aproape neimportant.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>HP-scaling DPS:</strong> HP, CR, CD, apoi SPD/DEF.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>DEF-scaling DPS:</strong> DEF, CR, CD, apoi SPD/HP.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Critless DPS:</strong> ATK/DEF/HP/SPD, CR și CD aproape ignorate.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>SPD-scaling DPS:</strong> SPD este prioritatea principală, apoi damage.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Bomber:</strong> ATK, ACC și SPD, fără dependență reală de CR/CD.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Bruiser:</strong> HP, DEF, ATK, CR, SPD și CD în echilibru.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Tank / Frontline:</strong> HP, DEF, RES, apoi SPD.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Buffer / Healer:</strong> SPD, HP și DEF, apoi RES/ACC.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Debuffer / CC / Stripper:</strong> SPD și ACC, apoi HP/DEF.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Turn-2 Control:</strong> ACC, HP, DEF și RES, cu SPD mai puțin important.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>No-SPD / Leo / Anti-Leo:</strong> SPD este aproape ignorat.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Nemesis Trap ofensiv:</strong> profil dedicat setului Nemesis, cu SPD/ATK/ACC.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Aura Carrier:</strong> profil pentru Fight, Determination, Enhance, Accuracy și Tolerance.</div>
+                            </div>
+                            <p>În modul <strong>Auto</strong>, aplicația calculează fiecare profil eligibil și îl alege pe cel cu scorul cel mai mare. În modul manual, bannerul de rol arată dacă Main Stat-ul și distribuția statisticilor sunt excelente, bune, medii, atipice sau incompatibile pentru rolul selectat. Un scor slab pentru un rol selectat manual nu produce automat SELL, deoarece runa poate aparține altui rol.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-er" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">7. ER, eficiența ajustată, potențialul și Scorul runei</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p><strong>ER</strong> înseamnă <strong>Eficiența Runei</strong>. Este denumirea folosită în această aplicație pentru indicatorul matematic normalizat care compară Main Stat-ul și substat-urile cu plafoanele unei rune standard de 6★. Denumirea este generică și nu reprezintă un produs extern.</p>
+                            <div class="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-[11px] overflow-x-auto">ER curentă = ((5 × raport Main Stat) + suma rapoartelor substaturilor, inclusiv Grindstones) / 14 × 100</div>
+                            <p><strong>Raportul Main Stat</strong> este valoarea curentă împărțită la valoarea maximă +15 a aceluiași Main Stat și este limitat la 1. Substat-urile sunt raportate la maximele de referință: SPD 6, HP%/ATK%/DEF% 8, CR% 6, CD% 7, ACC%/RES% 8, Flat HP 375, Flat ATK/DEF 20.</p>
+                            <p><strong>Eficiența ajustată</strong> folosește aceeași structură, dar valorile fixe Flat HP/ATK/DEF sunt ponderate la 50%. Aceasta este metrica principală folosită în verdict pentru a reduce supraevaluarea flat-urilor.</p>
+                            <p><strong>Potențial</strong> estimează scenariul maxim teoretic după roll-urile rămase până la +12, Grindstones Legend maxime și cea mai bună conversie Gem legală. Este o limită superioară, nu o promisiune că runa va ajunge acolo.</p>
+                            <p><strong>Scor rună</strong> este o metrică separată. Fiecare linie este transformată în puncte după raportul față de maximul de referință, iar flat-urile sunt împărțite la 3. Scorul include Innate Stat și substat-urile cu Grindstones, dar nu Main Stat-ul.</p>
+                            <p><strong>Eficiența relativă</strong> folosește divizori diferiți în funcție de raritatea inițială: Legend 14, Hero 13, Rare 12, Magic 11, Normal 10. Este calculată intern pentru context, în timp ce interfața principală afișează ER, Ajustată, Potențial și Scor rună.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-verdict" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">8. Cum funcționează motorul de verdict</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Motorul aplică regulile într-o ordine fixă. Unele verificări au prioritate mai mare decât scorul final.</p>
+                            <ol class="list-decimal pl-5 space-y-1.5 font-semibold">
+                                <li><strong>Tranziție pentru Debut:</strong> 4★ și 5★ pot fi păstrate sau folosite temporar. Main Stat-urile flat pe 2/4/6 sunt tolerate numai ca soluție provizorie.</li>
+                                <li><strong>Reguli structurale:</strong> în afara Debutului, 4★ sunt vândute; 5★ sunt acceptate numai în Early Game dacă ating condițiile, apoi sunt vândute automat în Mid Game+. Main Stat flat pe 2/4/6 produce SELL.</li>
+                                <li><strong>Excepții de elită:</strong> SPD nativ foarte mare poate produce KEEP înaintea penalizărilor. Pragul excepțional este 24 SPD pentru Swift și 22 SPD pentru celelalte seturi; 18 SPD este deja tratat ca viteză nativă ridicată. CR nativ de cel puțin 18% poate salva profilele de damage relevante.</li>
+                                <li><strong>Dead stats:</strong> două sau mai multe substat-uri flat reduc sever valoarea. Totuși, o ER ajustată foarte bună, un scor de rol mare sau o piesă Legend promițătoare la nivel mic poate evita vânzarea imediată.</li>
+                                <li><strong>Rol manual:</strong> dacă rolul selectat are scor sub 30 la +12/+15, aplicația cere verificare, nu vânzare automată.</li>
+                                <li><strong>Checkpoint-uri:</strong> la +0/+3 se decide dacă merită +6, la +6 dacă merită +9, iar la +9 dacă merită +12. Sunt folosite SPD nativ, numărul de statistici utile, Scorul runei, Scorul rolului și eficiența ajustată.</li>
+                                <li><strong>Evaluarea finală:</strong> la +12/+15 se aplică pragurile profilului de cont. Potențialul maxim poate compensa parțial o eficiență actuală mai mică.</li>
+                                <li><strong>Safety net:</strong> înainte de SELL, o rună 6★ cu linie excepțională, nucleu coerent, profil de nișă, Innate valoros, bază Legend de Reappraisal, Intangible utilă sau set de aură poate fi mutată în VERIFICĂ.</li>
+                                <li><strong>Salvare prin Gem:</strong> dacă verdictul brut este SELL, aplicația simulează conversii legale. Dacă una dintre ele transformă verdictul în KEEP, verdictul devine NU VINDE ÎNCĂ.</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details id="doc-seturi" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">9. Cele 23 de seturi și calculul sinergiei de set</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Aplicația nu declară o rună bună doar pentru că aparține unui set valoros. Mai întâi clasifică Main Stat-ul pe sloturile 2/4/6 ca META, NICHE, LEGAL, FLAT sau ILLEGAL, apoi măsoară cât din densitatea substaturilor se aliniază cu statisticile dorite ale setului.</p>
+                            <p>Scorul de set folosește calitatea statisticilor, ponderile pentru substaturi dorite/de nișă, potrivirea Main Stat-ului și existența statisticii prioritare. Rezultatul poate fi Sinergie Excelentă, Bună, Main Stat legal de nișă sau Profil Broken Set. Un profil Broken nu înseamnă automat SELL.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full border-collapse text-[10px] bg-white">
+                                    <thead><tr class="bg-slate-100 font-black"><th class="p-2 border border-slate-300 text-left">Set</th><th class="p-2 border border-slate-300">Piese</th><th class="p-2 border border-slate-300 text-left">Direcție principală în evaluator</th><th class="p-2 border border-slate-300 text-left">Substat prioritar</th></tr></thead>
+                                    <tbody class="font-semibold text-slate-700">
+                                        <tr><td class="p-2 border">Energy</td><td class="p-2 border text-center">2</td><td class="p-2 border">Tank / Sustain / Support / HP-scaling</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Guard</td><td class="p-2 border text-center">2</td><td class="p-2 border">DEF Bruiser / DEF-scaling DPS / Frontline</td><td class="p-2 border">DEF%</td></tr>
+                                        <tr><td class="p-2 border">Swift</td><td class="p-2 border text-center">4</td><td class="p-2 border">Turn Order / Starter / Booster / SPD-scaling</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Blade</td><td class="p-2 border text-center">2</td><td class="p-2 border">Damage / Crit Bruiser / HP-DEF scaling</td><td class="p-2 border">CR%</td></tr>
+                                        <tr><td class="p-2 border">Rage</td><td class="p-2 border text-center">4</td><td class="p-2 border">Burst DPS / HP-DEF scaling / Slow DPS</td><td class="p-2 border">CD%</td></tr>
+                                        <tr><td class="p-2 border">Focus</td><td class="p-2 border text-center">2</td><td class="p-2 border">Debuffer / CC / Stripper / Bomber</td><td class="p-2 border">ACC%</td></tr>
+                                        <tr><td class="p-2 border">Endure</td><td class="p-2 border text-center">2</td><td class="p-2 border">Tank / Cleanser / Resistant Bruiser</td><td class="p-2 border">RES%</td></tr>
+                                        <tr><td class="p-2 border">Fatal</td><td class="p-2 border text-center">4</td><td class="p-2 border">ATK Nuker / Bomber / Critless DPS</td><td class="p-2 border">ATK%</td></tr>
+                                        <tr><td class="p-2 border">Despair</td><td class="p-2 border text-center">4</td><td class="p-2 border">AOE CC / Control / Damage-Control</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Vampire</td><td class="p-2 border text-center">4</td><td class="p-2 border">Sustain DPS / Bruiser / Critless</td><td class="p-2 border">CR%</td></tr>
+                                        <tr><td class="p-2 border">Violent</td><td class="p-2 border text-center">4</td><td class="p-2 border">Universal</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Nemesis</td><td class="p-2 border text-center">2</td><td class="p-2 border">Interrupt / Healer / Tank / Trap ofensiv</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Will</td><td class="p-2 border text-center">2</td><td class="p-2 border">Universal PvP / Protecție Turn 1</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Shield</td><td class="p-2 border text-center">2</td><td class="p-2 border">Team Survivability / Cleave Carrier</td><td class="p-2 border">HP%</td></tr>
+                                        <tr><td class="p-2 border">Revenge</td><td class="p-2 border text-center">2</td><td class="p-2 border">Counter / Bruiser / Counter DPS</td><td class="p-2 border">CR%</td></tr>
+                                        <tr><td class="p-2 border">Destroy</td><td class="p-2 border text-center">2</td><td class="p-2 border">Bruiser / Tank / Slow DPS / Critless</td><td class="p-2 border">HP%</td></tr>
+                                        <tr><td class="p-2 border">Fight</td><td class="p-2 border text-center">2</td><td class="p-2 border">Aura Carrier / Speed Teams / PvE</td><td class="p-2 border">ATK%</td></tr>
+                                        <tr><td class="p-2 border">Determination</td><td class="p-2 border text-center">2</td><td class="p-2 border">Aura Carrier / DEF Team / Tank</td><td class="p-2 border">DEF%</td></tr>
+                                        <tr><td class="p-2 border">Enhance</td><td class="p-2 border text-center">2</td><td class="p-2 border">Aura Carrier / HP Team / Sustain</td><td class="p-2 border">HP%</td></tr>
+                                        <tr><td class="p-2 border">Accuracy</td><td class="p-2 border text-center">2</td><td class="p-2 border">Aura Carrier / Debuff Team</td><td class="p-2 border">ACC%</td></tr>
+                                        <tr><td class="p-2 border">Tolerance</td><td class="p-2 border text-center">2</td><td class="p-2 border">Aura Carrier / Resistance Team</td><td class="p-2 border">RES%</td></tr>
+                                        <tr><td class="p-2 border">Seal</td><td class="p-2 border text-center">2</td><td class="p-2 border">PvP Disruptor / Control / Bruiser / Damage</td><td class="p-2 border">SPD</td></tr>
+                                        <tr><td class="p-2 border">Intangible</td><td class="p-2 border text-center">1</td><td class="p-2 border">Wildcard universal</td><td class="p-2 border">SPD</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details id="doc-gems" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">10. Consilier Enchanted Gem: ce simulează și ce restricții aplică</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Consilierul testează înlocuirea unei singure linii fără plusări. O linie cu valoare în <strong>Rolls ▲</strong> nu este propusă pentru conversie. Dacă runa este deja marcată cu o Linie GEM, o a doua conversie este blocată până la un Reappraisal confirmat.</p>
+                            <p>Candidatul nou nu poate duplica Main Stat-ul, Innate Stat-ul sau un alt substat. Slotul 1 exclude DEF%, iar slotul 3 exclude ATK%. Sunt luate în calcul numai SPD, HP%, ATK%, DEF%, CR%, CD%, ACC% și RES% ca ținte de conversie.</p>
+                            <p>Aplicația simulează valoarea maximă a unui Gem Legend normal sau Ancient, recalculează ER ajustată și Scorul de rol, apoi verifică dacă schimbarea îmbunătățește suficient profilul. SPD, statistica prioritară a setului și statisticile importante rolului primesc ponderi mai mari.</p>
+                            <p>Dacă verdictul brut este SELL și o conversie legală îl transformă în KEEP, consilierul afișează <strong>GEM: SELL ➜ KEEP</strong> și verdictul principal devine NU VINDE ÎNCĂ.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-center border-collapse text-[10px] bg-white">
+                                    <thead><tr class="bg-cyan-50 font-black"><th class="p-2 border">Stat</th><th class="p-2 border">Legend normal</th><th class="p-2 border">Legend Ancient</th></tr></thead>
+                                    <tbody class="font-semibold">
+                                        <tr><td class="p-2 border">SPD</td><td class="p-2 border">7-10</td><td class="p-2 border">7-11</td></tr>
+                                        <tr><td class="p-2 border">HP% / ATK% / DEF%</td><td class="p-2 border">9-13%</td><td class="p-2 border">9-15%</td></tr>
+                                        <tr><td class="p-2 border">CR%</td><td class="p-2 border">6-9%</td><td class="p-2 border">6-10%</td></tr>
+                                        <tr><td class="p-2 border">CD%</td><td class="p-2 border">7-10%</td><td class="p-2 border">7-12%</td></tr>
+                                        <tr><td class="p-2 border">ACC% / RES%</td><td class="p-2 border">8-11%</td><td class="p-2 border">8-13%</td></tr>
+                                        <tr><td class="p-2 border">Flat HP</td><td class="p-2 border">400-580</td><td class="p-2 border">400-640</td></tr>
+                                        <tr><td class="p-2 border">Flat ATK / DEF</td><td class="p-2 border">28-40</td><td class="p-2 border">28-44</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details id="doc-reapp" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">11. Consilier Reappraisal: eligibilitate, prioritate și ținte</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Consilierul tratează Reappraisal ca pe o resursă rară. În evaluator, Reappraisal este rezervat pieselor <strong>6★ Legend</strong>. Intangible este neeligibilă.</p>
+                            <p>Prioritatea pornește de la set. Violent, Will, Despair, Swift, Rage și Fatal primesc cele mai mari ponderi inițiale, dar și alte seturi pot deveni candidate dacă Main Stat-ul este strategic, slotul este 1/3/5, Innate Stat-ul este util, eficiența actuală este modestă sau piesa este o bază bună pentru resetarea completă a substaturilor.</p>
+                            <p>Runa pierde prioritate dacă are deja SPD nativ foarte mare, Scor rună foarte mare sau ER ajustată deja excelentă, deoarece Reappraisal ar risca să distrugă o piesă bună.</p>
+                            <p>Innate Stat-ul rămâne fix după Reappraisal și este exclus din cele patru substat-uri noi. Dacă Innate este SPD, aplicația avertizează că SPD nu mai poate apărea între cele patru linii noi, ceea ce contează dacă urmărești viteză nativă foarte mare.</p>
+                            <p>Aplicația generează profile complete de câte patru substat-uri pentru rolurile compatibile cu setul și Main Stat-ul. Sunt eliminate combinațiile ilegale, duplicatele, Main Stat-ul și Innate Stat-ul.</p>
+                            <p>După ce aplici efectiv Reappraisal și introduci noile valori, butonul <strong>Confirmă Reappraisal-ul aplicat</strong> șterge marcajul Linie GEM, permițând evaluarea unei noi conversii Gem pe configurația nouă.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-refinement" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">12. Consilier Rune Refinement</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-2 border-t border-slate-100 pt-3">
+                            <p>Refinement este evaluat ca instrument de <strong>redistribuire a roll-urilor fără schimbarea tipurilor de substat</strong>. Din acest motiv, este recomandat mai ales când structura celor patru tipuri este deja bună, dar valorile sunt distribuite slab.</p>
+                            <p>În aplicație, Refinement este neeligibil pentru Intangible, Ancient, rune marcate ca Gemmed și rune sub +12. Dacă runa are deja SPD nativ de cel puțin 20, ER ajustată de cel puțin 84% sau Scor rună de cel puțin 175, consilierul recomandă să nu folosești Refinement.</p>
+                            <p>Un candidat bun are cel puțin trei substat-uri utile pentru rolul detectat și cel mult o linie flat sau foarte slab ponderată. Dacă problema este tipul greșit de substat, Refinement nu o poate rezolva, iar Gem sau Reappraisal sunt mecanismele relevante.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-grinds" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">13. Grindstones: valori, preseturi și calculul câștigului</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Pot primi Grindstone numai <strong>SPD, HP%, ATK%, DEF%, Flat HP, Flat ATK și Flat DEF</strong>. CR%, CD%, ACC% și RES% nu sunt grindabile. Consilierul calculează câștigul maxim estimat dintre eficiența ajustată actuală și scenariul în care toate liniile grindabile ating maximul Legend corespunzător tipului Standard/Ancient.</p>
+                            <p>Butoanele <strong>Hero Grindstones</strong> și <strong>Legend Grindstones</strong> introduc automat maximele teoretice pentru liniile grindabile, iar Resetează elimină doar valorile de Grindstone. Valorile introduse sunt afișate separat față de Total (+Rolls).</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-center border-collapse text-[10px] bg-white">
+                                    <thead><tr class="bg-emerald-50 font-black"><th class="p-2 border">Stat</th><th class="p-2 border">Hero normal</th><th class="p-2 border">Legend normal</th><th class="p-2 border">Hero Ancient</th><th class="p-2 border">Legend Ancient</th></tr></thead>
+                                    <tbody class="font-semibold">
+                                        <tr><td class="p-2 border">SPD</td><td class="p-2 border">3-4</td><td class="p-2 border">4-5</td><td class="p-2 border">3-5</td><td class="p-2 border">4-6</td></tr>
+                                        <tr><td class="p-2 border">HP% / ATK% / DEF%</td><td class="p-2 border">4-7%</td><td class="p-2 border">5-10%</td><td class="p-2 border">4-9%</td><td class="p-2 border">5-12%</td></tr>
+                                        <tr><td class="p-2 border">Flat HP</td><td class="p-2 border">230-450</td><td class="p-2 border">430-550</td><td class="p-2 border">230-510</td><td class="p-2 border">430-610</td></tr>
+                                        <tr><td class="p-2 border">Flat ATK / DEF</td><td class="p-2 border">12-22</td><td class="p-2 border">18-30</td><td class="p-2 border">12-26</td><td class="p-2 border">18-34</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>SPD nativ folosit în verdict exclude Grindstone-ul. Această separare împiedică o rună cu bază slabă, dar grinduită, să fie confundată cu o piesă care a obținut roll-uri native bune.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-comparator" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">14. Comparator Reappraisal: ÎNAINTE vs. DUPĂ</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-3 border-t border-slate-100 pt-3">
+                            <p>Baza comparatorului este sincronizată automat cu Configuratorul pentru slot, set, Main Stat și Innate Stat, dar câmpurile rămân editabile. Comparatorul este calculat ca rună 6★ Legend +12 și poate fi marcat separat ca Ancient.</p>
+                            <p>OCR-ul Reappraisal presupune o captură cu varianta ÎNAINTE în jumătatea stângă și DUPĂ în jumătatea dreaptă. Cele două jumătăți sunt procesate separat. După scanare, valorile pot fi corectate manual.</p>
+                            <p>Înainte de comparare, aplicația respinge substat-uri duplicate, substat identic cu Main Stat-ul, duplicarea Innate Stat-ului, DEF/DEF% pe Slot 1 și ATK/ATK% pe Slot 3. Intangible este respinsă complet.</p>
+                            <p>Fiecare variantă primește un scor compozit: <strong>45% eficiență ajustată + 35% Scor rol + 20% Scor rună normalizat</strong>, plus un bonus de viteză pentru SPD nativ de cel puțin 18. Pe Swift, bonusul de viteză este mai puternic.</p>
+                            <p>Diferențele de peste 1,5 puncte compozite decid direct varianta. La rezultate foarte apropiate, departajarea folosește în ordine eficiența ajustată, Scorul de rol și apoi SPD nativ. Dacă varianta aleasă are scor compozit sub 72, aplicația sugerează păstrarea temporară, dar continuarea Reappraisal când resursele permit.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-ancient" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">15. Rune Ancient și Intangible</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-2 border-t border-slate-100 pt-3">
+                            <p><strong>Ancient:</strong> aplicația folosește intervale distincte pentru Grindstones și Enchanted Gems Ancient, cu maxime mai mari decât variantele normale. În formula ER, însă, raportarea de bază rămâne la plafoanele standard de 6★, deci o piesă Ancient poate depăși mai ușor reperele clasice.</p>
+                            <p>Ancient este tratată separat și în interfață. Refinement este marcat neeligibil pentru Ancient în logica actuală a aplicației.</p>
+                            <p><strong>Intangible:</strong> este tratat ca set wildcard de o piesă și permite orice profil coerent. În aplicație, Intangible nu poate fi Reappraisal și nici Refinement. Safety net-ul poate salva o Intangible cu Main Stat legal și profil utilizabil chiar dacă nu trece toate pragurile obișnuite.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-limits" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">16. Alerte, cap-uri și limitările evaluării</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed space-y-2 border-t border-slate-100 pt-3">
+                            <p><strong>Alerte de cap:</strong> aplicația avertizează când ACC totală a runei ajunge la cel puțin 45%, când CR total ajunge la cel puțin 85% sau când RES total ajunge la cel puțin 85%. Acestea sunt avertismente de investiție, nu plafoane universale ale fiecărui monstru.</p>
+                            <p><strong>Flat stats:</strong> două sau mai multe linii flat declanșează o avertizare și reduc flexibilitatea. Un singur flat nu produce automat SELL, iar safety net-ul poate păstra o piesă cu roll-uri excepționale.</p>
+                            <p><strong>Potențialul este teoretic:</strong> presupune roll-uri rămase perfecte, Grindstones maxime și cea mai bună conversie Gem legală. Nu reprezintă probabilitatea de obținere a rezultatului.</p>
+                            <p><strong>Scorurile nu înlocuiesc buildul concret:</strong> viteza echipei, tuning-ul, leader skill-ul, artefactele, efectele pasive, plafonul necesar de ACC/RES și statisticile de bază ale monstrului nu sunt introduse în formula acestei pagini.</p>
+                            <p><strong>Rolul Auto este euristic:</strong> detectează cea mai bună potrivire dintre profilele definite în aplicație. Dacă știi exact monstru și buildul, selectorul manual de rol este mai relevant.</p>
+                            <p><strong>OCR:</strong> poate greși. Comparatorul Reappraisal validează combinațiile imposibile, dar o valoare numerică plauzibilă recunoscută greșit trebuie corectată manual.</p>
+                        </div>
+                    </details>
+
+                    <details id="doc-glossary" class="doc-section scroll-mt-24 border border-slate-200 rounded-xl bg-slate-50/50">
+                        <summary class="cursor-pointer select-none px-4 py-3 font-black text-sm text-slate-800 hover:bg-slate-50">17. Glosar rapid</summary>
+                        <div class="px-4 pb-4 text-xs text-slate-700 leading-relaxed border-t border-slate-100 pt-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>ER:</strong> Eficiența Runei, indicatorul matematic normalizat folosit de această aplicație.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Main Stat:</strong> statistica principală a slotului.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Innate Stat:</strong> prefix fix, separat de cele patru substat-uri.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Roll:</strong> creștere obținută la pragurile +3/+6/+9/+12.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Native SPD:</strong> valoarea SPD înainte de Grindstone.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Grindstone:</strong> bonus adăugat peste un substat grindabil existent.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Enchanted Gem:</strong> înlocuiește o linie de substat cu alt tip legal.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Reappraisal:</strong> regenerează structura celor patru substat-uri pe o bază eligibilă, păstrând Main/Innate.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Refinement:</strong> redistribuie roll-urile fără a schimba tipurile de substat, conform logicii folosite de consilier.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Broken Set:</strong> rună valoroasă prin statistici chiar dacă setul nu este perfect pentru rol.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Safety net:</strong> regulă care mută anumite piese din SELL în VERIFICĂ pentru a evita vânzarea automată a unei rune cu potențial de nișă.</div>
+                                <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><strong>Scor rol:</strong> potrivirea Main Stat-ului și a substaturilor cu profilul de utilizare selectat/detectat.</div>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
 
@@ -959,13 +1151,13 @@
 
     <footer class="bg-white text-slate-400 border-t border-slate-200 py-4 text-center text-xs font-bold">
         <div class="max-w-[1600px] mx-auto px-4">
-            <p>Summoners War: Sky Arena - Evaluator și Optimizator de Rune &copy; 2026. Standard matematic Barion / SWOP. Ghid 23 seturi și evaluarea progresiei PvE.</p>
+            <p>Optimizator SW în Română by dimghro © 2026 | ver. 0.0.1</p>
         </div>
     </footer>
 
     <script>
         // ==========================================
-        // STRUCTURI ȘI VARIABILE BAZĂ (SWOP STANDARDS)
+        // STRUCTURI ȘI VARIABILE BAZĂ (ER STANDARDS)
         // ==========================================
         let currentSlot = 3;
         let reappCurrentSlot = 3;
@@ -1280,7 +1472,7 @@
 
         // ==========================================
         // ==========================================
-        // FORMULE MATEMATICE: SWOP, RUNE SCORE ȘI POTENȚIAL
+        // FORMULE MATEMATICE: ER, RUNE SCORE ȘI POTENȚIAL
         // ==========================================
         const ROLE_PROFILES = {
             'nuker': {
@@ -1478,7 +1670,7 @@
             return Math.max(0, bestGain);
         }
 
-        function calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, slot = 0, gemmedSubIndex = 0) {
+        function calculateRuneEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, slot = 0, gemmedSubIndex = 0) {
             const maxMain15 = mainStatTable['6-star']['+15'][mainType] || mainVal || 1;
             const mainRatio = Math.min(1.0, mainVal / maxMain15);
             let sumRaw = 0, sumGrinded = 0, sumAdjusted = 0, sumMaxGrind = 0;
@@ -1508,8 +1700,8 @@
             const rollsLeft = Math.max(0, Math.floor((12 - Math.min(lvlNum, 12)) / 3));
             const gemGain = calculateBestGemPotentialGain(subs, mainType, innateType, isAncient, slot, gemmedSubIndex);
 
-            const swopCurrentEff = ((5.0 * mainRatio + sumGrinded) / 14.0) * 100;
-            const swopRawEff = ((5.0 * mainRatio + sumRaw) / 14.0) * 100;
+            const runeCurrentEff = ((5.0 * mainRatio + sumGrinded) / 14.0) * 100;
+            const runeRawEff = ((5.0 * mainRatio + sumRaw) / 14.0) * 100;
             const adjustedEff = ((5.0 * mainRatio + sumAdjusted) / 14.0) * 100;
             const maxGrindEff = ((5.0 * mainRatio + sumMaxGrind) / 14.0) * 100;
             const maxPotentialEff = ((5.0 + sumMaxGrind + rollsLeft + gemGain) / 14.0) * 100;
@@ -1519,8 +1711,8 @@
             const relativeEff = ((5.0 * mainRatio + sumAdjusted) / relDiv) * 100;
 
             return {
-                swopCurrentEff: Math.max(0, swopCurrentEff),
-                swopRawEff: Math.max(0, swopRawEff),
+                runeCurrentEff: Math.max(0, runeCurrentEff),
+                runeRawEff: Math.max(0, runeRawEff),
                 combatEff: Math.max(0, adjustedEff),
                 adjustedEff: Math.max(0, adjustedEff),
                 maxGrindEff: Math.max(0, maxGrindEff),
@@ -1815,7 +2007,7 @@
                 const prof = ROLE_PROFILES[role.roleKey];
                 return prof && (prof.weights[s.type] || 0) >= 0.5;
             }).length;
-            const eff = calculateSwopEfficiency(ctx.mainType, ctx.mainVal, simSubs, ctx.innateType, ctx.innateVal, ctx.stars === '6-ancient', flatCount, ctx.rarity, ctx.level, ctx.slot, gemmedSubIndex);
+            const eff = calculateRuneEfficiency(ctx.mainType, ctx.mainVal, simSubs, ctx.innateType, ctx.innateVal, ctx.stars === '6-ancient', flatCount, ctx.rarity, ctx.level, ctx.slot, gemmedSubIndex);
             return { nativeSpeed, totalSpeed, flatCount, percentCount, flatWithRolls, role, usefulCount, eff };
         }
 
@@ -1924,9 +2116,9 @@
                     : `Atenție: runa conține <strong>${flatCount} substats cu valori fixe</strong>. Nu înseamnă vânzare automată dacă are un roll excepțional, dar flexibilitatea este redusă.`;
             } else { deadStatAlert.classList.add('hidden'); }
 
-            const effResults = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, currentSlot, gemmedSubIndex);
+            const effResults = calculateRuneEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, rarity, level, currentSlot, gemmedSubIndex);
 
-            document.getElementById('swop-eff-badge').innerText = `SWOP: ${effResults.swopCurrentEff.toFixed(1)}%`;
+            document.getElementById('rune-eff-badge').innerText = `ER: ${effResults.runeCurrentEff.toFixed(1)}%`;
             document.getElementById('combat-eff-badge').innerText = `Ajustată: ${effResults.combatEff.toFixed(1)}%`;
             document.getElementById('max-grind-badge').innerText = `Potențial: ${effResults.maxPotentialEff.toFixed(1)}%`;
             document.getElementById('relative-eff-badge').innerText = `Scor rună: ${effResults.runeScore}`;
@@ -1956,7 +2148,7 @@
             const verdictCtx = {
                 slot: currentSlot, set, stars, rarity, level, userTier, targetRole, mainType, mainVal,
                 nativeSpeed, totalSpeed, flatCount, percentCount, usefulStatCount, flatWithRolls,
-                swopEfficiency: effResults.swopCurrentEff, combatEfficiency: effResults.combatEff,
+                runeEfficiency: effResults.runeCurrentEff, combatEfficiency: effResults.combatEff,
                 maxGrindEfficiency: effResults.maxGrindEff, maxPotentialEfficiency: effResults.maxPotentialEff,
                 relativeEfficiency: effResults.relativeEff, runeScore: effResults.runeScore,
                 roleScore: roleMetrics.score, detectedRole: roleMetrics.roleName, detectedRoleKey: roleMetrics.roleKey,
@@ -2930,7 +3122,7 @@
             function computeSide(subs) {
                 const flatCount = subs.filter(s => ['Flat HP', 'Flat ATK', 'Flat DEF'].includes(s.type)).length;
                 const nativeSpd = subs.filter(s => s.type === 'SPD').reduce((sum, s) => sum + s.val, 0);
-                const eff = calculateSwopEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, 'Legend', '+12', reappCurrentSlot, 0);
+                const eff = calculateRuneEfficiency(mainType, mainVal, subs, innateType, innateVal, isAncient, flatCount, 'Legend', '+12', reappCurrentSlot, 0);
                 const role = calculateRoleScore(targetRole, reappCurrentSlot, mainType, subs, set);
                 const scoreNorm = Math.min(100, eff.runeScore / 2.0);
                 let speedBonus = 0;
