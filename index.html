@@ -572,7 +572,7 @@
                         </div>
                         <div class="space-y-3.5">
                     <!-- CONSILIER 1: ENCHANTED GEM -->
-                    <div class="border border-cyan-200 rounded-xl p-3 sm:p-3.5 bg-cyan-50/40 space-y-2">
+                    <div class="relative border border-cyan-200 rounded-xl p-3 pb-12 sm:p-3.5 sm:pb-12 bg-cyan-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-cyan-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-cyan-600">💎</span> CONSILIER ENCHANTED GEM
@@ -583,14 +583,14 @@
                         </div>
                     </div>
                     <!-- CONSILIER 2: REAPPRAISAL STONE -->
-                    <div class="border border-purple-200 rounded-xl p-3 sm:p-3.5 bg-purple-50/40 space-y-2">
+                    <div class="relative border border-purple-200 rounded-xl p-3 pb-12 sm:p-3.5 sm:pb-12 bg-purple-50/40 space-y-2">
                         <div class="flex items-center justify-between border-b border-purple-200 pb-1.5">
                             <h3 class="font-black text-xs uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                                 <span class="text-purple-600">🔄</span> CONSILIER REAPPRAISAL STONE
                             </h3>
                             <span id="reapp-badge" class="text-[10px] bg-purple-100 text-purple-800 font-black px-2 py-0.5 rounded border border-purple-200">Evaluare Reappraisal</span>
                         </div>
-                        <div class="flex justify-end">
+                        <div class="absolute bottom-3 right-3">
                             <button id="reapp-gem-reset-button" type="button" onclick="confirmReappraisalApplied()" disabled title="După ce aplici Reappraisal în joc și introduci noile substat-uri, confirmă aici pentru a permite o nouă conversie Gem." class="inline-flex items-center gap-1 rounded-lg border border-purple-300 bg-white px-2.5 py-1.5 text-[10px] font-black text-purple-800 shadow-sm hover:bg-purple-100 disabled:cursor-not-allowed disabled:opacity-40">🔄 Confirmă Reappraisal-ul aplicat</button>
                         </div>
                         <div id="reapp-recommendation-box" class="space-y-1.5 text-xs">
@@ -2051,7 +2051,7 @@
         function gemApplyButtonMarkup(option) {
             const slot = option.subToReplace.slotIdx;
             const oldType = option.subToReplace.type;
-            return `<button type="button" onclick="applyGemRecommendation(${slot}, '${oldType}', '${option.gemType}', ${option.gemVal})" class="mt-2 inline-flex items-center gap-1 rounded-lg bg-cyan-700 px-2.5 py-1.5 text-[10px] font-black text-white shadow-sm hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/40">✅ Confirmă Gem-ul aplicat în joc</button>`;
+            return `<button type="button" onclick="applyGemRecommendation(${slot}, '${oldType}', '${option.gemType}', ${option.gemVal})" class="absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-lg bg-cyan-700 px-2.5 py-1.5 text-[10px] font-black text-white shadow-sm hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/40">✅ Confirmă Gem-ul aplicat în joc</button>`;
         }
 
         function renderGemAdvisor(ctx, precomputedRescue = null) {
